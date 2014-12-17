@@ -1,5 +1,4 @@
 window.Routy or = {}
-
 History = window.History
 
 # The router, used to manage and store the actions
@@ -25,9 +24,6 @@ class Routy.Router
             if context.substr(-1) == '/'
                 context = context.substr 0, context.length-1
 
-        if context == ''
-            context = '/'
-
         @context = context
 
         @state_changers_selector or = 'a'
@@ -35,8 +31,6 @@ class Routy.Router
         context_selector or = document
 
         @context_selector = $ context_selector
-
-        console.log 'Initialized'
 
         @attach()
 
@@ -47,8 +41,6 @@ class Routy.Router
                 url = @context + url
             else
                 url = @context + url
-#            if url.substr(-1) != '/'
-#                url = url + '/'
         else
             url = @context + '/'
 
@@ -58,6 +50,11 @@ class Routy.Router
     attach: ->
         # 'cause "this" will be replaced with the clicked element
         router = @
+
+        # go to the route page by default
+        $(window).load (e) ->
+            router.go '/', @title
+            router.run.apply router
 
         @context_selector.on 'click', @state_changers_selector, (e)->
             e.preventDefault()
@@ -76,22 +73,23 @@ class Routy.Router
         window.history.pushState data or {}, title or document.title, url
 
     # Register a new action
-    register: (route, callback)->
-        @actions.push new Routy.Action route, callback, @
+    register: (route, template, callback) ->
+        url = template.url
+        context = template.context
+        @actions.push new Routy.Action route, callback, url, $(context), @
+
+    # delegate to register method
+    rootRegister: (template, callback) ->
+        @register('', template, callback)
 
     run: ->
         uri = window.location.pathname
-
-#        if uri != ''
-#            if uri[0] == '/'
-#                uri = uri.substr 1
-#            if uri.substr(-1) != '/'
-#                uri = uri + '/'
 
         for action in @actions
             for route in action.route
                 regex = (@pathRegExp route, {}).regexp
                 match = uri.match(regex)
+                console.log(route, uri)
                 if match?
                     match.shift()
                     return action.call(match...)
@@ -127,6 +125,10 @@ class Routy.Action
     # Routes this action with handle
     route: []
 
+    #the context where template should override to
+    context: $("body")
+    # template of the route
+    template_url: null
     # The callback to execute
     callback: null
 
@@ -140,7 +142,7 @@ class Routy.Action
     condition: null
 
     # Create a new action
-    constructor: (routes, @callback, @router)->
+    constructor: (routes, @callback, @template_url, @context, @router)->
         # so you can call it like: new Routy.Action(['/', 'home'], callback)
         # or: new Routy.Action('/, home', callback);
         routes = routes.split ', ' if typeof routes == 'string'
@@ -168,22 +170,24 @@ class Routy.Action
         # if it returned false when can't call the action
         false if ! result
 
-        # if we defined a callback to execute before the action
-        if @before_callback
-            # execute it passing the same arguments as the action
-            contents = @before_callback.apply @, args
+        context = @context
 
-            # and if it returned some contents use it as
-            # the main action (then we can use "before_callback" to use route filters)
-            return contents if contents
+        $.get @template_url, (template) =>
+            context.html(template)
 
-        # call the action callback and fetch the contents of it
-        contents = @callback.apply @, args
+            # if we defined a callback to execute before the action
+            if @before_callback
+                # execute it passing the same arguments as the action
+                @before_callback.apply @, args
 
-        # if we defined some callback to execute after the main one
-        if @after_callback
-            # call it passing the returned content
-            @after_callback.apply @, [contents]
+
+            # call the action callback and fetch the contents of it
+            @callback.apply @, args
+
+            # if we defined some callback to execute after the main one
+            if @after_callback
+                # call it passing the returned content
+                @after_callback.apply @, args
 
 
     # Set a callback to execute before the action

@@ -5,16 +5,26 @@
 
         var router = new Routy.Router();
 
-        router.register('projects', function(){
+
+        router.rootRegister({
+            url: '/views/projects.html',
+            context: ".container"
+        }, function(){
+            console.log('root');
+        });
+
+        router.register('/projects', {
+            url: '/views/projects.html',
+            context: ".container"
+        }, function(){
             console.log('projects');
         });
 
-        router.register('projects/:id', function(id){
-            console.log(id);
-        });
-
-        router.register('pp', function(){
-            console.log('pp');
+        router.register('pp', {
+            url: '/views/pp.html',
+            context: ".container"
+        } ,function(){
+            console.log('/pp');
         });
 
     })
