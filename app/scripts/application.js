@@ -16,7 +16,7 @@
             context: ".container"
         }, PROJECT.ctrl);
 
-        router.register('pp', {
+        router.register('/pp', {
             url: '/views/pp.html',
             context: ".container"
         } ,function(){
