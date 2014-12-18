@@ -99,7 +99,10 @@
         <!-- endbuild -->
 
         <!-- build:js scripts/main.js -->
-        <script src="scripts/project_ctrl.js"></script>
+        <script>
+            window.HOST_URL = "https://staging.coding.net"
+        </script>
+        <script src="scripts/controllers/project_ctrl.js"></script>
         <script src="scripts/router.js"></script>
         <script src="scripts/application.js"></script>
         <!-- endbuild -->
