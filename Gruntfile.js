@@ -40,6 +40,10 @@ module.exports = function (grunt) {
                 files: ['<%= yeoman.app %>**/*.{scss,sass}'],
                 tasks: ['compass:server']
             },
+            less: {
+                files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
+                tasks: ['less:dist']
+            },
             livereload: {
                 options: {
                     livereload: LIVERELOAD_PORT
@@ -238,6 +242,23 @@ module.exports = function (grunt) {
                 }
             }
         },
+        less: {
+            options: {
+                paths: ['<%= yeoman.app %>/bower_components']
+//                compress: true,
+//                yuicompress: true,
+//                optimization: 2
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/styles',
+                    src: '{,*/}*.less',
+                    dest: '.tmp/styles',
+                    ext:  '.css'
+                }]
+            }
+        },
         // not used since Uglify task does concat,
         // but still available if needed
         /*concat: {
@@ -418,15 +439,18 @@ module.exports = function (grunt) {
         concurrent: {
             server: [
                 'coffee:dist',
-                'compass:server'
+                'compass:server',
+                'less:dist'
             ],
             test: [
                 'coffee',
-                'compass'
+                'compass',
+                'less:dist'
             ],
             dist: [
                 'coffee',
                 'compass:dist',
+                'less:dist',
                 'imagemin',
                 'svgmin',
                 'htmlmin'
@@ -441,6 +465,8 @@ module.exports = function (grunt) {
             }
         }
     });
+
+    grunt.loadNpmTasks('grunt-contrib-less');
 
     grunt.registerTask('server', function (target) {
         grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');

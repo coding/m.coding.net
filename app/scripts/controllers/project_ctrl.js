@@ -2,7 +2,7 @@ var PROJECT = (function(){
 
     var HOST_URL  =  window.HOST_URL || "",
         pageSize  = 10,
-        pageCount = 1,
+        pageCount = 0,
         list      = null;
 
     function assembleDOM(data){
@@ -21,7 +21,7 @@ var PROJECT = (function(){
             ele = createTemplate();
 
             ele.attr('href', pro['project_path']);
-            ele.find('h4 > img').attr('src', HOST_URL + pro['icon']);
+            ele.find('h4 > img').attr('src', pro['icon']);
             ele.find('h4 > span:first').text(pro['name']);
             ele.find('h4 > span:eq(1)').text(pro['fork_count']);
             ele.find('h4 > span:eq(2)').text(pro['watch_count']);
@@ -30,9 +30,9 @@ var PROJECT = (function(){
             ele.find('p b').text(pro['owner_user_name']);
 
 
-            ele.on('swipe tap click', function(e){
+            ele.on('swipe click', function(e){
                 e.preventDefault();
-                list.find('a').removeClass('active');
+                $(list).find('a').removeClass('active');
                 $(this).addClass('active');
             });
 
@@ -64,15 +64,24 @@ var PROJECT = (function(){
     }
 
     function loadMore(path){
-//        assembleDOM();
-        this.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
-        path += '?page=' + pageCount + '&' + 'pageSize=' + pageSize;
+
         pageCount++;
-        $.getJSON(HOST_URL + path, function(data, status, xhr){
-            console.log(data, status, xhr);
-            this.text('更多项目');
-            assembleDOM(data);
-        });
+        var _ = this;
+        _.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
+        setTimeout(function(){
+            assembleDOM();
+            _.text('更多项目');
+        },2000);
+
+//        pageCount++;
+//        var _ = this;
+//        _.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
+//        path += '?page=' + pageCount + '&' + 'pageSize=' + pageSize;
+//        $.getJSON(HOST_URL + path, function(data, status, xhr){
+//            console.log(data, status, xhr);
+//            this.text('更多项目');
+//            assembleDOM(data);
+//        });
 
     }
 
@@ -82,7 +91,7 @@ var PROJECT = (function(){
             var element = $("#load_more");
             loadMore.call(element,"/api/public/all");
 
-            element.click(function(e){
+            element.on('click tap', function(e){
                 e.preventDefault();
                 console.log("clicked");
                 loadMore.call($(this), "/api/public/all");
