@@ -57,8 +57,7 @@ class Routy.Router
             router.run.apply router
 
         @context_selector.on 'click', @state_changers_selector, (e)->
-            e.preventDefault()
-
+            console.log(e);
             router.go @href, @title
             router.run.apply router
 
