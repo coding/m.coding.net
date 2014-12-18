@@ -9,16 +9,12 @@
         router.rootRegister({
             url: '/views/projects.html',
             context: ".container"
-        }, function(){
-            console.log('root');
-        });
+        }, PROJECT.ctrl);
 
         router.register('/projects', {
             url: '/views/projects.html',
             context: ".container"
-        }, function(){
-            console.log('projects');
-        });
+        }, PROJECT.ctrl);
 
         router.register('pp', {
             url: '/views/pp.html',
