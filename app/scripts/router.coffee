@@ -53,13 +53,15 @@ class Routy.Router
 
         # go to the route page by default
         $(window).load (e) ->
-            router.go '/', @title
-            router.run.apply router
+#            router.go '/', @title
+            router.run.call router, '/'
 
         @context_selector.on 'click', @state_changers_selector, (e)->
+            e.preventDefault();
             console.log(e);
-            router.go @href, @title
-            router.run.apply router
+#            router.go @href, @title
+            href = $(@).attr("href")
+            router.run.call router, href, e.type
 
         # Create an anonymous function to call the router.run method so we can
         # pass the router as "this" variable
@@ -81,15 +83,15 @@ class Routy.Router
     rootRegister: (template, callback) ->
         @register('', template, callback)
 
-    run: ->
-        uri = window.location.pathname
-
+    run: (uri, event) ->
+#        uri = window.location.pathname
+        console.log(uri);
         for action in @actions
             for route in action.route
                 regex = (@pathRegExp route, {}).regexp
                 match = uri.match(regex)
-                console.log(route, uri)
                 if match?
+                    @go uri
                     match.shift()
                     return action.call(match...)
 
