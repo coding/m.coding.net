@@ -5,12 +5,6 @@
 
         var router = new Routy.Router(null, 'a', '#navigator');
 
-
-        //router.rootRegister({
-        //    url: '/views/projects.html',
-        //    context: ".container"
-        //}, PROJECT.ctrl);
-
         router.register('/projects', {
             template_url: '/views/projects.html',
             context: ".container",

@@ -31,11 +31,11 @@ var PROJECT = (function(){
             ele.find('p b').text(pro['owner_user_name']);
 
 
-            //ele.on('swipe click', function(e){
-            //    e.preventDefault();
-            //    $(list).find('a').removeClass('active');
-            //    $(this).addClass('active');
-            //});
+            ele.on('swipe click', function(e){
+                e.preventDefault();
+                $(list).find('a').removeClass('active');
+                $(this).addClass('active');
+            });
 
             elements.push(ele);
             fragment.appendChild(ele[0]);
@@ -93,6 +93,13 @@ var PROJECT = (function(){
             ele;
         for (var i = 0; i < elements.length; i++) {
             ele = elements[i];
+
+            ele.on('swipe click', function(e){
+                e.preventDefault();
+                $(list).find('a').removeClass('active');
+                $(this).addClass('active');
+            });
+
             fragment.appendChild(ele[0]);
         }
         list.appendChild(fragment)
@@ -100,11 +107,24 @@ var PROJECT = (function(){
 
     return {
         ctrl: function(){
+
+            var projectRouter = new Routy.Router(null, 'a', '#projects_list', 'swipe');
+
+            projectRouter.register('/u/:user/p/:project',{
+                template_url: '/views/project.html',
+                context: '.container',
+                callback: function(user, project){
+                    console.log(user, project)
+                }
+            });
+
             //check if it has previous loaded element
             if(elements.length == 0){
                 var element = $("#load_more");
                 loadMore.call(element,"/api/public/all");
-            }else{
+            }
+            //otherwise just show the cached result
+            else{
                 showAll();
             }
 

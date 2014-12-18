@@ -188,47 +188,36 @@ class Routy.Action
         # if it returned false when can't call the action
         false if ! result
 
-        context = @context
-
         #if template hasnt been fetched before, then fetch it
         unless @template
             console.log 'fetch template'
             $.get @template_url, (template) =>
-
                 @template = template
-                context.html(@template)
+                @digest(args)
 
-                # if we defined a callback to execute before the action
-                if @before_callback
-                    # execute it passing the same arguments as the action
-                    @before_callback.apply @, args
-
-
-                # call the action callback and fetch the contents of it
-                @callback.apply @, args
-
-                # if we defined some callback to execute after the main one
-                if @after_callback
-                    # call it passing the returned content
-                    @after_callback.apply @, args
         #otherwise, pull from cache
         else
             console.log('read template from cache')
-            context.html(@template)
-            # if we defined a callback to execute before the action
-            if @before_callback
-                # execute it passing the same arguments as the action
-                @before_callback.apply @, args
+            @digest(args)
+
+    digest: (args) ->
+
+        @context.html(@template)
+        console.log('digest')
+
+        # if we defined a callback to execute before the action
+        if @before_callback
+            # execute it passing the same arguments as the action
+            @before_callback.apply @, args
 
 
-            # call the action callback and fetch the contents of it
-            @callback.apply @, args
+        # call the action callback and fetch the contents of it
+        @callback.apply @, args
 
-            # if we defined some callback to execute after the main one
-            if @after_callback
-                # call it passing the returned content
-                @after_callback.apply @, args
-
+        # if we defined some callback to execute after the main one
+        if @after_callback
+            # call it passing the returned content
+            @after_callback.apply @, args
 
     # Set a callback to execute before the action
     before: (@before_callback)->
