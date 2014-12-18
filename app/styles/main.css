@@ -20,3 +20,8 @@ body {
     line-height: 1;
     letter-spacing: -1px;
 }
+
+.icon-small {
+    font-size: 75%;
+    padding: 0 2px 0;
+}
