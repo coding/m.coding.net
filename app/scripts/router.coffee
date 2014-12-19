@@ -62,13 +62,12 @@ class Routy.Router
 
         @context_selector.on @event, @state_changers_selector, (e)->
             e.preventDefault();
-            href = $(@).attr('href')
+            href = $(@).attr('href') || $(@).children('a').attr('href')
             router.run.call router, href, e.type
 
         # Create an anonymous function to call the router.run method so we can
         # pass the router as "this" variable
         $(window).bind 'popstate', (e)->
-            console.log(JSON.stringify(e.state))
             router.run.call router, e.state['state']
 
     # Redirect (using pushState) to a specific page
@@ -101,6 +100,10 @@ class Routy.Router
                 match = uri.match(regex)
                 if match?
                     @.go uri
+                    #remove the other links highlights
+                    @context_selector.find(@state_changers_selector).parents('li').removeClass('active')
+                    #add highlight to current selected item
+                    @context_selector.find(@state_changers_selector + "[href='#{uri}']").parents('li').addClass('active')
                     match.shift()
                     return action.call(match...)
 
