@@ -3,24 +3,20 @@
         FastClick.attach(document.body);
 
 
-        var router = new Routy.Router();
-
-
-        router.rootRegister({
-            url: '/views/projects.html',
-            context: ".container"
-        }, PROJECT.ctrl);
+        var router = new Routy.Router(null, 'a', '#navigator');
 
         router.register('/projects', {
-            url: '/views/projects.html',
-            context: ".container"
-        }, PROJECT.ctrl);
+            template_url: '/views/projects.html',
+            context: ".container",
+            callback: PROJECT.ctrl,
+            default: true
+        });
 
         router.register('/pp', {
-            url: '/views/pp.html',
-            context: ".container"
-        } ,function(){
-            console.log('/pp');
+            template_url: '/views/pp.html',
+            context: ".container",
+            callback: function (){
+            }
         });
 
     })

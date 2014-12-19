@@ -7,12 +7,15 @@ class Routy.Router
     # List of registered actions
     actions: []
 
+    # default route uri
+    default: null
+
     # Generate the router to a specific routing context
     # @state_changers_selector: String containing the selector of the elements that will trigger the pushState event
     # 	default: 'a' (all links)
     # context_selector: String containing the selector of the container of the elements that will trigger the pushState event
     #	default: 'document' (will search inside the document)
-    constructor: (context, @state_changers_selector, context_selector)->
+    constructor: (context, @state_changers_selector, context_selector, @event)->
 
         # Let's clean the context variable
         context or = ''
@@ -31,6 +34,8 @@ class Routy.Router
         context_selector or = document
 
         @context_selector = $ context_selector
+
+        @event or = 'click'
 
         @attach()
 
@@ -53,47 +58,58 @@ class Routy.Router
 
         # go to the route page by default
         $(window).load (e) ->
-#            router.go '/', @title
             router.run.call router, '/'
 
-        @context_selector.on 'click', @state_changers_selector, (e)->
+        @context_selector.on @event, @state_changers_selector, (e)->
             e.preventDefault();
-            console.log(e);
-#            router.go @href, @title
-            href = $(@).attr("href")
+            href = $(@).attr('href') || $(@).children('a').attr('href')
             router.run.call router, href, e.type
 
         # Create an anonymous function to call the router.run method so we can
         # pass the router as "this" variable
-#        History.bind window, 'statechange', ->
-#            console.log 'state changed!'
-#            router.run.apply router
+        $(window).bind 'popstate', (e)->
+            router.run.call router, e.state['state']
 
     # Redirect (using pushState) to a specific page
     go: (url, title, data)->
-        window.history.pushState data or {}, title or document.title, url
+        hash = data or {}
+        hash['state'] = url
+        window.history.pushState hash, title or document.title, url
 
     # Register a new action
-    register: (route, template, callback) ->
-        url = template.url
-        context = template.context
-        @actions.push new Routy.Action route, callback, url, $(context), @
+    register: (uri, route) ->
+        template_url = route.template_url
+        context      = route.context
+        callback     = route.callback
+
+        new_route = new Routy.Action uri, callback, template_url, $(context), @
+
+        @default = uri if route.default
+        @actions.push new_route
 
     # delegate to register method
     rootRegister: (template, callback) ->
         @register('', template, callback)
 
     run: (uri, event) ->
-#        uri = window.location.pathname
-        console.log(uri);
+
+        #first try to find if there is any matching route
         for action in @actions
             for route in action.route
                 regex = (@pathRegExp route, {}).regexp
                 match = uri.match(regex)
                 if match?
-                    @go uri
+                    @.go uri
+                    #remove the other links highlights
+                    @context_selector.find(@state_changers_selector).parents('li').removeClass('active')
+                    #add highlight to current selected item
+                    @context_selector.find(@state_changers_selector + "[href='#{uri}']").parents('li').addClass('active')
                     match.shift()
                     return action.call(match...)
+
+        #if no route is found, try default route
+        @.run @default if @default
+
 
     # Checks if the route matches with the current uri
     pathRegExp: (path, opts) ->
@@ -128,8 +144,12 @@ class Routy.Action
 
     #the context where template should override to
     context: $("body")
-    # template of the route
+    # template url of the route
     template_url: null
+
+    # template for a particular route
+    template: null
+
     # The callback to execute
     callback: null
 
@@ -171,25 +191,36 @@ class Routy.Action
         # if it returned false when can't call the action
         false if ! result
 
-        context = @context
+        #if template hasnt been fetched before, then fetch it
+        unless @template
+            console.log 'fetch template'
+            $.get @template_url, (template) =>
+                @template = template
+                @digest(args)
 
-        $.get @template_url, (template) =>
-            context.html(template)
+        #otherwise, pull from cache
+        else
+            console.log('read template from cache')
+            @digest(args)
 
-            # if we defined a callback to execute before the action
-            if @before_callback
-                # execute it passing the same arguments as the action
-                @before_callback.apply @, args
+    digest: (args) ->
+
+        @context.html(@template)
+        console.log('digest')
+
+        # if we defined a callback to execute before the action
+        if @before_callback
+            # execute it passing the same arguments as the action
+            @before_callback.apply @, args
 
 
-            # call the action callback and fetch the contents of it
-            @callback.apply @, args
+        # call the action callback and fetch the contents of it
+        @callback.apply @, args
 
-            # if we defined some callback to execute after the main one
-            if @after_callback
-                # call it passing the returned content
-                @after_callback.apply @, args
-
+        # if we defined some callback to execute after the main one
+        if @after_callback
+            # call it passing the returned content
+            @after_callback.apply @, args
 
     # Set a callback to execute before the action
     before: (@before_callback)->
