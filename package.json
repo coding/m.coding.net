@@ -4,6 +4,7 @@
   "dependencies": {},
   "devDependencies": {
     "connect-livereload": "~0.1.4",
+    "connect-modrewrite": "^0.7.9",
     "grunt": "~0.4.1",
     "grunt-autoshot": "~0.2.0",
     "grunt-bower-requirejs": "~0.4.1",
