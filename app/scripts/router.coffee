@@ -82,13 +82,14 @@ class Routy.Router
     # Register a new action
     register: (uri, route) ->
         template_url = route.template_url
+        events       = route.events or @event.split(' ')
         context      = route.context
         before       = route.before_enter
         enter        = route.on_enter
         after        = route.after_enter
         exit         = route.on_exit
 
-        new_route = new Routy.Action uri, template_url, $(context), @, before, enter, after, exit
+        new_route = new Routy.Action uri, template_url, events, $(context), @, before, enter, after, exit
 
         @default = uri if route.default
         @actions.push new_route
@@ -101,17 +102,18 @@ class Routy.Router
 
         #first try to find if there is any matching route
         for action in @actions
-            for route in action.route
-                regex = (@pathRegExp route, {}).regexp
-                match = uri.match(regex)
-                if match?
-                    @.go uri
-                    #remove the other links highlights
-                    @context_selector.find(@state_changers_selector).parents('li').removeClass('active')
-                    #add highlight to current selected item
-                    @context_selector.find(@state_changers_selector + "[href='#{uri}']").parents('li').addClass('active')
-                    match.shift()
-                    return action.call(match...)
+            if !event or (event and (event in action.events))
+                for route in action.route
+                    regex = (@pathRegExp route, {}).regexp
+                    match = uri.match(regex)
+                    if match?
+                        @.go uri
+                        #remove the other links highlights
+                        @context_selector.find(@state_changers_selector).parents('li').removeClass('active')
+                        #add highlight to current selected item
+                        @context_selector.find(@state_changers_selector + "[href='#{uri}']").parents('li').addClass('active')
+                        match.shift()
+                        return action.call(match...)
 
         #if no route is found, try default route
         @.run @default if @default
@@ -170,13 +172,17 @@ class Routy.Action
 
     on_exit_callback: null
 
+    events: []
+
     # Create a new action
-    constructor: (routes, @template_url, @context, @router, @before_callback, @callback, @after_callback, @on_exit_callback)->
+    constructor: (routes, @template_url, @events, @context, @router, @before_callback, @callback, @after_callback, @on_exit_callback)->
         # so you can call it like: new Routy.Action(['/', 'home'], callback)
         # or: new Routy.Action('/, home', callback);
         routes = routes.split ', ' if typeof routes == 'string'
 
         arr = []
+
+        @events = @events or []
 
         for route in routes
             route = @router.apply_context route

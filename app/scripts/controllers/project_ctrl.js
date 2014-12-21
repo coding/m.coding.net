@@ -1,4 +1,4 @@
-var PROJECT_ROUTE = (function(before, on, after, exit){
+var PROJECT_ROUTE = (function(){
 
     var HOST_URL  =  window.HOST_URL || "",
         pageSize  = 10,
@@ -94,7 +94,7 @@ var PROJECT_ROUTE = (function(before, on, after, exit){
         for (var i = 0; i < elements.length; i++) {
             ele = elements[i];
 
-            ele.on('swipe click', function(e){
+            ele.on('swipe tap click', function(e){
                 e.preventDefault();
                 $(list).find('a').removeClass('active');
                 $(this).addClass('active');
@@ -124,24 +124,10 @@ var PROJECT_ROUTE = (function(before, on, after, exit){
             }
 
             var element = $("#load_more");
-            element.on('click tap', function(e){
+            element.on('click', function(e){
                 e.preventDefault();
                 loadMore.call($(this), "/api/public/all");
             });
-        },
-        after: function(){
-            //set up routes in this page
-            var projectRouter = new Routy.Router(null, 'a', '#projects_list');
-
-            projectRouter.register('/u/:user/p/:project',{
-                template_url: '/views/project.html',
-                context: '.container',
-                before_enter: before,
-                on_enter: on,
-                after_enter: after,
-                on_exit:  exit
-            });
-
         },
         exit: function(){
             //clean up the banner
@@ -151,4 +137,4 @@ var PROJECT_ROUTE = (function(before, on, after, exit){
         }
     }
 
-})(PROJECT_ITEM.before, PROJECT_ITEM.ctrl, PROJECT_ITEM.after, PROJECT_ITEM.exit);
+})();
