@@ -1,4 +1,4 @@
-var PROJECT = (function(project_item_ctrl){
+var PROJECT_ROUTE = (function(before, on, after, exit){
 
     var HOST_URL  =  window.HOST_URL || "",
         pageSize  = 10,
@@ -106,21 +106,13 @@ var PROJECT = (function(project_item_ctrl){
     }
 
     return {
-        ctrl: function(){
-
-            //set up routes in this page
-            var projectRouter = new Routy.Router(null, 'a', '#projects_list');
-
-            projectRouter.register('/u/:user/p/:project',{
-                template_url: '/views/project.html',
-                context: '.container',
-                callback: project_item_ctrl
-            });
-
+        before: function(){
             //set up the page information in the banner
             $('title').text('精彩项目');
-            $('#page_name').text('广场');
+            $('#page_name').text('精彩项目');
 
+        },
+        ctrl: function(){
             //check if it has previous loaded element
             if(elements.length == 0){
                 var element = $("#load_more");
@@ -136,7 +128,27 @@ var PROJECT = (function(project_item_ctrl){
                 e.preventDefault();
                 loadMore.call($(this), "/api/public/all");
             });
+        },
+        after: function(){
+            //set up routes in this page
+            var projectRouter = new Routy.Router(null, 'a', '#projects_list');
+
+            projectRouter.register('/u/:user/p/:project',{
+                template_url: '/views/project.html',
+                context: '.container',
+                before_enter: before,
+                on_enter: on,
+                after_enter: after,
+                on_exit:  exit
+            });
+
+        },
+        exit: function(){
+            //clean up the banner
+            $('title').text('');
+            $('#page_name').text('');
+
         }
     }
 
-})(PROJECT_ITEM.ctrl);
+})(PROJECT_ITEM.before, PROJECT_ITEM.ctrl, PROJECT_ITEM.after, PROJECT_ITEM.exit);

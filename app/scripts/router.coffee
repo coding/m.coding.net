@@ -1,6 +1,8 @@
 window.Routy or = {}
 History = window.History
 
+last_route = {}
+
 # The router, used to manage and store the actions
 class Routy.Router
 
@@ -68,6 +70,7 @@ class Routy.Router
         # Create an anonymous function to call the router.run method so we can
         # pass the router as "this" variable
         $(window).bind 'popstate', (e)->
+            console.log(e);
             router.run.call router, e.state['state']
 
     # Redirect (using pushState) to a specific page
@@ -80,9 +83,12 @@ class Routy.Router
     register: (uri, route) ->
         template_url = route.template_url
         context      = route.context
-        callback     = route.callback
+        before       = route.before_enter
+        enter        = route.on_enter
+        after        = route.after_enter
+        exit         = route.on_exit
 
-        new_route = new Routy.Action uri, callback, template_url, $(context), @
+        new_route = new Routy.Action uri, template_url, $(context), @, before, enter, after, exit
 
         @default = uri if route.default
         @actions.push new_route
@@ -162,8 +168,10 @@ class Routy.Action
     # Condition to execute the action
     condition: null
 
+    on_exit_callback: null
+
     # Create a new action
-    constructor: (routes, @callback, @template_url, @context, @router)->
+    constructor: (routes, @template_url, @context, @router, @before_callback, @callback, @after_callback, @on_exit_callback)->
         # so you can call it like: new Routy.Action(['/', 'home'], callback)
         # or: new Routy.Action('/, home', callback);
         routes = routes.split ', ' if typeof routes == 'string'
@@ -193,26 +201,27 @@ class Routy.Action
 
         #if template hasnt been fetched before, then fetch it
         unless @template
-            console.log 'fetch template'
             $.get @template_url, (template) =>
                 @template = template
                 @digest(args)
 
         #otherwise, pull from cache
         else
-            console.log('read template from cache')
             @digest(args)
 
     digest: (args) ->
 
-        @context.html(@template)
-        console.log('digest')
+        # first run on exit in last route
+        if last_route.on_exit_callback?
+            last_route.on_exit_callback.apply @, args
 
         # if we defined a callback to execute before the action
         if @before_callback
             # execute it passing the same arguments as the action
             @before_callback.apply @, args
 
+        # render the template
+        @context.html(@template)
 
         # call the action callback and fetch the contents of it
         @callback.apply @, args
@@ -222,14 +231,6 @@ class Routy.Action
             # call it passing the returned content
             @after_callback.apply @, args
 
-    # Set a callback to execute before the action
-    before: (@before_callback)->
-        @
 
-    # Set a callback to execute after the action
-    after: (@after_callback)->
-        @
-
-    # Set a required condition to execute the action
-    when: (@condition)->
-        @
+        #register for the last route
+        last_route = @
