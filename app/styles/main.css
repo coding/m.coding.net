@@ -39,7 +39,13 @@ body {
     to { transform: scale(1) rotate(360deg);}
 }
 
-.panel-heading img, .panel-heading h3{
+.panel-heading img, .panel-heading h4{
     display: inline;
     vertical-align: middle;
+}
+
+.comment-meta {
+    font-size: 10px;
+    color: #999;
+    line-height: 1.4;
 }
