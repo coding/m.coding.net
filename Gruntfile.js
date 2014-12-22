@@ -500,7 +500,7 @@ module.exports = function (grunt) {
         'clean:dist',
         'useminPrepare',
         'concurrent:dist',
-        'requirejs',
+        //'requirejs',
         'cssmin',
         'responsive_images:dev',
         'concat',
