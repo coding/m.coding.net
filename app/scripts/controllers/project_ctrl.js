@@ -30,8 +30,8 @@ var PROJECT_ROUTE = (function(){
             ele.find('h4 > span:eq(1)').text(pro['fork_count']);
             ele.find('h4 > span:eq(2)').text(pro['watch_count']);
             ele.find('p > span:first').text(pro['description']);
-            ele.find('p img').attr('src', pro['owner_user_picture']);
-            ele.find('p b').text(pro['owner_user_name']);
+            //ele.find('p img').attr('src', pro['owner_user_picture']);
+            //ele.find('p b').text(pro['owner_user_name']);
 
 
             ele.on('swipe click', function(e){
@@ -53,15 +53,15 @@ var PROJECT_ROUTE = (function(){
                             '<h4 class="list-group-item-heading">' +
                                 '<img src="#" width="40" height="40"> ' +
                                 '<span></span>' +
-                                '<span class="glyphicon glyphicon-eye-open pull-right icon-small" aria-hidden="true"> </span>' +
-                                '<span class="glyphicon glyphicon-random pull-right icon-small" aria-hidden="true"> </span>' +
+                                '<span class="glyphicon glyphicon-eye-open pull-right icon-small" aria-hidden="true"></span>' +
+                                '<span class="glyphicon glyphicon-random pull-right icon-small" aria-hidden="true"></span>' +
                             '</h4>' +
                             '<p class="list-group-item-text">' +
                                 '<span></span>' +
-                                '<span class="pull-right">' +
-                                    '<img src="#" height="20" width="20" src="#">' +
-                                    '<b></b>' +
-                                '</span>' +
+                                //'<span class="pull-right">' +
+                                //    '<img src="#" height="20" width="20" src="#">' +
+                                //    '<b></b>' +
+                                //'</span>' +
                             '</p>' +
                         '</a>';
 
