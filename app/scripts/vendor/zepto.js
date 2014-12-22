@@ -1928,3 +1928,6 @@ window.$ === undefined && (window.$ = Zepto)
             $.fn[eventName] = function(callback){ return this.on(eventName, callback) }
         })
 })(Zepto)
+
+window.jQuery = Zepto;
+

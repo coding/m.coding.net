@@ -3,7 +3,7 @@
  */
 (function (PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PP_ROUTE) {
     $(function(){
-        FastClick.attach(document.body);
+        //FastClick.attach(document.body);
 
         var router = new Routy.Router(null, 'a', '.main', 'click longTap swipe');
 

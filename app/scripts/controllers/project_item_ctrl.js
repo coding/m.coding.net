@@ -75,7 +75,7 @@ var PROJECT_ITEM_ROUTE = (function(){
 
     return {
         template_url: '/views/project.html',
-        events: ['longTap', 'swipe'],
+        //events: ['longTap', 'swipe'],
         context: '.container',
         before_enter: function(user, project){
             var path = '/u/' + user + '/p/' + project;
