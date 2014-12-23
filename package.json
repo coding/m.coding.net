@@ -44,7 +44,6 @@
     "bower": "node_modules/.bin/bower"
   },
   "scripts": {
-    "start": "node index.js",
     "test": "mocha",
     "postinstall": "bower install && grunt build"
   },
