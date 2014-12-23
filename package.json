@@ -36,8 +36,7 @@
     "grunt-usemin": "~0.1.10",
     "grunt-webp": "~0.0.1",
     "jshint-stylish": "~0.1.5",
-    "load-grunt-tasks": "~0.2.0",
-    "time-grunt": "~0.2.0"
+    "load-grunt-tasks": "~0.2.0"
   },
   "bin": {
     "grunt": "node_modules/.bin/grunt",
