@@ -506,7 +506,7 @@ module.exports = function (grunt) {
         'concat',
         'uglify',
         'cssmin',
-        'responsive_images:dev',
+        // 'responsive_images:dev',
         'copy:dist',
         'rev',
         'usemin'
