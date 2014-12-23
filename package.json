@@ -40,9 +40,9 @@
     "time-grunt": "~0.2.0"
   },
   "scripts": {
-    "start": "node_modules/.bin/grunt serve:dist",
+    "start": "./node_modules/.bin/grunt serve:dist",
     "test": "mocha",
-    "postinstall": "node_modules/.bin/bower install"
+    "postinstall": "./node_modules/.bin/bower install"
   },
   "engines": {
     "node": ">=0.8.0"
