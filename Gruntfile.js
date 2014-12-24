@@ -6,6 +6,8 @@ var mountFolder = function (connect, dir) {
     return connect.static(require('path').resolve(dir));
 };
 var modRewrite = require('connect-modrewrite');
+var proxyRequest = require('grunt-connect-proxy/lib/utils').proxyRequest;
+
 
 // # Globbing
 // for performance reasons we're only matching one level down:
@@ -100,10 +102,19 @@ module.exports = function (grunt) {
                 // change this to '0.0.0.0' to access the server from outside
                 hostname: '0.0.0.0'
             },
+            proxies: [
+                {
+                    context: ['/api', '/static'],
+                    host: 'staging.coding.net',
+                    https: true,
+                    changeOrigin: true
+                }
+            ],
             livereload: {
                 options: {
                     middleware: function (connect) {
                         return [
+                            proxyRequest,
                             modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.eot|\\.ttf|\\.woff$ /index.html [L]']),
                             lrSnippet,
                             //mountFolder(connect, '.tmp'),
@@ -471,6 +482,7 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-connect-proxy');
 
     grunt.registerTask('server', function (target) {
         grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
@@ -485,6 +497,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'concurrent:server',
+            'configureProxies:server',
             'connect:livereload',
             'open:server',
             'watch'
