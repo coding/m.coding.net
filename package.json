@@ -2,7 +2,7 @@
   "name": "mobile",
   "version": "0.0.0",
   "dependencies": {
-    "body-parser": "^1.6.5",
+    "body-parser": "~1.6.5",
     "bower": "*",
     "express": "*"
   },
