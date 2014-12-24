@@ -54,3 +54,8 @@ body {
     font-size: 10px;
     line-height: 1.4;
 }
+
+.alert.commit {
+    margin-bottom: 0;
+    padding: 10px;
+}

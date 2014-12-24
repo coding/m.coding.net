@@ -65,7 +65,7 @@ class Routy.Router
         @context_selector.on @event, @state_changers_selector, (e)->
             e.preventDefault();
             href = $(@).attr('href') || $(@).children('a').attr('href')
-            router.run.call router, href, e.type
+            router.run.call router, href, e.type if href?
 
         # Create an anonymous function to call the router.run method so we can
         # pass the router as "this" variable
@@ -185,8 +185,6 @@ class Routy.Action
             arr.push route
 
         @route = arr
-
-        console.log @route
 
     # Call the action passing arguments to it
     call: (args...)->

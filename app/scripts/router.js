@@ -57,7 +57,9 @@
         var href;
         e.preventDefault();
         href = $(this).attr('href') || $(this).children('a').attr('href');
-        return router.run.call(router, href, e.type);
+        if (href != null) {
+          return router.run.call(router, href, e.type);
+        }
       });
       return $(window).bind('popstate', function(e) {
         return router.run.call(router, e.state['state']);
@@ -184,7 +186,6 @@
         arr.push(route);
       }
       this.route = arr;
-      console.log(this.route);
     }
 
     Action.prototype.call = function() {
