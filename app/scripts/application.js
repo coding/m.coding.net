@@ -9,7 +9,7 @@
 
         router.register('/projects', PROJECT_ROUTE);
 
-        router.register('/u/:user/p/:project, /u/:user/p/:project/code', PROJECT_ITEM_ROUTE);
+        router.register('/u/:user/p/:project, /u/:user/p/:project/git, /u/:user/p/:project/code', PROJECT_ITEM_ROUTE);
 
         router.register('/pp', PP_ROUTE);
 

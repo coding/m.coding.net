@@ -46,8 +46,8 @@ body {
 
 .comment-meta {
     font-size: 10px;
-    color: #999;
-    line-height: 1.4;
+/*    color: #999;
+*/    line-height: 1.4;
 }
 
 .comment-hash {
@@ -57,5 +57,10 @@ body {
 
 .alert.commit {
     margin-bottom: 0;
-    padding: 10px;
+    padding: 5px;
+}
+
+.list-group-item-info {
+    color: #31708f;
+    background-color: #d9edf7;
 }
