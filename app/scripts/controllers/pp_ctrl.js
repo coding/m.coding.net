@@ -12,7 +12,7 @@ var PP_ROUTE  = (function(){
 
             //add those extra items in nav menu
             $("#navigator").append( '<li class="nav-divider"></li>' +
-                '<li><a href="/pp/hot' + '">热门</a></li>'
+            '<li><a href="/pp/hot' + '">热门</a></li>'
             );
 
             //add actions in pp page
