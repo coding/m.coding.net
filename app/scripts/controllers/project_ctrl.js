@@ -63,7 +63,7 @@ var PROJECT_ROUTE = (function(){
                             '</p>' +
                         '</a>';
 
-        return $(template).clone();
+        return $(template);
     }
 
     function loadMore(path){
@@ -120,7 +120,7 @@ var PROJECT_ROUTE = (function(){
         },
         on_enter: function(){
             //check if it has previous loaded element
-            if(elements.length == 0){
+            if(elements.length === 0){
                 var element = $("#load_more");
                 loadMore.call(element,"/api/public/all");
             }
