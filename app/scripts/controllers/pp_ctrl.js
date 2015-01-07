@@ -6,7 +6,7 @@ var PP_ROUTE  = (function(){
     var last_id  = 99999999,
         sort     = 'time',
         list     = null,
-        elements = [],
+        elements = {},
         path     = '/api/tweet/public_tweets';
 
     function assembleDOM(data){
@@ -20,12 +20,13 @@ var PP_ROUTE  = (function(){
 
         for (var i = 0; i < pps.length; i++) {
             ele = createTweetDOM(pps[i]);
-
-            elements.push(ele);
             fragment.appendChild(ele[0]);
+            elements[pps[i]['id']] = pps[i];
+
         }
 
         list.appendChild(fragment);
+
     }
 
     function createTweetDOM(pp){
@@ -36,7 +37,7 @@ var PP_ROUTE  = (function(){
                                 '</div>' +
                                 '<a class="commenterName" href="#"><label></label></a>' +
                                 <!--this would only be shown if this comment belongs to current user-->
-                                '<a class="close" aria-label="Close"><span aria-hidden="true">&times;</span></a>' +
+                                '<a href="#" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></a>' +
                                 '<a href="#" class="pull-right star">' +
                                     '<span class="glyphicon glyphicon-heart"></span>' +
                                 '</a>' +
@@ -79,16 +80,31 @@ var PP_ROUTE  = (function(){
 
         ele.find('.commentBox > .taskDescription').html(pp.content);
 
-        var comments = pp.comment_list,
-            fragment = document.createDocumentFragment(),
+        var comments    = pp.comment_list,
+            commentsList = ele.find('.actionBox > .commentList'),
             commentEle;
 
         for(var j = 0; j < comments.length; j++){
             commentEle = createCommentDOM(comments[j]);
-            fragment.appendChild(commentEle[0]);
+            commentsList.append(commentEle);
         }
 
-        ele.find('.actionBox > .commentList')[0].appendChild(fragment);
+
+        //event listeners for this element
+        ele.on('click', '.star', function(e){
+            e.preventDefault();
+            var id = pp.id,
+                path = pp['liked'] ? '/api/tweet/' + id + '/unlike' : '/api/tweet/' + id + '/like';
+
+            $.post(path, function(){
+                pp['liked'] = !pp['liked'];
+                pp['liked'] ? pp['likes'] += 1 : pp['likes'] -= 1;
+                var newEle = createTweetDOM(pp);
+                ele.replaceWith(newEle);
+                elements[id] = pp;
+            });
+            return false;
+        });
 
 
         return ele;
@@ -125,17 +141,18 @@ var PP_ROUTE  = (function(){
         var fragment = document.createDocumentFragment(),
             list     = document.getElementById('pp_list'),
             ele;
-        for (var i = 0; i < elements.length; i++) {
-            ele = elements[i];
 
-            fragment.appendChild(ele[0]);
+        for (var obj in elements) {
+            ele = createTweetDOM(obj);
+            fragment.appendChild(ele);
         }
+
         list.appendChild(fragment)
     }
 
     function refresh(){
 
-        elements = [];
+        elements = {};
         last_id  = 99999999;
         //remove all existing elements in DOM
         $('#pp_list > .detailBox').remove();
@@ -201,7 +218,7 @@ var PP_ROUTE  = (function(){
         },
         on_enter: function(){
 
-            if(elements.length === 0){
+            if(Object.keys(elements).length === 0){
                 loadMore(path);
             }else{
                 showAll();
