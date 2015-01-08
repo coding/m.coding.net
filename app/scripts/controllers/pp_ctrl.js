@@ -6,8 +6,7 @@ var PP_ROUTE  = (function(){
     var last_id  = 99999999,
         sort     = 'time',
         list     = null,
-        elements = {},
-        path     = '/api/tweet/public_tweets';
+        elements = {};
 
     function assembleDOM(data){
         var data = data || {"code":0,"data":[]};
@@ -51,11 +50,11 @@ var PP_ROUTE  = (function(){
                             '<div class="actionBox">' +
                                 '<ul class="commentList">' +
                                 '</ul>' +
-                                '<form class="form-inline" role="form">' +
+                                '<form class="form-inline commentSubmit" role="form">' +
                                      '<div class="input-group">' +
                                         '<input type="text" class="form-control" placeholder="在此输入评论内容">' +
                                         '<span class="input-group-btn">' +
-                                            '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-arrow-right"></span></button>' +
+                                            '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-arrow-right"></span></button>' +
                                         '</span>' +
                                     '</div>' +
                                 '</form>' +
@@ -80,7 +79,7 @@ var PP_ROUTE  = (function(){
 
         ele.find('.commentBox > .taskDescription').html(pp.content);
 
-        var comments    = pp.comment_list,
+        var comments     = pp.comment_list,
             commentsList = ele.find('.actionBox > .commentList'),
             commentEle;
 
@@ -106,6 +105,65 @@ var PP_ROUTE  = (function(){
             return false;
         });
 
+        ele.on('click', '.close', function(e){
+            e.preventDefault();
+
+            var r = confirm("确认删除该泡泡？");
+
+            if(r){
+                var id   = pp.id,
+                    path = '/api/tweet/' + id;
+
+                $.ajax({
+                    url: path,
+                    type: 'DELETE',
+                    success: function(data){
+                        if(data.msg){
+                            for(var key in data.msg){
+                                alert(data.msg[key]);
+                            }
+                        }else{
+                            delete elements[id];
+                            ele.remove();
+                        }
+                    }
+                });
+            }
+
+            return false
+        });
+
+        ele.on('submit', '.commentSubmit', function(e){
+            e.preventDefault();
+
+            var id    = pp.id,
+                input = $(this).find('input'),
+                button= $(this).find('button'),
+                path  = '/api/tweet/' + id + '/comment';
+
+            $.post(path,{content: input.val()}, function(data){
+
+                if(data.msg){
+                    for(var key in data.msg){
+                        alert(data.msg[key]);
+                    }
+                }
+                if(data.data){
+                    data.data.content['owner'] = {}; //current user
+                    var commentEle = createCommentDOM(data.data.content);
+                    commentsList.append(commentEle);
+                }
+
+                input.removeAttr('disabled');
+                button.removeAttr('disabled');
+            });
+
+            input.attr('disabled','disabled');
+            button.attr('disabled','disabled');
+
+            return false
+        });
+
 
         return ele;
     }
@@ -119,7 +177,8 @@ var PP_ROUTE  = (function(){
                             '<div class="commentText">' +
                                 '<p></p>' +
                                 '<span class="date sub-text"></span>' +
-                                '<a href="#" class="comment-hash">回复</a>' +
+                                '<a class="reply" href="#" class="comment-hash"> 回复 </a>' +
+                                '<a class="delete" href="#" class="comment-hash"> 删除 </a>' +
                             '</div>' +
                         '</li>',
             ele  = $(template);
@@ -134,6 +193,48 @@ var PP_ROUTE  = (function(){
         ele.find('.commentText > .date').text("on March 5th, 2014");
         ele.find('.commentText > a').attr('id', comment.owner_id);
 
+        ele.on('click', '.reply', function(e){
+            e.preventDefault();
+            var input = ele.parents('.commentList').next('form').find('input');
+            if(input.val() === ''){
+                input.val('@' + owner_name)
+            }else{
+                var value = input.val();
+                input.val(value + ', @' + owner_name);
+            }
+            return false
+        });
+
+        ele.on('click', '.delete', function(e){
+            e.preventDefault();
+            var r = confirm('确认删除该评论？');
+            if(r){
+                var ppId      = ele.parents('.detailBox').attr('id'),
+                    commentId = comment.id;
+                    path = '/api/tweet/' + ppId + '/comment/' + commentId;
+
+                $.ajax({
+                    url: path,
+                    type: 'DELETE',
+                    success: function(data){
+                        if(data.msg){
+                            for(var key in data.msg){
+                                alert(data.msg[key]);
+                            }
+                        }else{
+                            var comment_list = elements[ppId]['comment_list'];
+                            for(var i = comment_list.length-1; i>=0; i--) {
+                                if( comment_list[i]['id'] === commentId) comment_list.splice(i,1);
+                            }
+                            ele.remove();
+                        }
+                    }
+                });
+            }
+
+            return false
+        });
+
         return ele
     }
 
@@ -142,9 +243,9 @@ var PP_ROUTE  = (function(){
             list     = document.getElementById('pp_list'),
             ele;
 
-        for (var obj in elements) {
-            ele = createTweetDOM(obj);
-            fragment.appendChild(ele);
+        for (var key in elements) {
+            ele = createTweetDOM(elements[key]);
+            fragment.appendChild(ele[0]);
         }
 
         list.appendChild(fragment)
@@ -156,7 +257,7 @@ var PP_ROUTE  = (function(){
         last_id  = 99999999;
         //remove all existing elements in DOM
         $('#pp_list > .detailBox').remove();
-        loadMore(path);
+        loadMore('/api/tweet/public_tweets');
     }
 
     function loadMore(path){
@@ -219,14 +320,14 @@ var PP_ROUTE  = (function(){
         on_enter: function(){
 
             if(Object.keys(elements).length === 0){
-                loadMore(path);
+                loadMore('/api/tweet/public_tweets');
             }else{
                 showAll();
             }
 
             $('#load_more').on('click', function(e){
                 e.preventDefault();
-                loadMore(path);
+                loadMore('/api/tweet/public_tweets');
             });
 
             $('#refresh').on('click', function(e){
