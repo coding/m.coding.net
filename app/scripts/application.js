@@ -13,7 +13,7 @@
 
         router.register('/pp', PP_ROUTE);
 
-        //router.register('/pp/hot', PP_HOT_ROUTE)
+        router.register('/pp/:hot', PP_ROUTE)
 
     })
 })(PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PP_ROUTE);

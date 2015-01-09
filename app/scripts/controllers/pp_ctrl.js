@@ -43,6 +43,12 @@ var PP_ROUTE  = (function(){
                                 '<a href="#" class="pull-right comment">' +
                                     '<span class="glyphicon glyphicon-comment"></span>' +
                                 '</a>' +
+
+                                '<div class="row">' +
+                                    '<div class="col-sm-12 like_users">' +
+                                    '</div>' +
+                                '</div>' +
+
                             '</div>' +
                             '<div class="commentBox">' +
                                 '<p class="taskDescription"></p>' +
@@ -74,11 +80,24 @@ var PP_ROUTE  = (function(){
         if(pp.liked){
             ele.find('.titleBox > a.star > span').css('color','#D95C5C');
         }
+
+        //create liked users
+        var likeUsers   = pp.like_users,
+            userList    = ele.find('.titleBox .like_users'),
+            userEle;
+
+        for (var i = 0; i < likeUsers.length; i++) {
+            userEle = createLikedUsersDOM(likeUsers[i]);
+            userList.append(userEle);
+        }
+
+
         ele.find('.titleBox > a.comment').attr('href', '/u/' + owner_name + '/pp/' + pp.id);
         ele.find('.titleBox > a.comment > span').text(pp.comments);
 
         ele.find('.commentBox > .taskDescription').html(pp.content);
 
+        //create tweet comments
         var comments     = pp.comment_list,
             commentsList = ele.find('.actionBox > .commentList'),
             commentEle;
@@ -98,6 +117,7 @@ var PP_ROUTE  = (function(){
             $.post(path, function(){
                 pp['liked'] = !pp['liked'];
                 pp['liked'] ? pp['likes'] += 1 : pp['likes'] -= 1;
+                //pp['like_users'].push(current_user);  //add current user to the liked list
                 var newEle = createTweetDOM(pp);
                 ele.replaceWith(newEle);
                 elements[id] = pp;
@@ -149,8 +169,8 @@ var PP_ROUTE  = (function(){
                     }
                 }
                 if(data.data){
-                    data.data.content['owner'] = {}; //current user
-                    var commentEle = createCommentDOM(data.data.content);
+                    data.data['owner'] = {}; //current user
+                    var commentEle = createCommentDOM(data.data);
                     commentsList.append(commentEle);
                 }
 
@@ -238,17 +258,21 @@ var PP_ROUTE  = (function(){
         return ele
     }
 
-    function showAll(){
-        var fragment = document.createDocumentFragment(),
-            list     = document.getElementById('pp_list'),
-            ele;
+    function createLikedUsersDOM(user){
+        var template = '<a class="pull-right" style="padding: 0 3px 0" href="#">' +
+                            '<img src="#" height="15" width="15" />' +
+                        '</a>',
+            ele = $(template);
 
-        for (var key in elements) {
-            ele = createTweetDOM(elements[key]);
-            fragment.appendChild(ele[0]);
-        }
+        ele.attr('href', '/u/' + user.name);
+        ele.find('img').attr('src', user.avatar);
 
-        list.appendChild(fragment)
+        return ele;
+    }
+
+    function reset(){
+        elements = {};
+        last_id = 99999999;
     }
 
     function refresh(){
@@ -290,7 +314,8 @@ var PP_ROUTE  = (function(){
     return {
         template_url: '/views/pp.html',
         context: ".container",
-        before_enter: function(){
+        before_enter: function(hot){
+
             $('title').text('冒泡');
             $('#page_name').text('冒泡');
 
@@ -303,7 +328,7 @@ var PP_ROUTE  = (function(){
             $(
             '<div id="pp_actions" class="btn-group btn-group-justified" role="group" aria-label="...">' +
                 '<div class="btn-group" role="group">' +
-                    '<a class="btn btn-default glyphicon glyphicon-edit"> 来，冒个泡吧！ </a>' +
+                    '<a class="btn btn-default glyphicon glyphicon-edit" data-toggle="modal" data-target="#pp_input"> 来，冒个泡吧！ </a>' +
                 '</div>' +
                 '<div class="btn-group" role="group">' +
                     '<a class="btn btn-default glyphicon glyphicon glyphicon-camera"> 发图片 </a>' +
@@ -315,15 +340,23 @@ var PP_ROUTE  = (function(){
             ).insertAfter($('#bs-example-navbar-collapse-1'));
 
             //active this page link
-            $('#navigator').find("li:eq(1)").addClass('active');
-        },
-        on_enter: function(){
-
-            if(Object.keys(elements).length === 0){
-                loadMore('/api/tweet/public_tweets');
+            if(hot === 'hot'){
+                $('#navigator').find("li:last-child").addClass('active');
             }else{
-                showAll();
+                $('#navigator').find("li:eq(1)").addClass('active');
             }
+
+        },
+        on_enter: function(hot){
+
+            //decide if this is hot page
+            if(hot === 'hot'){
+                sort = 'hot';
+            }else{
+                sort = 'time';
+            }
+
+            refresh();
 
             $('#load_more').on('click', function(e){
                 e.preventDefault();
@@ -334,6 +367,39 @@ var PP_ROUTE  = (function(){
                 e.preventDefault();
                 refresh();
             });
+
+            $('#pp_input').on('click', '#pp_submit', function(e){
+                e.preventDefault();
+
+                var content = $('#pp_content'),
+                    btn     = $(this);
+
+                if(content.val() !== ''){
+
+                    btn.attr('disabled', 'disabled');
+
+                    $.post('/api/tweet', {content: content.val()}, function(data){
+                        //fail
+                        if(data.msg){
+                            for(var key in data.msg){
+                                alert(data.msg[key]);
+                            }
+                        }
+                        //successful
+                        if(data.data){
+                            data.data['owner'] = {}; //current user
+                            var commentEle = createTweetDOM(data.data);
+                            list.prepend(commentEle);
+
+                            content.val('');
+                            $('#pp_input').modal('hide');
+                        }
+                        btn.removeAttr('disabled');
+                    });
+                }
+
+                return false
+            });
         },
         on_exit: function(){
             $('title').text('');
@@ -342,6 +408,8 @@ var PP_ROUTE  = (function(){
             $('#navigator > li').slice(-1).remove();
             $('#pp_actions').remove();
             $('#navigator').find('li').removeClass('active');
+
+            reset();
         }
     }
 
