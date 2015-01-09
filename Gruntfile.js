@@ -137,6 +137,8 @@ module.exports = function (grunt) {
                 options: {
                     middleware: function (connect) {
                         return [
+                            proxyRequest,
+                            modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.eot|\\.ttf|\\.woff$ /index.html [L]']),
                             mountFolder(connect, yeomanConfig.dist)
                         ];
                     }
@@ -491,7 +493,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
-            return grunt.task.run(['build', 'connect:dist:keepalive']);
+            return grunt.task.run(['build','configureProxies:server','connect:dist:keepalive']);
         }
 
         grunt.task.run([

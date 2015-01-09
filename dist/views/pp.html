@@ -1,46 +1,32 @@
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
-    <h1 class=''>'Allo, 'Allo!</h1>
-    <p>You now have</p>
-    <ul>
-        <li>HTML5 Boilerplate</li>
-        <li>Bootstrap 3</li>
-        <li>RequireJS</li>
-        <li>Async localStorage Polyfill</li>
-        <li>Fullscreen API snippet</li>
-        <li>FastClick</li>
-    </ul>
-    <p>installed.</p>
-    <h3>Enjoy coding! - Yeoman</h3>
-
-    <!--     <p><button id="fullscreenTest" class="btn btn-primary btn-large">Go Fullscreen</button>
-     -->    </p><p><span id="status"></span></p>
-</div>
-
-<div class="body-content">
-
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col col-lg-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
-        </div>
-        <div class="col col-lg-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
-        </div>
-        <div class="col col-lg-4">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+<!-- Modal -->
+<div class="modal fade" id="pp_input" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">来，冒个泡吧！</h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" id="pp_content" rows="5" placeholder="你在想什么？"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="pp_submit">冒泡</button>
+            </div>
         </div>
     </div>
+</div>
 
-    <hr>
-
-    <footer>
-        <p>&copy; Company 2013</p>
-    </footer>
+<div class="row">
+    <div class="col-md-12">
+        <button type="button" id="refresh" class="btn btn-default btn-block"><span class="glyphicon glyphicon-refresh"></span> 刷新 </button>
+    </div>
+</div>
+<br />
+<div class="list-group" id="pp_list">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <button type="button" id="load_more" class="btn btn-default btn-block">更多泡泡</button>
+    </div>
 </div>
