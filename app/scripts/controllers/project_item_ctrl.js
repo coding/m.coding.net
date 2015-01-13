@@ -124,14 +124,14 @@ var PROJECT_ITEM_ROUTE = (function(){
         //events: ['longTap', 'swipe'],
         context: '.container',
         before_enter: function(user, project){
-            var path =  project;
+            var path =  '/u/' + user + '/p/' +  project;
             //set up the page information in the banner
             $('title').text(user + '/' + project);
             $('#page_name').html('<a href="#">' + user + '</a>' + '/' + '<a href="' + path + '">' + project + '</a>');
             //and those extra items in nav menu
             $("#navigator").append( '<li class="nav-divider"></li>' +
                                     '<li><a href="' + path + '/code' + '">代码</a></li>' +
-                                    '<li><a href="#">Pull Request</a></li>' +
+                                    '<li><a href="#">合并请求</a></li>' +
                                     '<li><a href="#">讨论</a></li>' +
                                     '<li><a href="#">演示</a></li>' +
                                     '<li><a href="#">质量管理</a></li>'

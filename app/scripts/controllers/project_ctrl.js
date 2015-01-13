@@ -6,7 +6,7 @@ var PROJECT_ROUTE = (function(){
     var pageSize  = 10,
         pageCount = 0,
         list      = null,
-        elements  = [];
+        pros  = [];
 
     function assembleDOM(data){
         var data = data || {"code":0,"data":{}};
@@ -20,33 +20,17 @@ var PROJECT_ROUTE = (function(){
 
         for (var i = 0; i < projects.length; i++) {
             pro = projects[i];
-            ele = createTemplate();
+            ele = createTemplate(pro);
 
-            ele.attr('href', pro['project_path']);
-            ele.find('h4 > img').attr('src', pro['icon']);
-            ele.find('h4 > span:first').text(pro['name']);
-            ele.find('h4 > span:eq(1)').text(pro['fork_count']);
-            ele.find('h4 > span:eq(2)').text(pro['watch_count']);
-            ele.find('p > span:first').text(pro['description']);
-            //ele.find('p img').attr('src', pro['owner_user_picture']);
-            //ele.find('p b').text(pro['owner_user_name']);
-
-
-            ele.on('swipe click', function(e){
-                e.preventDefault();
-                $(list).find('a').removeClass('active');
-                $(this).addClass('active');
-            });
-
-            elements.push(ele);
             fragment.appendChild(ele[0]);
+            pros.push(pro);
 
         }
 
         list.appendChild(fragment);
     }
 
-    function createTemplate(){
+    function createTemplate(pro){
         var template = '<a href="#" class="list-group-item">' +
                             '<h4 class="list-group-item-heading">' +
                                 '<img src="#" width="40" height="40"> ' +
@@ -61,9 +45,26 @@ var PROJECT_ROUTE = (function(){
                                 //    '<b></b>' +
                                 //'</span>' +
                             '</p>' +
-                        '</a>';
+                        '</a>',
+            ele  = $(template);
 
-        return $(template);
+        ele.attr('href', pro['project_path']);
+        ele.find('h4 > img').attr('src', pro['icon']);
+        ele.find('h4 > span:first').text(pro['name']);
+        ele.find('h4 > span:eq(1)').text(pro['fork_count']);
+        ele.find('h4 > span:eq(2)').text(pro['watch_count']);
+        ele.find('p > span:first').text(pro['description']);
+        //ele.find('p img').attr('src', pro['owner_user_picture']);
+        //ele.find('p b').text(pro['owner_user_name']);
+
+
+        ele.on('swipe click', function(e){
+            e.preventDefault();
+            $(list).find('a').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        return ele;
     }
 
     function loadMore(path){
@@ -93,15 +94,8 @@ var PROJECT_ROUTE = (function(){
         var fragment = document.createDocumentFragment(),
             list     = document.getElementById('projects_list'),
             ele;
-        for (var i = 0; i < elements.length; i++) {
-            ele = elements[i];
-
-            ele.on('swipe tap click', function(e){
-                e.preventDefault();
-                $(list).find('a').removeClass('active');
-                $(this).addClass('active');
-            });
-
+        for (var i = 0; i < pros.length; i++) {
+            ele = createTemplate(pros[i]);
             fragment.appendChild(ele[0]);
         }
         list.appendChild(fragment)
@@ -120,7 +114,7 @@ var PROJECT_ROUTE = (function(){
         },
         on_enter: function(){
             //check if it has previous loaded element
-            if(elements.length === 0){
+            if(pros.length === 0){
                 var element = $("#load_more");
                 loadMore.call(element,"/api/public/all");
             }
