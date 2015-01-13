@@ -1,7 +1,7 @@
 /**
  * Created by simonykq on 21/12/2014.
  */
-(function (PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PP_ROUTE) {
+(function (PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PP_ROUTE, PP_ITEM_ROUTE) {
     $(function(){
         //FastClick.attach(document.body);
 
@@ -13,7 +13,9 @@
 
         router.register('/pp', PP_ROUTE);
 
-        router.register('/pp/:hot', PP_ROUTE)
+        router.register('/pp/:hot', PP_ROUTE);
+
+        router.register('/u/:user/pp/:pp',PP_ITEM_ROUTE);
 
     })
-})(PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PP_ROUTE);
+})(PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PP_ROUTE, PP_ITEM_ROUTE);
