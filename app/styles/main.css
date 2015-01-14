@@ -139,3 +139,9 @@ body {
     color: #999;
     line-height: 2.0;
 }
+
+.watched, .followed {
+    padding: 0 3px 0;
+    line-height: 2.0;
+    font-size: 11px;
+}
