@@ -36,6 +36,10 @@
     "load-grunt-tasks": "~0.2.0",
     "time-grunt": "~0.2.0"
   },
+  "scripts": {
+      "start": "grunt serve:dist",
+      "postinstall": "bower install"
+  },
   "engines": {
     "node": "~0.8.0"
   }
