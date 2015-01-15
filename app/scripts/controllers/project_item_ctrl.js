@@ -43,7 +43,7 @@ var PROJECT_ITEM_ROUTE = (function(){
           dataType: 'json',
           success: function(data){
             projectData = data.data;
-            updateDOM(data.data);
+            updateProject(data.data);
           },
           error: function(xhr, type){
             alert('Failed to load project');
@@ -78,7 +78,7 @@ var PROJECT_ITEM_ROUTE = (function(){
 
     }
 
-    function updateDOM(data){
+    function updateProject(data){
         var project  = data || {};
         //set up project actions
         if(project['stared']){
@@ -169,7 +169,7 @@ var PROJECT_ITEM_ROUTE = (function(){
                 $.post(path, function(){
                     projectData['stared'] = !projectData['stared'];
                     projectData['stared'] ? projectData['star_count'] += 1 : projectData['star_count'] -= 1;
-                    updateDOM(projectData);
+                    updateProject(projectData);
                 });
             });
 
@@ -185,7 +185,7 @@ var PROJECT_ITEM_ROUTE = (function(){
                 $.post(path, function(){
                     projectData['watched'] = !projectData['watched'];
                     projectData['watched'] ? projectData['watch_count'] += 1 : projectData['watch_count'] -= 1;
-                    updateDOM(projectData);
+                    updateProject(projectData);
                 });
             });
         },
