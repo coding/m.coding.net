@@ -70,10 +70,11 @@ var PP_ROUTE  = (function(){
 
         ele.attr('id', pp.id);
 
-        var owner_name = pp.owner.name;
-        ele.find('.titleBox > .commenterImage > a').attr('href', '/u/' + owner_name);
+        var owner_name = pp.owner.name,
+            owner_key  = pp.owner.global_key;
+        ele.find('.titleBox > .commenterImage > a').attr('href', '/u/' + owner_key);
         ele.find('.titleBox > .commenterImage > a > img').attr('src', pp.owner.avatar);
-        ele.find('.titleBox > a.commenterName').attr('href', '/u/' + owner_name);
+        ele.find('.titleBox > a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('.titleBox > a.commenterName > label').text(owner_name);
 
         ele.find('.titleBox > a.star > span').text(pp.likes);
@@ -92,7 +93,7 @@ var PP_ROUTE  = (function(){
         }
 
 
-        ele.find('.titleBox > a.comment').attr('href', '/u/' + owner_name + '/pp/' + pp.id);
+        ele.find('.titleBox > a.comment').attr('href', '/u/' + owner_key + '/pp/' + pp.id);
         ele.find('.titleBox > a.comment > span').text(pp.comments);
 
         ele.find('.commentBox > .taskDescription').html(pp.content);
@@ -203,14 +204,15 @@ var PP_ROUTE  = (function(){
                         '</li>',
             ele  = $(template);
 
-        var owner_name = comment.owner.name;
+        var owner_name = comment.owner.name,
+            owner_key  = comment.owner.global_key;
 
-        ele.find('.commenterImage > a').attr('href', '/u/' + owner_name);
+        ele.find('.commenterImage > a').attr('href', '/u/' + owner_key);
         ele.find('.commenterImage img').attr('src', comment.owner.avatar);
-        ele.find('a.commenterName').attr('href', '/u/' + owner_name);
+        ele.find('a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
-        ele.find('.commentText > .date').text("on March 5th, 2014");
+        ele.find('.commentText > .date').text(new Date(comment.created_at));
         ele.find('.commentText > a').attr('id', comment.owner_id);
 
         ele.on('click', '.reply', function(e){
@@ -264,7 +266,7 @@ var PP_ROUTE  = (function(){
                         '</a>',
             ele = $(template);
 
-        ele.attr('href', '/u/' + user.name);
+        ele.attr('href', '/u/' + user.global_key);
         ele.find('img').attr('src', user.avatar);
 
         return ele;
