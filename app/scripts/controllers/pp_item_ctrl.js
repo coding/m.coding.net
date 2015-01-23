@@ -3,7 +3,8 @@
  */
 var PP_ITEM_ROUTE = (function(){
 
-    var tweet;
+    var tweetData,
+        userData;
 
     function loadUser(user){
 
@@ -13,7 +14,13 @@ var PP_ITEM_ROUTE = (function(){
             url: uri,
             dataType: 'json',
             success: function(data){
-                updateUser(data.data);
+                if(data.data){
+                    userData = data.data;
+                    updateUser(userData);
+                }else{
+                    alert('Failed to load user' + user);
+                    $('#user-heading').html('');
+                }
             },
             error: function(xhr, type){
                 alert('Failed to load user' + user);
@@ -30,8 +37,12 @@ var PP_ITEM_ROUTE = (function(){
             url: uri,
             dateType: 'json',
             success: function(data){
-                tweet = data.data;
-                updateTweet(tweet);
+                if(data.data){
+                    tweetData = data.data;
+                    updateTweet(tweetData);
+                }else{
+                    alert('Failed to load pp' + tweet);
+                }
             },
             error: function(){
                 alert('Failed to load pp' + tweet);
@@ -44,7 +55,7 @@ var PP_ITEM_ROUTE = (function(){
 
 
     function updateUser(data){
-        var user    = data || {"tags_str":"PHP, Go, Javascript, Node.js, 专注前端一百年","tags":"4,5,11,12,27","job_str":"开发","job":1,"sex":0,"birthday":"1970-01-01","location":"广东 深圳","company":"鹅厂","slogan":"生命在于折腾","introduction":"","avatar":"https://dn-coding-net-production-static.qbox.me/19ab9751-12cc-4e06-bf89-015d77ab8fae.jpg?imageMogr2/auto-orient/format/jpeg/crop/!170x170a0a0","gravatar":"","lavatar":"https://dn-coding-net-production-static.qbox.me/19ab9751-12cc-4e06-bf89-015d77ab8fae.jpg?imageMogr2/auto-orient/format/jpeg/crop/!170x170a0a0","created_at":1404879208000,"last_logined_at":1420427362000,"last_activity_at":1421290052354,"global_key":"f2e","name":"f2e","updated_at":1404879208000,"path":"/u/f2e","status":1,"is_member":0,"id":290,"follows_count":15,"fans_count":8,"tweets_count":41,"followed":false,"follow":false},
+        var user    = data || {},
             heading = '<h4 class="panel-title">' +
                         '<img src="#" height="25" width="25" />' +
                         '<a class="panel-title" data-toggle="collapse" href="#accordion" data-target="#user-details" aria-expanded="true" aria-controls="user-details">' +
@@ -157,7 +168,7 @@ var PP_ITEM_ROUTE = (function(){
 
 
     function updateTweet(data){
-        var pp = data || {"id":18926,"owner_id":290,"owner":{"tags_str":"PHP, Go, Javascript, Node.js, 专注前端一百年","tags":"4,5,11,12,27","job_str":"开发","job":1,"sex":0,"birthday":"1970-01-01","location":"广东 深圳","company":"鹅厂","slogan":"生命在于折腾","introduction":"","avatar":"https://dn-coding-net-production-static.qbox.me/19ab9751-12cc-4e06-bf89-015d77ab8fae.jpg?imageMogr2/auto-orient/format/jpeg/crop/!170x170a0a0","gravatar":"","lavatar":"https://dn-coding-net-production-static.qbox.me/19ab9751-12cc-4e06-bf89-015d77ab8fae.jpg?imageMogr2/auto-orient/format/jpeg/crop/!170x170a0a0","created_at":1404879208000,"last_logined_at":1420427362000,"last_activity_at":1421290052354,"global_key":"f2e","name":"f2e","updated_at":1404879208000,"path":"/u/f2e","status":1,"is_member":0,"id":290,"follows_count":0,"fans_count":0,"tweets_count":0,"followed":false,"follow":false},"created_at":1421288642000,"likes":3,"comments":5,"comment_list":[{"id":46682,"tweet_id":18926,"owner_id":43418,"owner":{"tags_str":"PHP, Javascript, 专注前端一百年, 吐槽帝","tags":"4,11,27,39","job_str":"开发","job":1,"sex":0,"birthday":"1985-01-01","location":"","company":"","slogan":"","introduction":"","avatar":"https://dn-coding-net-avatar.qbox.me/5f0b7693-fd37-4959-a4e8-44a0061b412c.png","gravatar":"https://dn-coding-net-avatar.qbox.me/5f0b7693-fd37-4959-a4e8-44a0061b412c.png","lavatar":"https://dn-coding-net-avatar.qbox.me/5f0b7693-fd37-4959-a4e8-44a0061b412c.png","created_at":1415933322000,"last_logined_at":1418821489000,"last_activity_at":1421289991251,"global_key":"sfwxp","name":"有追求的大鸟","updated_at":1415933322000,"path":"/u/sfwxp","status":1,"is_member":0,"id":43418,"follows_count":0,"fans_count":0,"tweets_count":0,"followed":false,"follow":false},"created_at":1421289991000,"content":"那我八成是连毛巾都拿不到了~ \n\u003cimg class\u003d\"emotion emoji\" src\u003d\"https://coding.net/static/emojis/joy.png\" title\u003d\"joy\"\u003e"},{"id":46679,"tweet_id":18926,"owner_id":290,"owner":{"tags_str":"PHP, Go, Javascript, Node.js, 专注前端一百年","tags":"4,5,11,12,27","job_str":"开发","job":1,"sex":0,"birthday":"1970-01-01","location":"广东 深圳","company":"鹅厂","slogan":"生命在于折腾","introduction":"","avatar":"https://dn-coding-net-production-static.qbox.me/19ab9751-12cc-4e06-bf89-015d77ab8fae.jpg?imageMogr2/auto-orient/format/jpeg/crop/!170x170a0a0","gravatar":"","lavatar":"https://dn-coding-net-production-static.qbox.me/19ab9751-12cc-4e06-bf89-015d77ab8fae.jpg?imageMogr2/auto-orient/format/jpeg/crop/!170x170a0a0","created_at":1404879208000,"last_logined_at":1420427362000,"last_activity_at":1421290052354,"global_key":"f2e","name":"f2e","updated_at":1404879208000,"path":"/u/f2e","status":1,"is_member":0,"id":290,"follows_count":0,"fans_count":0,"tweets_count":0,"followed":false,"follow":false},"created_at":1421289750000,"content":"\u003ca class\u003d\"at-someone\" href\u003d\"/u/heby\" rel\u003d\"nofollow\"\u003e@heby\u003c/a\u003e 两个益达。。"},{"id":46677,"tweet_id":18926,"owner_id":32654,"owner":{"tags_str":"Mac, Javascript, Node.js, 技术宅, 请叫我设计湿, 屌丝码士","tags":"9,11,12,25,36,37","job_str":"开发","job":1,"sex":0,"birthday":"1992-09-04","location":"广东 深圳","company":"","slogan":"你必须非常努力，才能看上去毫不费力","introduction":"","avatar":"https://dn-coding-net-production-static.qbox.me/fd2d9076-a577-4822-9ed6-de8d0c62ddda.jpg?imageMogr2/auto-orient/format/jpeg/crop/!180x180a0a0","gravatar":"","lavatar":"https://dn-coding-net-production-static.qbox.me/fd2d9076-a577-4822-9ed6-de8d0c62ddda.jpg?imageMogr2/auto-orient/format/jpeg/crop/!180x180a0a0","created_at":1411295440000,"last_logined_at":1420648277000,"last_activity_at":1421289738968,"global_key":"heby","name":"heby","updated_at":1411295440000,"path":"/u/heby","status":1,"is_member":0,"id":32654,"follows_count":0,"fans_count":0,"tweets_count":0,"followed":false,"follow":false},"created_at":1421289696000,"content":"快说！"},{"id":46661,"tweet_id":18926,"owner_id":290,"owner":{"tags_str":"PHP, Go, Javascript, Node.js, 专注前端一百年","tags":"4,5,11,12,27","job_str":"开发","job":1,"sex":0,"birthday":"1970-01-01","location":"广东 深圳","company":"鹅厂","slogan":"生命在于折腾","introduction":"","avatar":"https://dn-coding-net-production-static.qbox.me/19ab9751-12cc-4e06-bf89-015d77ab8fae.jpg?imageMogr2/auto-orient/format/jpeg/crop/!170x170a0a0","gravatar":"","lavatar":"https://dn-coding-net-production-static.qbox.me/19ab9751-12cc-4e06-bf89-015d77ab8fae.jpg?imageMogr2/auto-orient/format/jpeg/crop/!170x170a0a0","created_at":1404879208000,"last_logined_at":1420427362000,"last_activity_at":1421290052354,"global_key":"f2e","name":"f2e","updated_at":1404879208000,"path":"/u/f2e","status":1,"is_member":0,"id":290,"follows_count":0,"fans_count":0,"tweets_count":0,"followed":false,"follow":false},"created_at":1421288900000,"content":"\u003ca class\u003d\"at-someone\" href\u003d\"/u/skiy\" rel\u003d\"nofollow\"\u003e@skiy\u003c/a\u003e 还真不是 \n\u003cimg class\u003d\"emotion emoji\" src\u003d\"https://coding.net/static/emojis/bomb.png\" title\u003d\"bomb\"\u003e"},{"id":46660,"tweet_id":18926,"owner_id":33054,"owner":{"tags_str":"PHP, MySQL, Lua","tags":"4,16,45","job_str":"开发","job":1,"sex":0,"birthday":"1988-04-14","location":"广东 深圳","company":"某某公司","slogan":"一直在学习，从未超越过。","introduction":"","avatar":"https://dn-coding-net-production-static.qbox.me/c35ead42-c0a0-46e6-9408-a9978ca0d005.jpg?imageMogr2/auto-orient/format/jpeg/crop/!638x638a0a0","gravatar":"","lavatar":"https://dn-coding-net-production-static.qbox.me/c35ead42-c0a0-46e6-9408-a9978ca0d005.jpg?imageMogr2/auto-orient/format/jpeg/crop/!638x638a0a0","created_at":1411640969000,"last_logined_at":1420911615000,"last_activity_at":1421288878901,"global_key":"skiy","name":"skiy","updated_at":1411640969000,"path":"/u/skiy","status":1,"is_member":0,"id":33054,"follows_count":0,"fans_count":0,"tweets_count":0,"followed":false,"follow":false},"created_at":1421288852000,"content":"毛巾。"}],"device":"","content":"\u003cp\u003eCoding的礼物收到了，我不会说是什么的\u003cimg class\u003d\"emotion emoji\" src\u003d\"https://coding.net/static/emojis/laughing.png\" title\u003d\"laughing\"\u003e\u003c/p\u003e","path":"/u/f2e/pp/18926","activity_id":730906,"liked":false,"like_users":[{"global_key":"icewing","name":"冰翼","path":"/u/icewing","avatar":"https://dn-coding-net-production-static.qbox.me/1a45a6ea2b8dc025c3512eb577d01ccd.png"},{"global_key":"desperatecat","name":"猫爷","path":"/u/desperatecat","avatar":"https://dn-coding-net-production-static.qbox.me/2b778891-e8e8-43ed-a5fc-be0f807e23eb.jpg?imageMogr2/auto-orient/format/jpeg/crop/!640x640a0a0"},{"global_key":"jaysun","name":"卡基猫","path":"/u/jaysun","avatar":"https://dn-coding-net-production-static.qbox.me/1d3476cac70c29fe779592a42ea7bff2.png"}]};
+        var pp = data || {};
 
         var template = '<div class="detailBox">' +
                 '<div class="titleBox">' +
@@ -249,9 +260,8 @@ var PP_ITEM_ROUTE = (function(){
                 pp['liked'] = !pp['liked'];
                 pp['liked'] ? pp['likes'] += 1 : pp['likes'] -= 1;
                 //pp['like_users'].push(current_user);  //add current user to the liked list
-                var newEle = updateTweet(pp);
-                ele.replaceWith(newEle);
-                tweet = pp;
+                updateTweet(pp);
+                tweetData = pp;
             });
             return false;
         });
@@ -373,7 +383,7 @@ var PP_ITEM_ROUTE = (function(){
                                 alert(data.msg[key]);
                             }
                         }else{
-                            var comment_list = tweet['comment_list'];
+                            var comment_list = tweetData['comment_list'];
                             for(var i = comment_list.length-1; i>=0; i--) {
                                 if( comment_list[i]['id'] === commentId) comment_list.splice(i,1);
                             }

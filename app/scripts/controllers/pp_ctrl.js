@@ -9,9 +9,7 @@ var PP_ROUTE  = (function(){
         elements = {};
 
     function assembleDOM(data){
-        var data = data || {"code":0,"data":[]};
-
-        var pps       = data.data,
+        var pps       = data || {},
             fragment  = document.createDocumentFragment(),
             ele;
 
@@ -300,8 +298,12 @@ var PP_ROUTE  = (function(){
             url: path,
             dataType: 'json',
             success: function(data){
-                assembleDOM(data);
-                last_id = data.data[data.data.length - 1]['id']; //id of last item in list
+                if(data.data){
+                    assembleDOM(data.data);
+                    last_id = data.data[data.data.length - 1]['id']; //id of last item in list
+                }else{
+                    alert('Failed to load pp');
+                }
             },
             error: function(xhr, type){
                 alert('Failed to load pp');

@@ -9,9 +9,9 @@ var PROJECT_ROUTE = (function(){
         pros  = [];
 
     function assembleDOM(data){
-        var data = data || {"code":0,"data":{}};
+        var data = data || {};
 
-        var projects = data.data.list,
+        var projects = data.list,
             fragment = document.createDocumentFragment(),
             pro,
             ele;
@@ -69,22 +69,26 @@ var PROJECT_ROUTE = (function(){
 
     function loadMore(path){
 
-       pageCount++;
-       var _ = this;
-       _.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
-       path += '?page=' + pageCount + '&' + 'pageSize=' + pageSize;
+        pageCount++;
+        var element = $("#load_more");
+        element.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
+        path += '?page=' + pageCount + '&' + 'pageSize=' + pageSize;
 
        $.ajax({
 		  url: path,
 		  dataType: 'json',
 		  success: function(data){
-           	assembleDOM(data);
+              if(data.data){
+                  assembleDOM(data.data);
+              }else{
+                  alert('Failed to load projects');
+              }
 		  },
 		  error: function(xhr, type){
 		    alert('Failed to load projects');
 		  },
 		  complete: function(){
-		  	_.text('更多项目');
+		  	element.text('更多项目');
 		  }
 		});
 
@@ -115,8 +119,7 @@ var PROJECT_ROUTE = (function(){
         on_enter: function(){
             //check if it has previous loaded element
             if(pros.length === 0){
-                var element = $("#load_more");
-                loadMore.call(element,"/api/public/all");
+                loadMore("/api/public/all");
             }
             //otherwise just show the cached result
             else{
@@ -125,7 +128,7 @@ var PROJECT_ROUTE = (function(){
             var element = $("#load_more");
             element.on('click', function(e){
                 e.preventDefault();
-                loadMore.call($(this), "/api/public/all");
+                loadMore("/api/public/all");
             });
         },
         on_exit: function(){
