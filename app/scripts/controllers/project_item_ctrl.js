@@ -71,7 +71,7 @@ var PROJECT_ITEM_ROUTE = (function(){
         }
 
         //set up the project owner section
-        var project_owner_ele = '<img src="' + project['icon'] + '" height="40" width="40"> ' +
+        var project_owner_ele = '<img src="' + assetPath(project['icon']) + '" height="40" width="40"> ' +
             '<a href="' + project['owner_path'] + '">'+ project['owner_user_name'] +'</a>/<a href="' + project['project_path'] + '">' + project['name'] + '</a>';
 
         $('#project_owner').html(project_owner_ele);
@@ -123,6 +123,14 @@ var PROJECT_ITEM_ROUTE = (function(){
         }
         return element;
     }
+
+    function assetPath(path){
+        if(path.substr(0,1) === '/'){
+            path = API_DOMAIN + path;
+        }
+        return path;
+    }
+
 
     return {
         template_url: '/views/project.html',

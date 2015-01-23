@@ -49,7 +49,7 @@ var PROJECT_ROUTE = (function(){
             ele  = $(template);
 
         ele.attr('href', pro['project_path']);
-        ele.find('h4 > img').attr('src', pro['icon']);
+        ele.find('h4 > img').attr('src', assetPath(pro['icon']));
         ele.find('h4 > span:first').text(pro['name']);
         ele.find('h4 > span:eq(1)').text(pro['fork_count']);
         ele.find('h4 > span:eq(2)').text(pro['watch_count']);
@@ -103,6 +103,13 @@ var PROJECT_ROUTE = (function(){
             fragment.appendChild(ele[0]);
         }
         list.appendChild(fragment)
+    }
+
+    function assetPath(path){
+        if(path.substr(0,1) === '/'){
+            path = API_DOMAIN + path;
+        }
+        return path;
     }
 
     return {
