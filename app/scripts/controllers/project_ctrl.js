@@ -75,7 +75,7 @@ var PROJECT_ROUTE = (function(){
         path += '?page=' + pageCount + '&' + 'pageSize=' + pageSize;
 
        $.ajax({
-		  url: path,
+		  url: API_DOMAIN + path,
 		  dataType: 'json',
 		  success: function(data){
               if(data.data){

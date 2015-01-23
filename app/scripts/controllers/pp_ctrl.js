@@ -113,7 +113,7 @@ var PP_ROUTE  = (function(){
             var id = pp.id,
                 path = pp['liked'] ? '/api/tweet/' + id + '/unlike' : '/api/tweet/' + id + '/like';
 
-            $.post(path, function(){
+            $.post(API_DOMAIN + path, function(){
                 pp['liked'] = !pp['liked'];
                 pp['liked'] ? pp['likes'] += 1 : pp['likes'] -= 1;
                 //pp['like_users'].push(current_user);  //add current user to the liked list
@@ -134,7 +134,7 @@ var PP_ROUTE  = (function(){
                     path = '/api/tweet/' + id;
 
                 $.ajax({
-                    url: path,
+                    url: API_DOMAIN + path,
                     type: 'DELETE',
                     success: function(data){
                         if(data.msg){
@@ -160,7 +160,7 @@ var PP_ROUTE  = (function(){
                 button= $(this).find('button'),
                 path  = '/api/tweet/' + id + '/comment';
 
-            $.post(path,{content: input.val()}, function(data){
+            $.post(API_DOMAIN + path,{content: input.val()}, function(data){
 
                 if(data.msg){
                     for(var key in data.msg){
@@ -230,11 +230,11 @@ var PP_ROUTE  = (function(){
             var r = confirm('确认删除该评论？');
             if(r){
                 var ppId      = ele.parents('.detailBox').attr('id'),
-                    commentId = comment.id;
+                    commentId = comment.id,
                     path = '/api/tweet/' + ppId + '/comment/' + commentId;
 
                 $.ajax({
-                    url: path,
+                    url: API_DOMAIN + path,
                     type: 'DELETE',
                     success: function(data){
                         if(data.msg){
@@ -295,7 +295,7 @@ var PP_ROUTE  = (function(){
         path += '?last_id=' + last_id + '&' + 'sort=' + sort;
 
         $.ajax({
-            url: path,
+            url: API_DOMAIN + path,
             dataType: 'json',
             success: function(data){
                 if(data.data){
@@ -382,7 +382,7 @@ var PP_ROUTE  = (function(){
 
                     btn.attr('disabled', 'disabled');
 
-                    $.post('/api/tweet', {content: content.val()}, function(data){
+                    $.post(API_DOMAIN + '/api/tweet', {content: content.val()}, function(data){
                         //fail
                         if(data.msg){
                             for(var key in data.msg){

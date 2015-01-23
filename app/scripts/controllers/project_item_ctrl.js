@@ -8,7 +8,7 @@ var PROJECT_ITEM_ROUTE = (function(){
         var path = '/api/user/' + user + '/project/' + project;
 
         $.ajax({
-            url: path,
+            url: API_DOMAIN + path,
             dataType: 'json',
             success: function(data){
                 if(data.data){
@@ -35,7 +35,7 @@ var PROJECT_ITEM_ROUTE = (function(){
             uri = '/api/user/' + user + '/project/' + project + '/git/tree/' + commit + '/' + path;
 
        $.ajax({
-          url: uri,
+          url: API_DOMAIN + uri,
           dataType: 'json',
           success: function(data){
               //data.data = {"ref":"master","lastCommitter":{"name":"ElevenChen","email":"skyhacker@126.com","avatar":"https://dn-coding-net-production-static.qbox.me/c1caa543-f158-41c4-a74a-6ccbf7b7f36c.jpeg?imageMogr2/auto-orient/format/jpeg/crop/!180x180a0a0","link":"/u/elevenchen"},"files":[{"mode":"tree","path":".settings","name":".settings"},{"mode":"tree","path":"coffee","name":"coffee"},{"mode":"tree","path":"frameworks","name":"frameworks"},{"mode":"tree","path":"images","name":"images"},{"mode":"tree","path":"libs","name":"libs"},{"mode":"tree","path":"publish","name":"publish"},{"mode":"tree","path":"res","name":"res"},{"mode":"tree","path":"src","name":"src"},{"mode":"file","path":".cocos-project.json","name":".cocos-project.json"},{"mode":"file","path":".gitignore","name":".gitignore"},{"mode":"file","path":".project","name":".project"},{"mode":"file","path":"Gulpfile.js","name":"Gulpfile.js"},{"mode":"file","path":"Procfile","name":"Procfile"},{"mode":"file","path":"WeixinApi.js","name":"WeixinApi.js"},{"mode":"file","path":"app.js","name":"app.js"},{"mode":"file","path":"build-android.sh","name":"build-android.sh"},{"mode":"file","path":"config.json","name":"config.json"},{"mode":"file","path":"index.html","name":"index.html"},{"mode":"file","path":"main.js","name":"main.js"},{"mode":"file","path":"package.json","name":"package.json"},{"mode":"file","path":"project.json","name":"project.json"},{"mode":"file","path":"publish.sh","name":"publish.sh"},{"mode":"file","path":"readme.md","name":"readme.md"},{"mode":"file","path":"run-android.sh","name":"run-android.sh"},{"mode":"file","path":"runweb.sh","name":"runweb.sh"}],"can_edit":false,"isHead":true,"readme":{"data":"#空降小色块\n\n![image](https://coding.net/u/elevenchen/p/FlyBlock/git/raw/master/res/favicon.png)\n\n本项目使用cocos2d-js引擎\n\n使用coffeescript开发\n\n使用gulp前端构建工具构建coffeescript脚本\n\n##初始化:\n\n```\nnpm install\n```\n##编译\n\n```\ngulp\n```\n\n##运行\n\n```\n./runweb.sh\n```\n注意：需要把`runweb.sh`文件的引擎地址改成本机的\n\n##发布\n\n```\n./publish.sh\n```\n\n同样需要注意文件内容修改\n\n##部署\n\n```\nnode app.js\n```\n","lang":"markdown","size":471,"previewed":true,"preview":"\u003ch1\u003e空降小色块\u003c/h1\u003e \n\u003cp\u003e\u003cimg src\u003d\"https://coding.net/u/elevenchen/p/FlyBlock/git/raw/master/res/favicon.png\" alt\u003d\"image\"\u003e\u003c/p\u003e \n\u003cp\u003e本项目使用cocos2d-js引擎\u003c/p\u003e \n\u003cp\u003e使用coffeescript开发\u003c/p\u003e \n\u003cp\u003e使用gulp前端构建工具构建coffeescript脚本\u003c/p\u003e \n\u003ch2\u003e初始化:\u003c/h2\u003e \n\u003cpre\u003e\u003ccode\u003enpm install\n\u003c/code\u003e\u003c/pre\u003e \n\u003ch2\u003e编译\u003c/h2\u003e \n\u003cpre\u003e\u003ccode\u003egulp\n\u003c/code\u003e\u003c/pre\u003e \n\u003ch2\u003e运行\u003c/h2\u003e \n\u003cpre\u003e\u003ccode\u003e./runweb.sh\n\u003c/code\u003e\u003c/pre\u003e \n\u003cp\u003e注意：需要把\u003ccode\u003erunweb.sh\u003c/code\u003e文件的引擎地址改成本机的\u003c/p\u003e \n\u003ch2\u003e发布\u003c/h2\u003e \n\u003cpre\u003e\u003ccode\u003e./publish.sh\n\u003c/code\u003e\u003c/pre\u003e \n\u003cp\u003e同样需要注意文件内容修改\u003c/p\u003e \n\u003ch2\u003e部署\u003c/h2\u003e \n\u003cpre\u003e\u003ccode\u003enode app.js\n\u003c/code\u003e\u003c/pre\u003e","lastCommitMessage":"增加readme.md\n","lastCommitDate":1418647580000,"lastCommitId":"442eb449154518918b70c98ca4a0423068c05b8c","lastCommitter":{"name":"ElevenChen","email":"skyhacker@126.com","avatar":"https://dn-coding-net-production-static.qbox.me/c1caa543-f158-41c4-a74a-6ccbf7b7f36c.jpeg?imageMogr2/auto-orient/format/jpeg/crop/!180x180a0a0","link":"/u/elevenchen"},"mode":"file","path":"readme.md","name":"readme.md"},"lastCommit":{"fullMessage":"update\n","shortMessage":"update\n","commitId":"7aa32afc1e7e0ed179d35808896e92a73ef99246","commitTime":1419342157000,"committer":{"name":"ElevenChen","email":"skyhacker@126.com","avatar":"https://dn-coding-net-production-static.qbox.me/c1caa543-f158-41c4-a74a-6ccbf7b7f36c.jpeg?imageMogr2/auto-orient/format/jpeg/crop/!180x180a0a0","link":"/u/elevenchen"}}};
@@ -168,7 +168,7 @@ var PROJECT_ITEM_ROUTE = (function(){
                 projectData['stared'] ? path += '/unstar' : path += '/star';
 
                 $(this).html(' <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> ');
-                $.post(path, function(){
+                $.post(API_DOMAIN + path, function(){
                     projectData['stared'] = !projectData['stared'];
                     projectData['stared'] ? projectData['star_count'] += 1 : projectData['star_count'] -= 1;
                     updateProject(projectData);
@@ -184,7 +184,7 @@ var PROJECT_ITEM_ROUTE = (function(){
                 projectData['watched'] ? path += '/unwatch' : path += '/watch';
 
                 $(this).html(' <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> ');
-                $.post(path, function(){
+                $.post(API_DOMAIN + path, function(){
                     projectData['watched'] = !projectData['watched'];
                     projectData['watched'] ? projectData['watch_count'] += 1 : projectData['watch_count'] -= 1;
                     updateProject(projectData);
