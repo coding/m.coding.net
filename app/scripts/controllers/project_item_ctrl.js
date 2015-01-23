@@ -87,13 +87,23 @@ var PROJECT_ITEM_ROUTE = (function(){
             files        = commit.files,
             readme       = commit.readme.preview;
 
-        $('.commit').addClass('alert alert-info');
-        $('.commit > .comment-meta').text(lastCommit.shortMessage);
-        $('.commit > .comment-hash > a').attr('href', project + '/git/commit/' + lastCommit.commitId).text(lastCommit.commitId.substr(0,10));
+        var lastCommitElement = '<span class="panel-title">' +
+                                    '<img src="#" height="20" width="20"> ' + lastCommit.committer.name +
+                                ' </span>' +
+                                '<span class="comment-meta"></span>' +
+                                '<span class="comment-hash pull-right">' +
+                                    '<a href="#" style="color: #999"></a>' +
+                                '</span>',
+            $lastCommitElement = $(lastCommitElement);
 
-        var lastCommitElement = '<span class="panel-title"><img src="' + lastCommit.committer.avatar + '" height="20" width="20"> ' + lastCommit.committer.name + ' </span>';
+        console.log(lastCommit.committer.name);
+        console.log(lastCommit.shortMessage);
 
-        $('#project_code > .panel-heading').html(lastCommitElement);
+        $lastCommitElement.find('.panel-title > img').attr('src', lastCommit.committer.avatar);
+        $lastCommitElement.eq(1).text(' ' + lastCommit.shortMessage + ' ');
+        $lastCommitElement.find('.comment-hash > a').attr('href', project + '/git/commit/' + lastCommit.commitId).text(lastCommit.commitId.substr(0,10));
+
+        $('#project_code > .panel-heading').html($lastCommitElement);
         $('#project_readme > .panel-body').html(readme);
 
         var file    = null,

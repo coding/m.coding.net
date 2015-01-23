@@ -46,8 +46,8 @@ body {
 
 .comment-meta {
     font-size: 10px;
-/*    color: #999;
-*/    line-height: 1.4;
+    color: #999;
+    line-height: 1.4;
 }
 
 .comment-hash {
