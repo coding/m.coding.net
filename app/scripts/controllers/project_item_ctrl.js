@@ -150,7 +150,6 @@ var PROJECT_ITEM_ROUTE = (function(){
             var path =  '/u/' + user + '/p/' +  project;
             //set up the page information in the banner
             $('title').text(user + '/' + project);
-            $('#page_name').html('<a href="#">' + user + '</a>' + '/' + '<a href="' + path + '">' + project + '</a>');
             //and those extra items in nav menu
             $("#navigator").append( '<li class="nav-divider"></li>' +
                                     '<li><a href="' + path + '/code' + '">代码</a></li>' +
@@ -212,7 +211,6 @@ var PROJECT_ITEM_ROUTE = (function(){
         on_exit: function(user, project){
             //clean up the nav menu
             $('title').text('');
-            $('#page_name').text('');
 
             $('#navigator').find('li').removeClass('active');
             $('#navigator > li').slice(-6).remove();

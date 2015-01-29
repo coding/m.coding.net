@@ -321,7 +321,6 @@ var PP_ROUTE  = (function(){
         before_enter: function(hot){
 
             $('title').text('冒泡');
-            $('#page_name').text('冒泡');
 
             //add those extra items in nav menu
             $("#navigator").append( '<li class="nav-divider"></li>' +
@@ -407,7 +406,6 @@ var PP_ROUTE  = (function(){
         },
         on_exit: function(){
             $('title').text('');
-            $('#page_name').text('');
 
             $('#navigator > li').slice(-1).remove();
             $('#pp_actions').remove();

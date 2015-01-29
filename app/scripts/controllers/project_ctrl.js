@@ -118,7 +118,6 @@ var PROJECT_ROUTE = (function(){
         before_enter: function(){
             //set up the page information in the banner
             $('title').text('精彩项目');
-            $('#page_name').text('精彩项目');
 
             $('#navigator').find('li:first').addClass('active');
 
@@ -141,7 +140,6 @@ var PROJECT_ROUTE = (function(){
         on_exit: function(){
             //clean up the banner
             $('title').text('');
-            $('#page_name').text('');
             $('#navigator').find('li').removeClass('active');
 
         },

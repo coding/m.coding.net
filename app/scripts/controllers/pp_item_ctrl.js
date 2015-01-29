@@ -417,7 +417,6 @@ var PP_ITEM_ROUTE = (function(){
         before_enter: function(user,pp){
 
             $('title').text(user + '的冒泡');
-            $('#page_name').text(user + '的冒泡');
 
             //add those extra items in nav menu
             $("#navigator").append( '<li class="nav-divider"></li>' +
@@ -431,7 +430,6 @@ var PP_ITEM_ROUTE = (function(){
         },
         on_exit: function(){
             $('title').text('');
-            $('#page_name').text('');
             $('#navigator > li').slice(-1).remove();
         }
     }
