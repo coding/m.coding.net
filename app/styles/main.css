@@ -145,3 +145,30 @@ body {
     line-height: 2.0;
     font-size: 11px;
 }
+
+@media (max-width: 768px) {
+    .banner {
+        position: relative;
+        left: 25%;
+    }
+}
+
+.navigation-item-dark {
+    background-color: #2a3644;
+    /*padding-left: 52px;*/
+    /*padding-top: 22px;*/
+    /*height: 88px;*/
+    /*font-size: 24px;*/
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #ffffff;
+}
+
+.navigation-item-white {
+    background-color: #fafafa;
+    /*padding-left: 52px;*/
+    /*padding-top: 22px;*/
+    /*height: 88px;*/
+    /*font-size: 24px;*/
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #2a3644;
+}
