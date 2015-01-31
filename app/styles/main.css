@@ -150,6 +150,7 @@ body {
     .banner {
         position: relative;
         left: 25%;
+        top: 10px;
     }
 }
 
