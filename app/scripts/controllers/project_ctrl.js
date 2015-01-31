@@ -31,31 +31,25 @@ var PROJECT_ROUTE = (function(){
     }
 
     function createTemplate(pro){
-        var template = '<a href="#" class="list-group-item">' +
-                            '<h4 class="list-group-item-heading">' +
-                                '<img src="#" width="40" height="40"> ' +
-                                '<span></span>' +
-                                '<span class="glyphicon glyphicon-eye-open pull-right icon-small" aria-hidden="true"></span>' +
-                                '<span class="glyphicon glyphicon-random pull-right icon-small" aria-hidden="true"></span>' +
-                            '</h4>' +
-                            '<p class="list-group-item-text">' +
-                                '<span></span>' +
-                                //'<span class="pull-right">' +
-                                //    '<img src="#" height="20" width="20" src="#">' +
-                                //    '<b></b>' +
-                                //'</span>' +
-                            '</p>' +
+        var template = '<a href="#" class="list-group-item" style="height: 105px">' +
+                            '<img class="pull-left project_icon" src="#" width="80" height="80">' +
+                            '<span class="project_name"></span>' +
+                            '<br />' +
+                            '<span class="project_description"></span>' +
+                            '<br />' +
+                            '<div class="project_owner">' +
+                                '<img src="#" height="15" width="14" />' +
+                                '<span>最后更新于</span>' +
+                            '</div>' +
                         '</a>',
             ele  = $(template);
 
         ele.attr('href', pro['project_path']);
-        ele.find('h4 > img').attr('src', assetPath(pro['icon']));
-        ele.find('h4 > span:first').text(pro['name']);
-        ele.find('h4 > span:eq(1)').text(pro['fork_count']);
-        ele.find('h4 > span:eq(2)').text(pro['watch_count']);
-        ele.find('p > span:first').text(pro['description']);
-        //ele.find('p img').attr('src', pro['owner_user_picture']);
-        //ele.find('p b').text(pro['owner_user_name']);
+        ele.find('img.project_icon').attr('src', assetPath(pro['icon']));
+        ele.find('span.project_name').text(pro['name']);
+        ele.find('span.project_description').text(pro['description']);
+        ele.find('div.project_owner > img').attr('src', pro['owner_user_picture']);
+        //TODO: add time info using moment.js
 
 
         ele.on('swipe click', function(e){

@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'coding-fonts';
+    src: url('../fonts/icons.eot'), /* IE9 Compat Modes */
+         url('../fonts/icons.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/icons.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/icons.woff') format('woff'), /* Pretty Modern Browsers */
+         url('../fonts/icons.ttf')  format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/icons.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
 body {
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -172,4 +182,51 @@ body {
     /*font-size: 24px;*/
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #2a3644;
+}
+
+.project_banner {
+    background-image: none !important;
+    background-color: #2a3644 !important;
+}
+.project_banner p.title {
+    position: relative;
+    top: 30px;
+    right: 15%;
+    color: #ffffff;
+    font-size: 25px;
+}
+
+.projects_title {
+    color: #2d59a2 !important;
+    font-size: 15px;
+    font-weight: bold;
+    /*font-family: 'coding-fonts', '微软雅黑';*/
+}
+
+.project_name {
+    color: #2d59a2 !important;
+    font-size: 14px;
+    vertical-align: top;
+    margin-left: 10px;
+}
+
+.project_description {
+    color: #333333;
+    font-size: 10px;
+    position: relative;
+    top: 5px;
+    margin-left: 10px;
+}
+
+.project_owner {
+    color: #979797;
+    font-size: 8px;
+    position: relative;
+    left: 10px;
+    top: 25px;
+}
+
+.project_owner > img {
+    vertical-align: middle;
+    border-radius: 50%;
 }
