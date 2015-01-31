@@ -47,7 +47,7 @@ var PROJECT_ROUTE = (function(){
         ele.attr('href', pro['project_path']);
         ele.find('img.project_icon').attr('src', assetPath(pro['icon']));
         ele.find('span.project_name').text(pro['name']);
-        ele.find('span.project_description').text(pro['description']);
+        ele.find('span.project_description').text(truncateText(pro['description'],15));
         ele.find('div.project_owner > img').attr('src', pro['owner_user_picture']);
         //TODO: add time info using moment.js
 
@@ -104,6 +104,10 @@ var PROJECT_ROUTE = (function(){
             path = API_DOMAIN + path;
         }
         return path;
+    }
+
+    function truncateText(text, length){
+        return text.length < length ? text : text.substr(0,length) + '...';
     }
 
     return {
