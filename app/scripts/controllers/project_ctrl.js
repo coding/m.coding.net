@@ -111,7 +111,7 @@ var PROJECT_ROUTE = (function(){
     }
 
     return {
-        template_url: '/views/projects.html',
+        template_url: '/views/project.html',
         context: ".container",
         before_enter: function(){
             //set up the page information in the banner
