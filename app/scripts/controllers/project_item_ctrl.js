@@ -56,7 +56,7 @@ var PROJECT_ITEM_ROUTE = (function(){
                         '</div>' +
                         '<div class="col-xs-6">' +
                             '<ul class="pager" style="margin: 0">' +
-                             '<li><a href="#" style="width:100%;"><img src="/images/icons/read_.png" height="25" width="25" /> 代码阅读</a></li>' +
+                             '<li><a href="#" style="width:100%;"><img src="/images/static/read.png" height="20" width="25" /> 代码阅读</a></li>' +
                             '</ul>' +
                         '</div>',
             ele      = $(template);
