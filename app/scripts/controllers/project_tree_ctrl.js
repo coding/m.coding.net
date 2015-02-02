@@ -54,8 +54,8 @@ var PROJECT_TREE_ROUTE = (function(){
                             '<span class="item_note"></span>' +
                         '</li>',
             ele      = $(template),
-            link     = file['mode'] === 'file' ? '/u/' + ownerName + '/p/' + projectName + '/blob/' + commitId + '/' + file['path'].replace(/\//g,'%2F') : '/u/' + ownerName + '/p/' + projectName + '/tree/' + commitId + '/' + file['path'].replace(/\//g,'%2F'),
-            image    = file['mode'] === 'file' ? '/images/static/file.png' : '/images/static/folder.png';
+            link     = file['mode'] === 'tree' ? '/u/' + ownerName + '/p/' + projectName + '/tree/' + commitId + '/' + file['path'].replace(/\//g,'%2F') : '/u/' + ownerName + '/p/' + projectName + '/blob/' + commitId + '/' + file['path'].replace(/\//g,'%2F'),
+            image    = file['mode'] === 'tree' ? '/images/static/folder.png' : '/images/static/file.png';
 
         ele.find('img').attr('src', image);
         ele.find('span.item_name').text(file['name']);
