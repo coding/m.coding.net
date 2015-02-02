@@ -1,11 +1,12 @@
 var PROJECT_ITEM_ROUTE = (function(){
 
     var projectData,
-        commitData;
+        ownerName,
+        projectName;
 
-    function loadProject(user, project){
+    function loadProject(){
 
-        var path = '/api/user/' + user + '/project/' + project;
+        var path = '/api/user/' + ownerName + '/project/' + projectName;
 
         $.ajax({
             url: API_DOMAIN + path,
@@ -13,132 +14,58 @@ var PROJECT_ITEM_ROUTE = (function(){
             success: function(data){
                 if(data.data){
                     projectData = data.data;
-                    updateProject(projectData);
+                    $('.row').html(createProjectDOM(projectData));
                 }else{
                     alert('Failed to load project');
-                    $('#project_actions a:first').text('');
-                    $('#project_actions a:last').text('');
                 }
             },
             error: function(xhr, type){
                 alert('Failed to load project');
-                $('#project_actions a:first').text('');
-                $('#project_actions a:last').text('');
             }
         });
     }
 
-    function loadCommit(user, project, commit, path){
+    function loadReadme(){
+        var path = '/api/user/' + ownerName + '/project/' + projectName + '/git/tree/master';
 
-        var commit = commit || 'master',
-            path   = path || '',
-            uri = '/api/user/' + user + '/project/' + project + '/git/tree/' + commit + '/' + path;
-
-       $.ajax({
-          url: API_DOMAIN + uri,
-          dataType: 'json',
-          success: function(data){
-              //data.data = {"ref":"master","lastCommitter":{"name":"ElevenChen","email":"skyhacker@126.com","avatar":"https://dn-coding-net-production-static.qbox.me/c1caa543-f158-41c4-a74a-6ccbf7b7f36c.jpeg?imageMogr2/auto-orient/format/jpeg/crop/!180x180a0a0","link":"/u/elevenchen"},"files":[{"mode":"tree","path":".settings","name":".settings"},{"mode":"tree","path":"coffee","name":"coffee"},{"mode":"tree","path":"frameworks","name":"frameworks"},{"mode":"tree","path":"images","name":"images"},{"mode":"tree","path":"libs","name":"libs"},{"mode":"tree","path":"publish","name":"publish"},{"mode":"tree","path":"res","name":"res"},{"mode":"tree","path":"src","name":"src"},{"mode":"file","path":".cocos-project.json","name":".cocos-project.json"},{"mode":"file","path":".gitignore","name":".gitignore"},{"mode":"file","path":".project","name":".project"},{"mode":"file","path":"Gulpfile.js","name":"Gulpfile.js"},{"mode":"file","path":"Procfile","name":"Procfile"},{"mode":"file","path":"WeixinApi.js","name":"WeixinApi.js"},{"mode":"file","path":"app.js","name":"app.js"},{"mode":"file","path":"build-android.sh","name":"build-android.sh"},{"mode":"file","path":"config.json","name":"config.json"},{"mode":"file","path":"index.html","name":"index.html"},{"mode":"file","path":"main.js","name":"main.js"},{"mode":"file","path":"package.json","name":"package.json"},{"mode":"file","path":"project.json","name":"project.json"},{"mode":"file","path":"publish.sh","name":"publish.sh"},{"mode":"file","path":"readme.md","name":"readme.md"},{"mode":"file","path":"run-android.sh","name":"run-android.sh"},{"mode":"file","path":"runweb.sh","name":"runweb.sh"}],"can_edit":false,"isHead":true,"readme":{"data":"#空降小色块\n\n![image](https://coding.net/u/elevenchen/p/FlyBlock/git/raw/master/res/favicon.png)\n\n本项目使用cocos2d-js引擎\n\n使用coffeescript开发\n\n使用gulp前端构建工具构建coffeescript脚本\n\n##初始化:\n\n```\nnpm install\n```\n##编译\n\n```\ngulp\n```\n\n##运行\n\n```\n./runweb.sh\n```\n注意：需要把`runweb.sh`文件的引擎地址改成本机的\n\n##发布\n\n```\n./publish.sh\n```\n\n同样需要注意文件内容修改\n\n##部署\n\n```\nnode app.js\n```\n","lang":"markdown","size":471,"previewed":true,"preview":"\u003ch1\u003e空降小色块\u003c/h1\u003e \n\u003cp\u003e\u003cimg src\u003d\"https://coding.net/u/elevenchen/p/FlyBlock/git/raw/master/res/favicon.png\" alt\u003d\"image\"\u003e\u003c/p\u003e \n\u003cp\u003e本项目使用cocos2d-js引擎\u003c/p\u003e \n\u003cp\u003e使用coffeescript开发\u003c/p\u003e \n\u003cp\u003e使用gulp前端构建工具构建coffeescript脚本\u003c/p\u003e \n\u003ch2\u003e初始化:\u003c/h2\u003e \n\u003cpre\u003e\u003ccode\u003enpm install\n\u003c/code\u003e\u003c/pre\u003e \n\u003ch2\u003e编译\u003c/h2\u003e \n\u003cpre\u003e\u003ccode\u003egulp\n\u003c/code\u003e\u003c/pre\u003e \n\u003ch2\u003e运行\u003c/h2\u003e \n\u003cpre\u003e\u003ccode\u003e./runweb.sh\n\u003c/code\u003e\u003c/pre\u003e \n\u003cp\u003e注意：需要把\u003ccode\u003erunweb.sh\u003c/code\u003e文件的引擎地址改成本机的\u003c/p\u003e \n\u003ch2\u003e发布\u003c/h2\u003e \n\u003cpre\u003e\u003ccode\u003e./publish.sh\n\u003c/code\u003e\u003c/pre\u003e \n\u003cp\u003e同样需要注意文件内容修改\u003c/p\u003e \n\u003ch2\u003e部署\u003c/h2\u003e \n\u003cpre\u003e\u003ccode\u003enode app.js\n\u003c/code\u003e\u003c/pre\u003e","lastCommitMessage":"增加readme.md\n","lastCommitDate":1418647580000,"lastCommitId":"442eb449154518918b70c98ca4a0423068c05b8c","lastCommitter":{"name":"ElevenChen","email":"skyhacker@126.com","avatar":"https://dn-coding-net-production-static.qbox.me/c1caa543-f158-41c4-a74a-6ccbf7b7f36c.jpeg?imageMogr2/auto-orient/format/jpeg/crop/!180x180a0a0","link":"/u/elevenchen"},"mode":"file","path":"readme.md","name":"readme.md"},"lastCommit":{"fullMessage":"update\n","shortMessage":"update\n","commitId":"7aa32afc1e7e0ed179d35808896e92a73ef99246","commitTime":1419342157000,"committer":{"name":"ElevenChen","email":"skyhacker@126.com","avatar":"https://dn-coding-net-production-static.qbox.me/c1caa543-f158-41c4-a74a-6ccbf7b7f36c.jpeg?imageMogr2/auto-orient/format/jpeg/crop/!180x180a0a0","link":"/u/elevenchen"}}};
-              if(data.data){
-                  commitData = data.data;
-                  updateCommit(commitData, project);
-              }else{
-                  alert('Failed to load commits');
-                  $('#project_code > .panel-heading').html('');
-                  $('#project_readme > .panel-body').html('');
-              }
-          },
-          error: function(xhr, type){
-              alert('Failed to load commits');
-              $('#project_code > .panel-heading').html('');
-              $('#project_readme > .panel-body').html('');
-          }
-        });
+        $.ajax({
+            url: API_DOMAIN + path,
+            dataType: 'json',
+            success: function(data){
+                if(data.data){
+                    var readme = data.data['readme']['preview'];
+                    $('#project_readme > .panel-body').html(readme);
+                }else{
+                    alert('Failed to load README file');
+                }
+            },
+            error: function(xhr, type){
+                alert('Failed to load README file');
+            },
+            complete: function(){
+                $('span.loading').remove();
+            }
+        })
     }
 
-    function updateProject(data){
-        var project  = data || {};
-        //set up project actions
-        if(project['stared']){
-            $('#project_actions a:first').text(' 已收藏(' + project['star_count'] + ') ');
-        }else{
-            $('#project_actions a:first').text(' 收藏(' + project['star_count'] + ') ');
-        }
-        if(project['watched']){
-            $('#project_actions a:last').text(' 已关注(' + project['watch_count'] + ') ');
-        }else{
-            $('#project_actions a:last').text(' 关注(' + project['watch_count'] + ') ');
-        }
+    function createProjectDOM(pro){
+        var template =  '<div class="col-xs-6">' +
+                            '<p class="description">' +
+                            '</p>' +
+                            '<span class="updated_at">最后更新于</span>' +
+                        '</div>' +
+                        '<div class="col-xs-6">' +
+                            '<ul class="pager" style="margin: 0">' +
+                             '<li><a href="#" style="width:100%;"><img src="/images/icons/read_.png" height="25" width="25" /> 代码阅读</a></li>' +
+                            '</ul>' +
+                        '</div>',
+            ele      = $(template);
 
-        //set up the project owner section
-        var project_owner_ele = '<img src="' + assetPath(project['icon']) + '" height="40" width="40"> ' +
-            '<a href="' + project['owner_path'] + '">'+ project['owner_user_name'] +'</a>/<a href="' + project['project_path'] + '">' + project['name'] + '</a>';
+        ele.find('p.description').text(pro['description']);
+        //TODO: add time info using moment.js
+        ele.find('.pager a').attr('href',pro['project_path'] + '/tree');
 
-        $('#project_owner').html(project_owner_ele);
-        //set up project description
-        $('#project_description').text(project['description']);
-
-    }
-
-    function updateCommit(data, project){
-        var commit = data || {},
-            ref          = commit.ref,
-            lastCommit   = commit.lastCommit,
-            files        = commit.files,
-            readme       = commit.readme.preview;
-
-        var lastCommitElement = '<span class="panel-title">' +
-                                    '<img src="#" height="20" width="20"> ' + lastCommit.committer.name +
-                                ' </span>' +
-                                '<span class="comment-meta"></span>' +
-                                '<span class="comment-hash pull-right">' +
-                                    '<a href="#" style="color: #999"></a>' +
-                                '</span>',
-            $lastCommitElement = $(lastCommitElement);
-
-        console.log(lastCommit.committer.name);
-        console.log(lastCommit.shortMessage);
-
-        $lastCommitElement.find('.panel-title > img').attr('src', lastCommit.committer.avatar);
-        $lastCommitElement.eq(1).text(' ' + lastCommit.shortMessage + ' ');
-        $lastCommitElement.find('.comment-hash > a').attr('href', project + '/git/commit/' + lastCommit.commitId).text(lastCommit.commitId.substr(0,10));
-
-        $('#project_code > .panel-heading').html($lastCommitElement);
-        $('#project_readme > .panel-body').html(readme);
-
-        var file    = null,
-            fileEle = null;
-        for (var i = 0; i < files.length; i++) {
-            file = files[i];
-            fileEle = renderFile(file, project, ref);
-            $('#project_code > .list-group').append(fileEle);
-        }
-
-    }
-
-    function renderFile(file, project, ref){
-        var li      = '<li class="list-group-item list-group-item-info glyphicon"> </li>',
-            a       = '<a href="#"></a>',
-            element = null,
-            link;
-
-        if(file['mode'] === 'file'){
-            link = $(a).attr('href', project + '/git/blob/' + ref + '/' + file['path']).text(file['name']);
-            element = $(li).addClass('glyphicon-list-alt').append(link);
-
-        }else if(file['mode'] === 'tree'){
-            link = $(a).attr('href', project + '/git/tree/' + ref + '/' + file['path']).text(file['name']);
-            element = $(li).addClass('glyphicon-folder-close').append(link);
-        }else{
-        }
-        return element;
-    }
-
-    function assetPath(path){
-        if(path.substr(0,1) === '/'){
-            path = API_DOMAIN + path;
-        }
-        return path;
+        return ele;
     }
 
 
@@ -147,74 +74,51 @@ var PROJECT_ITEM_ROUTE = (function(){
         //events: ['longTap', 'swipe'],
         context: '.container',
         before_enter: function(user, project){
+
             var path =  '/u/' + user + '/p/' +  project;
             //set up the page information in the banner
             $('title').text(user + '/' + project);
             //and those extra items in nav menu
-            $("#navigator").append( '<li class="nav-divider"></li>' +
-                                    '<li><a href="' + path + '/code' + '">代码</a></li>' +
-                                    '<li><a href="#">合并请求</a></li>' +
-                                    '<li><a href="#">讨论</a></li>' +
-                                    '<li><a href="#">演示</a></li>' +
-                                    '<li><a href="#">质量管理</a></li>'
-                                    );
+            var nav_extra = '<li class="nav-divider"></li>' +
+                            '<li><a href="#">项目主页</a></li>' +
+                            '<li><a href="#">代码阅读</a></li>' +
+                            '<li><a href="#">合并请求</a></li>' +
+                            '<li><a href="#">项目讨论</a></li>',
+                ele       = $(nav_extra);
+            ele.eq(1).find('a').attr('href', path + '/git');
+            ele.eq(2).find('a').attr('href', path + '/tree' );
 
-            $('<div id="project_actions" class="btn-group btn-group-justified" role="group" aria-label="...">' +
-                    '<div class="btn-group" role="group">' +
-                    '<a class="btn btn-default glyphicon glyphicon-star"> <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> </a>' +
-                    '</div>' +
-                    '<div class="btn-group" role="group">' +
-                    '<a class="btn btn-default glyphicon glyphicon-eye-open"> <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> </a>' +
-                    '</div>' +
-                '</div>'
-            ).insertAfter($('#bs-example-navbar-collapse-1'));
+            //active the current active item
+            ele.eq(1).addClass('active');
+            //add all extra items
+            $("#navigator").append(ele);
 
-            $('#navigator').find("li:eq(5)").addClass('active');
+            //add the project header
+            var project_header = '<div class="page-header project_header">' +
+                                    '<p class="text-center"></p>' +
+                                '</div>';
+            ele = $(project_header);
+            ele.find('p').text(project);
+
+            $("nav.navbar").after(ele);
+
         },
         on_enter: function(user, project){
 
-            loadProject(user, project);
-            loadCommit(user, project);
+            ownerName = user;
+            projectName = project;
 
-            $('#project_actions a.glyphicon-star').click(function(e){
-                e.preventDefault();
+            loadProject();
+            loadReadme();
 
-                if(!projectData) return;  //do nothing if projectData is not loaded
-
-                var path = '/api/user/' + user + '/project/' + project;
-                projectData['stared'] ? path += '/unstar' : path += '/star';
-
-                $(this).html(' <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> ');
-                $.post(API_DOMAIN + path, function(){
-                    projectData['stared'] = !projectData['stared'];
-                    projectData['stared'] ? projectData['star_count'] += 1 : projectData['star_count'] -= 1;
-                    updateProject(projectData);
-                });
-            });
-
-            $('#project_actions a.glyphicon-eye-open').click(function(e){
-                e.preventDefault();
-
-                if(!projectData) return;  //do nothing if projectData is not loaded
-
-                var path = '/api/user/' + user + '/project/' + project;
-                projectData['watched'] ? path += '/unwatch' : path += '/watch';
-
-                $(this).html(' <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> ');
-                $.post(API_DOMAIN + path, function(){
-                    projectData['watched'] = !projectData['watched'];
-                    projectData['watched'] ? projectData['watch_count'] += 1 : projectData['watch_count'] -= 1;
-                    updateProject(projectData);
-                });
-            });
         },
         on_exit: function(user, project){
             //clean up the nav menu
             $('title').text('');
 
             $('#navigator').find('li').removeClass('active');
-            $('#navigator > li').slice(-6).remove();
-            $('#project_actions').remove();
+            $('#navigator > li').slice(-5).remove();
+            $('.project_header').remove();
         }
     }
 })();

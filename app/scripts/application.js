@@ -1,7 +1,7 @@
 /**
  * Created by simonykq on 21/12/2014.
  */
-(function (PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PP_ROUTE, PP_ITEM_ROUTE) {
+(function (PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PP_ROUTE, PP_ITEM_ROUTE) {
     $(function(){
         FastClick.attach(document.body);
 
@@ -9,7 +9,9 @@
 
         router.register('/projects', PROJECT_ROUTE);
 
-        router.register('/u/:user/p/:project, /u/:user/p/:project/git, /u/:user/p/:project/code', PROJECT_ITEM_ROUTE);
+        router.register('/u/:user/p/:project, /u/:user/p/:project/git', PROJECT_ITEM_ROUTE);
+
+        router.register('/u/:user/p/:project/tree, /u/:user/p/:project/tree/:commit/:path', PROJECT_TREE_ROUTE);
 
         router.register('/pp', PP_ROUTE);
 
@@ -18,4 +20,4 @@
         router.register('/u/:user/pp/:pp',PP_ITEM_ROUTE);
 
     })
-})(PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PP_ROUTE, PP_ITEM_ROUTE);
+})(PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PP_ROUTE, PP_ITEM_ROUTE);

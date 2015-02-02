@@ -230,3 +230,62 @@ body {
     vertical-align: middle;
     border-radius: 50%;
 }
+
+.project_header {
+    position: relative;
+    bottom: 20px;
+    margin: 0 !important;
+    background-color: #2a3644;
+    color: #ffffff;
+    font-size: 25px;
+}
+
+.project_header > p {
+    position: relative;
+    top: 10px;
+}
+
+.project_item {
+    height: 65px;
+}
+
+.project_item > img {
+    float: left;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.project_item > span.item_name {
+    float: left;
+    padding-left: 10px;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.project_item > a.item_arrow {
+    float: left;
+    font-size: 20px;
+    vertical-align: middle;
+    position: absolute;
+    right: 5%;
+    top: 30%;
+    color: #D7D6D6;
+}
+
+.project_item > span.item_note {
+    color: #979797;
+    font-size: 8px;
+    position: relative;
+    left: 40px;
+    bottom: 10px;
+}
+
+.description {
+    line-height: 20px;
+    margin: 0;
+}
+
+.updated_at {
+    color: #979797;
+    font-size: 8px;
+}
