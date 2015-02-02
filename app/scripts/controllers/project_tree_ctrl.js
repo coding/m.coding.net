@@ -54,7 +54,7 @@ var PROJECT_TREE_ROUTE = (function(){
                             '<span class="item_note"></span>' +
                         '</li>',
             ele      = $(template),
-            link     = file['mode'] === 'file' ? '/u/' + ownerName + '/p/' + projectName + '/blob/' + commitId + '/' + file['path'] : '/u/' + ownerName + '/p/' + projectName + '/tree/' + commitId + '/' + file['path'],
+            link     = file['mode'] === 'file' ? '/u/' + ownerName + '/p/' + projectName + '/blob/' + commitId + '/' + file['path'].replace('/','%2F') : '/u/' + ownerName + '/p/' + projectName + '/tree/' + commitId + '/' + file['path'].replace('/','%2F'),
             image    = file['mode'] === 'file' ? '/images/static/file.png' : '/images/static/folder.png';
 
         ele.find('img').attr('src', image);
@@ -106,7 +106,7 @@ var PROJECT_TREE_ROUTE = (function(){
             ownerName = user;
             projectName = project;
             commitId = commit || 'master';
-            projectPath = path || '';
+            projectPath = (path || '').replace('%2F','/');
 
             loadCommit();
 
