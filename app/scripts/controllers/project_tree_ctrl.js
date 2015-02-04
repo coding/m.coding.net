@@ -79,7 +79,7 @@ var PROJECT_TREE_ROUTE = (function(){
             //and those extra items in nav menu
             var nav_extra = '<li class="nav-divider"></li>' +
                     '<li><a href="#">项目主页</a></li>' +
-                    '<li><a href="#">代码阅读</a></li>' +
+                    '<li><a href="#">阅读代码</a></li>' +
                     '<li><a href="#">合并请求</a></li>' +
                     '<li><a href="#">项目讨论</a></li>',
                 ele       = $(nav_extra);
