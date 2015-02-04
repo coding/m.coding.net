@@ -233,7 +233,7 @@ body {
 
 .project_header {
     position: relative;
-    bottom: 20px;
+    top: 60px;
     margin: 0 !important;
     background-color: #2a3644;
     color: #ffffff;

@@ -407,7 +407,7 @@ var PP_ROUTE  = (function(){
         on_exit: function(){
             $('title').text('');
 
-            $('#navigator > li').slice(-1).remove();
+            $('#navigator > li').slice(-2).remove();
             $('#pp_actions').remove();
             $('#navigator').find('li').removeClass('active');
 
