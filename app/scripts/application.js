@@ -5,6 +5,36 @@
     $(function(){
         FastClick.attach(document.body);
 
+        $('button.navbar-toggle').click(function(){
+            var target = $(this).data('target'),
+                status = $(this).data('status');
+            if($(target).hasClass('collapsing')) return; //dont do anything if it is transitioning
+            //the current status is open
+            if(status === 'open'){
+                $(target).collapse('hide');
+                $(this).find('img.up').hide();
+                $(this).find('img.down').show();
+                $(this).data('status', 'closed');
+            }else{
+                $(target).collapse('show');
+                $(this).find('img.up').show();
+                $(this).find('img.down').hide();
+                $(this).data('status', 'open');
+            }
+        });
+
+        //collapse the navbar on click event
+        $('div.container').click(function(){
+            var $nav_bar = $('div.navbar-collapse'),
+                $button  = $('button.navbar-toggle');
+            if(!$nav_bar.hasClass('collapsing')){
+                $nav_bar.collapse('hide');
+                $button.find('img.up').hide();
+                $button.find('img.down').show();
+                $button.data('status', 'closed');
+            }
+        });
+
         var router = new Routy.Router(null, 'a', '.main', 'click longTap swipe');
 
         router.register('/projects', PROJECT_ROUTE);
