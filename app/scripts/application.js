@@ -27,7 +27,7 @@
         $('div.container').click(function(){
             var $nav_bar = $('div.navbar-collapse'),
                 $button  = $('button.navbar-toggle');
-            if(!$nav_bar.hasClass('collapsing')){
+            if(!$nav_bar.hasClass('collapsing') && $button.data('status') === 'open'){
                 $nav_bar.collapse('hide');
                 $button.find('img.up').hide();
                 $button.find('img.down').show();
