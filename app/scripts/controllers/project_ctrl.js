@@ -53,7 +53,6 @@ var PROJECT_ROUTE = (function(){
 
 
         ele.on('click tap', function(e){
-            e.preventDefault();
             $("#projects_list").find('a').removeClass('active');
             ele.addClass('active');
         });
