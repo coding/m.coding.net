@@ -1,7 +1,7 @@
 /**
  * Created by simonykq on 01/02/2015.
  */
-var PROJECT_TREE_ROUTE = (function(){
+var PROJECT_BLOB_ROUTE = (function(){
 
     var commitData,
         ownerName,
@@ -11,14 +11,14 @@ var PROJECT_TREE_ROUTE = (function(){
 
     function loadCommit(){
 
-        var path = '/api/user/' + ownerName + '/project/' + projectName + '/git/treeinfo/' + commitId + '/' + projectPath;
+        var path = '/api/user/' + ownerName + '/project/' + projectName + '/git/blob/' + commitId + '/' + projectPath;
 
         $.ajax({
             url: API_DOMAIN + path,
             dataType: 'json',
             success: function(data){
-                if(data.data){
-                    commitData = data.data;
+                if(data.file){
+                    commitData = data.file;
                     assembleCommitDOM(commitData);
                 }else{
                     alert('Failed to load commits');
@@ -34,41 +34,27 @@ var PROJECT_TREE_ROUTE = (function(){
     }
 
     function assembleCommitDOM(commit){
-        var files = commit.infos;
+        if(commit.mode === 'file'){
+            var source   = escape2Html(commit.data),
+                language = commit.lang;
+            var result = hljs.getLanguage(language) ? hljs.highlight(language, source) : hljs.highlightAuto(source);
 
-        var file    = null,
-            fileEle = null;
-        for (var i = 0; i < files.length; i++) {
-            file = files[i];
-            fileEle = createFileDOM(file);
-            $('#project_code > .list-group').append(fileEle);
+            $('code.hljs').html(result.value);
+        }else{
+            var path = commit.path,
+                asset_path = API_DOMAIN + '/u/' + ownerName + '/p/' + projectName + '/git/raw/' + commitId + '/' + path;
+            $('pre').replaceWith('<img src=' + asset_path + '>')
         }
+
     }
 
-    function createFileDOM(file){
-        var template = '<li class="list-group-item list-group-item-info project_item">' +
-                            '<img src="#" height="25" width="25" >' +
-                            '<span class="item_name"></span>' +
-                            '<a href="#" class="item_arrow pull-right glyphicon glyphicon-chevron-right"></a>' +
-                            '<span class="clearfix"></span>' +
-                            '<span class="item_note"></span>' +
-                        '</li>',
-            ele      = $(template),
-            link     = file['mode'] === 'tree' ? '/u/' + ownerName + '/p/' + projectName + '/tree/' + commitId + '/' + file['path'].replace(/\//g,'%2F') : '/u/' + ownerName + '/p/' + projectName + '/blob/' + commitId + '/' + file['path'].replace(/\//g,'%2F'),
-            image    = file['mode'] === 'tree' ? '/images/static/folder.png' : '/images/static/file.png';
-
-        ele.find('img').attr('src', image);
-        ele.find('span.item_name').text(file['name']);
-
-        ele.find('a.item_arrow').attr('href',link);
-        //TODO: add time info using moment.js
-        ele.find('span.item_note').text("n天前 " + file['lastCommitter']['name']);
-
-        return ele;
+    function escape2Html(str) {
+        var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+        return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
     }
 
     return {
-        template_url: '/views/project_tree.html',
+        template_url: '/views/project_blob.html',
         events: ['longTap', 'swipe'],
         context: '.container',
         before_enter: function(user, project){
@@ -107,7 +93,7 @@ var PROJECT_TREE_ROUTE = (function(){
             projectName = project;
             commitId = commit || 'master';
             projectPath = (path || '').replace(/%2F/g,'/');
-
+            //
             loadCommit();
 
         },
