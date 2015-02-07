@@ -55,7 +55,7 @@ var PROJECT_BLOB_ROUTE = (function(){
 
     return {
         template_url: '/views/project_blob.html',
-        events: ['longTap', 'swipe'],
+        //events: ['longTap', 'swipe'],
         context: '.container',
         before_enter: function(user, project){
 
