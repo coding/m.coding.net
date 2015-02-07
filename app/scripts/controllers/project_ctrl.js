@@ -52,7 +52,7 @@ var PROJECT_ROUTE = (function(){
         //TODO: add time info using moment.js
 
 
-        ele.on('click tap longTap', function(e){
+        ele.on('click tap', function(e){
             e.preventDefault();
             $("#projects_list").find('a').removeClass('active');
             ele.addClass('active');

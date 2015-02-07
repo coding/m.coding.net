@@ -3,8 +3,7 @@
  */
 (function (PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PP_ROUTE, PP_ITEM_ROUTE) {
     $(function(){
-        FastClick.attach(document.body);
-
+        //FastClick.attach(document.body);
 
         $('button.navbar-toggle').click(function(){
             var target = $(this).data('target'),
@@ -25,7 +24,7 @@
         });
 
         //collapse the navbar on click event
-        $('div.container').click(function(){
+        $('div.container').on('click tap swipe', function(){
             var $nav_bar = $('div.navbar-collapse'),
                 $button  = $('button.navbar-toggle');
             if(!$nav_bar.hasClass('collapsing') && $button.data('status') === 'open'){
@@ -36,7 +35,7 @@
             }
         });
 
-        var router = new Routy.Router(null, 'a', '.main', 'click longTap swipe');
+        var router = new Routy.Router(null, 'a', '.main', 'click doubleTap swipe');
 
         router.register('/projects', PROJECT_ROUTE);
 

@@ -71,7 +71,7 @@ var PROJECT_ITEM_ROUTE = (function(){
 
     return {
         template_url: '/views/project_item.html',
-        events: ['swipe'],
+        events: ['doubleTap','swipe'],
         context: '.container',
         before_enter: function(user, project){
 

@@ -17,8 +17,8 @@ var PROJECT_BLOB_ROUTE = (function(){
             url: API_DOMAIN + path,
             dataType: 'json',
             success: function(data){
-                if(data.file){
-                    commitData = data.file;
+                if(data.data){
+                    commitData = data.data;
                     assembleCommitDOM(commitData);
                 }else{
                     alert('Failed to load commits');
@@ -34,14 +34,15 @@ var PROJECT_BLOB_ROUTE = (function(){
     }
 
     function assembleCommitDOM(commit){
-        if(commit.mode === 'file'){
-            var source   = escape2Html(commit.data),
-                language = commit.lang;
+        var file = commit['file'];
+        if(file.mode === 'file'){
+            var source   = escape2Html(file.data),
+                language = file.lang;
             var result = hljs.getLanguage(language) ? hljs.highlight(language, source) : hljs.highlightAuto(source);
 
             $('code.hljs').html(result.value);
         }else{
-            var path = commit.path,
+            var path = file.path,
                 asset_path = API_DOMAIN + '/u/' + ownerName + '/p/' + projectName + '/git/raw/' + commitId + '/' + path;
             $('pre').replaceWith('<img src=' + asset_path + '>')
         }
