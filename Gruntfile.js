@@ -98,20 +98,21 @@ module.exports = function (grunt) {
         },
         connect: {
             options: {
-                port: process.env.PORT || 9000,
+                port: process.env.PORT || 80,
                 // change this to '0.0.0.0' to access the server from outside
                 hostname: '0.0.0.0'
             },
             proxies: [
                 {
                     context: ['/api', '/static'],
-                    host: 'staging.coding.net',
+                    host: 'coding.net',
                     https: true,
                     changeOrigin: true
                 }
             ],
             livereload: {
                 options: {
+                    port: 9001,
                     middleware: function (connect) {
                         return [
                             proxyRequest,
@@ -147,7 +148,7 @@ module.exports = function (grunt) {
         },
         open: {
             server: {
-                path: 'http://localhost:<%= connect.options.port %>'
+                path: 'http://m.coding.net:<%= connect.options.port %>'
             }
 
             ,
