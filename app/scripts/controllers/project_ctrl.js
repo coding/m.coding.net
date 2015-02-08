@@ -39,7 +39,7 @@ var PROJECT_ROUTE = (function(){
                             '<br />' +
                             '<div class="project_owner">' +
                                 '<img src="#" height="15" width="14" />' +
-                                '<span>最后更新于</span>' +
+                                '<span> 最后更新于 </span>' +
                             '</div>' +
                         '</a>',
             ele  = $(template);
