@@ -159,7 +159,7 @@ body {
 @media (max-width: 768px) {
     .banner {
         position: relative;
-        left: 25%;
+        left: 5%;
         top: 10px;
     }
 }
@@ -237,11 +237,15 @@ body {
     margin-bottom: 0 !important;
 }
 
+.project_navbar .navbar-brand {
+    padding: 15px 10px;
+}
+
 .project_navbar span {
     font-size: 25px;
     color: #2d59a2;
     position: absolute;
-    left: 33%;
+    left: 35%;
     top: 20%;
 }
 
@@ -260,10 +264,16 @@ body {
 
 .project_header a {
     color: #ffffff;
+    opacity: 0.5;
 }
 
-.project_header a:focus, .project_header a.active {
-    color: #6c9fd4;
+.project_header a:hover, .project_header a.active {
+    color: #4695e2;
+    opacity: 1;
+     text-decoration: none;
+    /* display: inline-block; */
+    border-bottom: 4px solid;
+    padding-bottom: 7px;
 }
 
 .project_content {
