@@ -164,6 +164,21 @@ body {
     }
 }
 
+#navigator a {
+    background: #fafafa;
+    color: #2a3644;
+    padding-left: 25px;
+}
+
+#navigator > li.active > a {
+    background: #2a3644;
+    color: #fafafa;
+}
+
+#navigator a > span {
+    padding-left: 15px;
+}
+
 .navigation-item-dark {
     background-color: #2a3644;
     /*padding-left: 52px;*/
