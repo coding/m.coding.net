@@ -231,18 +231,73 @@ body {
     border-radius: 50%;
 }
 
+.project_navbar {
+    top: 55px;
+    color: #2d59a2;
+    margin-bottom: 0 !important;
+}
+
+.project_navbar span {
+    font-size: 25px;
+    color: #2d59a2;
+    position: absolute;
+    left: 33%;
+    top: 20%;
+}
+
 .project_header {
     position: relative;
-    top: 60px;
+    top: 55px;
     margin: 0 !important;
     background-color: #2a3644;
     color: #ffffff;
-    font-size: 25px;
+    font-size: 15px;
 }
 
-.project_header > p {
-    position: relative;
-    top: 10px;
+.project_header > div {
+    padding: 10px;
+}
+
+.project_header a {
+    color: #ffffff;
+}
+
+.project_header a:focus, .project_header a.active {
+    color: #6c9fd4;
+}
+
+.project_content {
+    margin-bottom: 20px;
+}
+
+.project_content > .description {
+    height: 100px;
+    padding-left: 0;
+}
+
+.project_content > .description h4 {
+    color: #2d59a2;
+}
+
+.project_content > .description p {
+    font-size: 12px;
+}
+
+.project_content > .description div {
+    color: #979797;
+    font-size: 8px;
+    position: absolute;
+    bottom: 0;
+}
+
+.project_content > .description div > img {
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+#project_readme {
+    margin-bottom: 0;
+    overflow: auto;
 }
 
 .project_item {
@@ -280,12 +335,4 @@ body {
     bottom: 10px;
 }
 
-.description {
-    line-height: 20px;
-    margin: 0;
-}
 
-.updated_at {
-    color: #979797;
-    font-size: 8px;
-}

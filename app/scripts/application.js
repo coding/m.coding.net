@@ -35,7 +35,7 @@
             }
         });
 
-        var router = new Routy.Router(null, 'a', '.main', 'click doubleTap swipe');
+        window.router = new Routy.Router(null, 'a', '.main', 'click doubleTap swipe');
 
         router.register('/projects', PROJECT_ROUTE);
 

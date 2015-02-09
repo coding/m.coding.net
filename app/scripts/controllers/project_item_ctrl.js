@@ -14,7 +14,7 @@ var PROJECT_ITEM_ROUTE = (function(){
             success: function(data){
                 if(data.data){
                     projectData = data.data;
-                    $('.row').html(createProjectDOM(projectData));
+                    $('#project_readme').before(createProjectDOM(projectData));
                 }else{
                     alert('Failed to load project');
                 }
@@ -34,7 +34,7 @@ var PROJECT_ITEM_ROUTE = (function(){
             success: function(data){
                 if(data.data){
                     var readme = data.data['readme']['preview'];
-                    $('#project_readme > .panel-body').html(readme);
+                    $('#readme_body > .panel-body').html(readme);
                 }else{
                     alert('Failed to load README file');
                 }
@@ -49,23 +49,39 @@ var PROJECT_ITEM_ROUTE = (function(){
     }
 
     function createProjectDOM(pro){
-        var template =  '<div class="col-xs-6">' +
-                            '<p class="description">' +
-                            '</p>' +
-                            '<span class="updated_at">最后更新于</span>' +
-                        '</div>' +
-                        '<div class="col-xs-6">' +
-                            '<ul class="pager" style="margin: 0">' +
-                             '<li><a href="#" style="width:100%;"><img src="/images/static/read.png" height="20" width="25" /> 代码阅读</a></li>' +
-                            '</ul>' +
+        var template =  '<div class="project_content row">' +
+                            '<div class="col-xs-4">' +
+                                '<img src="#" height="100" width="100">' +
+                            '</div>' +
+                            '<div class="col-xs-6 description">' +
+                                '<h4></h4>' +
+                                '<p></p>' +
+                                '<div>' +
+                                    '<img src="#" height="20" width="20" />' +
+                                    '<span> 最后更新于 </span>' +
+                                '</div>' +
+                            '</div>' +
                         '</div>',
             ele      = $(template);
 
-        ele.find('p.description').text(pro['description']);
+        ele.find('img').eq(0).attr('src', assetPath(pro['icon']));
+        ele.find('.description h4').text(pro['name']);
+        ele.find('.description p').text(pro['description']);
+        ele.find('.description img').attr('src', assetPath(pro['owner_user_picture']));
         //TODO: add time info using moment.js
-        ele.find('.pager a').attr('href',pro['project_path'] + '/tree');
 
         return ele;
+    }
+
+    function assetPath(path){
+        if(path.substr(0,1) === '/'){
+            path = API_DOMAIN + path;
+        }
+        return path;
+    }
+
+    function truncateText(text, length){
+        return text.length < length ? text : text.substr(0,length) + '...';
     }
 
 
@@ -78,29 +94,46 @@ var PROJECT_ITEM_ROUTE = (function(){
             var path =  '/u/' + user + '/p/' +  project;
             //set up the page information in the banner
             $('title').text(user + '/' + project);
-            //and those extra items in nav menu
-            var nav_extra = '<li class="nav-divider"></li>' +
-                            '<li><a href="#">项目主页</a></li>' +
-                            '<li><a href="#">阅读代码</a></li>' +
-                            '<li><a href="#">合并请求</a></li>' +
-                            '<li><a href="#">项目讨论</a></li>',
-                ele       = $(nav_extra);
-            ele.eq(1).find('a').attr('href', path + '/git');
-            ele.eq(2).find('a').attr('href', path + '/tree' );
 
-            //active the current active item
-            ele.eq(1).addClass('active');
-            //add all extra items
-            $("#navigator").append(ele);
+            //add the project header and navigation bar
+            var project_header = '<nav class="project_navbar navbar navbar-default">' +
+                                    '<div class="container-fluid">' +
+                                        '<div class="navbar-header">' +
+                                            '<a class="navbar-brand" href="#">' +
+                                                '<img alt="left" src="/images/static/left_arrow.png" height="20" width="20">' +
+                                            '</a>' +
+                                            '<span class="text-center"></span>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</nav>',
+                project_nav =  '<div class="row project_header">' +
+                                    '<div class="col-xs-3">' +
+                                        '<a href="#">项目主页</a>' +
+                                    '</div>' +
+                                    '<div class="col-xs-3">' +
+                                        '<a href="#">阅读代码</a>' +
+                                    '</div>' +
+                                    '<div class="col-xs-3">' +
+                                        '<a href="#">合并请求</a>' +
+                                    '</div>' +
+                                    '<div class="col-xs-3">' +
+                                        '<a href="#">项目讨论</a>' +
+                                    '</div>' +
+                                '</div>',
+                header_ele  = $(project_header),
+                nav_ele     = $(project_nav);
 
-            //add the project header
-            var project_header = '<div class="page-header project_header">' +
-                                    '<p class="text-center"></p>' +
-                                '</div>';
-            ele = $(project_header);
-            ele.find('p').text(project);
+            header_ele.find('a.navbar-brand').attr('href', router.default);
+            header_ele.find('span').text(project);
 
-            $("nav.navbar").after(ele);
+            nav_ele.find('div').eq(0).children('a').attr('href', path + '/git');
+            nav_ele.find('div').eq(1).children('a').attr('href', path + '/tree');
+
+            //active the current tab
+            nav_ele.find('div').eq(0).children('a').addClass('active');
+
+            $("nav.main-navbar").after(header_ele);
+            header_ele.after(nav_ele);
 
         },
         on_enter: function(user, project){
@@ -117,7 +150,8 @@ var PROJECT_ITEM_ROUTE = (function(){
             $('title').text('');
 
             $('#navigator').find('li').removeClass('active');
-            $('#navigator > li').slice(-5).remove();
+
+            $('.project_navbar').remove();
             $('.project_header').remove();
         }
     }

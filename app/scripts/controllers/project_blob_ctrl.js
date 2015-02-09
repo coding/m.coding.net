@@ -63,29 +63,46 @@ var PROJECT_BLOB_ROUTE = (function(){
             var path =  '/u/' + user + '/p/' +  project;
             //set up the page information in the banner
             $('title').text(user + '/' + project);
-            //and those extra items in nav menu
-            var nav_extra = '<li class="nav-divider"></li>' +
-                    '<li><a href="#">项目主页</a></li>' +
-                    '<li><a href="#">阅读代码</a></li>' +
-                    '<li><a href="#">合并请求</a></li>' +
-                    '<li><a href="#">项目讨论</a></li>',
-                ele       = $(nav_extra);
-            ele.eq(1).find('a').attr('href', path + '/git');
-            ele.eq(2).find('a').attr('href', path + '/tree' );
 
-            //active the current active item
-            ele.eq(2).addClass('active');
-            //add all extra items
-            $("#navigator").append(ele);
+            //add the project header and navigation bar
+            var project_header = '<nav class="project_navbar navbar navbar-default">' +
+                    '<div class="container-fluid">' +
+                    '<div class="navbar-header">' +
+                    '<a class="navbar-brand" href="#">' +
+                    '<img alt="left" src="/images/static/left_arrow.png" height="20" width="20">' +
+                    '</a>' +
+                    '<span class="text-center"></span>' +
+                    '</div>' +
+                    '</div>' +
+                    '</nav>',
+                project_nav =  '<div class="row project_header">' +
+                    '<div class="col-xs-3">' +
+                    '<a href="#">项目主页</a>' +
+                    '</div>' +
+                    '<div class="col-xs-3">' +
+                    '<a href="#">阅读代码</a>' +
+                    '</div>' +
+                    '<div class="col-xs-3">' +
+                    '<a href="#">合并请求</a>' +
+                    '</div>' +
+                    '<div class="col-xs-3">' +
+                    '<a href="#">项目讨论</a>' +
+                    '</div>' +
+                    '</div>',
+                header_ele  = $(project_header),
+                nav_ele     = $(project_nav);
 
-            //add the project header
-            var project_header = '<div class="page-header project_header">' +
-                '<p class="text-center"></p>' +
-                '</div>';
-            ele = $(project_header);
-            ele.find('p').text(project);
+            header_ele.find('a.navbar-brand').attr('href', router.default);
+            header_ele.find('span').text(project);
 
-            $("nav.navbar").after(ele);
+            nav_ele.find('div').eq(0).children('a').attr('href', path + '/git');
+            nav_ele.find('div').eq(1).children('a').attr('href', path + '/tree');
+
+            //active the current tab
+            nav_ele.find('div').eq(1).children('a').addClass('active');
+
+            $("nav.main-navbar").after(header_ele);
+            header_ele.after(nav_ele);
 
         },
         on_enter: function(user, project, commit, path){
@@ -103,7 +120,8 @@ var PROJECT_BLOB_ROUTE = (function(){
             $('title').text('');
 
             $('#navigator').find('li').removeClass('active');
-            $('#navigator > li').slice(-5).remove();
+
+            $('.project_navbar').remove();
             $('.project_header').remove();
         }
     }
