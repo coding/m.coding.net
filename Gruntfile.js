@@ -102,20 +102,20 @@ module.exports = function (grunt) {
                 // change this to '0.0.0.0' to access the server from outside
                 hostname: '0.0.0.0'
             },
-            proxies: [
-                {
-                    context: ['/api', '/static'],
-                    host: 'coding.net',
-                    https: true,
-                    changeOrigin: true
-                }
-            ],
+            //proxies: [
+            //    {
+            //        context: ['/api', '/static'],
+            //        host: 'coding.net',
+            //        https: true,
+            //        changeOrigin: true
+            //    }
+            //],
             livereload: {
                 options: {
                     port: 80,
                     middleware: function (connect) {
                         return [
-                            proxyRequest,
+                            //proxyRequest,
                             modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.eot|\\.ttf|\\.woff$ /index.html [L]']),
                             lrSnippet,
                             //mountFolder(connect, '.tmp'),
@@ -495,13 +495,15 @@ module.exports = function (grunt) {
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
-            return grunt.task.run(['build','configureProxies:server','connect:dist:keepalive']);
+            return grunt.task.run(['build',
+                                    //'configureProxies:server',
+                                    'connect:dist:keepalive']);
         }
 
         grunt.task.run([
             'clean:server',
             'concurrent:server',
-            'configureProxies:server',
+            //'configureProxies:server',
             'connect:livereload',
             'open:server',
             'watch'
