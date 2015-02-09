@@ -58,13 +58,17 @@ var PROJECT_TREE_ROUTE = (function(){
             image    = file['mode'] === 'tree' ? '/images/static/folder.png' : '/images/static/file.png';
 
         ele.find('img').attr('src', image);
-        ele.find('span.item_name').text(file['name']);
+        ele.find('span.item_name').text(truncateText(file['name'],25));
 
         ele.find('a.item_arrow').attr('href',link);
         //TODO: add time info using moment.js
         ele.find('span.item_note').text("n天前 " + file['lastCommitter']['name']);
 
         return ele;
+    }
+
+    function truncateText(text, length){
+        return text.length < length ? text : text.substr(0,length) + '...';
     }
 
     return {

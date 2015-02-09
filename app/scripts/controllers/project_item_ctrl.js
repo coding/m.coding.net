@@ -66,7 +66,7 @@ var PROJECT_ITEM_ROUTE = (function(){
 
         ele.find('img').eq(0).attr('src', assetPath(pro['icon']));
         ele.find('.description h4').text(pro['name']);
-        ele.find('.description p').text(pro['description']);
+        ele.find('.description p').text(truncateText(pro['description'],40));
         ele.find('.description img').attr('src', assetPath(pro['owner_user_picture']));
         //TODO: add time info using moment.js
 
