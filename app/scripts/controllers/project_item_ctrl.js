@@ -53,7 +53,7 @@ var PROJECT_ITEM_ROUTE = (function(){
                             '<div class="col-xs-4">' +
                                 '<img src="#" height="100" width="100">' +
                             '</div>' +
-                            '<div class="col-xs-6 description">' +
+                            '<div class="col-xs-8 description">' +
                                 '<h4></h4>' +
                                 '<p></p>' +
                                 '<div>' +

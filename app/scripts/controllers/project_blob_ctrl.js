@@ -44,7 +44,8 @@ var PROJECT_BLOB_ROUTE = (function(){
         }else{
             var path = file.path,
                 asset_path = API_DOMAIN + '/u/' + ownerName + '/p/' + projectName + '/git/raw/' + commitId + '/' + path;
-            $('pre').replaceWith('<img src=' + asset_path + '>')
+
+            $('pre').replaceWith('<div class="text-center"><img width="300" src=' + asset_path + '></div>');
         }
 
     }

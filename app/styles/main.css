@@ -272,7 +272,7 @@ body {
 
 .project_content > .description {
     height: 100px;
-    padding-left: 0;
+    /*padding-left: 0;*/
 }
 
 .project_content > .description h4 {
@@ -298,6 +298,10 @@ body {
 #project_readme {
     margin-bottom: 0;
     overflow: auto;
+}
+
+#project_code {
+
 }
 
 .project_item {
