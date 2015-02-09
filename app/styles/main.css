@@ -80,6 +80,7 @@ body {
     border:1px solid #bbb;
     margin: 15px 0 15px;
     /*margin:50px;*/
+    overflow: scroll;
 }
 .titleBox {
     background-color:#fdfdfd;

@@ -71,7 +71,7 @@ var PP_ROUTE  = (function(){
         var owner_name = pp.owner.name,
             owner_key  = pp.owner.global_key;
         ele.find('.titleBox > .commenterImage > a').attr('href', '/u/' + owner_key);
-        ele.find('.titleBox > .commenterImage > a > img').attr('src', pp.owner.avatar);
+        ele.find('.titleBox > .commenterImage > a > img').attr('src', assetPath(pp.owner.avatar));
         ele.find('.titleBox > a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('.titleBox > a.commenterName > label').text(owner_name);
 
@@ -206,7 +206,7 @@ var PP_ROUTE  = (function(){
             owner_key  = comment.owner.global_key;
 
         ele.find('.commenterImage > a').attr('href', '/u/' + owner_key);
-        ele.find('.commenterImage img').attr('src', comment.owner.avatar);
+        ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
         ele.find('a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
@@ -265,7 +265,7 @@ var PP_ROUTE  = (function(){
             ele = $(template);
 
         ele.attr('href', '/u/' + user.global_key);
-        ele.find('img').attr('src', user.avatar);
+        ele.find('img').attr('src', assetPath(user.avatar));
 
         return ele;
     }
@@ -315,6 +315,14 @@ var PP_ROUTE  = (function(){
         });
     }
 
+    function assetPath(path){
+        if(path.substr(0,1) === '/'){
+            path = API_DOMAIN + path;
+        }
+        return path;
+    }
+
+
     return {
         template_url: '/views/pp.html',
         context: ".container",
@@ -322,25 +330,10 @@ var PP_ROUTE  = (function(){
 
             $('title').text('冒泡');
 
-            //add those extra items in nav menu
+            ////add those extra items in nav menu
             $("#navigator").append( '<li class="nav-divider"></li>' +
             '<li><a href="/pp/hot' + '">热门</a></li>'
             );
-
-            //add actions in pp page
-            $(
-            '<div id="pp_actions" class="btn-group btn-group-justified" role="group" aria-label="...">' +
-                '<div class="btn-group" role="group">' +
-                    '<a class="btn btn-default glyphicon glyphicon-edit" data-toggle="modal" data-target="#pp_input"> 来，冒个泡吧！ </a>' +
-                '</div>' +
-                '<div class="btn-group" role="group">' +
-                    '<a class="btn btn-default glyphicon glyphicon glyphicon-camera"> 发图片 </a>' +
-                '</div>' +
-                //'<div class="btn-group" role="group">' +
-                //   '<a class="btn btn-default glyphicon glyphicon-eye-open"> 发代码 </a>' +
-                //'</div>' +
-            '</div>'
-            ).insertAfter($('#bs-example-navbar-collapse-1'));
 
             //active this page link
             if(hot === 'hot'){
@@ -371,44 +364,12 @@ var PP_ROUTE  = (function(){
                 refresh();
             });
 
-            $('#pp_input').on('click', '#pp_submit', function(e){
-                e.preventDefault();
-
-                var content = $('#pp_content'),
-                    btn     = $(this);
-
-                if(content.val() !== ''){
-
-                    btn.attr('disabled', 'disabled');
-
-                    $.post(API_DOMAIN + '/api/tweet', {content: content.val()}, function(data){
-                        //fail
-                        if(data.msg){
-                            for(var key in data.msg){
-                                alert(data.msg[key]);
-                            }
-                        }
-                        //successful
-                        if(data.data){
-                            data.data['owner'] = {}; //current user
-                            var commentEle = createTweetDOM(data.data);
-                            list.prepend(commentEle);
-
-                            content.val('');
-                            $('#pp_input').modal('hide');
-                        }
-                        btn.removeAttr('disabled');
-                    });
-                }
-
-                return false
-            });
         },
         on_exit: function(){
             $('title').text('');
 
             $('#navigator > li').slice(-2).remove();
-            $('#pp_actions').remove();
+            //$('#pp_actions').remove();
             $('#navigator').find('li').removeClass('active');
 
             reset();

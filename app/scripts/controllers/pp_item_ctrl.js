@@ -87,7 +87,7 @@ var PP_ITEM_ROUTE = (function(){
             heading_ele = $(heading),
             body_ele    = $(body);
 
-        heading_ele.find('img').attr('src', user.avatar);
+        heading_ele.find('img').attr('src', assetPath(user.avatar));
         heading_ele.find('a.panel-title').text(' ' + user.name + ' ');
         heading_ele.find('a.watched').attr('href','/u/' + user.global_key + '/followers').text(' ' + user.fans_count + '粉丝 ');
         heading_ele.find('a.followed').attr('href','/u/' + user.global_key + '/friends').text(' ' + user.follows_count + '关注 ');
@@ -214,7 +214,7 @@ var PP_ITEM_ROUTE = (function(){
         var owner_name = pp.owner.name,
             owner_key  = pp.owner.global_key;
         ele.find('.titleBox > .commenterImage > a').attr('href', '/u/' + owner_key);
-        ele.find('.titleBox > .commenterImage > a > img').attr('src', pp.owner.avatar);
+        ele.find('.titleBox > .commenterImage > a > img').attr('src', assetPath(pp.owner.avatar));
         ele.find('.titleBox > a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('.titleBox > a.commenterName > label').text(owner_name);
 
@@ -347,7 +347,7 @@ var PP_ITEM_ROUTE = (function(){
             owner_key  = comment.owner.global_key;
 
         ele.find('.commenterImage > a').attr('href', '/u/' + owner_key);
-        ele.find('.commenterImage img').attr('src', comment.owner.avatar);
+        ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
         ele.find('a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
@@ -406,10 +406,18 @@ var PP_ITEM_ROUTE = (function(){
             ele = $(template);
 
         ele.attr('href', '/u/' + user.global_key);
-        ele.find('img').attr('src', user.avatar);
+        ele.find('img').attr('src', assetPath(user.avatar));
 
         return ele;
     }
+
+    function assetPath(path){
+        if(path.substr(0,1) === '/'){
+            path = API_DOMAIN + path;
+        }
+        return path;
+    }
+
 
     return {
         template_url: '/views/pp_item.html',
