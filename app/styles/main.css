@@ -323,6 +323,9 @@ body {
 
 #project_readme {
     margin-bottom: 0;
+}
+
+#readme_body{
     overflow: auto;
 }
 
