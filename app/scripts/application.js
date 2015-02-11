@@ -24,7 +24,7 @@
         });
 
         //collapse the navbar on click event
-        $('div.container').on('click tap swipe', function(){
+        $('body.main').on('click tap swipe', function(){
             var $nav_bar = $('div.navbar-collapse'),
                 $button  = $('button.navbar-toggle');
             if(!$nav_bar.hasClass('collapsing') && $button.data('status') === 'open'){
