@@ -171,14 +171,31 @@ body {
     padding-left: 25px;
 }
 
+#navigator a > img.checked {
+    display: none;
+}
+
+#navigator a > img.unchecked {
+    display: inline;
+}
+
 #navigator > li.active > a {
     background: #2a3644;
     color: #fafafa;
 }
 
+#navigator > li.active > a > img.checked{
+    display: inline;
+}
+
+#navigator > li.active > a > img.unchecked{
+    display: none;
+}
+
 #navigator a > span {
     padding-left: 15px;
 }
+
 
 .navigation-item-dark {
     background-color: #2a3644;
