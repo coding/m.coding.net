@@ -86,6 +86,7 @@ body {
     background-color:#fdfdfd;
     padding:10px;
     line-height:2.428571;
+    height: 50px;
 }
 .titleBox label{
     /*color: #999;*/
@@ -108,6 +109,7 @@ body {
 }
 .taskDescription {
     margin-top:10px 0;
+    width: 80%;
 }
 .commentList {
     padding:0;
@@ -132,29 +134,50 @@ body {
     width:100%;
     border-radius:50%;
 }
+.titleBox a.commenterName{
+    bottom: 4px;
+    position: relative;
+}
+.titleBox div.commenterDetail{
+    font-size: 8px;
+    color: #979797;
+    position: relative;
+    bottom: 16px;
+    left: 35px;
+}
+.commentText {
+    font-size: 12px;
+}
 .commentText p {
     margin:0;
 }
 .sub-text {
     color:#aaa;
     font-family:verdana;
-    font-size:11px;
+    font-size:10px;
+    padding-left: 5px;
 }
 .actionBox {
     border-top:1px dotted #bbb;
-    padding:10px;
+    /*padding:10px;*/
+    background: #f4f4f4;
 }
 
 .star, .comment, .close {
-    padding: 0 3px 0;
-    color: #999;
+    padding: 0 10px 0;
+    /*color: #999;*/
     line-height: 2.0;
+    font-size: 10px;
 }
 
 .watched, .followed {
     padding: 0 3px 0;
     line-height: 2.0;
     font-size: 11px;
+}
+
+.like_users img {
+    border-radius: 50%;
 }
 
 @media (max-width: 768px) {
@@ -283,6 +306,7 @@ body {
 }
 
 .project_header {
+    text-align: center;
     position: relative;
     top: 55px;
     margin: 0 !important;
@@ -385,4 +409,17 @@ body {
     bottom: 10px;
 }
 
+.emotion.emoji{
+    width:20px;
+    height:20px;
+}
+.emotion.monkey{
+    width:100px;
+    height:100px;
+}
+
+.bubble-markdown-image{
+    width: 100%;
+    display: block;
+}
 
