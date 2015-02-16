@@ -48,10 +48,12 @@ var PROJECT_TREE_ROUTE = (function(){
     function createFileDOM(file){
         var template = '<li class="list-group-item list-group-item-info project_item">' +
                             '<img src="#" height="25" width="23" >' +
-                            '<span class="item_name"></span>' +
+                            '<div class="item_details">' +
+                                '<span class="item_name"></span>' +
+                                '<br />' +
+                                '<span class="item_note"></span>' +
+                            '</div>' +
                             '<a href="#" class="item_arrow pull-right glyphicon glyphicon-chevron-right"></a>' +
-                            '<span class="clearfix"></span>' +
-                            '<span class="item_note"></span>' +
                         '</li>',
             ele      = $(template),
             link     = file['mode'] === 'tree' ? '/u/' + ownerName + '/p/' + projectName + '/tree/' + commitId + '/' + file['path'].replace(/\//g,'%2F') : '/u/' + ownerName + '/p/' + projectName + '/blob/' + commitId + '/' + file['path'].replace(/\//g,'%2F'),

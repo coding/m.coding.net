@@ -300,9 +300,12 @@ body {
 .project_navbar span {
     font-size: 25px;
     color: #2d59a2;
-    position: absolute;
-    left: 35%;
-    top: 20%;
+    display: block;
+    margin: auto;
+    position: relative;
+    right: 5%;
+    top: 10px;
+    margin-left: 40px;
 }
 
 .project_header {
@@ -381,14 +384,20 @@ body {
 .project_item > img {
     float: left;
     margin-top: 10px;
-    margin-left: 5px;
 }
 
-.project_item > span.item_name {
-    float: left;
-    padding-left: 10px;
-    vertical-align: middle;
+.project_item > div.item_details {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.project_item > div.item_details > span.item_name {
     font-size: 16px;
+}
+
+.project_item > div.item_details > span.item_note {
+    color: #979797;
+    font-size: 8px;
 }
 
 .project_item > a.item_arrow {
@@ -399,14 +408,6 @@ body {
     right: 5%;
     top: 30%;
     color: #D7D6D6;
-}
-
-.project_item > span.item_note {
-    color: #979797;
-    font-size: 8px;
-    position: relative;
-    left: 40px;
-    bottom: 10px;
 }
 
 .emotion.emoji{
