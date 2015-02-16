@@ -302,6 +302,8 @@ var PP_ROUTE  = (function(){
         before_enter: function(hot){
 
             $('title').text('冒泡');
+            //active this page link
+            $('#navigator').find("li:last-child").addClass('active');
 
             var pp_nav =  '<div class="row project_header">' +
                                 '<div class="col-xs-6">' +
@@ -318,8 +320,6 @@ var PP_ROUTE  = (function(){
 
             $("nav.main-navbar").after(nav_ele);
 
-            //active this page link
-            $('#navigator').find("li:last-child").addClass('active');
             if(hot === 'hot'){
                 nav_ele.find('div').eq(1).children('a').addClass('active');
             }else{

@@ -94,6 +94,8 @@ var PROJECT_ITEM_ROUTE = (function(){
             var path =  '/u/' + user + '/p/' +  project;
             //set up the page information in the banner
             $('title').text(user + '/' + project);
+            //active the project navbar item
+            $('#navigator').find('li:first').addClass('active');
 
             //add the project header and navigation bar
             var project_header = '<nav class="project_navbar navbar navbar-default">' +

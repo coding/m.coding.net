@@ -115,7 +115,7 @@ var PROJECT_ROUTE = (function(){
         before_enter: function(){
             //set up the page information in the banner
             $('title').text('精彩项目');
-
+            //active the project navbar item
             $('#navigator').find('li:first').addClass('active');
 
         },
