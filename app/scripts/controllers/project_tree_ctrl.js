@@ -93,18 +93,18 @@ var PROJECT_TREE_ROUTE = (function(){
                     '</div>' +
                     '</nav>',
                 project_nav =  '<div class="row project_header">' +
-                    '<div class="col-xs-3">' +
+                    '<div class="col-xs-6">' +
                     '<a href="#">项目主页</a>' +
                     '</div>' +
-                    '<div class="col-xs-3">' +
+                    '<div class="col-xs-6">' +
                     '<a href="#">阅读代码</a>' +
                     '</div>' +
-                    '<div class="col-xs-3">' +
-                    '<a href="#">合并请求</a>' +
-                    '</div>' +
-                    '<div class="col-xs-3">' +
-                    '<a href="#">项目讨论</a>' +
-                    '</div>' +
+                    //'<div class="col-xs-3">' +
+                    //'<a href="#">合并请求</a>' +
+                    //'</div>' +
+                    //'<div class="col-xs-3">' +
+                    //'<a href="#">项目讨论</a>' +
+                    //'</div>' +
                     '</div>',
                 header_ele  = $(project_header),
                 nav_ele     = $(project_nav);
