@@ -24,7 +24,7 @@
         });
 
         //collapse the navbar on click event
-        $('body.main').on('click tap swipe', function(){
+        $('body.main').on('click ontouchmove', function(){
             var $nav_bar = $('div.navbar-collapse'),
                 $button  = $('button.navbar-toggle');
             if(!$nav_bar.hasClass('collapsing') && $button.data('status') === 'open'){
@@ -35,7 +35,7 @@
             }
         });
 
-        window.router = new Routy.Router(null, 'a', '.main', 'click doubleTap swipe');
+        window.router = new Routy.Router(null, 'a', '.main');
 
         router.register('/projects', PROJECT_ROUTE);
 

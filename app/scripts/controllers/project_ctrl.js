@@ -31,7 +31,7 @@ var PROJECT_ROUTE = (function(){
     }
 
     function createTemplate(pro){
-        var template = '<a href="#" class="list-group-item" style="height: 105px">' +
+        var template = '<a href="#" class="list-group-item needsclick" style="height: 105px">' +
                             '<img class="pull-left project_icon" src="#" width="80" height="80">' +
                             '<span class="project_name"></span>' +
                             '<br />' +
@@ -52,7 +52,7 @@ var PROJECT_ROUTE = (function(){
         //TODO: add time info using moment.js
 
 
-        ele.on('click tap', function(e){
+        ele.on('ontouchstart', function(e){
             $("#projects_list").find('a').removeClass('active');
             ele.addClass('active');
         });
