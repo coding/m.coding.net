@@ -24,7 +24,7 @@
         });
 
         //collapse the navbar on click event
-        $('body.main').on('click ontouchmove', function(){
+        $('body.main').on('click touchmove', function(){
             var $nav_bar = $('div.navbar-collapse'),
                 $button  = $('button.navbar-toggle');
             if(!$nav_bar.hasClass('collapsing') && $button.data('status') === 'open'){
