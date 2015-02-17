@@ -175,13 +175,15 @@ var PP_ITEM_ROUTE = (function(){
                 '<a href="#"><img src="#" height="30" width="30" /></a>' +
                 '</div>' +
                 '<a class="commenterName" href="#"><label></label></a>' +
-                '<div class="commenterDetail"></div>' +
+                '<div class="commentedAt"></div>' +
                     <!--this would only be shown if this comment belongs to current user-->
                     //'<a href="#" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></a>' +
                 '</div>' +
                 '<div class="commentBox">' +
                 '<p class="taskDescription"></p>' +
                 '</div>' +
+
+                '<div class="commenterDetail pull-left"></div>' +
 
                 '<a href="#" class="pull-right comment">' +
                 '<span class="glyphicon glyphicon-comment"> 评论 </span>' +
