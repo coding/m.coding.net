@@ -10,7 +10,7 @@ class Routy.Router
     actions: []
 
     # default route uri
-    default: null
+    default: '/'
 
     # Generate the router to a specific routing context
     # @state_changers_selector: String containing the selector of the elements that will trigger the pushState event
@@ -59,13 +59,16 @@ class Routy.Router
         router = @
 
         # go to the route page by default
-        $(window).load (e) ->
-            router.run.call router, '/'
+        $(window).load (e) =>
+            router.run.call router, @default
 
         @context_selector.on @event, @state_changers_selector, (e)->
-            e.preventDefault();
             href = $(@).attr('href') || $(@).children('a').attr('href')
-            router.run.call router, href, e.type if href?
+            if href.indexOf('http://') == 0 or href.indexOf('https://') == 0
+                return
+            else
+                e.preventDefault();
+                router.run.call router, href, e.type if href?
 
         # Create an anonymous function to call the router.run method so we can
         # pass the router as "this" variable

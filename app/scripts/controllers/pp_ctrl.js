@@ -33,13 +33,14 @@ var PP_ROUTE  = (function(){
                                     '<a href="#"><img src="#" height="30" width="30" /></a>' +
                                 '</div>' +
                                 '<a class="commenterName" href="#"><label></label></a>' +
-                                '<div class="commenterDetail"></div>' +
                                 <!--this would only be shown if this comment belongs to current user-->
                                 //'<a href="#" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></a>' +
                             '</div>' +
                             '<div class="commentBox">' +
                                 '<p class="taskDescription"></p>' +
                             '</div>' +
+
+                            '<div class="commenterDetail pull-left"></div>' +
 
                             '<a href="#" class="pull-right comment">' +
                                 '<span class="glyphicon glyphicon-comment"> 评论 </span>' +
@@ -78,7 +79,7 @@ var PP_ROUTE  = (function(){
         ele.find('.titleBox > a.commenterName > label').text(owner_name);
         //TODO: add time info using moment.js
         if(device !== ''){
-            ele.find('.titleBox > div.commenterDetail').text("来自" + device);
+            ele.find('.detailBox > div.commenterDetail').text("来自" + device);
         }
 
         ele.find('.detailBox > a.comment').attr('href', '/u/' + owner_key + '/pp/' + pp.id);
@@ -321,9 +322,9 @@ var PP_ROUTE  = (function(){
             $("nav.main-navbar").after(nav_ele);
 
             if(hot === 'hot'){
-                nav_ele.find('div').eq(1).children('a').addClass('active');
+                nav_ele.find('div').eq(1).addClass('active');
             }else{
-                nav_ele.find('div').eq(0).children('a').addClass('active');
+                nav_ele.find('div').eq(0).addClass('active');
             }
 
         },

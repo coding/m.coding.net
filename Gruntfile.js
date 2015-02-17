@@ -148,7 +148,7 @@ module.exports = function (grunt) {
         },
         open: {
             server: {
-                path: 'http://m.coding.net:<%= connect.options.port %>'
+                path: 'http://m.coding.net:<%= connect.options %>'
             }
 
             ,

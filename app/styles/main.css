@@ -109,7 +109,8 @@ body {
 }
 .taskDescription {
     margin-top:10px 0;
-    width: 80%;
+    /*width: 80%;*/
+    line-height: 2.0;
 }
 .commentList {
     padding:0;
@@ -138,12 +139,10 @@ body {
     bottom: 4px;
     position: relative;
 }
-.titleBox div.commenterDetail{
+.detailBox div.commenterDetail{
     font-size: 8px;
     color: #979797;
-    position: relative;
-    bottom: 16px;
-    left: 35px;
+    padding: 0 10px 0;
 }
 .commentText {
     font-size: 12px;
@@ -159,7 +158,7 @@ body {
 }
 .actionBox {
     border-top:1px dotted #bbb;
-    /*padding:10px;*/
+    padding:10px;
     background: #f4f4f4;
 }
 
@@ -168,6 +167,8 @@ body {
     /*color: #999;*/
     line-height: 2.0;
     font-size: 10px;
+    position: relative;
+    bottom: 5px;
 }
 
 .watched, .followed {
@@ -327,12 +328,15 @@ body {
     opacity: 0.5;
 }
 
-.project_header a:hover, .project_header a.active {
+.project_header > div.active {
+    color: #4695e2;
+    border-bottom: 5px solid;
+}
+
+.project_header a:hover, .project_header > div.active > a {
     color: #4695e2;
     opacity: 1;
-     text-decoration: none;
-    /* display: inline-block; */
-    border-bottom: 4px solid;
+    text-decoration: none;
     padding-bottom: 7px;
 }
 
@@ -420,7 +424,7 @@ body {
 }
 
 .bubble-markdown-image{
-    width: 100%;
+    width: 33.3%;
     display: block;
 }
 

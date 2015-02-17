@@ -102,7 +102,7 @@ var PROJECT_BLOB_ROUTE = (function(){
             nav_ele.find('div').eq(1).children('a').attr('href', path + '/tree');
 
             //active the current tab
-            nav_ele.find('div').eq(1).children('a').addClass('active');
+            nav_ele.find('div').eq(1).addClass('active');
 
             $("nav.main-navbar").after(header_ele);
             header_ele.after(nav_ele);

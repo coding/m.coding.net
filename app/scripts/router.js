@@ -12,7 +12,7 @@
   Routy.Router = (function() {
     Router.prototype.actions = [];
 
-    Router.prototype["default"] = null;
+    Router.prototype["default"] = '/';
 
     function Router(context, state_changers_selector, context_selector, event) {
       this.state_changers_selector = state_changers_selector;
@@ -48,17 +48,22 @@
     };
 
     Router.prototype.attach = function() {
-      var router;
+      var router,
+        _this = this;
       router = this;
       $(window).load(function(e) {
-        return router.run.call(router, '/');
+        return router.run.call(router, _this["default"]);
       });
       this.context_selector.on(this.event, this.state_changers_selector, function(e) {
         var href;
-        e.preventDefault();
         href = $(this).attr('href') || $(this).children('a').attr('href');
-        if (href != null) {
-          return router.run.call(router, href, e.type);
+        if (href.indexOf('http://') === 0 || href.indexOf('https://') === 0) {
+
+        } else {
+          e.preventDefault();
+          if (href != null) {
+            return router.run.call(router, href, e.type);
+          }
         }
       });
       return $(window).bind('popstate', function(e) {
