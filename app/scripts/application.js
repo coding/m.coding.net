@@ -4,6 +4,7 @@
 (function (PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PP_ROUTE, PP_ITEM_ROUTE) {
     $(function(){
         FastClick.attach(document.body);
+        moment.locale('zh');
 
         $('button.navbar-toggle').click(function(){
             var target = $(this).data('target'),

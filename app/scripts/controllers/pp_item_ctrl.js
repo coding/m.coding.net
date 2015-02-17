@@ -71,14 +71,14 @@ var PP_ITEM_ROUTE = (function(){
                             '<button type="button" class="btn btn-default message">给TA私信</button>' +
                         '</p>' +
                         '<table class="table">' +
-                            //'<tr class="join">' +
-                            //    '<td>加入时间</td>' +
-                            //    '<td></td>' +
-                            //'</tr>' +
-                            //'<tr class="activity">' +
-                            //    '<td>最后活动</td>' +
-                            //    '<td></td>' +
-                            //'</tr>'+
+                            '<tr class="join">' +
+                                '<td>加入时间</td>' +
+                                '<td></td>' +
+                            '</tr>' +
+                            '<tr class="activity">' +
+                                '<td>最后活动</td>' +
+                                '<td></td>' +
+                            '</tr>'+
                             '<tr class="sufix">' +
                                 '<td style="width: 30%;">个性后缀</td>' +
                                 '<td></td>' +
@@ -110,9 +110,8 @@ var PP_ITEM_ROUTE = (function(){
             follow_btn.text('关注');
         }
         body_ele.find('.description').text(user.slogan);
-        //TODO: use moment.js to format time properly
-        //body_ele.find('table .join td:eq(1)').text(new Date(user.created_at));
-        //body_ele.find('table .activity td:eq(1)').text(new Date(user.last_activity_at));
+        body_ele.find('table .join td:eq(1)').text(moment(user.created_at).format("YYYY-MM-DD"));
+        body_ele.find('table .activity td:eq(1)').text(moment(user.last_activity_at).format("YYYY年MMMD号 ah点mm分"));
         body_ele.find('table .sufix td:eq(1)').text(user.global_key);
 
         if(typeof user.sex !== 'undefined' && user.sex !== ''){
@@ -219,7 +218,7 @@ var PP_ITEM_ROUTE = (function(){
         ele.find('.titleBox > .commenterImage > a > img').attr('src', assetPath(pp.owner.avatar));
         ele.find('.titleBox > a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('.titleBox > a.commenterName > label').text(owner_name);
-        //TODO: add time info using moment.js
+        ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow());
         if(device !== ''){
             ele.find('.titleBox > div.commenterDetail').text("来自" + device);
         }
@@ -353,7 +352,7 @@ var PP_ITEM_ROUTE = (function(){
         ele.find('a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
-        ele.find('.commentText > .date').text("刚刚");//TODO: add time info using moment.js
+        ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
         ele.find('.commentText > a').attr('id', comment.owner_id);
 
         //ele.on('click', '.reply', function(e){

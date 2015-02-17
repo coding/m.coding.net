@@ -139,6 +139,13 @@ body {
     bottom: 4px;
     position: relative;
 }
+.titleBox div.commentedAt{
+    font-size: 8px;
+    color: #979797;
+    position: relative;
+    bottom: 16px;
+    left: 35px;
+}
 .detailBox div.commenterDetail{
     font-size: 8px;
     color: #979797;

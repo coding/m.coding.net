@@ -33,6 +33,7 @@ var PP_ROUTE  = (function(){
                                     '<a href="#"><img src="#" height="30" width="30" /></a>' +
                                 '</div>' +
                                 '<a class="commenterName" href="#"><label></label></a>' +
+                                '<div class="commentedAt"></div>' +
                                 <!--this would only be shown if this comment belongs to current user-->
                                 //'<a href="#" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></a>' +
                             '</div>' +
@@ -77,7 +78,7 @@ var PP_ROUTE  = (function(){
         ele.find('.titleBox > .commenterImage > a > img').attr('src', assetPath(pp.owner.avatar));
         ele.find('.titleBox > a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('.titleBox > a.commenterName > label').text(owner_name);
-        //TODO: add time info using moment.js
+        ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow());
         if(device !== ''){
             ele.find('.detailBox > div.commenterDetail').text("来自" + device);
         }
@@ -187,7 +188,7 @@ var PP_ROUTE  = (function(){
         ele.find('a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
-        ele.find('.commentText > .date').text("刚刚");//TODO: add time info using moment.js
+        ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
         ele.find('.commentText > a').attr('id', comment.owner_id);
 
         //ele.on('click', '.reply', function(e){

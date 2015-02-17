@@ -68,7 +68,7 @@ var PROJECT_ITEM_ROUTE = (function(){
         ele.find('.description h4').text(pro['name']);
         ele.find('.description p').text(truncateText(pro['description'],40));
         ele.find('.description img').attr('src', assetPath(pro['owner_user_picture']));
-        //TODO: add time info using moment.js
+        ele.find('.description span').text(' 最后更新于' + moment(pro['updated_at']).fromNow());
 
         return ele;
     }

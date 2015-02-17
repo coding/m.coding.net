@@ -63,8 +63,7 @@ var PROJECT_TREE_ROUTE = (function(){
         ele.find('span.item_name').text(truncateText(file['name'],25));
 
         ele.find('a.item_arrow').attr('href',link);
-        //TODO: add time info using moment.js
-        ele.find('span.item_note').text("n天前 " + file['lastCommitter']['name']);
+        ele.find('span.item_note').text(moment(file['lastCommitDate']).fromNow() + ' ' + file['lastCommitter']['name']);
 
         return ele;
     }

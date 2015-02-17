@@ -49,8 +49,7 @@ var PROJECT_ROUTE = (function(){
         ele.find('span.project_name').text(pro['name']);
         ele.find('span.project_description').text(truncateText(pro['description'],15));
         ele.find('div.project_owner > img').attr('src', assetPath(pro['owner_user_picture']));
-        //TODO: add time info using moment.js
-
+        ele.find('div.project_owner > span').text(' 最后更新于' + moment(pro['updated_at']).fromNow());
 
         ele.on('touchstart', function(e){
             $("#projects_list").find('a').removeClass('active');
