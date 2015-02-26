@@ -452,6 +452,9 @@ module.exports = function (grunt) {
                     src: [
                         'generated/*'
                     ]
+                }, {
+                  dest: '<%= yeoman.dist %>/nginx.conf',
+                  src: '<%= yeoman.app %>/nginx.conf'
                 }]
             }
         },
