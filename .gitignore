@@ -4,4 +4,3 @@ node_modules
 app/bower_components
 test/bower_components
 .idea
-dist/favicon.ico
