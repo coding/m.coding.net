@@ -188,12 +188,11 @@ body {
     border-radius: 50%;
 }
 
-@media (max-width: 768px) {
-    .banner {
-        position: relative;
-        left: 5%;
-        top: 10px;
-    }
+
+.banner {
+    position: relative;
+    left: 5%;
+    top: 10px;
 }
 
 #navigator a {
