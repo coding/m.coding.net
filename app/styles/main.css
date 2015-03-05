@@ -301,18 +301,21 @@ body {
 }
 
 .project_navbar .navbar-brand {
-    padding: 15px 10px;
+    margin: 15px 10px;
+    padding: 0;
 }
+
+/*.project_navbar .navbar-brand > img {*/
+    /*width: 100%;*/
+/*}*/
 
 .project_navbar span {
     font-size: 25px;
     color: #2d59a2;
-    display: block;
-    margin: auto;
-    position: relative;
-    right: 5%;
-    top: 10px;
-    margin-left: 40px;
+    position: absolute;
+    left: 40%;
+    top: 10%;
+    float: left;
 }
 
 .project_header {
@@ -383,6 +386,14 @@ body {
     overflow: auto;
 }
 
+#readme_body img{
+    width: 100%;
+}
+
+#readme_body img.emotion{
+    width: auto;
+}
+
 #project_code {
 
 }
@@ -431,6 +442,6 @@ body {
 
 .bubble-markdown-image{
     width: 33.3%;
-    display: block;
+    /*display: block;*/
 }
 
