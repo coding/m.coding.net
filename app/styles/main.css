@@ -80,7 +80,7 @@ body {
     border:1px solid #bbb;
     margin: 15px 0 15px;
     /*margin:50px;*/
-    overflow: scroll;
+    /*overflow: auto;*/
 }
 .titleBox {
     background-color:#fdfdfd;
@@ -111,6 +111,9 @@ body {
     margin-top:10px 0;
     /*width: 80%;*/
     line-height: 2.0;
+}
+.taskDescription p {
+    overflow: auto;
 }
 .commentList {
     padding:0;
@@ -313,9 +316,13 @@ body {
     font-size: 25px;
     color: #2d59a2;
     position: absolute;
-    left: 40%;
-    top: 10%;
-    float: left;
+    left: 50%;
+    top: 50%;
+    margin-right: -50%;
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
 }
 
 .project_header {
@@ -441,7 +448,7 @@ body {
 }
 
 .bubble-markdown-image{
-    width: 33.3%;
+    width: 30%;
     /*display: block;*/
 }
 

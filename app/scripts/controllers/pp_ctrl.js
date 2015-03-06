@@ -101,10 +101,12 @@ var PP_ROUTE  = (function(){
         var $element = $(pp.content),
             $images  = $element.find('a.bubble-markdown-image-link');
 
+        //if this pp contains images
         if($images.length !== 0){
             var $copy = $images.clone(),
                 $new_images  = $('<p></p>');
-            $images.remove();
+            $images.remove(); //remove the images in original content
+            $element.find('br').remove(); //remove the </br>
             var images = $copy.map(function(index, ele){
                return ele.outerHTML;
             }).get().join();
