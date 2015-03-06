@@ -240,8 +240,22 @@ var PP_ITEM_ROUTE = (function(){
             userList.append(userEle);
         }
 
-        ele.find('.commentBox > .taskDescription').html(pp.content);
+        var $element = $(pp.content),
+            $images  = $element.find('a.bubble-markdown-image-link');
 
+        if($images.length !== 0){
+            var $copy = $images.clone(),
+                $new_images  = $('<p></p>');
+            $images.remove();
+            var images = $copy.map(function(index, ele){
+                return ele.outerHTML;
+            }).get().join();
+            $new_images.html(images);
+            ele.find('.commentBox > .taskDescription').html($element);
+            ele.find('.commentBox > .taskDescription > p:last').after($new_images)
+        }else{
+            ele.find('.commentBox > .taskDescription').html($element);
+        }
         //create tweet comments
         var comments     = pp.comment_list,
             commentsList = ele.find('.actionBox > .commentList'),
