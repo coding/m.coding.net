@@ -198,31 +198,23 @@ body {
     top: 10px;
 }
 
-#navigator a {
-    background: #fafafa;
-    color: #2a3644;
-    padding-left: 25px;
+#navigator {
+    margin: 0 -15px;
 }
 
-#navigator a > img.checked {
-    display: none;
-}
-
-#navigator a > img.unchecked {
-    display: inline;
-}
-
-#navigator > li.active > a {
+#navigator, #navigator > li {
     background: #2a3644;
     color: #fafafa;
 }
 
-#navigator > li.active > a > img.checked{
-    display: inline;
+#navigator a {
+    background: #2a3644;
+    color: #fafafa;
+    padding-left: 25px;
 }
 
-#navigator > li.active > a > img.unchecked{
-    display: none;
+#navigator > li.active > a{
+    background: #002b36;
 }
 
 #navigator a > span {
