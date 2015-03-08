@@ -230,6 +230,7 @@ form.login > button {
 }
 
 #navigator {
+    background: #2a3644;
     margin: 0 -15px;
 }
 
@@ -241,8 +242,23 @@ form.login > button {
     left: 5%;
 }
 
-#navigator {
-    background: #2a3644;
+#navigator > a.logout {
+    width: 90%;
+    /*margin-top: 5%;*/
+    margin-bottom: 9px;
+    position: relative;
+    left: 5%;
+}
+
+#navigator img.current_user {
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+#navigator img.right_arrow{
+    position: absolute;
+    right: 5%;
+    top: 25%;
 }
 
 #navigator > li > a.items {
