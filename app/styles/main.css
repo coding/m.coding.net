@@ -82,6 +82,30 @@ body {
     background-color: #d9edf7;
 }
 
+div.login {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 11%;
+    background-color: #e1e1e3;
+}
+
+img.login {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+form.login {
+    width: 80%;
+    margin: auto;
+}
+
+form.login > button {
+    width: 100%;
+}
+
 .detailBox {
     /*width:320px;*/
     border:1px solid #bbb;
