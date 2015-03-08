@@ -322,7 +322,7 @@ var PP_ROUTE  = (function(){
 
             $('title').text('冒泡');
             //active this page link
-            $('#navigator').find("li:last-child").addClass('active');
+            $('#navigator').find("li:eq(1)").addClass('active');
 
             var pp_nav =  '<div class="row project_header">' +
                                 '<div class="col-xs-6">' +
