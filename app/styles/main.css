@@ -36,6 +36,13 @@ body {
     padding: 0 2px 0;
 }
 
+.divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #002b36;
+}
+
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
@@ -202,13 +209,19 @@ body {
     margin: 0 -15px;
 }
 
-#navigator, #navigator > li {
-    background: #2a3644;
-    color: #fafafa;
+#navigator > a.login {
+    width: 90%;
+    /*margin-top: 5%;*/
+    margin-bottom: 9px;
+    position: relative;
+    left: 5%;
 }
 
-#navigator a {
+#navigator {
     background: #2a3644;
+}
+
+#navigator > li > a.items {
     color: #fafafa;
     padding-left: 25px;
 }
@@ -221,6 +234,20 @@ body {
     padding-left: 15px;
 }
 
+#navigator div.links {
+    background: #002b36;
+    font-size: 15px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 15px 0;
+    width: 40%;
+}
+
+#navigator div.links > a {
+    color: #fafafa;
+}
 
 .navigation-item-dark {
     background-color: #2a3644;
