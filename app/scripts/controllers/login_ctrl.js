@@ -28,8 +28,9 @@ var LOGIN_ROUTE = (function(){
 
             $('form.login').submit(function(e){
                 e.preventDefault();
-                var $password =  $('input[name="password"]');
-                $password.val(CryptoJS.SHA1($password.val()));
+                var $password =  $('input[name="password"]'),
+                    hash = CryptoJS.SHA1($password.val());
+                $password.val(hash);
                 $.ajax({
                     url: API_DOMAIN + '/api/login',
                     type: 'POST',

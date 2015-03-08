@@ -147,7 +147,6 @@
       var $user, template;
       $('#navigator a.login').removeClass('btn-success').removeClass('login').removeAttr('href').addClass('btn-danger').addClass('logout').text('退出登录').click(function(e) {
         var _this = this;
-        console.log(e);
         return $.ajax({
           url: API_DOMAIN + '/api/logout',
           type: 'POST',

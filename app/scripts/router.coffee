@@ -143,7 +143,6 @@ class Routy.Router
                                .addClass('logout')
                                .text('退出登录')
                                .click (e) ->
-                                 console.log(e)
                                  $.ajax
                                     url: API_DOMAIN + '/api/logout'
                                     type: 'POST'
