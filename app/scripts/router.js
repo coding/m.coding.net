@@ -133,8 +133,10 @@
         },
         success: function(data) {
           if (data.data) {
-            _this.current_user = data.data;
-            _this.updateDOM(_this.current_user);
+            if (!_this.current_user) {
+              _this.current_user = data.data;
+              _this.updateDOM(_this.current_user);
+            }
           }
         },
         error: function() {

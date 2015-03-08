@@ -128,8 +128,9 @@ class Routy.Router
             success: (data) =>
                 #the user has logged in
                 if data.data
-                   @current_user = data.data
-                   @updateDOM @current_user
+                    if !@current_user
+                        @current_user = data.data
+                        @updateDOM @current_user
                 return
             error: ->
                 alert 'Failed to load current user'
