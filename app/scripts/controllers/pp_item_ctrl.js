@@ -446,7 +446,7 @@ var PP_ITEM_ROUTE = (function(){
 
             $('title').text(user + '的冒泡');
             //active this page link
-            $('#navigator').find("li:last-child").addClass('active');
+            $('#navigator').find("li:eq(1)").addClass('active');
 
         },
         on_enter: function(user,pp){

@@ -52,12 +52,12 @@
         _this = this;
       router = this;
       $(window).load(function(e) {
-        return router.run.call(router, _this["default"]);
+        return router.run.call(router, window.location.pathname);
       });
       this.context_selector.on(this.event, this.state_changers_selector, function(e) {
         var href;
-        href = $(this).attr('href') || $(this).children('a').attr('href');
-        if (href.indexOf('http://') === 0 || href.indexOf('https://') === 0) {
+        href = $(this).attr('href') || $(this).children('a').attr('href') || '';
+        if (href.indexOf('http://') === 0 || href.indexOf('https://') === 0 || href === '') {
 
         } else {
           e.preventDefault();
@@ -100,6 +100,7 @@
 
     Router.prototype.run = function(uri, event) {
       var action, match, regex, route, _i, _j, _len, _len1, _ref, _ref1;
+      this.check_login_status();
       _ref = this.actions;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         action = _ref[_i];
@@ -120,6 +121,60 @@
       if (this["default"]) {
         return this.run(this["default"]);
       }
+    };
+
+    Router.prototype.check_login_status = function() {
+      var _this = this;
+      return $.ajax({
+        url: API_DOMAIN + '/api/current_user',
+        dataType: 'json',
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function(data) {
+          if (data.data) {
+            if (!_this.current_user) {
+              _this.current_user = data.data;
+              _this.updateDOM(_this.current_user);
+            }
+          }
+        },
+        error: function() {
+          alert('Failed to load current user');
+        }
+      });
+    };
+
+    Router.prototype.updateDOM = function(current_user) {
+      var $user, template;
+      $('#navigator a.login').removeClass('btn-success').removeClass('login').removeAttr('href').addClass('btn-danger').addClass('logout').text('退出登录').click(function(e) {
+        var _this = this;
+        return $.ajax({
+          url: API_DOMAIN + '/api/logout',
+          type: 'POST',
+          dataType: 'json',
+          xhrFields: {
+            withCredentials: true
+          },
+          success: function(data) {
+            return location.reload();
+          },
+          error: function() {
+            return alert('Failed to logout');
+          }
+        });
+      });
+      template = '<li>\
+                        <a class="items" href="/user">\
+                            <img class="current_user" src="#" height="35" width="35" />\
+                            <span></span>\
+                            <img class="right_arrow" src="/images/static/right_arrow.png" height="20" width="20" />\
+                        </a>\
+                    </li>';
+      $user = $(template);
+      $user.find('img.current_user').attr('src', current_user['avatar']);
+      $user.find('span').text(current_user['name']);
+      return $('li.divider').before($user);
     };
 
     Router.prototype.pathRegExp = function(path, opts) {

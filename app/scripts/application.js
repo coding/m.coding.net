@@ -1,7 +1,7 @@
 /**
  * Created by simonykq on 21/12/2014.
  */
-(function (PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PP_ROUTE, PP_ITEM_ROUTE) {
+(function (LOGIN_ROUTE, PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PP_ROUTE, PP_ITEM_ROUTE) {
     $(function(){
         FastClick.attach(document.body);
         moment.locale('zh');
@@ -36,7 +36,22 @@
             }
         });
 
+        var user_agent = navigator.userAgent;
+
+        if(user_agent.match(/Android/i)){
+            $('a.mobile-app-link').attr('href', "https://coding.net/app/android")
+        }
+        else if(user_agent.match(/iPhone|iPad|iPod/i)){
+
+        }
+        else{
+
+        }
+
+
         window.router = new Routy.Router(null, 'a', '.main');
+
+        router.register('/login', LOGIN_ROUTE);
 
         router.register('/projects', PROJECT_ROUTE);
 
@@ -53,4 +68,4 @@
         router.register('/u/:user/pp/:pp',PP_ITEM_ROUTE);
 
     })
-})(PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PP_ROUTE, PP_ITEM_ROUTE);
+})(LOGIN_ROUTE ,PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PP_ROUTE, PP_ITEM_ROUTE);

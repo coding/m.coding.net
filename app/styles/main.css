@@ -30,6 +30,13 @@ a {
     padding: 0 2px 0;
 }
 
+.divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #002b36;
+}
+
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
@@ -67,6 +74,30 @@ a {
 .list-group-item-info {
     color: #31708f;
     background-color: #d9edf7;
+}
+
+div.login {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 11%;
+    background-color: #e1e1e3;
+}
+
+img.login {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+form.login {
+    width: 80%;
+    margin: auto;
+}
+
+form.login > button {
+    width: 100%;
 }
 
 .detailBox {
@@ -196,36 +227,73 @@ a {
 }
 
 #navigator a {
-    background: #fafafa;
-    color: #2a3644 !important;
+    color: #fafafa !important;
     padding-left: 25px;
 }
 
-#navigator a > img.checked {
-    display: none;
+#navigator {
+    background: #2a3644;
+    margin: 0 -15px;
 }
 
-#navigator a > img.unchecked {
-    display: inline;
+#navigator > a.login {
+    width: 90%;
+    /*margin-top: 5%;*/
+    margin-bottom: 9px;
+    position: relative;
+    left: 5%;
+}
+
+#navigator > a.logout {
+    width: 90%;
+    /*margin-top: 5%;*/
+    margin-bottom: 9px;
+    position: relative;
+    left: 5%;
 }
 
 #navigator > li.active > a {
     background: #2a3644;
-    color: #fafafa !important;
 }
 
-#navigator > li.active > a > img.checked{
-    display: inline;
+#navigator img.current_user {
+    vertical-align: middle;
+    border-radius: 50%;
 }
 
-#navigator > li.active > a > img.unchecked{
-    display: none;
+#navigator img.right_arrow{
+    position: absolute;
+    right: 5%;
+    top: 25%;
+}
+
+#navigator > li > a.items {
+    color: #fafafa;
+    padding-left: 25px;
+}
+
+#navigator > li.active > a{
+    background: #002b36;
 }
 
 #navigator a > span {
     padding-left: 15px;
 }
 
+#navigator div.links {
+    background: #002b36;
+    font-size: 15px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 15px 0;
+    width: 40%;
+}
+
+#navigator div.links > a {
+    color: #fafafa;
+}
 
 .navigation-item-dark {
     background-color: #2a3644;

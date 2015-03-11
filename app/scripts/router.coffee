@@ -60,11 +60,11 @@ class Routy.Router
 
         # go to the route page by default
         $(window).load (e) =>
-            router.run.call router, @default
+            router.run.call router, window.location.pathname
 
         @context_selector.on @event, @state_changers_selector, (e)->
-            href = $(@).attr('href') || $(@).children('a').attr('href')
-            if href.indexOf('http://') == 0 or href.indexOf('https://') == 0
+            href = $(@).attr('href') || $(@).children('a').attr('href') || ''
+            if href.indexOf('http://') == 0 or href.indexOf('https://') == 0 or href == ''
                 return
             else
                 e.preventDefault();
@@ -102,6 +102,8 @@ class Routy.Router
 
     run: (uri, event) ->
 
+        @check_login_status()
+
         #first try to find if there is any matching route
         for action in @actions
             if !event or (event and (event in action.events))
@@ -116,6 +118,56 @@ class Routy.Router
         #if no route is found, try default route
         @.run @default if @default
 
+    check_login_status: ->
+
+        $.ajax
+            url: API_DOMAIN + '/api/current_user'
+            dataType: 'json'
+            xhrFields:
+                withCredentials: true
+            success: (data) =>
+                #the user has logged in
+                if data.data
+                    if !@current_user
+                        @current_user = data.data
+                        @updateDOM @current_user
+                return
+            error: ->
+                alert 'Failed to load current user'
+                return
+
+    updateDOM: (current_user) ->
+        $('#navigator a.login').removeClass('btn-success')
+                               .removeClass('login')
+                               .removeAttr('href')
+                               .addClass('btn-danger')
+                               .addClass('logout')
+                               .text('退出登录')
+                               .click (e) ->
+                                 $.ajax
+                                    url: API_DOMAIN + '/api/logout'
+                                    type: 'POST'
+                                    dataType: 'json'
+                                    xhrFields:
+                                        withCredentials: true
+                                    success: (data) =>
+                                        location.reload()
+                                    error: ->
+                                        alert 'Failed to logout'
+
+        template = '<li>
+                        <a class="items" href="/user">
+                            <img class="current_user" src="#" height="35" width="35" />
+                            <span></span>
+                            <img class="right_arrow" src="/images/static/right_arrow.png" height="20" width="20" />
+                        </a>
+                    </li>'
+        $user = $(template)
+
+        $user.find('img.current_user').attr('src', current_user['avatar'])
+        $user.find('span').text(current_user['name'])
+
+        $('li.divider').before($user);
 
     # Checks if the route matches with the current uri
     pathRegExp: (path, opts) ->
