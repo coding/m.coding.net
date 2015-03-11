@@ -344,7 +344,7 @@ var PP_ITEM_ROUTE = (function(){
         //    return false
         //});
 
-        $('#accordion').after(ele);
+        $('#pp_details').html(ele);
     }
 
 
@@ -450,7 +450,7 @@ var PP_ITEM_ROUTE = (function(){
 
         },
         on_enter: function(user,pp){
-            loadUser(user);
+            //loadUser(user);
             loadTweet(user,pp);
         },
         on_exit: function(){
