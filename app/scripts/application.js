@@ -36,6 +36,19 @@
             }
         });
 
+        var user_agent = navigator.userAgent;
+
+        if(user_agent.match(/Android/i)){
+            $('a.mobile-app-link').attr('href', "https://coding.net/app/android")
+        }
+        else if(user_agent.match(/iPhone|iPad|iPod/i)){
+
+        }
+        else{
+
+        }
+
+
         window.router = new Routy.Router(null, 'a', '.main');
 
         router.register('/login', LOGIN_ROUTE);
