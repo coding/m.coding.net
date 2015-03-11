@@ -14,6 +14,10 @@ body {
     color: #333;
 }
 
+a {
+    color: #3bbd79 !important;
+}
+
 .hero-unit {
     margin: 0 auto;
     max-width: 300px;
@@ -263,14 +267,14 @@ body {
 }
 
 .projects_title {
-    color: #2d59a2 !important;
+    color: #3bbd79 !important;
     font-size: 15px;
     font-weight: bold;
     /*font-family: 'coding-fonts', '微软雅黑';*/
 }
 
 .project_name {
-    color: #2d59a2 !important;
+    color: #3bbd79 !important;
     font-size: 14px;
     vertical-align: top;
     margin-left: 10px;
@@ -314,7 +318,7 @@ body {
 
 .project_navbar span {
     font-size: 25px;
-    color: #2d59a2;
+    color: #3bbd79;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -345,12 +349,12 @@ body {
 }
 
 .project_header > div.active {
-    color: #4695e2;
+    color: #3bbd79;
     border-bottom: 5px solid;
 }
 
 .project_header a:hover, .project_header > div.active > a {
-    color: #4695e2;
+    color: #3bbd79;
     opacity: 1;
     text-decoration: none;
     padding-bottom: 7px;
@@ -366,7 +370,7 @@ body {
 }
 
 .project_content > .description h4 {
-    color: #2d59a2;
+    color: #3bbd79;
 }
 
 .project_content > .description p {
