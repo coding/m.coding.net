@@ -51,10 +51,10 @@ var PROJECT_ROUTE = (function(){
         ele.find('div.project_owner > img').attr('src', assetPath(pro['owner_user_picture']));
         ele.find('div.project_owner > span').text(' 最后更新于' + moment(pro['updated_at']).fromNow());
 
-        ele.on('touchstart', function(e){
-            $("#projects_list").find('a').removeClass('active');
-            ele.addClass('active');
-        });
+        //ele.on('touchstart', function(e){
+        //    $("#projects_list").find('a').removeClass('active');
+        //    ele.addClass('active');
+        //});
 
         return ele;
     }
