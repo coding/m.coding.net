@@ -24,6 +24,12 @@ var PP_ROUTE  = (function(){
 
         list.appendChild(fragment);
 
+        //trigger to make page transition
+        $('div.commentBox').on('click', function(e){
+            e.preventDefault();
+            $(this).siblings('a.comment').trigger('click');
+        });
+
     }
 
     function createTweetDOM(pp){
@@ -84,6 +90,7 @@ var PP_ROUTE  = (function(){
         }
 
         ele.find('.detailBox > a.comment').attr('href', '/u/' + owner_key + '/pp/' + pp.id);
+
         if(pp.liked){
             ele.find('.detailBox > a.star > span').css('color','#D95C5C');
         }
