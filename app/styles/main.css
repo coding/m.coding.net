@@ -204,7 +204,7 @@ a {
 
 #navigator a {
     background: #fafafa;
-    color: #2a3644;
+    color: #2a3644 !important;
     padding-left: 25px;
 }
 
@@ -218,7 +218,7 @@ a {
 
 #navigator > li.active > a {
     background: #2a3644;
-    color: #fafafa;
+    color: #fafafa !important;
 }
 
 #navigator > li.active > a > img.checked{
