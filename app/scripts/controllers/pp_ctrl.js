@@ -218,6 +218,7 @@ var PP_ROUTE  = (function(){
                     alert('Failed to send comment');
                 },
                 complete: function(){
+                    input.val('');
                     input.removeAttr('disabled');
                     button.removeAttr('disabled');
                 }

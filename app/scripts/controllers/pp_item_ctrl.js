@@ -6,28 +6,28 @@ var PP_ITEM_ROUTE = (function(){
     var tweetData,
         userData;
 
-    function loadUser(user){
-
-        var uri = '/api/user/key/' + user;
-
-        $.ajax({
-            url: API_DOMAIN + uri,
-            dataType: 'json',
-            success: function(data){
-                if(data.data){
-                    userData = data.data;
-                    updateUser(userData);
-                }else{
-                    alert('Failed to load user' + user);
-                    $('#user-heading').html('');
-                }
-            },
-            error: function(xhr, type){
-                alert('Failed to load user' + user);
-                $('#user-heading').html('');
-            }
-        });
-    }
+    //function loadUser(user){
+    //
+    //    var uri = '/api/user/key/' + user;
+    //
+    //    $.ajax({
+    //        url: API_DOMAIN + uri,
+    //        dataType: 'json',
+    //        success: function(data){
+    //            if(data.data){
+    //                userData = data.data;
+    //                updateUser(userData);
+    //            }else{
+    //                alert('Failed to load user' + user);
+    //                $('#user-heading').html('');
+    //            }
+    //        },
+    //        error: function(xhr, type){
+    //            alert('Failed to load user' + user);
+    //            $('#user-heading').html('');
+    //        }
+    //    });
+    //}
 
     function loadTweet(user,tweet){
 
@@ -36,6 +36,9 @@ var PP_ITEM_ROUTE = (function(){
         $.ajax({
             url: API_DOMAIN + uri,
             dateType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
             success: function(data){
                 if(data.data){
                     tweetData = data.data;
@@ -54,118 +57,118 @@ var PP_ITEM_ROUTE = (function(){
     }
 
 
-    function updateUser(data){
-        var user    = data || {},
-            heading = '<h4 class="panel-title">' +
-                        '<img src="#" height="25" width="25" />' +
-                        '<a class="panel-title" data-toggle="collapse" href="#accordion" data-target="#user-details" aria-expanded="true" aria-controls="user-details">' +
-                        '</a>' +
-                        '<a href="#" class="pull-right watched"></a>' +
-                        '<a href="#" class="pull-right followed"></a>' +
-                      '</h4>',
-            body    =   '<p>' +
-                            '<span class="description" ></span>' +
-                        '</p>' +
-                        '<p>' +
-                            '<button type="button" class="btn btn-primary follow"></button>' +
-                            '<button type="button" class="btn btn-default message">给TA私信</button>' +
-                        '</p>' +
-                        '<table class="table">' +
-                            '<tr class="join">' +
-                                '<td>加入时间</td>' +
-                                '<td></td>' +
-                            '</tr>' +
-                            '<tr class="activity">' +
-                                '<td>最后活动</td>' +
-                                '<td></td>' +
-                            '</tr>'+
-                            '<tr class="sufix">' +
-                                '<td style="width: 30%;">个性后缀</td>' +
-                                '<td></td>' +
-                            '</tr>' +
-                        '</table>',
-            heading_ele = $(heading),
-            body_ele    = $(body);
-
-        heading_ele.find('img').attr('src', assetPath(user.avatar));
-        heading_ele.find('a.panel-title').text(' ' + user.name + ' ');
-        heading_ele.find('a.watched').attr('href','/u/' + user.global_key + '/followers').text(' ' + user.fans_count + '粉丝 ');
-        heading_ele.find('a.followed').attr('href','/u/' + user.global_key + '/friends').text(' ' + user.follows_count + '关注 ');
-
-        heading_ele.click(function(e){
-            e.preventDefault();
-            var ele = $('#user-details');
-            if(ele.hasClass('in')){
-                ele.collapse('hide');
-            }else{
-                ele.collapse('show');
-            }
-            return false;
-        });
-
-        var follow_btn = body_ele.find('button.follow');
-        if(user.followed){
-            follow_btn.text('取消关注');
-        }else{
-            follow_btn.text('关注');
-        }
-        body_ele.find('.description').text(user.slogan);
-        body_ele.find('table .join td:eq(1)').text(moment(user.created_at).format("YYYY-MM-DD"));
-        body_ele.find('table .activity td:eq(1)').text(moment(user.last_activity_at).format("YYYY年MMMD号 ah点mm分"));
-        body_ele.find('table .sufix td:eq(1)').text(user.global_key);
-
-        if(typeof user.sex !== 'undefined' && user.sex !== ''){
-            var sex = (user.sex === 0) ? '男' : '女';
-            body_ele.find('table tbody').append('<tr class="sex"><td>性别</td><td>'+ sex +'</td></tr>')
-        }
-
-        if(typeof user.job_str !== 'undefined' && user.job_str !== ''){
-            body_ele.find('table tbody').append('<tr class="job"><td>工作</td><td>'+ user.job_str + '</td></tr>')
-        }
-
-        if(typeof user.location !== 'undefined' && user.location !== ''){
-            body_ele.find('table tbody').append('<tr class="location"><td>地点</td><td>'+ user.location + '</td></tr>')
-        }
-
-        if(typeof user.tags_str !== 'undefined' && user.tags_str !== ''){
-            var tags = user.tags_str.split(','),
-                tags_ele = [];
-
-            for (var i = 0; i < tags.length; i++) {
-                var obj = tags[i],
-                    ele = '<a href="/tags/search/' + obj + '">' + obj + '</a>';
-                tags_ele.push(ele);
-            }
-            body_ele.find('table tbody').append('<tr class="tags"><td>标签</td><td>'+ tags_ele.join() + '</td></tr>')
-        }
-
-        //body_ele.on('click', 'button.follow', function(e){
-        //    e.preventDefault();
-        //    follow_btn.attr('disabled','disabled');
-        //    var path = user.followed ? '/api/user/unfollow' : '/api/user/follow';
-        //    $.post(API_DOMAIN + path + '?users=' + user.global_key, function(data){
-        //        //fail
-        //        if(data.msg){
-        //            for(var key in data.msg){
-        //                alert(data.msg[key]);
-        //            }
-        //        }//success
-        //        else{
-        //            user.followed = !user.followed;
-        //            if(user.followed){
-        //                user.follows_count = user.follows_count + 1;
-        //            }else{
-        //                user.follows_count = user.follows_count - 1;
-        //            }
-        //            updateUser(user);
-        //        }
-        //        follow_btn.removeAttr('disabled');
-        //    })
-        //});
-
-        $('#user-details > .panel-body').html(body_ele);
-        $('#user-heading').html(heading_ele);
-    }
+    //function updateUser(data){
+    //    var user    = data || {},
+    //        heading = '<h4 class="panel-title">' +
+    //                    '<img src="#" height="25" width="25" />' +
+    //                    '<a class="panel-title" data-toggle="collapse" href="#accordion" data-target="#user-details" aria-expanded="true" aria-controls="user-details">' +
+    //                    '</a>' +
+    //                    '<a href="#" class="pull-right watched"></a>' +
+    //                    '<a href="#" class="pull-right followed"></a>' +
+    //                  '</h4>',
+    //        body    =   '<p>' +
+    //                        '<span class="description" ></span>' +
+    //                    '</p>' +
+    //                    '<p>' +
+    //                        '<button type="button" class="btn btn-primary follow"></button>' +
+    //                        '<button type="button" class="btn btn-default message">给TA私信</button>' +
+    //                    '</p>' +
+    //                    '<table class="table">' +
+    //                        '<tr class="join">' +
+    //                            '<td>加入时间</td>' +
+    //                            '<td></td>' +
+    //                        '</tr>' +
+    //                        '<tr class="activity">' +
+    //                            '<td>最后活动</td>' +
+    //                            '<td></td>' +
+    //                        '</tr>'+
+    //                        '<tr class="sufix">' +
+    //                            '<td style="width: 30%;">个性后缀</td>' +
+    //                            '<td></td>' +
+    //                        '</tr>' +
+    //                    '</table>',
+    //        heading_ele = $(heading),
+    //        body_ele    = $(body);
+    //
+    //    heading_ele.find('img').attr('src', assetPath(user.avatar));
+    //    heading_ele.find('a.panel-title').text(' ' + user.name + ' ');
+    //    heading_ele.find('a.watched').attr('href','/u/' + user.global_key + '/followers').text(' ' + user.fans_count + '粉丝 ');
+    //    heading_ele.find('a.followed').attr('href','/u/' + user.global_key + '/friends').text(' ' + user.follows_count + '关注 ');
+    //
+    //    heading_ele.click(function(e){
+    //        e.preventDefault();
+    //        var ele = $('#user-details');
+    //        if(ele.hasClass('in')){
+    //            ele.collapse('hide');
+    //        }else{
+    //            ele.collapse('show');
+    //        }
+    //        return false;
+    //    });
+    //
+    //    var follow_btn = body_ele.find('button.follow');
+    //    if(user.followed){
+    //        follow_btn.text('取消关注');
+    //    }else{
+    //        follow_btn.text('关注');
+    //    }
+    //    body_ele.find('.description').text(user.slogan);
+    //    body_ele.find('table .join td:eq(1)').text(moment(user.created_at).format("YYYY-MM-DD"));
+    //    body_ele.find('table .activity td:eq(1)').text(moment(user.last_activity_at).format("YYYY年MMMD号 ah点mm分"));
+    //    body_ele.find('table .sufix td:eq(1)').text(user.global_key);
+    //
+    //    if(typeof user.sex !== 'undefined' && user.sex !== ''){
+    //        var sex = (user.sex === 0) ? '男' : '女';
+    //        body_ele.find('table tbody').append('<tr class="sex"><td>性别</td><td>'+ sex +'</td></tr>')
+    //    }
+    //
+    //    if(typeof user.job_str !== 'undefined' && user.job_str !== ''){
+    //        body_ele.find('table tbody').append('<tr class="job"><td>工作</td><td>'+ user.job_str + '</td></tr>')
+    //    }
+    //
+    //    if(typeof user.location !== 'undefined' && user.location !== ''){
+    //        body_ele.find('table tbody').append('<tr class="location"><td>地点</td><td>'+ user.location + '</td></tr>')
+    //    }
+    //
+    //    if(typeof user.tags_str !== 'undefined' && user.tags_str !== ''){
+    //        var tags = user.tags_str.split(','),
+    //            tags_ele = [];
+    //
+    //        for (var i = 0; i < tags.length; i++) {
+    //            var obj = tags[i],
+    //                ele = '<a href="/tags/search/' + obj + '">' + obj + '</a>';
+    //            tags_ele.push(ele);
+    //        }
+    //        body_ele.find('table tbody').append('<tr class="tags"><td>标签</td><td>'+ tags_ele.join() + '</td></tr>')
+    //    }
+    //
+    //    //body_ele.on('click', 'button.follow', function(e){
+    //    //    e.preventDefault();
+    //    //    follow_btn.attr('disabled','disabled');
+    //    //    var path = user.followed ? '/api/user/unfollow' : '/api/user/follow';
+    //    //    $.post(API_DOMAIN + path + '?users=' + user.global_key, function(data){
+    //    //        //fail
+    //    //        if(data.msg){
+    //    //            for(var key in data.msg){
+    //    //                alert(data.msg[key]);
+    //    //            }
+    //    //        }//success
+    //    //        else{
+    //    //            user.followed = !user.followed;
+    //    //            if(user.followed){
+    //    //                user.follows_count = user.follows_count + 1;
+    //    //            }else{
+    //    //                user.follows_count = user.follows_count - 1;
+    //    //            }
+    //    //            updateUser(user);
+    //    //        }
+    //    //        follow_btn.removeAttr('disabled');
+    //    //    })
+    //    //});
+    //
+    //    $('#user-details > .panel-body').html(body_ele);
+    //    $('#user-heading').html(heading_ele);
+    //}
 
 
     function updateTweet(pp){
@@ -199,14 +202,14 @@ var PP_ITEM_ROUTE = (function(){
                 '</div>' +
                 '<ul class="commentList">' +
                 '</ul>' +
-                    //'<form class="form-inline commentSubmit" role="form">' +
-                    //     '<div class="input-group">' +
-                    //        '<input type="text" class="form-control" placeholder="在此输入评论内容">' +
-                    //        '<span class="input-group-btn">' +
-                    //            '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-arrow-right"></span></button>' +
-                    //        '</span>' +
-                    //    '</div>' +
-                    //'</form>' +
+                '<form class="form-inline commentSubmit" role="form">' +
+                     '<div class="input-group">' +
+                        '<input type="text" class="form-control" placeholder="在此输入评论内容">' +
+                        '<span class="input-group-btn">' +
+                            '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-arrow-right"></span></button>' +
+                        '</span>' +
+                    '</div>' +
+                '</form>' +
                 '</div>' +
                 '</div>',
             ele = $(template);
@@ -276,15 +279,50 @@ var PP_ITEM_ROUTE = (function(){
             var id = pp.id,
                 path = pp['liked'] ? '/api/tweet/' + id + '/unlike' : '/api/tweet/' + id + '/like';
 
-            $.post(API_DOMAIN + path, function(){
-                pp['liked'] = !pp['liked'];
-                pp['liked'] ? pp['likes'] += 1 : pp['likes'] -= 1;
-                //pp['like_users'].push(current_user);  //add current user to the liked list
-                updateTweet(pp);
-                tweetData = pp;
+            $.ajax({
+                url: API_DOMAIN + path,
+                type: 'POST',
+                dataType: 'json',
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function(data){
+                    //success
+                    if(data.code === 0){
+                        pp['liked'] = !pp['liked'];
+                        pp['liked'] ? pp['likes'] += 1 : pp['likes'] -= 1;
+                        //if user like it, add current user to like_users, otherwise, remove current user from like_users
+                        if(pp['liked']){
+                            pp['like_users'].push(router.current_user)
+                        }else{
+                            var index,obj;
+                            for (var i = 0; i < pp['like_users'].length; i++) {
+                                obj = pp['like_users'][i];
+                                if(obj['global_key'] = router.current_user['global_key']){
+                                    index = i;
+                                    break
+                                }
+                            }
+                            pp['like_users'].splice(index,1);
+                        }
+                        var newEle = updateTweet(pp);
+                        ele.replaceWith(newEle);
+                        tweetData = pp;
+                    }
+                    if(data.msg){
+                        for(var key in data.msg){
+                            alert(data.msg[key]);
+                        }
+                    }
+                },
+                error: function(xhr, type){
+                    alert('Failed to lik_unlike pp');
+                }
+
             });
             return false;
         });
+
 
         //ele.on('click', '.close', function(e){
         //    e.preventDefault();
@@ -313,36 +351,49 @@ var PP_ITEM_ROUTE = (function(){
         //    return false
         //});
         //
-        //ele.on('submit', '.commentSubmit', function(e){
-        //    e.preventDefault();
-        //
-        //    var id    = pp.id,
-        //        input = $(this).find('input'),
-        //        button= $(this).find('button'),
-        //        path  = '/api/tweet/' + id + '/comment';
-        //
-        //    $.post(API_DOMAIN + path,{content: input.val()}, function(data){
-        //
-        //        if(data.msg){
-        //            for(var key in data.msg){
-        //                alert(data.msg[key]);
-        //            }
-        //        }
-        //        if(data.data){
-        //            data.data['owner'] = {}; //current user
-        //            var commentEle = createCommentDOM(data.data);
-        //            commentsList.append(commentEle);
-        //        }
-        //
-        //        input.removeAttr('disabled');
-        //        button.removeAttr('disabled');
-        //    });
-        //
-        //    input.attr('disabled','disabled');
-        //    button.attr('disabled','disabled');
-        //
-        //    return false
-        //});
+        ele.on('submit', '.commentSubmit', function(e){
+            e.preventDefault();
+
+            var id    = pp.id,
+                input = $(this).find('input'),
+                button= $(this).find('button'),
+                path  = '/api/tweet/' + id + '/comment';
+
+            $.ajax({
+                url: API_DOMAIN + path,
+                type: 'POST',
+                dataType: 'json',
+                data: {content: input.val()},
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function(data){
+                    if(data.msg){
+                        for(var key in data.msg){
+                            alert(data.msg[key]);
+                        }
+                    }
+                    if(data.data){
+                        data.data['owner'] = router.current_user; //current user
+                        var commentEle = createCommentDOM(data.data);
+                        commentsList.prepend(commentEle);
+                    }
+                },
+                error: function(){
+                    alert('Failed to send comment');
+                },
+                complete: function(){
+                    input.val('');
+                    input.removeAttr('disabled');
+                    button.removeAttr('disabled');
+                }
+            });
+
+            input.attr('disabled','disabled');
+            button.attr('disabled','disabled');
+
+            return false
+        });
 
         $('#pp_details').html(ele);
     }
@@ -350,14 +401,13 @@ var PP_ITEM_ROUTE = (function(){
 
     function createCommentDOM(comment){
         var template = '<li>' +
-                //'<div class="commenterImage">' +
-                //'<a href="#"><img src="#" /></a>' +
-                //'</div>' +
-                //'<a class="commenterName" href="#"><span class="comment-meta"></span></a>' +
+                '<div class="commenterImage">' +
+                '<a href="#"><img src="#" /></a>' +
+                '</div>' +
                 '<div class="commentText">' +
                 '<p></p>' +
                 '<span class="date sub-text"></span>' +
-                //'<a class="reply" href="#" class="comment-hash"> 回复 </a>' +
+                '<a class="reply" href="#" class="comment-hash"> 回复 </a>' +
                 //'<a class="delete" href="#" class="comment-hash"> 删除 </a>' +
                 '</div>' +
                 '</li>',
@@ -366,25 +416,24 @@ var PP_ITEM_ROUTE = (function(){
         var owner_name = comment.owner.name,
             owner_key  = comment.owner.global_key;
 
-        //ele.find('.commenterImage > a').attr('href', '/u/' + owner_key);
-        //ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
+        ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
         ele.find('a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
         ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
         ele.find('.commentText > a').attr('id', comment.owner_id);
 
-        //ele.on('click', '.reply', function(e){
-        //    e.preventDefault();
-        //    var input = ele.parents('.commentList').next('form').find('input');
-        //    if(input.val() === ''){
-        //        input.val('@' + owner_name)
-        //    }else{
-        //        var value = input.val();
-        //        input.val(value + ', @' + owner_name);
-        //    }
-        //    return false
-        //});
+        ele.on('click', '.reply', function(e){
+            e.preventDefault();
+            var input = ele.parents('.commentList').next('form').find('input');
+            if(input.val() === ''){
+                input.val('@' + owner_name)
+            }else{
+                var value = input.val();
+                input.val(value + ', @' + owner_name);
+            }
+            return false
+        });
         //
         //ele.on('click', '.delete', function(e){
         //    e.preventDefault();
