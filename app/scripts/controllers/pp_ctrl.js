@@ -137,21 +137,54 @@ var PP_ROUTE  = (function(){
 
 
         //event listeners for this element
-        //ele.on('click', '.star', function(e){
-        //    e.preventDefault();
-        //    var id = pp.id,
-        //        path = pp['liked'] ? '/api/tweet/' + id + '/unlike' : '/api/tweet/' + id + '/like';
-        //
-        //    $.post(API_DOMAIN + path, function(){
-        //        pp['liked'] = !pp['liked'];
-        //        pp['liked'] ? pp['likes'] += 1 : pp['likes'] -= 1;
-        //        //pp['like_users'].push(current_user);  //add current user to the liked list
-        //        var newEle = createTweetDOM(pp);
-        //        ele.replaceWith(newEle);
-        //        elements[id] = pp;
-        //    });
-        //    return false;
-        //});
+        ele.on('click', '.star', function(e){
+            e.preventDefault();
+            var id = pp.id,
+                path = pp['liked'] ? '/api/tweet/' + id + '/unlike' : '/api/tweet/' + id + '/like';
+
+            $.ajax({
+                url: API_DOMAIN + path,
+                type: 'POST',
+                dataType: 'json',
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function(data){
+                    //success
+                    if(data.code === 0){
+                        pp['liked'] = !pp['liked'];
+                        pp['liked'] ? pp['likes'] += 1 : pp['likes'] -= 1;
+                        //if user like it, add current user to like_users, otherwise, remove current user from like_users
+                        if(pp['liked']){
+                            pp['like_users'].push(router.current_user)
+                        }else{
+                            var index,obj;
+                            for (var i = 0; i < pp['like_users'].length; i++) {
+                                obj = pp['like_users'][i];
+                                if(obj['global_key'] = router.current_user['global_key']){
+                                    index = i;
+                                    break
+                                }
+                            }
+                            pp['like_users'].splice(index,1);
+                        }
+                        var newEle = createTweetDOM(pp);
+                        ele.replaceWith(newEle);
+                        elements[id] = pp;
+                    }
+                    if(data.msg){
+                        for(var key in data.msg){
+                            alert(data.msg[key]);
+                        }
+                    }
+                },
+                error: function(xhr, type){
+                    alert('Failed to lik_unlike pp');
+                }
+
+            });
+            return false;
+        });
 
         //ele.on('submit', '.commentSubmit', function(e){
         //    e.preventDefault();
@@ -297,6 +330,9 @@ var PP_ROUTE  = (function(){
         $.ajax({
             url: API_DOMAIN + path,
             dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
             success: function(data){
                 if(data.data){
                     assembleDOM(data.data);
