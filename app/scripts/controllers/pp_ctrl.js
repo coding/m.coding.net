@@ -63,14 +63,14 @@ var PP_ROUTE  = (function(){
                                 '</div>' +
                                 '<ul class="commentList">' +
                                 '</ul>' +
-                                //'<form class="form-inline commentSubmit" role="form">' +
-                                //     '<div class="input-group">' +
-                                //        '<input type="text" class="form-control" placeholder="在此输入评论内容">' +
-                                //        '<span class="input-group-btn">' +
-                                //            '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-arrow-right"></span></button>' +
-                                //        '</span>' +
-                                //    '</div>' +
-                                //'</form>' +
+                                '<form class="form-inline commentSubmit" role="form">' +
+                                     '<div class="input-group">' +
+                                        '<input type="text" class="form-control" placeholder="在此输入评论内容">' +
+                                        '<span class="input-group-btn">' +
+                                            '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-arrow-right"></span></button>' +
+                                        '</span>' +
+                                    '</div>' +
+                                '</form>' +
                             '</div>' +
                         '</div>',
             ele = $(template);
@@ -186,36 +186,48 @@ var PP_ROUTE  = (function(){
             return false;
         });
 
-        //ele.on('submit', '.commentSubmit', function(e){
-        //    e.preventDefault();
-        //
-        //    var id    = pp.id,
-        //        input = $(this).find('input'),
-        //        button= $(this).find('button'),
-        //        path  = '/api/tweet/' + id + '/comment';
-        //
-        //    $.post(API_DOMAIN + path,{content: input.val()}, function(data){
-        //
-        //        if(data.msg){
-        //            for(var key in data.msg){
-        //                alert(data.msg[key]);
-        //            }
-        //        }
-        //        if(data.data){
-        //            data.data['owner'] = {}; //current user
-        //            var commentEle = createCommentDOM(data.data);
-        //            commentsList.append(commentEle);
-        //        }
-        //
-        //        input.removeAttr('disabled');
-        //        button.removeAttr('disabled');
-        //    });
-        //
-        //    input.attr('disabled','disabled');
-        //    button.attr('disabled','disabled');
-        //
-        //    return false
-        //});
+        ele.on('submit', '.commentSubmit', function(e){
+            e.preventDefault();
+
+            var id    = pp.id,
+                input = $(this).find('input'),
+                button= $(this).find('button'),
+                path  = '/api/tweet/' + id + '/comment';
+
+            $.ajax({
+                url: API_DOMAIN + path,
+                type: 'POST',
+                dataType: 'json',
+                data: {content: input.val()},
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function(data){
+                    if(data.msg){
+                        for(var key in data.msg){
+                            alert(data.msg[key]);
+                        }
+                    }
+                    if(data.data){
+                        data.data['owner'] = router.current_user; //current user
+                        var commentEle = createCommentDOM(data.data);
+                        commentsList.prepend(commentEle);
+                    }
+                },
+                error: function(){
+                    alert('Failed to send comment');
+                },
+                complete: function(){
+                    input.removeAttr('disabled');
+                    button.removeAttr('disabled');
+                }
+            });
+
+            input.attr('disabled','disabled');
+            button.attr('disabled','disabled');
+
+            return false
+        });
 
 
         return ele;
@@ -223,15 +235,14 @@ var PP_ROUTE  = (function(){
 
     function createCommentDOM(comment){
         var template = '<li>' +
-                            //'<div class="commenterImage">' +
-                            //     '<a href="#"><img src="#" /></a>' +
-                            //'</div>' +
-                            //'<a class="commenterName" href="#"><span class="comment-meta"></span></a>' +
+                            '<div class="commenterImage">' +
+                                 '<a href="#"><img src="#" /></a>' +
+                            '</div>' +
                             '<div class="commentText">' +
                                 '<p></p>' +
                                 '<a class="commenterName" href="#"><span class="comment-meta"></span></a>' +
                                 '<span class="date sub-text"></span>' +
-                                //'<a class="reply" href="#" class="comment-hash"> 回复 </a>' +
+                                '<a class="reply" href="#" class="comment-hash"> 回复 </a>' +
                                 //'<a class="delete" href="#" class="comment-hash"> 删除 </a>' +
                             '</div>' +
                         '</li>',
@@ -240,25 +251,24 @@ var PP_ROUTE  = (function(){
         var owner_name = comment.owner.name,
             owner_key  = comment.owner.global_key;
 
-        //ele.find('.commenterImage > a').attr('href', '/u/' + owner_key);
-        //ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
+        ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
         ele.find('a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
         ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
         ele.find('.commentText > a').attr('id', comment.owner_id);
 
-        //ele.on('click', '.reply', function(e){
-        //    e.preventDefault();
-        //    var input = ele.parents('.commentList').next('form').find('input');
-        //    if(input.val() === ''){
-        //        input.val('@' + owner_name)
-        //    }else{
-        //        var value = input.val();
-        //        input.val(value + ', @' + owner_name);
-        //    }
-        //    return false
-        //});
+        ele.on('click', '.reply', function(e){
+            e.preventDefault();
+            var input = ele.parents('.commentList').next('form').find('input');
+            if(input.val() === ''){
+                input.val('@' + owner_name)
+            }else{
+                var value = input.val();
+                input.val(value + ', @' + owner_name);
+            }
+            return false
+        });
         //
         //ele.on('click', '.delete', function(e){
         //    e.preventDefault();
