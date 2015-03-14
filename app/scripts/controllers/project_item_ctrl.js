@@ -50,10 +50,10 @@ var PROJECT_ITEM_ROUTE = (function(){
 
     function createProjectDOM(pro){
         var template =  '<div class="project_content row">' +
-                            '<div class="col-xs-4">' +
+                            '<div class="col-xs-4 col-md-2">' +
                                 '<img src="#" height="100" width="100">' +
                             '</div>' +
-                            '<div class="col-xs-8 description">' +
+                            '<div class="col-xs-8 col-md-5 description">' +
                                 '<h4></h4>' +
                                 '<p></p>' +
                                 '<div>' +

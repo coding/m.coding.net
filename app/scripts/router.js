@@ -131,6 +131,7 @@
         xhrFields: {
           withCredentials: true
         },
+        async: false,
         success: function(data) {
           if (data.data) {
             if (!_this.current_user) {

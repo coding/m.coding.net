@@ -55,6 +55,8 @@
 
         router.register('/projects', PROJECT_ROUTE);
 
+        router.register('/projects/:type', PROJECT_ROUTE);
+
         router.register('/u/:user/p/:project, /u/:user/p/:project/git', PROJECT_ITEM_ROUTE);
 
         router.register('/u/:user/p/:project/tree, /u/:user/p/:project/tree/:commit/:path', PROJECT_TREE_ROUTE);
@@ -63,7 +65,7 @@
 
         router.register('/pp', PP_ROUTE);
 
-        router.register('/pp/:hot', PP_ROUTE);
+        router.register('/pp/:type', PP_ROUTE);
 
         router.register('/u/:user/pp/:pp',PP_ITEM_ROUTE);
 
