@@ -55,6 +55,8 @@
 
         router.register('/projects', PROJECT_ROUTE);
 
+        router.register('/projects/:mine', PROJECT_ROUTE);
+
         router.register('/u/:user/p/:project, /u/:user/p/:project/git', PROJECT_ITEM_ROUTE);
 
         router.register('/u/:user/p/:project/tree, /u/:user/p/:project/tree/:commit/:path', PROJECT_TREE_ROUTE);
