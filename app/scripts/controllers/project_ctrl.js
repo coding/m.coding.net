@@ -70,7 +70,7 @@ var PROJECT_ROUTE = (function(){
 
        $.ajax({
 		  url: API_DOMAIN + path,
-		  dataType: 'json', 
+		  dataType: 'json',
           xhrFields: {
             withCredentials: true
           },
