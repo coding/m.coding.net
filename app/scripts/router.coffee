@@ -102,6 +102,7 @@ class Routy.Router
 
     run: (uri, event) ->
 
+        # always try to get the user first
         @check_login_status()
 
         #first try to find if there is any matching route
@@ -125,6 +126,7 @@ class Routy.Router
             dataType: 'json'
             xhrFields:
                 withCredentials: true
+            async: false
             success: (data) =>
                 #the user has logged in
                 if data.data

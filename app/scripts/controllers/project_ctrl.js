@@ -77,8 +77,6 @@ var PROJECT_ROUTE = (function(){
 		  success: function(data){
               if(data.data){
                   assembleDOM(data.data);
-              }else{
-                  alert('Failed to load projects');
               }
 		  },
 		  error: function(xhr, type){
@@ -121,7 +119,7 @@ var PROJECT_ROUTE = (function(){
     return {
         template_url: '/views/project.html',
         context: ".container",
-        before_enter: function(mine){
+        before_enter: function(type){
             //set up the page information in the banner
             $('title').text('精彩项目');
             //active the project navbar item
@@ -141,16 +139,16 @@ var PROJECT_ROUTE = (function(){
 
             $("nav.main-navbar").after(nav_ele);
 
-            if(mine === 'mine'){
+            if(type === 'mine'){
                 nav_ele.find('div').eq(1).addClass('active');
             }else{
                 nav_ele.find('div').eq(0).addClass('active');
             }
 
         },
-        on_enter: function(mine){
+        on_enter: function(type){
 
-            currentType = mine || 'public';
+            currentType = type || 'public';
             //if the type has changed, clear all the contents
             if(currentType != lastType){
                 reset();
@@ -171,7 +169,7 @@ var PROJECT_ROUTE = (function(){
                 loadMore(uri);
             });
         },
-        on_exit: function(mine){
+        on_exit: function(){
             //clean up the banner
             $('title').text('');
             $('#navigator').find('li').removeClass('active');

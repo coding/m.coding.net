@@ -321,13 +321,14 @@ var PP_ROUTE  = (function(){
         last_id = 99999999;
     }
 
-    function refresh(){
+    function refresh(path){
 
         elements = {};
         last_id  = 99999999;
         //remove all existing elements in DOM
         $('#pp_list > .detailBox').remove();
-        loadMore('/api/tweet/public_tweets');
+
+        loadMore(path);
     }
 
     function loadMore(path){
@@ -336,7 +337,14 @@ var PP_ROUTE  = (function(){
 
         loadMoreBtn.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
 
-        path += '?last_id=' + last_id + '&' + 'sort=' + sort;
+        path += '?last_id=' + last_id;
+
+        if(sort === 'mine'){
+            var key = router.current_user ? router.current_user.global_key : '';
+            path += '&' + 'global_key=' + key;
+        }else{
+            path += '&' + 'sort=' + sort
+        }
 
         $.ajax({
             url: API_DOMAIN + path,
@@ -348,8 +356,6 @@ var PP_ROUTE  = (function(){
                 if(data.data){
                     assembleDOM(data.data);
                     last_id = data.data[data.data.length - 1]['id']; //id of last item in list
-                }else{
-                    alert('Failed to load pp');
                 }
             },
             error: function(xhr, type){
@@ -372,48 +378,58 @@ var PP_ROUTE  = (function(){
     return {
         template_url: '/views/pp.html',
         context: ".container",
-        before_enter: function(hot){
+        before_enter: function(type){
 
             $('title').text('冒泡');
             //active this page link
             $('#navigator').find("li:eq(1)").addClass('active');
 
             var pp_nav =  '<div class="row project_header">' +
-                                '<div class="col-xs-6">' +
+                                '<div class="col-xs-4">' +
                                     '<a href="#">最新</a>' +
                                 '</div>' +
-                                '<div class="col-xs-6">' +
+                                '<div class="col-xs-4">' +
                                     '<a href="#">热门</a>' +
+                                '</div>' +
+                                '<div class="col-xs-4">' +
+                                     '<a href="#">我的</a>' +
                                 '</div>' +
                             '</div>',
                 nav_ele = $(pp_nav);
 
             nav_ele.find('div').eq(0).children('a').attr('href', '/pp');
             nav_ele.find('div').eq(1).children('a').attr('href',  '/pp/hot');
+            nav_ele.find('div').eq(2).children('a').attr('href',  '/pp/mine');
 
             $("nav.main-navbar").after(nav_ele);
 
-            if(hot === 'hot'){
+            if(type === 'hot'){
                 nav_ele.find('div').eq(1).addClass('active');
+            }else if(type === 'mine'){
+                nav_ele.find('div').eq(2).addClass('active');
             }else{
                 nav_ele.find('div').eq(0).addClass('active');
             }
 
         },
-        on_enter: function(hot){
+        on_enter: function(type){
 
             //decide if this is hot page
-            if(hot === 'hot'){
+            if(type === 'hot'){
                 sort = 'hot';
+            }else if(type === 'mine'){
+                sort = 'mine';
             }else{
                 sort = 'time';
             }
 
-            refresh();
+            var uri = ( sort === 'mine') ? '/api/tweet/user_public' : '/api/tweet/public_tweets';
+
+            refresh(uri);
 
             $('#load_more').on('click', function(e){
                 e.preventDefault();
-                loadMore('/api/tweet/public_tweets');
+                loadMore(uri);
             });
 
         },
