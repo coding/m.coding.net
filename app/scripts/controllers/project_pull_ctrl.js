@@ -4,7 +4,90 @@
 var PROJECT_PULL_ROUTE = (function(){
 
     var ownerName,
-        projectName;
+        projectName,
+        pageCount = 1,
+        status = 'open';
+
+    function assembleDOM(data){
+        var pulls       = data.list || [],
+            fragment  = document.createDocumentFragment(),
+            ele,
+            list;
+
+        list = document.getElementById('project_pull');
+
+        for (var i = 0; i < pulls.length; i++) {
+            ele = createPullDOM(pulls[i]);
+            fragment.appendChild(ele[0]);
+        }
+
+        list.appendChild(fragment);
+    }
+
+    function createPullDOM(pull){
+        console.log(pull);
+        var template = '<li class="list-group-item title">' +
+                            '<h4></h4>' +
+                            '<p><b></b>  <span class="label"></span></p>' +
+                            '<div>' +
+                                '<img src="#" height="20" width="20" />' +
+                                '<span></span>' +
+                            '</div>' +
+                        '</li>',
+            $pull    = $(template);
+
+        $pull.find('h4').text('#' + pull['iid'] + ' ' + pull['title']);
+        $pull.find('p > b').text(pull['source_owner_name'] + ':' + pull['srcBranch'] + ' -> ' + ownerName + ':' + pull['desBranch']);
+
+        var $status = $pull.find('p > span.label');
+
+        if(pull['merge_status'] === 'ACCEPTED'){
+            $status.addClass('label-warning');
+            $status.text('已合并');
+        }else if(pull['merge_status'] === 'REFUSED'){
+            $status.addClass('label-danger');
+            $status.text('已拒绝');
+        }else if(pull['merge_status'] === 'CANNOTMERGE'){
+            $status.addClass('label-info');
+            $status.text('不可合并');
+        }
+        else if(pull['merge_status'] === 'OPEN'){
+            $status.addClass('label-success');
+            $status.text('未受理');
+        }
+
+        $pull.find('div > img').attr('src', assetPath(pull.author.avatar));
+        $pull.find('div > span').text(' 创建于 ' + moment(pull['created_at']).fromNow());
+
+        return $pull;
+    }
+
+    function loadMore(path){
+
+        var loadMoreBtn = $('#load_more');
+        loadMoreBtn.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
+        path += '/' + status + '?page=' + pageCount;
+
+        $.ajax({
+            url: API_DOMAIN + path,
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(data){
+                if(data.data){
+                    assembleDOM(data.data);
+                    pageCount ++
+                }
+            },
+            error: function(xhr, type){
+                alert('Failed to load pulls');
+            },
+            complete: function(){
+                loadMoreBtn.text('更多合并请求');
+            }
+        })
+    }
 
     function assetPath(path){
         if(path.substr(0,1) === '/'){
@@ -77,6 +160,15 @@ var PROJECT_PULL_ROUTE = (function(){
             ownerName = user;
             projectName = project;
 
+
+            var uri = '/api/user/' + user + '/project/' + project + '/git/pulls';
+
+            loadMore(uri);
+
+            $('#load_more').on('click', function(e){
+                e.preventDefault();
+                loadMore(uri);
+            });
         },
         on_exit: function(user, project){
             //clean up the nav menu
