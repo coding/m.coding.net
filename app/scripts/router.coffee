@@ -9,9 +9,6 @@ class Routy.Router
     # List of registered actions
     actions: []
 
-    # default route uri
-    default: '/'
-
     # Generate the router to a specific routing context
     # @state_changers_selector: String containing the selector of the elements that will trigger the pushState event
     # 	default: 'a' (all links)
@@ -93,12 +90,11 @@ class Routy.Router
 
         new_route = new Routy.Action uri, template_url, events, $(context), @, before, enter, after, exit
 
-        @default = uri if route.default
         @actions.push new_route
 
     # delegate to register method
-    rootRegister: (template, callback) ->
-        @register('', template, callback)
+    rootRegister: (route) ->
+        @register '/', route
 
     run: (uri, event) ->
 
@@ -117,7 +113,7 @@ class Routy.Router
                         return action.call(match...)
 
         #if no route is found, try default route
-        @.run @default if @default
+        @.run '/'
 
     check_login_status: ->
 

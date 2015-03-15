@@ -175,8 +175,7 @@ var PROJECT_ROUTE = (function(){
             $('#navigator').find('li').removeClass('active');
             $('.project_header').remove();
             lastType = currentType; //remember the type set last time;
-        },
-        default: true
+        }
     }
 
 })();

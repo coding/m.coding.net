@@ -51,11 +51,13 @@
 
         window.router = new Routy.Router(null, 'a', '.main');
 
+        router.rootRegister(PROJECT_ROUTE);
+
         router.register('/login', LOGIN_ROUTE);
 
-        router.register('/projects/:type', PROJECT_ROUTE);
-
         router.register('/projects', PROJECT_ROUTE);
+
+        router.register('/projects/:type', PROJECT_ROUTE);
 
         router.register('/u/:user/p/:project, /u/:user/p/:project/git', PROJECT_ITEM_ROUTE);
 
