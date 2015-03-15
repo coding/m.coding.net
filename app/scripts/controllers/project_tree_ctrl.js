@@ -96,18 +96,18 @@ var PROJECT_TREE_ROUTE = (function(){
                     '</div>' +
                     '</nav>',
                 project_nav =  '<div class="row project_header">' +
-                    '<div class="col-xs-6">' +
+                    '<div class="col-xs-3">' +
                     '<a href="#">项目主页</a>' +
                     '</div>' +
-                    '<div class="col-xs-6">' +
+                    '<div class="col-xs-3">' +
                     '<a href="#">阅读代码</a>' +
                     '</div>' +
-                    //'<div class="col-xs-3">' +
-                    //'<a href="#">合并请求</a>' +
-                    //'</div>' +
-                    //'<div class="col-xs-3">' +
-                    //'<a href="#">项目讨论</a>' +
-                    //'</div>' +
+                    '<div class="col-xs-3">' +
+                    '<a href="#">合并请求</a>' +
+                    '</div>' +
+                    '<div class="col-xs-3">' +
+                    '<a href="#">项目讨论</a>' +
+                    '</div>' +
                     '</div>',
                 header_ele  = $(project_header),
                 nav_ele     = $(project_nav);
@@ -117,6 +117,8 @@ var PROJECT_TREE_ROUTE = (function(){
 
             nav_ele.find('div').eq(0).children('a').attr('href', path + '/git');
             nav_ele.find('div').eq(1).children('a').attr('href', path + '/tree');
+            nav_ele.find('div').eq(2).children('a').attr('href', path + '/pull');
+            nav_ele.find('div').eq(3).children('a').attr('href', path + '/topics');
 
             //active the current tab
             nav_ele.find('div').eq(1).addClass('active');

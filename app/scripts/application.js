@@ -1,7 +1,7 @@
 /**
  * Created by simonykq on 21/12/2014.
  */
-(function (LOGIN_ROUTE, PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PP_ROUTE, PP_ITEM_ROUTE) {
+(function (LOGIN_ROUTE, PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PP_ROUTE, PP_ITEM_ROUTE) {
     $(function(){
         FastClick.attach(document.body);
         moment.locale('zh');
@@ -53,15 +53,19 @@
 
         router.register('/login', LOGIN_ROUTE);
 
-        router.register('/projects', PROJECT_ROUTE);
-
         router.register('/projects/:type', PROJECT_ROUTE);
+
+        router.register('/projects', PROJECT_ROUTE);
 
         router.register('/u/:user/p/:project, /u/:user/p/:project/git', PROJECT_ITEM_ROUTE);
 
         router.register('/u/:user/p/:project/tree, /u/:user/p/:project/tree/:commit/:path', PROJECT_TREE_ROUTE);
 
         router.register('/u/:user/p/:project/blob/:commit/:path', PROJECT_BLOB_ROUTE);
+
+        router.register('/u/:user/p/:project/pull', PROJECT_PULL_ROUTE);
+
+        router.register('/u/:user/p/:project/topics', PROJECT_TOPICS_ROUTE);
 
         router.register('/pp', PP_ROUTE);
 
@@ -70,4 +74,4 @@
         router.register('/u/:user/pp/:pp',PP_ITEM_ROUTE);
 
     })
-})(LOGIN_ROUTE ,PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PP_ROUTE, PP_ITEM_ROUTE);
+})(LOGIN_ROUTE ,PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PP_ROUTE, PP_ITEM_ROUTE);

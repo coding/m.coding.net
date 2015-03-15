@@ -1,63 +1,25 @@
 /**
- * Created by simonykq on 01/02/2015.
+ * Created by simonykq on 15/03/2015.
  */
-var PROJECT_BLOB_ROUTE = (function(){
+var PROJECT_TOPICS_ROUTE = (function(){
 
-    var commitData,
-        ownerName,
-        projectName,
-        commitId,
-        projectPath;
+    var ownerName,
+        projectName;
 
-    function loadCommit(){
-
-        var path = '/api/user/' + ownerName + '/project/' + projectName + '/git/blob/' + commitId + '/' + projectPath;
-
-        $.ajax({
-            url: API_DOMAIN + path,
-            dataType: 'json',
-            success: function(data){
-                if(data.data){
-                    commitData = data.data;
-                    assembleCommitDOM(commitData);
-                }else{
-                    alert('Failed to load commits');
-                }
-            },
-            error: function(xhr, type){
-                alert('Failed to load commits');
-            },
-            complete: function(){
-                $('div.loading').remove();
-            }
-        });
-    }
-
-    function assembleCommitDOM(commit){
-        var file = commit['file'];
-        if(file.mode === 'file'){
-            var source   = escape2Html(file.data),
-                language = file.lang;
-            var result = hljs.getLanguage(language) ? hljs.highlight(language, source) : hljs.highlightAuto(source);
-
-            $('code.hljs').html(result.value);
-        }else{
-            var path = file.path,
-                asset_path = API_DOMAIN + '/u/' + ownerName + '/p/' + projectName + '/git/raw/' + commitId + '/' + path;
-
-            $('pre').replaceWith('<div class="text-center"><img width="300" src=' + asset_path + '></div>');
+    function assetPath(path){
+        if(path.substr(0,1) === '/'){
+            path = API_DOMAIN + path;
         }
-
+        return path;
     }
 
-    function escape2Html(str) {
-        var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
-        return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+    function truncateText(text, length){
+        return text.length < length ? text : text.substr(0,length) + '...';
     }
+
 
     return {
-        template_url: '/views/project_blob.html',
-        //events: ['longTap', 'swipe'],
+        template_url: '/views/project_topics.html',
         context: '.container',
         before_enter: function(user, project){
 
@@ -104,20 +66,16 @@ var PROJECT_BLOB_ROUTE = (function(){
             nav_ele.find('div').eq(3).children('a').attr('href', path + '/topics');
 
             //active the current tab
-            nav_ele.find('div').eq(1).addClass('active');
+            nav_ele.find('div').eq(3).addClass('active');
 
             $("nav.main-navbar").after(header_ele);
             header_ele.after(nav_ele);
 
         },
-        on_enter: function(user, project, commit, path){
+        on_enter: function(user, project){
 
             ownerName = user;
             projectName = project;
-            commitId = commit || 'master';
-            projectPath = (path || '').replace(/%2F/g,'/');
-            //
-            loadCommit();
 
         },
         on_exit: function(user, project){
