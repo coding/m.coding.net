@@ -12,8 +12,6 @@
   Routy.Router = (function() {
     Router.prototype.actions = [];
 
-    Router.prototype["default"] = '/';
-
     function Router(context, state_changers_selector, context_selector, event) {
       this.state_changers_selector = state_changers_selector;
       this.event = event;
@@ -88,14 +86,11 @@
       after = route.after_enter;
       exit = route.on_exit;
       new_route = new Routy.Action(uri, template_url, events, $(context), this, before, enter, after, exit);
-      if (route["default"]) {
-        this["default"] = uri;
-      }
       return this.actions.push(new_route);
     };
 
-    Router.prototype.rootRegister = function(template, callback) {
-      return this.register('', template, callback);
+    Router.prototype.rootRegister = function(route) {
+      return this.register('/', route);
     };
 
     Router.prototype.run = function(uri, event) {
@@ -118,9 +113,7 @@
           }
         }
       }
-      if (this["default"]) {
-        return this.run(this["default"]);
-      }
+      return this.run('/');
     };
 
     Router.prototype.check_login_status = function() {

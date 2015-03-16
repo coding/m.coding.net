@@ -42,7 +42,7 @@ var LOGIN_ROUTE = (function(){
                     success: function(data,status,xhr){
                         //if login success
                         if(data.data){
-                            router.run.call(router, router.default)
+                            router.run.call(router, '/')
                         }
                         if(data.msg){
                             for(var key in data.msg){
