@@ -321,16 +321,6 @@ var PP_ROUTE  = (function(){
         last_id = 99999999;
     }
 
-    function refresh(path){
-
-        elements = {};
-        last_id  = 99999999;
-        //remove all existing elements in DOM
-        $('#pp_list > .detailBox').remove();
-
-        loadMore(path);
-    }
-
     function loadMore(path){
 
         var loadMoreBtn = $('#load_more');
@@ -425,7 +415,7 @@ var PP_ROUTE  = (function(){
 
             var uri = ( sort === 'mine') ? '/api/tweet/user_public' : '/api/tweet/public_tweets';
 
-            refresh(uri);
+            loadMore(uri);
 
             $('#load_more').on('click', function(e){
                 e.preventDefault();

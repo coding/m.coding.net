@@ -26,7 +26,7 @@ var PROJECT_PULL_ROUTE = (function(){
 
     function createPullDOM(pull){
         var template = '<li class="list-group-item title">' +
-                            '<h4></h4>' +
+                            '<h6></h6>' +
                             '<p><b></b>  <span class="label"></span></p>' +
                             '<div>' +
                                 '<img src="#" height="20" width="20" />' +
@@ -35,7 +35,7 @@ var PROJECT_PULL_ROUTE = (function(){
                         '</li>',
             $pull    = $(template);
 
-        $pull.find('h4').text('#' + pull['iid'] + ' ' + pull['title']);
+        $pull.find('h6').text('#' + pull['iid'] + ' ' + pull['title']);
         $pull.find('p > b').text(pull['source_owner_name'] + ':' + pull['srcBranch'] + ' -> ' + ownerName + ':' + pull['desBranch']);
 
         var $status = $pull.find('p > span.label');
@@ -52,7 +52,7 @@ var PROJECT_PULL_ROUTE = (function(){
         }
         else if(pull['merge_status'] === 'OPEN'){
             $status.addClass('label-success');
-            $status.text('未受理');
+            $status.text('未处理');
         }
 
         $pull.find('div > img').attr('src', assetPath(pull.author.avatar));
@@ -88,9 +88,17 @@ var PROJECT_PULL_ROUTE = (function(){
         })
     }
 
-    function reset(){
+    function reset(stat){
         pageCount = 1;
-        status    = 'open';
+        status    = stat;
+    }
+
+    function refresh(path){
+
+        //remove all existing elements in DOM
+        $('#project_pull > li.title').remove();
+
+        loadMore(path);
     }
 
     function assetPath(path){
@@ -173,6 +181,12 @@ var PROJECT_PULL_ROUTE = (function(){
                 e.preventDefault();
                 loadMore(uri);
             });
+
+            $('select.status').on('change',function(e){
+                e.preventDefault();
+                reset($(this).val());
+                refresh(uri);
+            });
         },
         on_exit: function(user, project){
             //clean up the nav menu
@@ -183,7 +197,7 @@ var PROJECT_PULL_ROUTE = (function(){
             $('.project_navbar').remove();
             $('.project_header').remove();
 
-            reset();
+            reset('open');
         }
     }
 })();

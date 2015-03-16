@@ -503,7 +503,7 @@ form.login > button {
     color: #D7D6D6;
 }
 
-#project_pull > .title h4 {
+#project_pull > .title h6 {
     color: #3bbd79;
 }
 
@@ -540,6 +540,11 @@ form.login > button {
 #project_topic > .title > a > div > span {
     color: #979797;
     font-size: 8px;
+}
+
+select.status {
+    width: 30%;
+    margin-bottom: 20px;
 }
 
 .emotion.emoji{
