@@ -88,6 +88,11 @@ var PROJECT_PULL_ROUTE = (function(){
         })
     }
 
+    function reset(){
+        pageCount = 1;
+        status    = 'open';
+    }
+
     function assetPath(path){
         if(path.substr(0,1) === '/'){
             path = API_DOMAIN + path;
@@ -177,6 +182,8 @@ var PROJECT_PULL_ROUTE = (function(){
 
             $('.project_navbar').remove();
             $('.project_header').remove();
+
+            reset();
         }
     }
 })();

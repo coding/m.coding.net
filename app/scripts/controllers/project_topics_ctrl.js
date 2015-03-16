@@ -84,6 +84,12 @@ var PROJECT_TOPICS_ROUTE = (function(){
         })
     }
 
+    function reset(){
+        pageCount = 1;
+        pageSize  = 10;
+        type      = 1;
+    }
+
     function assetPath(path){
         if(path.substr(0,1) === '/'){
             path = API_DOMAIN + path;
@@ -94,7 +100,6 @@ var PROJECT_TOPICS_ROUTE = (function(){
     function truncateText(text, length){
         return text.length < length ? text : text.substr(0,length) + '...';
     }
-
 
     return {
         template_url: '/views/project_topics.html',
@@ -188,6 +193,8 @@ var PROJECT_TOPICS_ROUTE = (function(){
 
             $('.project_navbar').remove();
             $('.project_header').remove();
+
+            reset();
         }
     }
 })();
