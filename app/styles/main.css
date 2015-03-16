@@ -521,6 +521,27 @@ form.login > button {
     border-radius: 50%;
 }
 
+#project_topic > .title > a:hover {
+    text-decoration: none;
+}
+
+#project_topic > .title > a > img {
+    float: left;
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+#project_topic > .title > a > div {
+    margin-left: 4em;
+    color: #000000;
+    font-size: 12px;
+}
+
+#project_topic > .title > a > div > span {
+    color: #979797;
+    font-size: 8px;
+}
+
 .emotion.emoji{
     width:20px;
     height:20px;

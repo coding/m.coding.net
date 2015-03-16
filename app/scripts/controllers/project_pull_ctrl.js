@@ -10,7 +10,7 @@ var PROJECT_PULL_ROUTE = (function(){
 
     function assembleDOM(data){
         var pulls       = data.list || [],
-            fragment  = document.createDocumentFragment(),
+            fragment    = document.createDocumentFragment(),
             ele,
             list;
 
@@ -25,7 +25,6 @@ var PROJECT_PULL_ROUTE = (function(){
     }
 
     function createPullDOM(pull){
-        console.log(pull);
         var template = '<li class="list-group-item title">' +
                             '<h4></h4>' +
                             '<p><b></b>  <span class="label"></span></p>' +
@@ -57,7 +56,7 @@ var PROJECT_PULL_ROUTE = (function(){
         }
 
         $pull.find('div > img').attr('src', assetPath(pull.author.avatar));
-        $pull.find('div > span').text(' 创建于 ' + moment(pull['created_at']).fromNow());
+        $pull.find('div > span').text(' 创建于' + moment(pull['created_at']).fromNow());
 
         return $pull;
     }
