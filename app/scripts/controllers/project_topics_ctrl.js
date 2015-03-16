@@ -140,7 +140,7 @@ var PROJECT_TOPICS_ROUTE = (function(){
                 header_ele  = $(project_header),
                 nav_ele     = $(project_nav);
 
-            header_ele.find('a.navbar-brand').attr('href', router.default);
+            header_ele.find('a.navbar-brand').attr('href', '/projects');
             header_ele.find('span').text(project);
 
             nav_ele.find('div').eq(0).children('a').attr('href', path + '/git');
@@ -184,6 +184,7 @@ var PROJECT_TOPICS_ROUTE = (function(){
                 e.preventDefault();
                 loadMore(uri);
             });
+
         },
         on_exit: function(user, project){
             //clean up the nav menu
