@@ -154,7 +154,11 @@ var PROJECT_ROUTE = (function(){
                 reset();
             }
 
-            var uri = currentType === 'public' ? '/api/public/all' : '/api/projects';
+            if(!router.current_user && currentType === 'mine'){
+                alert('You are not logged in');
+                return;
+            }
+            var uri = (currentType === 'public') ? '/api/public/all' : '/api/user/' + router.current_user['global_key'] + '/public_projects';
             //check if it has previous loaded element
             if(pros.length === 0){
                 loadMore(uri);
