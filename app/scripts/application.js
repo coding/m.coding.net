@@ -42,7 +42,7 @@
             $('a.mobile-app-link').attr('href', "https://coding.net/app/android")
         }
         else if(user_agent.match(/iPhone|iPad|iPod/i)){
-
+            $('a.mobile-app-link').attr('href', 'https://itunes.apple.com/app/id923676989')
         }
         else{
 
