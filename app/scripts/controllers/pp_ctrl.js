@@ -24,12 +24,6 @@ var PP_ROUTE  = (function(){
 
         list.appendChild(fragment);
 
-        //trigger to make page transition
-        $('div.commentBox').on('click', function(e){
-            e.preventDefault();
-            $(this).siblings('a.comment').trigger('click');
-        });
-
     }
 
     function createTweetDOM(pp){
@@ -89,8 +83,6 @@ var PP_ROUTE  = (function(){
             ele.find('.detailBox > div.commenterDetail').text("来自" + device);
         }
 
-        ele.find('.detailBox > a.comment').attr('href', '/u/' + owner_key + '/pp/' + pp.id);
-
         if(pp.liked){
             ele.find('.detailBox > a.star > span').css('color','#D95C5C');
         }
@@ -110,6 +102,9 @@ var PP_ROUTE  = (function(){
 
         //if this pp contains images
         if($images.length !== 0){
+
+            $images.removeAttr('target'); //prevent opening new tab when clicking on images
+
             var $copy = $images.clone(),
                 $new_images  = $('<p></p>');
             $images.remove(); //remove the images in original content
