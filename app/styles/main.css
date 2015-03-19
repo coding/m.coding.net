@@ -557,8 +557,13 @@ select.status {
 }
 
 .bubble-markdown-image{
-    width: 30%;
-    height: 10em;
-    /*display: block;*/
+    width: 80%;
+}
+
+p.thumbnail .bubble-markdown-image{
+    width: 33%;
+    height: 28vw;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 

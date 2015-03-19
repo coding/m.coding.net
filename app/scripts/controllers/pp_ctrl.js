@@ -116,8 +116,15 @@ var PP_ROUTE  = (function(){
             $element.find('br').remove(); //remove the </br>
             var images = $copy.map(function(index, ele){
                return ele.outerHTML;
-            }).get().join();
+            }).get().join("");
             $new_images.html(images);
+
+            //if there is more than one image, we need to set the width of image to 1/3 of the containing block
+            if($copy.length > 1){
+                var height = $('#pp_list').width()/4;
+                $new_images.addClass('thumbnail');
+            }
+
             ele.find('.commentBox > .taskDescription').html($element);
             ele.find('.commentBox > .taskDescription > p:last').after($new_images)
         }else{
