@@ -34,8 +34,6 @@ var PP_ROUTE  = (function(){
                                 '</div>' +
                                 '<a class="commenterName" href="#"><label></label></a>' +
                                 '<div class="commentedAt"></div>' +
-                                <!--this would only be shown if this comment belongs to current user-->
-                                //'<a href="#" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></a>' +
                             '</div>' +
                             '<div class="commentBox">' +
                                 '<p class="taskDescription"></p>' +
@@ -74,11 +72,21 @@ var PP_ROUTE  = (function(){
         var owner_name = pp.owner.name,
             owner_key  = pp.owner.global_key,
             device = pp.device;
+
+        //add the delete button if this comment is made by the current logged in user
+        if(router.current_user){
+            var global_key = router.current_user.global_key;
+            if(global_key === owner_key){
+                ele.find('.commentedAt').after('<a href="#" class="close pull-right" aria-label="Close"><span aria-hidden="true">&times;</span></a>');
+            }
+        }
+
         ele.find('.titleBox > .commenterImage > a').attr('href', '/u/' + owner_key);
         ele.find('.titleBox > .commenterImage > a > img').attr('src', assetPath(pp.owner.avatar));
         ele.find('.titleBox > a.commenterName').attr('href', '/u/' + owner_key);
         ele.find('.titleBox > a.commenterName > label').text(owner_name);
         ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow());
+
         if(device !== ''){
             ele.find('.detailBox > div.commenterDetail').text("来自" + device);
         }
@@ -188,6 +196,40 @@ var PP_ROUTE  = (function(){
             return false;
         });
 
+        //event listeners for deleting pp
+        ele.on('click', '.close', function(e){
+            e.preventDefault();
+
+            var r = confirm("确认删除该泡泡？");
+            if(r){
+                var id   = pp.id,
+                    path = '/api/tweet/' + id;
+
+                $.ajax({
+                    url: API_DOMAIN + path,
+                    type: 'DELETE',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function(data){
+                        if(data.msg){
+                            for(var key in data.msg){
+                                alert(data.msg[key]);
+                            }
+                        }else{
+                            delete elements[id];
+                            ele.remove();
+                        }
+                    },
+                    error: function(){
+                        alert('Failed to delete comment');
+                    }
+                });
+            }
+
+            return false
+        });
+
         ele.on('submit', '.commentSubmit', function(e){
             e.preventDefault();
 
@@ -246,13 +288,20 @@ var PP_ROUTE  = (function(){
                                 '<a class="commenterName" href="#"><span class="comment-meta"></span></a>' +
                                 '<span class="date sub-text"></span>' +
                                 '<a class="reply" href="#" class="comment-hash"> 回复 </a>' +
-                                //'<a class="delete" href="#" class="comment-hash"> 删除 </a>' +
                             '</div>' +
                         '</li>',
             ele  = $(template);
 
         var owner_name = comment.owner.name,
             owner_key  = comment.owner.global_key;
+
+        //add the delete button if this comment is made by the current logged in user
+        if(router.current_user){
+            var global_key = router.current_user.global_key;
+            if(global_key === owner_key){
+                ele.find('.reply').after('<a class="delete" href="#" class="comment-hash"> 删除 </a>');
+            }
+        }
 
         ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
         ele.find('a.commenterName').attr('href', '/u/' + owner_key);
@@ -272,39 +321,48 @@ var PP_ROUTE  = (function(){
             }
             return false
         });
-        //
-        //ele.on('click', '.delete', function(e){
-        //    e.preventDefault();
-        //    var r = confirm('确认删除该评论？');
-        //    if(r){
-        //        var ppId      = ele.parents('.detailBox').attr('id'),
-        //            commentId = comment.id,
-        //            path = '/api/tweet/' + ppId + '/comment/' + commentId;
-        //
-        //        $.ajax({
-        //            url: API_DOMAIN + path,
-        //            type: 'DELETE',
-        //            success: function(data){
-        //                if(data.msg){
-        //                    for(var key in data.msg){
-        //                        alert(data.msg[key]);
-        //                    }
-        //                }else{
-        //                    var comment_list = elements[ppId]['comment_list'];
-        //                    for(var i = comment_list.length-1; i>=0; i--) {
-        //                        if( comment_list[i]['id'] === commentId) comment_list.splice(i,1);
-        //                    }
-        //                    ele.remove();
-        //                }
-        //            }
-        //        });
-        //    }
-        //
-        //    return false
-        //});
+
+        ele.on('click', '.delete', function(e){
+            e.preventDefault();
+
+            var r = confirm('确认删除该评论？');
+
+            if(r){
+                var ppId      = ele.parents('.detailBox').attr('id'),
+                    commentId = comment.id,
+                    path = '/api/tweet/' + ppId + '/comment/' + commentId;
+
+                $.ajax({
+                    url: API_DOMAIN + path,
+                    type: 'DELETE',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function(data){
+                        if(data.msg){
+                            for(var key in data.msg){
+                                alert(data.msg[key]);
+                            }
+                        }else{
+                            var comment_list = elements[ppId]['comment_list'];
+                            for(var i = comment_list.length-1; i>=0; i--) {
+                                if( comment_list[i]['id'] === commentId) comment_list.splice(i,1);
+                            }
+                            ele.remove();
+                        }
+                    },
+                    error: function(){
+                        alert('Failed to delete comment');
+                    }
+                });
+            }
+
+            return false
+        });
 
         return ele
     }
+
 
     function createLikedUsersDOM(user){
         var template = '<a class="pull-left" style="padding: 0 3px 0" href="#">' +

@@ -174,8 +174,9 @@ form.login > button {
     font-size: 8px;
     color: #979797;
     position: relative;
-    bottom: 16px;
-    left: 35px;
+    top: 10px;
+    right: 65px;
+    display: inline-block;
 }
 .detailBox div.commenterDetail{
     font-size: 8px;
@@ -200,13 +201,22 @@ form.login > button {
     background: #f4f4f4;
 }
 
-.star, .comment, .close {
+.star, .comment {
     padding: 0 10px 0;
     /*color: #999;*/
     line-height: 2.0;
     font-size: 10px;
     position: relative;
     bottom: 5px;
+}
+
+.close {
+    padding: 0 10px 0;
+    color: #999 !important;
+    line-height: 2.0;
+    font-size: 12px;
+    /*position: relative;*/
+    /*bottom: 5px;*/
 }
 
 .watched, .followed {
