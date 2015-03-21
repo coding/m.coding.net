@@ -113,6 +113,7 @@ form.login > button {
     padding:10px;
     line-height:2.428571;
     height: 50px;
+    position: relative;
 }
 .titleBox label{
     /*color: #999;*/
@@ -173,9 +174,9 @@ form.login > button {
 .titleBox div.commentedAt{
     font-size: 8px;
     color: #979797;
-    position: relative;
-    top: 10px;
-    right: 65px;
+    position: absolute;
+    top: 55%;
+    left: 4.8%;
     display: inline-block;
 }
 .detailBox div.commenterDetail{

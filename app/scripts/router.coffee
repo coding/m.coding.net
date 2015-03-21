@@ -154,7 +154,7 @@ class Routy.Router
                                         alert 'Failed to logout'
 
         template = '<li>
-                        <a class="items" href="/user">
+                        <a class="items" href="#">
                             <img class="current_user" src="#" height="35" width="35" />
                             <span></span>
                             <img class="right_arrow" src="/images/static/right_arrow.png" height="20" width="20" />
@@ -162,6 +162,7 @@ class Routy.Router
                     </li>'
         $user = $(template)
 
+        $user.find('a.items').attr('href', '/user/' + current_user['global_key']);
         $user.find('img.current_user').attr('src', current_user['avatar'])
         $user.find('span').text(current_user['name'])
 

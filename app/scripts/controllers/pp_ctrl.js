@@ -32,7 +32,7 @@ var PP_ROUTE  = (function(){
                                 '<div class="commenterImage">' +
                                     '<a href="#"><img src="#" height="30" width="30" /></a>' +
                                 '</div>' +
-                                '<a class="commenterName" href="#"><label></label></a>' +
+                                '<a class="commenterName" href="#"></a>' +
                                 '<div class="commentedAt"></div>' +
                             '</div>' +
                             '<div class="commentBox">' +
@@ -81,10 +81,10 @@ var PP_ROUTE  = (function(){
             }
         }
 
-        ele.find('.titleBox > .commenterImage > a').attr('href', '/u/' + owner_key);
+        ele.find('.titleBox > .commenterImage > a').attr('href', '/user/' + owner_key);
         ele.find('.titleBox > .commenterImage > a > img').attr('src', assetPath(pp.owner.avatar));
-        ele.find('.titleBox > a.commenterName').attr('href', '/u/' + owner_key);
-        ele.find('.titleBox > a.commenterName > label').text(owner_name);
+        ele.find('.titleBox > a.commenterName').attr('href', '/user/' + owner_key);
+        ele.find('.titleBox > a.commenterName').text(owner_name);
         ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow());
 
         if(device !== ''){
@@ -304,7 +304,7 @@ var PP_ROUTE  = (function(){
         }
 
         ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
-        ele.find('a.commenterName').attr('href', '/u/' + owner_key);
+        ele.find('a.commenterName').attr('href', '/user/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
         ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
