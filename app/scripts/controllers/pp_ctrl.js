@@ -9,11 +9,9 @@ var PP_ROUTE  = (function(){
         elements = {};
 
     function assembleDOM(data){
-        var pps       = data || {},
+        var pps       = data || [],
             fragment  = document.createDocumentFragment(),
             ele;
-
-        list = document.getElementById('pp_list');
 
         for (var i = 0; i < pps.length; i++) {
             ele = createTweetDOM(pps[i]);
@@ -96,7 +94,7 @@ var PP_ROUTE  = (function(){
         }
 
         //create liked users
-        var likeUsers   = pp.like_users,
+        var likeUsers   = pp.like_users || [],
             userList    = ele.find('.actionBox .like_users'),
             userEle;
 
@@ -136,7 +134,7 @@ var PP_ROUTE  = (function(){
 
 
         //create tweet comments
-        var comments     = pp.comment_list,
+        var comments     = pp.comment_list || [],
             commentsList = ele.find('.actionBox > .commentList'),
             commentEle;
 
@@ -160,24 +158,27 @@ var PP_ROUTE  = (function(){
                     withCredentials: true
                 },
                 success: function(data){
+                    console.log('stared');
                     //success
                     if(data.code === 0){
                         pp['liked'] = !pp['liked'];
                         pp['liked'] ? pp['likes'] += 1 : pp['likes'] -= 1;
                         //if user like it, add current user to like_users, otherwise, remove current user from like_users
+                        pp['like_users'] = pp['like_users'] || [];
                         if(pp['liked']){
                             pp['like_users'].push(router.current_user)
                         }else{
                             var index,obj;
                             for (var i = 0; i < pp['like_users'].length; i++) {
                                 obj = pp['like_users'][i];
-                                if(obj['global_key'] = router.current_user['global_key']){
+                                if(obj['global_key'] === router.current_user['global_key']){
                                     index = i;
                                     break
                                 }
                             }
                             pp['like_users'].splice(index,1);
                         }
+                        console.log(pp);
                         var newEle = createTweetDOM(pp);
                         ele.replaceWith(newEle);
                         elements[id] = pp;
@@ -254,6 +255,8 @@ var PP_ROUTE  = (function(){
                     }
                     if(data.data){
                         data.data['owner'] = router.current_user; //current user
+                        elements[id]['comment_list'] = elements[id]['comment_list'] || [];
+                        elements[id]['comment_list'].unshift(data.data);
                         var commentEle = createCommentDOM(data.data);
                         commentsList.prepend(commentEle);
                     }
@@ -344,9 +347,9 @@ var PP_ROUTE  = (function(){
                                 alert(data.msg[key]);
                             }
                         }else{
-                            var comment_list = elements[ppId]['comment_list'];
-                            for(var i = comment_list.length-1; i>=0; i--) {
-                                if( comment_list[i]['id'] === commentId) comment_list.splice(i,1);
+                            elements[ppId]['comment_list'] = elements[ppId]['comment_list'] || [];
+                            for(var i = elements[ppId]['comment_list'].length-1; i>=0; i--) {
+                                if( elements[ppId]['comment_list'][i]['id'] === commentId) elements[ppId]['comment_list'].splice(i,1);
                             }
                             ele.remove();
                         }
@@ -363,7 +366,6 @@ var PP_ROUTE  = (function(){
         return ele
     }
 
-
     function createLikedUsersDOM(user){
         var template = '<a class="pull-left" style="padding: 0 3px 0" href="#">' +
                             '<img src="#" height="15" width="15" />' +
@@ -374,11 +376,6 @@ var PP_ROUTE  = (function(){
         ele.find('img').attr('src', assetPath(user.avatar));
 
         return ele;
-    }
-
-    function reset(){
-        elements = {};
-        last_id = 99999999;
     }
 
     function loadMore(path){
@@ -417,6 +414,42 @@ var PP_ROUTE  = (function(){
         });
     }
 
+    function submitTweet(path, content){
+        var $button = $("#pp_submit");
+        $button.attr('disabled','disabled');
+
+        $.ajax({
+            url: API_DOMAIN + path,
+            dataType: 'json',
+            type: 'POST',
+            data: {'content': content},
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(data){
+                if(data.msg){
+                    for(var key in data.msg){
+                        alert(data.msg[key]);
+                    }
+                }else if(data.data){
+                    var tweet = data.data;
+                    tweet['owner'] = router.current_user;
+                    var ele   = createTweetDOM(tweet);
+                    $('#pp_content').val('');//clear the data in form
+                    $('#pp_input').modal('hide');//close the modal
+                    elements[tweet['id']] = tweet;
+                    list.insertBefore(ele[0], list.childNodes[0])
+                }
+            },
+            error: function(xhr, type){
+                alert('Failed to post pp');
+            },
+            complete: function(){
+                $button.removeAttr('disabled');
+            }
+        })
+    }
+
     function assetPath(path){
         if(path.substr(0,1) === '/'){
             path = API_DOMAIN + path;
@@ -424,6 +457,10 @@ var PP_ROUTE  = (function(){
         return path;
     }
 
+    function reset(){
+        elements = {};
+        last_id = 99999999;
+    }
 
     return {
         template_url: '/views/pp.html',
@@ -463,6 +500,8 @@ var PP_ROUTE  = (function(){
         },
         on_enter: function(type){
 
+            list = document.getElementById('pp_list');
+
             //decide if this is hot page
             if(type === 'hot'){
                 sort = 'hot';
@@ -479,6 +518,21 @@ var PP_ROUTE  = (function(){
             $('#load_more').on('click', function(e){
                 e.preventDefault();
                 loadMore(uri);
+            });
+
+            $('#pp_content').on('keyup', function(e){
+                e.preventDefault();
+                if($(this).val() !== ''){
+                    $('#pp_submit').removeAttr('disabled');
+                }else{
+                    $('#pp_submit').attr('disabled', 'disabled');
+                }
+            });
+
+            $('#pp_submit').click(function(e){
+                e.preventDefault();
+                var content = $('#pp_content').val();
+                submitTweet('/api/tweet', content);
             });
 
         },

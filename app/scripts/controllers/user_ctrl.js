@@ -159,7 +159,7 @@ var USER_ROUTE = (function(){
         before_enter: function(user){
 
             var path =  '/user/' + user;
-            
+
             //add the project header and navigation bar
             var project_nav =  '<div class="row project_header">' +
                                     '<div class="col-xs-12">' +
