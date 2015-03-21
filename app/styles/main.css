@@ -574,7 +574,6 @@ select.status {
 p.thumbnail .bubble-markdown-image{
     width: 33%;
     height: 28vw;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 5px;
 }
 

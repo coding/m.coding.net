@@ -79,8 +79,6 @@ var PROJECT_TREE_ROUTE = (function(){
         before_enter: function(user, project){
 
             var path =  '/u/' + user + '/p/' +  project;
-            //set up the page information in the banner
-            $('title').text(user + '/' + project);
             //active the project navbar item
             $('#navigator').find('li:first').addClass('active');
 
@@ -137,8 +135,6 @@ var PROJECT_TREE_ROUTE = (function(){
 
         },
         on_exit: function(user, project){
-            //clean up the nav menu
-            $('title').text('');
 
             $('#navigator').find('li').removeClass('active');
 

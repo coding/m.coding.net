@@ -430,7 +430,6 @@ var PP_ROUTE  = (function(){
         context: ".container",
         before_enter: function(type){
 
-            $('title').text('冒泡');
             //active this page link
             $('#navigator').find("li:eq(1)").addClass('active');
 
@@ -484,7 +483,6 @@ var PP_ROUTE  = (function(){
 
         },
         on_exit: function(){
-            $('title').text('');
 
             $('#navigator').find('li').removeClass('active');
             $('.project_header').remove();

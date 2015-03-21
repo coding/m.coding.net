@@ -120,8 +120,6 @@ var PROJECT_ROUTE = (function(){
         template_url: '/views/project.html',
         context: ".container",
         before_enter: function(type){
-            //set up the page information in the banner
-            $('title').text('精彩项目');
             //active the project navbar item
             $('#navigator').find('li:first').addClass('active');
 
@@ -174,8 +172,6 @@ var PROJECT_ROUTE = (function(){
             });
         },
         on_exit: function(){
-            //clean up the banner
-            $('title').text('');
             $('#navigator').find('li').removeClass('active');
             $('.project_header').remove();
             lastType = currentType; //remember the type set last time;

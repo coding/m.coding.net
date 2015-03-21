@@ -159,9 +159,7 @@ var USER_ROUTE = (function(){
         before_enter: function(user){
 
             var path =  '/user/' + user;
-            //set up the page information in the banner
-            $('title').text(user);
-
+            
             //add the project header and navigation bar
             var project_nav =  '<div class="row project_header">' +
                                     '<div class="col-xs-12">' +
@@ -182,8 +180,6 @@ var USER_ROUTE = (function(){
 
         },
         on_exit: function(user){
-            //clean up the nav menu
-            $('title').text('');
 
             $('.project_header').remove();
         }
