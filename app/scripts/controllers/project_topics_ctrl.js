@@ -43,7 +43,7 @@ var PROJECT_TOPICS_ROUTE = (function(){
 
         $topic.find('div.collapse > div.panel-body').click(function(e){
             e.preventDefault();
-            $('a.hidden').trigger('click');
+            $topic.find('a.hidden').trigger('click');
         });
 
         return $topic;
