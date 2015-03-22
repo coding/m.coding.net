@@ -259,13 +259,13 @@ var PP_ROUTE  = (function(){
                         elements[id]['comment_list'].unshift(data.data);
                         var commentEle = createCommentDOM(data.data);
                         commentsList.prepend(commentEle);
+                        input.val('');
                     }
                 },
                 error: function(){
                     alert('Failed to send comment');
                 },
                 complete: function(){
-                    input.val('');
                     input.removeAttr('disabled');
                     button.removeAttr('disabled');
                 }

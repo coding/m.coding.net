@@ -5,6 +5,7 @@ var PROJECT_TOPIC_ROUTE = (function(){
 
     var ownerName,
         projectName,
+        projectData,
         topicId,
         topicData,
         commentsData = {},
@@ -39,14 +40,14 @@ var PROJECT_TOPIC_ROUTE = (function(){
         }
 
         list.appendChild(fragment);
-
+        $('div.panel-body > h6').text('评论（' + comments.length + '）');
     }
 
     function createCommentDOM(comment){
         var template = '<li>' +
-                '<div class="commenterImage">' +
-                '<a href="#"><img src="#" /></a>' +
-                '</div>' +
+                //'<div class="commenterImage">' +
+                //'<a href="#"><img src="#" /></a>' +
+                //'</div>' +
                 '<div class="commentText">' +
                 '<p></p>' +
                 '<a class="commenterName" href="#"><span class="comment-meta"></span></a>' +
@@ -67,7 +68,7 @@ var PROJECT_TOPIC_ROUTE = (function(){
             }
         }
 
-        ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
+        //ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
         ele.find('a.commenterName').attr('href', '/user/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
@@ -135,7 +136,7 @@ var PROJECT_TOPIC_ROUTE = (function(){
             },
             success: function(data){
                 if(data.data){
-                    topicData = data.data
+                    topicData = data.data;
                     updateTopicDOM(topicData);
                 }
             },
@@ -231,6 +232,23 @@ var PROJECT_TOPIC_ROUTE = (function(){
             $("nav.main-navbar").after(header_ele);
             header_ele.after(nav_ele);
 
+            //we need to fetch the whole project in order to get the project id
+            $.ajax({
+                url: API_DOMAIN + '/api/user/' + user + '/project/' + project,
+                dataType: 'json',
+                async: false,
+                success: function(data){
+                    if(data.data){
+                        projectData = data.data;
+                    }else{
+                        alert('Failed to load project');
+                    }
+                },
+                error: function(xhr, type){
+                    alert('Failed to load project');
+                }
+            });
+
         },
         on_enter: function(user, project, topic){
 
@@ -242,6 +260,49 @@ var PROJECT_TOPIC_ROUTE = (function(){
             loadTopic(uri);
             uri += '/comments';
             loadComments(uri);
+
+            $('form.commentSubmit').submit(function(e){
+                e.preventDefault();
+
+                var path    = '/api/project/' + projectData.id + '/topic?parent=' + topicId,
+                    $input  = $(this).find('input'),
+                    $button = $(this).find('button'),
+                    $commentList = $(this).prev('.commentList');
+
+                $.ajax({
+                    url: API_DOMAIN + path,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {content: $input.val()},
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function(data){
+                        if(data.msg){
+                            for(var key in data.msg){
+                                alert(data.msg[key]);
+                            }
+                        }
+                        if(data.data){
+                            var comment = data.data,
+                                commentEle = createCommentDOM(comment);
+                            commentsData[comment['id']] = comment;
+                            $commentList.prepend(commentEle);
+                            $input.val('');
+                        }
+                    },
+                    error: function(){
+                        alert('Failed to send comment');
+                    },
+                    complete: function(){
+                        $input.removeAttr('disabled');
+                        $button.removeAttr('disabled');
+                    }
+                });
+
+                $input.attr('disabled', 'disabled');
+                $button.attr('disabled', 'disabled');
+            });
 
         },
         on_exit: function(user, project){

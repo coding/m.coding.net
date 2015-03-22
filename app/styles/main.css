@@ -57,7 +57,7 @@ a {
 
 .comment-meta {
     font-size: 10px;
-    color: #999;
+    /*color: #999;*/
     line-height: 1.4;
 }
 
@@ -147,12 +147,14 @@ form.login > button {
 .commentList {
     padding:0;
     list-style:none;
-    max-height:200px;
+    /*max-height:200px;*/
     overflow:auto;
 }
 .commentList li {
     margin:0;
-    margin-top:10px;
+    margin-bottom:5px;
+    background-color: #efefef;
+    padding: 5px;
 }
 .commentList li > div {
     display:table-cell;
