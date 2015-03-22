@@ -1,75 +1,48 @@
 /**
- * Created by simonykq on 15/03/2015.
+ * Created by simonykq on 22/03/2015.
  */
-var PROJECT_TOPICS_ROUTE = (function(){
+var PROJECT_TOPIC_ROUTE = (function(){
 
     var ownerName,
         projectName,
-        projectData,
+        topicId,
         pageCount = 1,
         pageSize  = 10,
-        type      = 1;
+        type      = 0;
 
     function createTopicDOM(topic){
 
-        var template = '<li class="list-group-item title" role="tab">' +
-                            '<a class="target" data-toggle="collapse" data-parent="#project_topic" data-target="" aria-expanded="true">' +
-                                '<img src="#" height="35" width="35">' +
-                                '<div>' +
-                                    '<strong></strong>' +
-                                    '<br />' +
-                                    '<b></b><span></span><span></span>' +
-                                '</div>' +
-                            '</a>' +
-                            '<div id="" class="collapse" role="tabpanel">' +
-                                '<div class="panel-body">' +
-                                '</div>' +
-                                '<a class="hidden"></a>' +
+        var template =  '<div class="panel panel-default">' +
+                            '<div class="panel-heading title">' +
+                                '<a href="#" class="target">' +
+                                    '<img src="#" height="35" width="35" >' +
+                                    '<div>' +
+                                        '<strong></strong>' +
+                                        '<br />' +
+                                        '<b></b><span></span><span></span>' +
+                                    '</div>' +
+                                '</a>' +
                             '</div>' +
-                        '</li>',
+                            '<div class="panel-body">' +
+                            '</div>' +
+                        '</div>',
             $topic    = $(template);
 
-        $topic.find('a.target').attr('data-target',"#topic_" + topic['id']);
+        $topic.find('a.target').attr('href', '/u/' + ownerName + '/p/' + projectName + '/topics/' + topic['id']);
         $topic.find('a.target > img').attr('src', assetPath(topic.owner.avatar));
         $topic.find('a.target > div > strong').text(topic['title']);
         $topic.find('a.target > div > b').text(' ' + topic.owner.name + ' ');
         $topic.find('a.target > div > span:eq(0)').text(' ' + '发布于' + moment(topic['created_at']).fromNow() + ', ');
         $topic.find('a.target > div > span:eq(1)').text(' ' + '有' + topic['child_count'] + '条回应' + ' ');
 
-        $topic.find('div.collapse').attr('id', 'topic_' + topic['id']);
-        $topic.find('div.collapse > div.panel-body').html(topic['content']);
-
-        $topic.find('a.hidden').attr('href', '/u/' + ownerName + '/p/' + projectName + '/topics/' + topic['id']);
-
-        $topic.find('div.collapse > div.panel-body').click(function(e){
-            e.preventDefault();
-            $('a.hidden').trigger('click');
-        });
+        $topic.find('div.panel-body').html(topic['content']);
 
         return $topic;
     }
 
-    function assembleDOM(data){
-        var topics    = data.list || [],
-            fragment = document.createDocumentFragment(),
-            ele,
-            list;
+    function loadTopic(path){
 
-        list = document.getElementById('project_topic');
-
-        for (var i = 0; i < topics.length; i++) {
-            ele = createTopicDOM(topics[i]);
-            fragment.appendChild(ele[0]);
-        }
-
-        list.appendChild(fragment);
-    }
-
-    function loadMore(path){
-
-        var loadMoreBtn = $('#load_more');
-        loadMoreBtn.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
-        path += '?pageSize=' + pageSize + '&page=' + pageCount + '&type=' + type;
+        path += topicId + '?type=' + type;
 
         $.ajax({
             url: API_DOMAIN + path,
@@ -79,15 +52,12 @@ var PROJECT_TOPICS_ROUTE = (function(){
             },
             success: function(data){
                 if(data.data){
-                    assembleDOM(data.data);
-                    pageCount ++
+                    var $dom = createTopicDOM(data.data);
+                    $('#topic_item').html($dom);
                 }
             },
             error: function(xhr, type){
-                alert('Failed to load pulls');
-            },
-            complete: function(){
-                loadMoreBtn.text('更多评论');
+                alert('Failed to load topics');
             }
         })
     }
@@ -110,7 +80,7 @@ var PROJECT_TOPICS_ROUTE = (function(){
     }
 
     return {
-        template_url: '/views/project_topics.html',
+        template_url: '/views/project_topic.html',
         context: '.container',
         before_enter: function(user, project){
 
@@ -160,36 +130,15 @@ var PROJECT_TOPICS_ROUTE = (function(){
             $("nav.main-navbar").after(header_ele);
             header_ele.after(nav_ele);
 
-            //we need to fetch the whole project in order to get the project id
-            $.ajax({
-                url: API_DOMAIN + '/api/user/' + user + '/project/' + project,
-                dataType: 'json',
-                async: false,
-                success: function(data){
-                    if(data.data){
-                        projectData = data.data;
-                    }else{
-                        alert('Failed to load project');
-                    }
-                },
-                error: function(xhr, type){
-                    alert('Failed to load project');
-                }
-            });
         },
-        on_enter: function(user, project){
+        on_enter: function(user, project, topic){
 
             ownerName = user;
-            projectName = project;
+            projectName = project,
+            topicId     = topic
 
-            var uri = '/api/project/' + projectData['id'] + '/topics';
-
-            loadMore(uri);
-
-            $('#load_more').on('click', function(e){
-                e.preventDefault();
-                loadMore(uri);
-            });
+            var uri = '/api/topic/';
+            loadTopic(uri);
 
         },
         on_exit: function(user, project){
