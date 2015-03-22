@@ -6,43 +6,126 @@ var PROJECT_TOPIC_ROUTE = (function(){
     var ownerName,
         projectName,
         topicId,
+        topicData,
+        commentsData = {},
         pageCount = 1,
         pageSize  = 10,
         type      = 0;
 
-    function createTopicDOM(topic){
+    function updateTopicDOM(topic){
+        var $topic    = $('#topic_item');
 
-        var template =  '<div class="panel panel-default">' +
-                            '<div class="panel-heading title">' +
-                                '<a href="#" class="target">' +
-                                    '<img src="#" height="35" width="35" >' +
-                                    '<div>' +
-                                        '<strong></strong>' +
-                                        '<br />' +
-                                        '<b></b><span></span><span></span>' +
-                                    '</div>' +
-                                '</a>' +
-                            '</div>' +
-                            '<div class="panel-body">' +
-                            '</div>' +
-                        '</div>',
-            $topic    = $(template);
+        $topic.find('div.title > img').attr('src', assetPath(topic.owner.avatar));
+        $topic.find('div.title > div > strong').text(topic['title']);
+        $topic.find('div.title > div > b').text(' ' + topic.owner.name + ' ');
+        $topic.find('div.title > div > span:eq(0)').text(' ' + '发布于' + moment(topic['created_at']).fromNow() + ', ');
+        $topic.find('div.title > div > span:eq(1)').text(' ' + '有' + topic['child_count'] + '条回应' + ' ');
 
-        $topic.find('a.target').attr('href', '/u/' + ownerName + '/p/' + projectName + '/topics/' + topic['id']);
-        $topic.find('a.target > img').attr('src', assetPath(topic.owner.avatar));
-        $topic.find('a.target > div > strong').text(topic['title']);
-        $topic.find('a.target > div > b').text(' ' + topic.owner.name + ' ');
-        $topic.find('a.target > div > span:eq(0)').text(' ' + '发布于' + moment(topic['created_at']).fromNow() + ', ');
-        $topic.find('a.target > div > span:eq(1)').text(' ' + '有' + topic['child_count'] + '条回应' + ' ');
+        $topic.find('div.panel-body > p').html(topic['content']);
+    }
 
-        $topic.find('div.panel-body').html(topic['content']);
+    function updateCommentsDOM(data){
+        var comments = data.list || [],
+            fragment = document.createDocumentFragment(),
+            list     = document.getElementById('comments_list'),
+            com,
+            ele;
 
-        return $topic;
+        for (var i = 0; i < comments.length; i++) {
+            com = comments[i];
+            commentsData[com.id] = com;
+            ele = createCommentDOM(com);
+            fragment.appendChild(ele[0]);
+        }
+
+        list.appendChild(fragment);
+
+    }
+
+    function createCommentDOM(comment){
+        var template = '<li>' +
+                '<div class="commenterImage">' +
+                '<a href="#"><img src="#" /></a>' +
+                '</div>' +
+                '<div class="commentText">' +
+                '<p></p>' +
+                '<a class="commenterName" href="#"><span class="comment-meta"></span></a>' +
+                '<span class="date sub-text"></span>' +
+                '<a class="reply" href="#" class="comment-hash"> 回复 </a>' +
+                '</div>' +
+                '</li>',
+            ele  = $(template);
+
+        var owner_name = comment.owner.name,
+            owner_key  = comment.owner.global_key;
+
+        //add the delete button if this comment is made by the current logged in user
+        if(router.current_user){
+            var global_key = router.current_user.global_key;
+            if(global_key === owner_key){
+                ele.find('.reply').after('<a class="delete" href="#" class="comment-hash"> 删除 </a>');
+            }
+        }
+
+        ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
+        ele.find('a.commenterName').attr('href', '/user/' + owner_key);
+        ele.find('a.commenterName > span').text(owner_name);
+        ele.find('.commentText > p').html(comment.content);
+        ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
+        //ele.find('.commentText > a').attr('id', comment.owner_id);
+
+        ele.on('click', '.reply', function(e){
+            e.preventDefault();
+            var input = ele.parents('.commentList').next('form').find('input');
+            if(input.val() === ''){
+                input.val('@' + owner_name)
+            }else{
+                var value = input.val();
+                input.val(value + ', @' + owner_name);
+            }
+            return false
+        });
+
+        ele.on('click', '.delete', function(e){
+            e.preventDefault();
+
+            var r = confirm('确认删除该评论？');
+
+            if(r){
+                var commentId = comment.id,
+                    path = '/api/topic/' + commentId;
+
+                $.ajax({
+                    url: API_DOMAIN + path,
+                    type: 'DELETE',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function(data){
+                        if(data.msg){
+                            for(var key in data.msg){
+                                alert(data.msg[key]);
+                            }
+                        }else{
+                            delete commentsData[commentId];
+                            ele.remove();
+                        }
+                    },
+                    error: function(){
+                        alert('Failed to delete comment');
+                    }
+                });
+            }
+
+            return false
+        });
+
+        return ele
     }
 
     function loadTopic(path){
 
-        path += topicId + '?type=' + type;
+        path += '?type=' + type;
 
         $.ajax({
             url: API_DOMAIN + path,
@@ -52,12 +135,30 @@ var PROJECT_TOPIC_ROUTE = (function(){
             },
             success: function(data){
                 if(data.data){
-                    var $dom = createTopicDOM(data.data);
-                    $('#topic_item').html($dom);
+                    topicData = data.data
+                    updateTopicDOM(topicData);
                 }
             },
             error: function(xhr, type){
                 alert('Failed to load topics');
+            }
+        })
+    }
+
+
+    function loadComments(path){
+        path += '?type=' + type;
+
+        $.ajax({
+            url: API_DOMAIN + path,
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(data){
+                if(data.data){
+                    updateCommentsDOM(data.data);
+                }
             }
         })
     }
@@ -134,11 +235,13 @@ var PROJECT_TOPIC_ROUTE = (function(){
         on_enter: function(user, project, topic){
 
             ownerName = user;
-            projectName = project,
-            topicId     = topic
+            projectName = project;
+            topicId     = topic;
 
-            var uri = '/api/topic/';
+            var uri = '/api/topic/' + topicId;
             loadTopic(uri);
+            uri += '/comments';
+            loadComments(uri);
 
         },
         on_exit: function(user, project){

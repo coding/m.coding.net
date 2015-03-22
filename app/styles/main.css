@@ -557,19 +557,26 @@ form.login > button {
     text-decoration: none;
 }
 
-#topic_item .title > a > img {
-    float: left;
+#topic_item .title > img {
+    display: inline-block;
     vertical-align: middle;
     border-radius: 50%;
 }
 
-#topic_item .title > a > div {
-    margin-left: 4em;
+#topic_item .title > div {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    width: 80%;
     color: #000000;
     font-size: 12px;
 }
 
-#topic_item .title > a > div > span, #topic_item .title > a > div > b{
+#topic_item .title > div > strong {
+    font-size: 16px;
+}
+
+#topic_item .title > div > span, #topic_item .title > div > b{
     color: #979797;
     font-size: 8px;
 }
