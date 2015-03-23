@@ -158,7 +158,6 @@ var PP_ROUTE  = (function(){
                     withCredentials: true
                 },
                 success: function(data){
-                    console.log('stared');
                     //success
                     if(data.code === 0){
                         pp['liked'] = !pp['liked'];
@@ -178,7 +177,6 @@ var PP_ROUTE  = (function(){
                             }
                             pp['like_users'].splice(index,1);
                         }
-                        console.log(pp);
                         var newEle = createTweetDOM(pp);
                         ele.replaceWith(newEle);
                         elements[id] = pp;
@@ -283,9 +281,9 @@ var PP_ROUTE  = (function(){
 
     function createCommentDOM(comment){
         var template = '<li>' +
-                            '<div class="commenterImage">' +
-                                 '<a href="#"><img src="#" /></a>' +
-                            '</div>' +
+                            //'<div class="commenterImage">' +
+                            //     '<a href="#"><img src="#" /></a>' +
+                            //'</div>' +
                             '<div class="commentText">' +
                                 '<p></p>' +
                                 '<a class="commenterName" href="#"><span class="comment-meta"></span></a>' +
@@ -306,12 +304,12 @@ var PP_ROUTE  = (function(){
             }
         }
 
-        ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
+        //ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
         ele.find('a.commenterName').attr('href', '/user/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
         ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
-        ele.find('.commentText > a').attr('id', comment.owner_id);
+        //ele.find('.commentText > a').attr('id', comment.owner_id);
 
         ele.on('click', '.reply', function(e){
             e.preventDefault();
