@@ -37,10 +37,16 @@ var PROJECT_BLOB_ROUTE = (function(){
         var file = commit['file'];
         if(file.mode === 'file'){
             var source   = escape2Html(file.data),
-                language = file.lang;
-            var result = hljs.getLanguage(language) ? hljs.highlight(language, source) : hljs.highlightAuto(source);
+                language = file.lang,
+                result = hljs.getLanguage(language) ? hljs.highlight(language, source) : hljs.highlightAuto(source),
+                code   = result.value,
+                line = 1;
 
-            $('code.hljs').html(result.value);
+            code = code.replace(/^/gm, function() {
+                return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+            });
+
+            $('code.hljs').html(code);
         }else{
             var path = file.path,
                 asset_path = API_DOMAIN + '/u/' + ownerName + '/p/' + projectName + '/git/raw/' + commitId + '/' + path;
@@ -76,7 +82,7 @@ var PROJECT_BLOB_ROUTE = (function(){
                     '</div>' +
                     '</div>' +
                     '</nav>',
-                project_nav =  '<div class="row project_header">' +
+                project_nav =  '<div class="row project_header nested">' +
                     '<div class="col-xs-3">' +
                     '<a href="#">项目主页</a>' +
                     '</div>' +

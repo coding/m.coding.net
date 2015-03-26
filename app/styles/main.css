@@ -1,3 +1,7 @@
+nav.main-navbar{
+    border-bottom-width: 0;
+}
+
 body {
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -206,7 +210,7 @@ form.login > button {
 
 .star, .comment {
     padding: 0 10px 0;
-    /*color: #999;*/
+    color: #666666 !important;
     line-height: 2.0;
     font-size: 10px;
     position: relative;
@@ -392,7 +396,7 @@ form.login > button {
 
 .project_navbar span {
     font-size: 25px;
-    color: #3bbd79;
+    color: #222222;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -403,10 +407,14 @@ form.login > button {
     transform: translate(-50%,-50%);
 }
 
+.project_header.nested {
+    top: 55px;
+}
+
 .project_header {
     text-align: center;
     position: relative;
-    top: 55px;
+    top: 57px;
     margin: 0 !important;
     background-color: #2a3644;
     color: #ffffff;
@@ -424,7 +432,7 @@ form.login > button {
 
 .project_header > div.active {
     color: #3bbd79;
-    border-bottom: 5px solid;
+    border-bottom: 3px solid;
 }
 
 .project_header a:hover, .project_header > div.active > a {
@@ -479,12 +487,9 @@ form.login > button {
     width: auto;
 }
 
-#project_code {
-
-}
-
 .project_item {
     height: 65px;
+    color: #428bca !important;
 }
 
 .project_item > img {
@@ -506,14 +511,29 @@ form.login > button {
     font-size: 8px;
 }
 
-.project_item > a.item_arrow {
+.project_item > span.item_arrow {
     float: left;
     font-size: 20px;
     vertical-align: middle;
     position: absolute;
     right: 5%;
     top: 30%;
-    color: #D7D6D6;
+    color: #dddddd;
+}
+
+pre .hljs {
+    padding-left: 5%;
+}
+
+.line-number-position {
+    position: relative;
+    top: 0;
+    left: -5%;
+}
+
+.line-number {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 12px;
 }
 
 #project_pull > .title h6 {

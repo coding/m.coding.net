@@ -66,7 +66,7 @@ var PROJECT_ITEM_ROUTE = (function(){
 
         ele.find('img').eq(0).attr('src', assetPath(pro['icon']));
         ele.find('.description h4').text(pro['name']);
-        ele.find('.description p').text(truncateText(pro['description'],40));
+        ele.find('.description p').text(truncateText(pro['description'],35));
         ele.find('.description img').attr('src', assetPath(pro['owner_user_picture']));
         ele.find('.description span').text(' 最后更新于' + moment(pro['updated_at']).fromNow());
 
@@ -106,7 +106,7 @@ var PROJECT_ITEM_ROUTE = (function(){
                                         '</div>' +
                                     '</div>' +
                                 '</nav>',
-                project_nav =  '<div class="row project_header">' +
+                project_nav =  '<div class="row project_header nested">' +
                                     '<div class="col-xs-3">' +
                                         '<a href="#">项目主页</a>' +
                                     '</div>' +

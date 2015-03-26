@@ -46,23 +46,24 @@ var PROJECT_TREE_ROUTE = (function(){
     }
 
     function createFileDOM(file){
-        var template = '<li class="list-group-item list-group-item-info project_item">' +
+        var template = '<a class="list-group-item project_item">' +
                             '<img src="#" height="25" width="23" >' +
                             '<div class="item_details">' +
                                 '<span class="item_name"></span>' +
                                 '<br />' +
                                 '<span class="item_note"></span>' +
                             '</div>' +
-                            '<a href="#" class="item_arrow pull-right glyphicon glyphicon-chevron-right"></a>' +
-                        '</li>',
+                            '<span class="item_arrow pull-right glyphicon glyphicon-chevron-right"></span>' +
+                        '</a>',
             ele      = $(template),
             link     = file['mode'] === 'tree' ? '/u/' + ownerName + '/p/' + projectName + '/tree/' + commitId + '/' + file['path'].replace(/\//g,'%2F') : '/u/' + ownerName + '/p/' + projectName + '/blob/' + commitId + '/' + file['path'].replace(/\//g,'%2F'),
             image    = file['mode'] === 'tree' ? '/images/static/folder.png' : '/images/static/file.png';
 
+        ele.attr('href',link);
+
         ele.find('img').attr('src', image);
         ele.find('span.item_name').text(truncateText(file['name'],25));
 
-        ele.find('a.item_arrow').attr('href',link);
         ele.find('span.item_note').text(moment(file['lastCommitDate']).fromNow() + ' ' + file['lastCommitter']['name']);
 
         return ele;
@@ -93,7 +94,7 @@ var PROJECT_TREE_ROUTE = (function(){
                     '</div>' +
                     '</div>' +
                     '</nav>',
-                project_nav =  '<div class="row project_header">' +
+                project_nav =  '<div class="row project_header nested">' +
                     '<div class="col-xs-3">' +
                     '<a href="#">项目主页</a>' +
                     '</div>' +

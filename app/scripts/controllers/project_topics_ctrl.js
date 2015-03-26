@@ -129,7 +129,7 @@ var PROJECT_TOPICS_ROUTE = (function(){
                     '</div>' +
                     '</div>' +
                     '</nav>',
-                project_nav =  '<div class="row project_header">' +
+                project_nav =  '<div class="row project_header nested">' +
                     '<div class="col-xs-3">' +
                     '<a href="#">项目主页</a>' +
                     '</div>' +
