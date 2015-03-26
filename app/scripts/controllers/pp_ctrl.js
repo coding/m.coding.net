@@ -134,6 +134,26 @@ var PP_ROUTE  = (function(){
 
 
         //create tweet comments
+        if(pp['comments'] > 5){
+            var comments_path = "/api/tweet/" + pp['id'] + "/comments?page=1&pageSize=500";
+            $.ajax({
+                url: API_DOMAIN + comments_path,
+                xhrFields: {
+                    withCredentials: true
+                },
+                async: false,
+                success: function(data){
+                    if(data.data){
+                        var comments = data.data.list;
+                        pp.comment_list = comments;
+                    }
+                },
+                error: function(){
+                    alert("Failed to load more comments");
+                }
+            });
+        }
+
         var comments     = pp.comment_list || [],
             commentsList = ele.find('.actionBox > .commentList'),
             commentEle;
@@ -142,7 +162,6 @@ var PP_ROUTE  = (function(){
             commentEle = createCommentDOM(comments[j]);
             commentsList.append(commentEle);
         }
-
 
         //event listeners for this element
         ele.on('click', '.star', function(e){
@@ -255,6 +274,8 @@ var PP_ROUTE  = (function(){
                         data.data['owner'] = router.current_user; //current user
                         elements[id]['comment_list'] = elements[id]['comment_list'] || [];
                         elements[id]['comment_list'].unshift(data.data);
+                        elements[id]['comments'] += 1;
+
                         var commentEle = createCommentDOM(data.data);
                         commentsList.prepend(commentEle);
                         input.val('');
@@ -347,7 +368,10 @@ var PP_ROUTE  = (function(){
                         }else{
                             elements[ppId]['comment_list'] = elements[ppId]['comment_list'] || [];
                             for(var i = elements[ppId]['comment_list'].length-1; i>=0; i--) {
-                                if( elements[ppId]['comment_list'][i]['id'] === commentId) elements[ppId]['comment_list'].splice(i,1);
+                                if( elements[ppId]['comment_list'][i]['id'] === commentId) {
+                                    elements[ppId]['comment_list'].splice(i,1);
+                                    elements[ppId]['comments'] -= 1;
+                                }
                             }
                             ele.remove();
                         }
