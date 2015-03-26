@@ -38,8 +38,8 @@ var USER_ROUTE = (function(){
                         '<img src="#" height="25" width="25" />' +
                         '<a class="panel-title" data-toggle="collapse" href="#accordion" data-target="#user-details" aria-expanded="true" aria-controls="user-details">' +
                         '</a>' +
-                        '<a href="#" class="pull-right watched"></a>' +
-                        '<a href="#" class="pull-right followed"></a>' +
+                        '<span href="#" class="pull-right watched"></span>' +
+                        '<span href="#" class="pull-right followed"></span>' +
                       '</h4>',
             body    =   '<p>' +
                             '<span class="description" ></span>' +
@@ -67,8 +67,8 @@ var USER_ROUTE = (function(){
 
         heading_ele.find('img').attr('src', assetPath(user.avatar));
         heading_ele.find('a.panel-title').text(' ' + user.name + ' ');
-        heading_ele.find('a.watched').attr('href','/u/' + user.global_key + '/followers').text(' ' + user.fans_count + '粉丝 ');
-        heading_ele.find('a.followed').attr('href','/u/' + user.global_key + '/friends').text(' ' + user.follows_count + '关注 ');
+        heading_ele.find('span.watched').text(' ' + user.fans_count + '粉丝 ');
+        heading_ele.find('span.followed').text(' ' + user.follows_count + '关注 ');
 
         heading_ele.click(function(e){
             e.preventDefault();
