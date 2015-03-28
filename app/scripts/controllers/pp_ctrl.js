@@ -133,35 +133,16 @@ var PP_ROUTE  = (function(){
         }
 
 
-        //create tweet comments
-        if(pp['comments'] > 5){
-            var comments_path = "/api/tweet/" + pp['id'] + "/comments?page=1&pageSize=500";
-            $.ajax({
-                url: API_DOMAIN + comments_path,
-                xhrFields: {
-                    withCredentials: true
-                },
-                async: false,
-                success: function(data){
-                    if(data.data){
-                        var comments = data.data.list;
-                        pp.comment_list = comments;
-                    }
-                },
-                error: function(){
-                    alert("Failed to load more comments");
+        fetchMoreComments(pp)
+            .then(function(comments){
+                var commentsList = ele.find('.actionBox > .commentList'),
+                    commentEle;
+
+                for(var j = 0; j < comments.length; j++){
+                    commentEle = createCommentDOM(comments[j]);
+                    commentsList.append(commentEle);
                 }
             });
-        }
-
-        var comments     = pp.comment_list || [],
-            commentsList = ele.find('.actionBox > .commentList'),
-            commentEle;
-
-        for(var j = 0; j < comments.length; j++){
-            commentEle = createCommentDOM(comments[j]);
-            commentsList.append(commentEle);
-        }
 
         //event listeners for this element
         ele.on('click', '.star', function(e){
@@ -482,6 +463,37 @@ var PP_ROUTE  = (function(){
     function reset(){
         elements = {};
         last_id = 99999999;
+    }
+
+    function fetchMoreComments(pp){
+        var deferred = $.Deferred();
+
+        if(pp['comments'] > 5){
+            var comments_path = "/api/tweet/" + pp['id'] + "/comments?page=1&pageSize=500";
+            $.ajax({
+                url: API_DOMAIN + comments_path,
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function(data){
+                    if(data.data){
+                        var comments = data.data.list;
+                        pp['comment_list'] = comments;
+                        deferred.resolve(comments);
+                    }else{
+                        deferred.resolve(pp['comment_list']);
+                    }
+                },
+                error: function(){
+                    deferred.resolve(pp['comment_list']);
+                    alert("Failed to load more comments");
+                }
+            });
+        }else{
+            deferred.resolve(pp['comment_list'])
+        }
+
+        return deferred.promise();
     }
 
     return {

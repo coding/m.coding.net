@@ -77,15 +77,16 @@
     };
 
     Router.prototype.register = function(uri, route) {
-      var after, before, context, enter, events, exit, new_route, template_url;
+      var after, before, context, enter, events, exit, new_route, resolve, template_url;
       template_url = route.template_url;
       events = route.events || this.event.split(' ');
       context = route.context;
+      resolve = route.resolve;
       before = route.before_enter;
       enter = route.on_enter;
       after = route.after_enter;
       exit = route.on_exit;
-      new_route = new Routy.Action(uri, template_url, events, $(context), this, before, enter, after, exit);
+      new_route = new Routy.Action(uri, template_url, events, $(context), this, resolve, before, enter, after, exit);
       return this.actions.push(new_route);
     };
 
@@ -94,68 +95,59 @@
     };
 
     Router.prototype.run = function(uri, event) {
-      var action, match, regex, route, _i, _j, _len, _len1, _ref, _ref1;
-      this.check_login_status();
-      _ref = this.actions;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        action = _ref[_i];
-        if (!event || (event && (__indexOf.call(action.events, event) >= 0))) {
-          _ref1 = action.route;
-          for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-            route = _ref1[_j];
-            regex = (this.pathRegExp(route, {})).regexp;
-            match = uri.match(regex);
-            if (match != null) {
-              this.go(uri);
-              match.shift();
-              return action.call.apply(action, match);
-            }
-          }
-        }
-      }
-      return this.run('/');
-    };
-
-    Router.prototype.check_login_status = function() {
       var _this = this;
       return $.ajax({
         url: API_DOMAIN + '/api/current_user',
         dataType: 'json',
         xhrFields: {
           withCredentials: true
-        },
-        async: false,
-        success: function(data) {
-          if (data.data) {
-            if (!_this.current_user) {
-              _this.current_user = data.data;
-              _this.updateDOM(_this.current_user);
+        }
+      }).done(function(data) {
+        if (data.data) {
+          if (!_this.current_user) {
+            _this.current_user = data.data;
+            return _this.updateDOM(_this.current_user);
+          }
+        }
+      }).fail(function() {
+        return alert('Failed to load current user');
+      }).always(function() {
+        var action, match, regex, route, _i, _j, _len, _len1, _ref, _ref1;
+        _ref = _this.actions;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          action = _ref[_i];
+          if (!event || (event && (__indexOf.call(action.events, event) >= 0))) {
+            _ref1 = action.route;
+            for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+              route = _ref1[_j];
+              regex = (_this.pathRegExp(route, {})).regexp;
+              match = uri.match(regex);
+              if (match != null) {
+                _this.go(uri);
+                match.shift();
+                return action.call.apply(action, match);
+              }
             }
           }
-        },
-        error: function() {
-          alert('Failed to load current user');
         }
+        return _this.run('/');
       });
     };
 
     Router.prototype.updateDOM = function(current_user) {
       var $user, template;
       $('#navigator a.login').removeClass('btn-success').removeClass('login').removeAttr('href').addClass('btn-danger').addClass('logout').text('退出登录').click(function(e) {
-        var _this = this;
         return $.ajax({
           url: API_DOMAIN + '/api/logout',
           type: 'POST',
           dataType: 'json',
           xhrFields: {
             withCredentials: true
-          },
-          success: function(data) {
-            return location.reload();
-          },
-          error: function() {
-            return alert('Failed to logout');
           }
+        }).done(function() {
+          return location.reload();
+        }).fail(function() {
+          return alert('Failed to logout');
         });
       });
       template = '<li>\
@@ -210,6 +202,8 @@
 
     Action.prototype.callback = null;
 
+    Action.prototype.resolve = null;
+
     Action.prototype.before_callback = null;
 
     Action.prototype.after_callback = null;
@@ -220,12 +214,13 @@
 
     Action.prototype.events = [];
 
-    function Action(routes, template_url, events, context, router, before_callback, callback, after_callback, on_exit_callback) {
+    function Action(routes, template_url, events, context, router, resolve, before_callback, callback, after_callback, on_exit_callback) {
       var arr, route, _i, _len;
       this.template_url = template_url;
       this.events = events;
       this.context = context;
       this.router = router;
+      this.resolve = resolve;
       this.before_callback = before_callback;
       this.callback = callback;
       this.after_callback = after_callback;
@@ -254,14 +249,39 @@
       if (!result) {
         false;
       }
-      if (!this.template) {
-        return $.get(this.template_url, function(template) {
-          _this.template = template;
-          return _this.digest(args);
+      if (this.resolve) {
+        return this.resolve.apply(this, args).then(function(data) {
+          if (data.data) {
+            args.push(data.data);
+            return _this.cacheTemplate(args);
+          } else {
+            return _this.cacheTemplate(args);
+          }
+        }, function() {
+          return alert('Failed to resolve promise');
+        }).then(function(data) {
+          return _this.digest(data);
         });
       } else {
-        return this.digest(args);
+        return this.cacheTemplate(args).then(function(data) {
+          return _this.digest(data);
+        });
       }
+    };
+
+    Action.prototype.cacheTemplate = function(data) {
+      var deferred,
+        _this = this;
+      deferred = $.Deferred();
+      if (this.template) {
+        deferred.resolve(data);
+      } else {
+        $.get(this.template_url, function(template) {
+          _this.template = template;
+          return deferred.resolve(data);
+        });
+      }
+      return deferred.promise();
     };
 
     Action.prototype.digest = function(args) {

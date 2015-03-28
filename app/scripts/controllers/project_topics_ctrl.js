@@ -105,14 +105,17 @@ var PROJECT_TOPICS_ROUTE = (function(){
         return path;
     }
 
-    function truncateText(text, length){
-        return text.length < length ? text : text.substr(0,length) + '...';
-    }
-
     return {
         template_url: '/views/project_topics.html',
         context: '.container',
-        before_enter: function(user, project){
+        resolve: function(user, project){
+          var promise = $.ajax({
+              url: API_DOMAIN + '/api/user/' + user + '/project/' + project,
+              dataType: 'json'
+          });
+          return promise;
+        },
+        before_enter: function(user, project, data){
 
             var path =  '/u/' + user + '/p/' +  project;
             //active the project navbar item
@@ -160,27 +163,12 @@ var PROJECT_TOPICS_ROUTE = (function(){
             $("nav.main-navbar").after(header_ele);
             header_ele.after(nav_ele);
 
-            //we need to fetch the whole project in order to get the project id
-            $.ajax({
-                url: API_DOMAIN + '/api/user/' + user + '/project/' + project,
-                dataType: 'json',
-                async: false,
-                success: function(data){
-                    if(data.data){
-                        projectData = data.data;
-                    }else{
-                        alert('Failed to load project');
-                    }
-                },
-                error: function(xhr, type){
-                    alert('Failed to load project');
-                }
-            });
         },
-        on_enter: function(user, project){
+        on_enter: function(user, project, data){
 
             ownerName = user;
             projectName = project;
+            projectData = data;
 
             var uri = '/api/project/' + projectData['id'] + '/topics';
 
