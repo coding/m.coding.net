@@ -571,7 +571,6 @@ var PP_ROUTE  = (function(){
 
             $('div.toggle-modal').click(function(e){
                 e.preventDefault();
-                console.log('toggle');
                 $('#pp_input').modal('toggle');
             });
 
