@@ -557,6 +557,12 @@ var PP_ROUTE  = (function(){
                 submitTweet('/api/tweet', content);
             });
 
+            $('div.toggle-modal').click(function(e){
+                e.preventDefault();
+                console.log('toggle');
+                $('#pp_input').modal('toggle');
+            });
+
         },
         on_exit: function(){
 

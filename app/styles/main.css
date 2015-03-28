@@ -426,7 +426,7 @@ form.login > button {
 }
 
 .project_header a {
-    color: #ffffff;
+    color: #ffffff !important;
     opacity: 0.5;
 }
 
@@ -436,7 +436,7 @@ form.login > button {
 }
 
 .project_header a:hover, .project_header > div.active > a {
-    color: #3bbd79;
+    color: #3bbd79 !important;
     opacity: 1;
     text-decoration: none;
     padding-bottom: 7px;
