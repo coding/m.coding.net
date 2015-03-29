@@ -22,7 +22,7 @@ var PROJECT_TOPICS_ROUTE = (function(){
                                 '</div>' +
                             '</a>' +
                             '<div id="" class="collapse" role="tabpanel">' +
-                                '<div class="panel-body">' +
+                                '<div class="panel-body text-center">' +
                                 '</div>' +
                                 '<a class="hidden"></a>' +
                             '</div>' +
@@ -37,10 +37,38 @@ var PROJECT_TOPICS_ROUTE = (function(){
         $topic.find('a.target > div > span:eq(1)').text(' ' + '有' + topic['child_count'] + '条回应' + ' ');
 
         $topic.find('div.collapse').attr('id', 'topic_' + topic['id']);
-        $topic.find('div.collapse > div.panel-body').html(sanitize(topic['content']));
+        $topic.find('div.collapse > div.panel-body').html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
 
         $topic.find('a.hidden').attr('href', '/u/' + ownerName + '/p/' + projectName + '/topics/' + topic['id']);
 
+        $topic.find('a.target').click(function(e){
+            var $body = $topic.find('div.collapse > div.panel-body');
+            if($body.hasClass('previewed')) return;
+            console.log('called');
+            //this would only happen once unless user refresh the page
+            $.ajax({
+                url: API_DOMAIN + "/api/markdown/previewNoAt",
+                dataType: 'json',
+                type: 'POST',
+                data: {content: topic['content']},
+                success: function(data){
+                    if(data.data){
+                        $body.html(data.data);
+                    }else{
+                        $body.html("<span>Failed to get preview of markdown</span>");
+                    }
+                },
+                error: function(){
+                    $body.html("<span>Failed to get preview of markdown</span>");
+                },
+                complete: function(){
+                    $body.removeClass('text-center');
+                    $body.addClass('text-left');
+                    $body.addClass('previewed');
+                }
+            });
+
+        });
         $topic.find('div.collapse > div.panel-body').click(function(e){
             e.preventDefault();
             $topic.find('a.hidden').trigger('click');
@@ -103,10 +131,6 @@ var PROJECT_TOPICS_ROUTE = (function(){
             path = API_DOMAIN + path;
         }
         return path;
-    }
-
-    function sanitize(content){
-        return content.replace(/\\"/g, "'")
     }
 
     return {
