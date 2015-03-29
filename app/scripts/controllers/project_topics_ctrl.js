@@ -37,7 +37,7 @@ var PROJECT_TOPICS_ROUTE = (function(){
         $topic.find('a.target > div > span:eq(1)').text(' ' + '有' + topic['child_count'] + '条回应' + ' ');
 
         $topic.find('div.collapse').attr('id', 'topic_' + topic['id']);
-        $topic.find('div.collapse > div.panel-body').html(topic['content']);
+        $topic.find('div.collapse > div.panel-body').html(sanitize(topic['content']));
 
         $topic.find('a.hidden').attr('href', '/u/' + ownerName + '/p/' + projectName + '/topics/' + topic['id']);
 
@@ -103,6 +103,10 @@ var PROJECT_TOPICS_ROUTE = (function(){
             path = API_DOMAIN + path;
         }
         return path;
+    }
+
+    function sanitize(content){
+        return content.replace(/\\"/g, "'")
     }
 
     return {
