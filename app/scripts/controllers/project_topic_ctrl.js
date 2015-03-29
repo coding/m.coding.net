@@ -22,7 +22,7 @@ var PROJECT_TOPIC_ROUTE = (function(){
         $topic.find('div.title > div > span:eq(0)').text(' ' + '发布于' + moment(topic['created_at']).fromNow() + ', ');
         $topic.find('div.title > div > span:eq(1)').text(' ' + '有' + topic['child_count'] + '条回应' + ' ');
 
-        $topic.find('div.panel-body > p').html(topic['content']);
+        $topic.find('div.panel-body > p').html(sanitize(topic['content']));
     }
 
     function updateCommentsDOM(data){
@@ -168,6 +168,10 @@ var PROJECT_TOPIC_ROUTE = (function(){
         pageCount = 1;
         pageSize  = 10;
         type      = 1;
+    }
+
+    function sanitize(content){
+        return content.replace(/\\"/g, "'")
     }
 
     function assetPath(path){
