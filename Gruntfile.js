@@ -303,6 +303,7 @@ module.exports = function (grunt) {
                 files: {
                     src: [
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
+                        '!<%= yeoman.dist %>/scripts/sha1.js',
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
                         '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
                         '!<%= yeoman.dist %>/images/static/*.{png,jpg,jpeg,gif,webp}',
@@ -442,7 +443,8 @@ module.exports = function (grunt) {
                         '.htaccess',
                         'images/{,*/}*.{webp,gif,ttf,eot,woff,woff2}',
                         'fonts/*',
-                        'views/**/*.html'
+                        'views/**/*.html',
+                        'scripts/sha1.js'
                     ]
                 }, {
                     expand: true,
