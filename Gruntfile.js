@@ -112,7 +112,6 @@ module.exports = function (grunt) {
             //],
             livereload: {
                 options: {
-                    port: 80,
                     middleware: function (connect) {
                         return [
                             //proxyRequest,
@@ -508,7 +507,7 @@ module.exports = function (grunt) {
             'concurrent:server',
             //'configureProxies:server',
             'connect:livereload',
-            'open:server',
+            //'open:server',
             'watch'
         ]);
     });

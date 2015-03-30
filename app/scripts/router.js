@@ -152,7 +152,7 @@
       });
       template = '<li>\
                         <a class="items" href="#">\
-                            <img class="current_user" src="#" height="35" width="35" />\
+                            <img class="current_user" src="#" height="22" width="22" />\
                             <span></span>\
                             <img class="right_arrow" src="/images/static/right_arrow.png" height="20" width="20" />\
                         </a>\

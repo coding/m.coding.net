@@ -160,6 +160,13 @@ var USER_ROUTE = (function(){
 
             var path =  '/user/' + user;
 
+            //if the user has logged in and he is viewing the current user, active the link on navigation bar
+            if(router.current_user){
+                if(user === router.current_user['global_key']){
+                    $('#navigator').find('li:eq(2)').addClass('active');
+                }
+            }
+
             //add the project header and navigation bar
             var project_nav =  '<div class="row project_header">' +
                                     '<div class="col-xs-12">' +
@@ -180,7 +187,7 @@ var USER_ROUTE = (function(){
 
         },
         on_exit: function(user){
-
+            $('#navigator').find('li').removeClass('active');
             $('.project_header').remove();
         }
     }
