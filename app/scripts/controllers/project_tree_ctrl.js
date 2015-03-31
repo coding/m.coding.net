@@ -46,23 +46,24 @@ var PROJECT_TREE_ROUTE = (function(){
     }
 
     function createFileDOM(file){
-        var template = '<li class="list-group-item list-group-item-info project_item">' +
+        var template = '<a class="list-group-item project_item">' +
                             '<img src="#" height="25" width="23" >' +
                             '<div class="item_details">' +
                                 '<span class="item_name"></span>' +
                                 '<br />' +
                                 '<span class="item_note"></span>' +
                             '</div>' +
-                            '<a href="#" class="item_arrow pull-right glyphicon glyphicon-chevron-right"></a>' +
-                        '</li>',
+                            '<span class="item_arrow pull-right glyphicon glyphicon-chevron-right"></span>' +
+                        '</a>',
             ele      = $(template),
             link     = file['mode'] === 'tree' ? '/u/' + ownerName + '/p/' + projectName + '/tree/' + commitId + '/' + file['path'].replace(/\//g,'%2F') : '/u/' + ownerName + '/p/' + projectName + '/blob/' + commitId + '/' + file['path'].replace(/\//g,'%2F'),
             image    = file['mode'] === 'tree' ? '/images/static/folder.png' : '/images/static/file.png';
 
+        ele.attr('href',link);
+
         ele.find('img').attr('src', image);
         ele.find('span.item_name').text(truncateText(file['name'],25));
 
-        ele.find('a.item_arrow').attr('href',link);
         ele.find('span.item_note').text(moment(file['lastCommitDate']).fromNow() + ' ' + file['lastCommitter']['name']);
 
         return ele;
@@ -79,8 +80,6 @@ var PROJECT_TREE_ROUTE = (function(){
         before_enter: function(user, project){
 
             var path =  '/u/' + user + '/p/' +  project;
-            //set up the page information in the banner
-            $('title').text(user + '/' + project);
             //active the project navbar item
             $('#navigator').find('li:first').addClass('active');
 
@@ -95,28 +94,30 @@ var PROJECT_TREE_ROUTE = (function(){
                     '</div>' +
                     '</div>' +
                     '</nav>',
-                project_nav =  '<div class="row project_header">' +
-                    '<div class="col-xs-6">' +
+                project_nav =  '<div class="row project_header nested">' +
+                    '<div class="col-xs-3">' +
                     '<a href="#">项目主页</a>' +
                     '</div>' +
-                    '<div class="col-xs-6">' +
+                    '<div class="col-xs-3">' +
                     '<a href="#">阅读代码</a>' +
                     '</div>' +
-                    //'<div class="col-xs-3">' +
-                    //'<a href="#">合并请求</a>' +
-                    //'</div>' +
-                    //'<div class="col-xs-3">' +
-                    //'<a href="#">项目讨论</a>' +
-                    //'</div>' +
+                    '<div class="col-xs-3">' +
+                    '<a href="#">合并请求</a>' +
+                    '</div>' +
+                    '<div class="col-xs-3">' +
+                    '<a href="#">项目讨论</a>' +
+                    '</div>' +
                     '</div>',
                 header_ele  = $(project_header),
                 nav_ele     = $(project_nav);
 
-            header_ele.find('a.navbar-brand').attr('href', router.default);
+            header_ele.find('a.navbar-brand').attr('href', '/projects');
             header_ele.find('span').text(project);
 
             nav_ele.find('div').eq(0).children('a').attr('href', path + '/git');
             nav_ele.find('div').eq(1).children('a').attr('href', path + '/tree');
+            nav_ele.find('div').eq(2).children('a').attr('href', path + '/pull');
+            nav_ele.find('div').eq(3).children('a').attr('href', path + '/topics');
 
             //active the current tab
             nav_ele.find('div').eq(1).addClass('active');
@@ -135,8 +136,6 @@ var PROJECT_TREE_ROUTE = (function(){
 
         },
         on_exit: function(user, project){
-            //clean up the nav menu
-            $('title').text('');
 
             $('#navigator').find('li').removeClass('active');
 

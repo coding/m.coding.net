@@ -1,3 +1,7 @@
+nav.main-navbar{
+    border-bottom-width: 0;
+}
+
 body {
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -30,6 +34,13 @@ a {
     padding: 0 2px 0;
 }
 
+.divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #002b36;
+}
+
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
@@ -50,7 +61,7 @@ a {
 
 .comment-meta {
     font-size: 10px;
-    color: #999;
+    /*color: #999;*/
     line-height: 1.4;
 }
 
@@ -69,6 +80,30 @@ a {
     background-color: #d9edf7;
 }
 
+div.login {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 11%;
+    background-color: #e1e1e3;
+}
+
+img.login {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+form.login {
+    width: 80%;
+    margin: auto;
+}
+
+form.login > button {
+    width: 100%;
+}
+
 .detailBox {
     /*width:320px;*/
     border:1px solid #bbb;
@@ -82,6 +117,7 @@ a {
     padding:10px;
     line-height:2.428571;
     height: 50px;
+    position: relative;
 }
 .titleBox label{
     /*color: #999;*/
@@ -115,12 +151,14 @@ a {
 .commentList {
     padding:0;
     list-style:none;
-    max-height:200px;
+    /*max-height:200px;*/
     overflow:auto;
 }
 .commentList li {
     margin:0;
-    margin-top:10px;
+    margin-bottom:5px;
+    background-color: #efefef;
+    padding: 5px;
 }
 .commentList li > div {
     display:table-cell;
@@ -142,9 +180,10 @@ a {
 .titleBox div.commentedAt{
     font-size: 8px;
     color: #979797;
-    position: relative;
-    bottom: 16px;
-    left: 35px;
+    position: absolute;
+    top: 55%;
+    left: 45px;
+    display: inline-block;
 }
 .detailBox div.commenterDetail{
     font-size: 8px;
@@ -169,13 +208,22 @@ a {
     background: #f4f4f4;
 }
 
-.star, .comment, .close {
+.star, .comment {
     padding: 0 10px 0;
-    /*color: #999;*/
+    color: #666666 !important;
     line-height: 2.0;
     font-size: 10px;
     position: relative;
     bottom: 5px;
+}
+
+.close {
+    padding: 0 10px 0;
+    color: #999 !important;
+    line-height: 2.0;
+    font-size: 12px;
+    /*position: relative;*/
+    /*bottom: 5px;*/
 }
 
 .watched, .followed {
@@ -196,36 +244,73 @@ a {
 }
 
 #navigator a {
-    background: #fafafa;
-    color: #2a3644 !important;
-    padding-left: 25px;
+    color: #fafafa !important;
+    /*padding-left: 25px;*/
 }
 
-#navigator a > img.checked {
-    display: none;
+#navigator {
+    background: #2a3644;
+    margin: 0 -15px;
 }
 
-#navigator a > img.unchecked {
-    display: inline;
+#navigator > a.login {
+    width: 90%;
+    /*margin-top: 5%;*/
+    margin-bottom: 9px;
+    position: relative;
+    left: 5%;
+}
+
+#navigator > a.logout {
+    width: 90%;
+    /*margin-top: 5%;*/
+    margin-bottom: 9px;
+    position: relative;
+    left: 5%;
 }
 
 #navigator > li.active > a {
     background: #2a3644;
-    color: #fafafa !important;
 }
 
-#navigator > li.active > a > img.checked{
-    display: inline;
+#navigator img.current_user {
+    vertical-align: middle;
+    border-radius: 50%;
 }
 
-#navigator > li.active > a > img.unchecked{
-    display: none;
+#navigator img.right_arrow{
+    position: absolute;
+    right: 5%;
+    top: 25%;
+}
+
+#navigator > li > a.items {
+    color: #fafafa;
+    padding-left: 25px;
+}
+
+#navigator > li.active > a{
+    background: #002b36;
 }
 
 #navigator a > span {
     padding-left: 15px;
 }
 
+#navigator div.links {
+    background: #002b36;
+    font-size: 15px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 15px 0;
+    width: 40%;
+}
+
+#navigator div.links > a {
+    color: #fafafa;
+}
 
 .navigation-item-dark {
     background-color: #2a3644;
@@ -311,7 +396,7 @@ a {
 
 .project_navbar span {
     font-size: 25px;
-    color: #3bbd79;
+    color: #222222;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -322,10 +407,14 @@ a {
     transform: translate(-50%,-50%);
 }
 
+.project_header.nested {
+    top: 55px;
+}
+
 .project_header {
     text-align: center;
     position: relative;
-    top: 55px;
+    top: 57px;
     margin: 0 !important;
     background-color: #2a3644;
     color: #ffffff;
@@ -337,17 +426,17 @@ a {
 }
 
 .project_header a {
-    color: #ffffff;
+    color: #ffffff !important;
     opacity: 0.5;
 }
 
 .project_header > div.active {
     color: #3bbd79;
-    border-bottom: 5px solid;
+    border-bottom: 3px solid;
 }
 
 .project_header a:hover, .project_header > div.active > a {
-    color: #3bbd79;
+    color: #3bbd79 !important;
     opacity: 1;
     text-decoration: none;
     padding-bottom: 7px;
@@ -398,12 +487,9 @@ a {
     width: auto;
 }
 
-#project_code {
-
-}
-
 .project_item {
     height: 65px;
+    color: #428bca !important;
 }
 
 .project_item > img {
@@ -425,14 +511,101 @@ a {
     font-size: 8px;
 }
 
-.project_item > a.item_arrow {
+.project_item > span.item_arrow {
     float: left;
     font-size: 20px;
     vertical-align: middle;
     position: absolute;
     right: 5%;
     top: 30%;
-    color: #D7D6D6;
+    color: #dddddd;
+}
+
+pre .hljs {
+    padding-left: 5%;
+}
+
+.line-number-position {
+    position: relative;
+    top: 0;
+    left: -5%;
+}
+
+.line-number {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 12px;
+}
+
+#project_pull > .title h6 {
+    color: #3bbd79;
+}
+
+#project_pull > .title p {
+    font-size: 12px;
+}
+
+#project_pull > .title div > span {
+    color: #979797;
+    font-size: 8px;
+}
+
+#project_pull > .title div > img {
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+#project_topic > .title > a:hover {
+    text-decoration: none;
+}
+
+#project_topic > .title > a > img {
+    float: left;
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+#project_topic > .title > a > div {
+    margin-left: 4em;
+    color: #000000;
+    font-size: 12px;
+}
+
+#project_topic > .title > a > div > span {
+    color: #979797;
+    font-size: 8px;
+}
+
+#topic_item .title > a:hover {
+    text-decoration: none;
+}
+
+#topic_item .title > img {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+#topic_item .title > div {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    width: 80%;
+    color: #000000;
+    font-size: 12px;
+}
+
+#topic_item .title > div > strong {
+    font-size: 16px;
+}
+
+#topic_item .title > div > span, #topic_item .title > div > b{
+    color: #979797;
+    font-size: 8px;
+}
+
+select.status {
+    width: 30%;
+    margin-bottom: 20px;
 }
 
 .emotion.emoji{
@@ -445,8 +618,15 @@ a {
 }
 
 .bubble-markdown-image{
-    width: 30%;
-    height: 10em;
-    /*display: block;*/
+    width: 80%;
 }
 
+p.thumbnail .bubble-markdown-image{
+    width: 33%;
+    height: 28vw;
+    padding: 5px;
+}
+
+#pp_input{
+    top: 20%;
+}

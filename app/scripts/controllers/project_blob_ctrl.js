@@ -37,10 +37,16 @@ var PROJECT_BLOB_ROUTE = (function(){
         var file = commit['file'];
         if(file.mode === 'file'){
             var source   = escape2Html(file.data),
-                language = file.lang;
-            var result = hljs.getLanguage(language) ? hljs.highlight(language, source) : hljs.highlightAuto(source);
+                language = file.lang,
+                result = hljs.getLanguage(language) ? hljs.highlight(language, source) : hljs.highlightAuto(source),
+                code   = result.value,
+                line = 1;
 
-            $('code.hljs').html(result.value);
+            code = code.replace(/^/gm, function() {
+                return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+            });
+
+            $('code.hljs').html(code);
         }else{
             var path = file.path,
                 asset_path = API_DOMAIN + '/u/' + ownerName + '/p/' + projectName + '/git/raw/' + commitId + '/' + path;
@@ -62,8 +68,6 @@ var PROJECT_BLOB_ROUTE = (function(){
         before_enter: function(user, project){
 
             var path =  '/u/' + user + '/p/' +  project;
-            //set up the page information in the banner
-            $('title').text(user + '/' + project);
             //active the project navbar item
             $('#navigator').find('li:first').addClass('active');
 
@@ -78,28 +82,30 @@ var PROJECT_BLOB_ROUTE = (function(){
                     '</div>' +
                     '</div>' +
                     '</nav>',
-                project_nav =  '<div class="row project_header">' +
-                    '<div class="col-xs-6">' +
+                project_nav =  '<div class="row project_header nested">' +
+                    '<div class="col-xs-3">' +
                     '<a href="#">项目主页</a>' +
                     '</div>' +
-                    '<div class="col-xs-6">' +
+                    '<div class="col-xs-3">' +
                     '<a href="#">阅读代码</a>' +
                     '</div>' +
-                    //'<div class="col-xs-3">' +
-                    //'<a href="#">合并请求</a>' +
-                    //'</div>' +
-                    //'<div class="col-xs-3">' +
-                    //'<a href="#">项目讨论</a>' +
-                    //'</div>' +
+                    '<div class="col-xs-3">' +
+                    '<a href="#">合并请求</a>' +
+                    '</div>' +
+                    '<div class="col-xs-3">' +
+                    '<a href="#">项目讨论</a>' +
+                    '</div>' +
                     '</div>',
                 header_ele  = $(project_header),
                 nav_ele     = $(project_nav);
 
-            header_ele.find('a.navbar-brand').attr('href', router.default);
+            header_ele.find('a.navbar-brand').attr('href', '/projects');
             header_ele.find('span').text(project);
 
             nav_ele.find('div').eq(0).children('a').attr('href', path + '/git');
             nav_ele.find('div').eq(1).children('a').attr('href', path + '/tree');
+            nav_ele.find('div').eq(2).children('a').attr('href', path + '/pull');
+            nav_ele.find('div').eq(3).children('a').attr('href', path + '/topics');
 
             //active the current tab
             nav_ele.find('div').eq(1).addClass('active');
@@ -119,8 +125,6 @@ var PROJECT_BLOB_ROUTE = (function(){
 
         },
         on_exit: function(user, project){
-            //clean up the nav menu
-            $('title').text('');
 
             $('#navigator').find('li').removeClass('active');
 

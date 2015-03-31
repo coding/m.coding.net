@@ -9,9 +9,6 @@ class Routy.Router
     # List of registered actions
     actions: []
 
-    # default route uri
-    default: '/'
-
     # Generate the router to a specific routing context
     # @state_changers_selector: String containing the selector of the elements that will trigger the pushState event
     # 	default: 'a' (all links)
@@ -60,11 +57,11 @@ class Routy.Router
 
         # go to the route page by default
         $(window).load (e) =>
-            router.run.call router, @default
+            router.run.call router, window.location.pathname
 
         @context_selector.on @event, @state_changers_selector, (e)->
-            href = $(@).attr('href') || $(@).children('a').attr('href')
-            if href.indexOf('http://') == 0 or href.indexOf('https://') == 0
+            href = $(@).attr('href') || $(@).children('a').attr('href') || ''
+            if href.indexOf('http://') == 0 or href.indexOf('https://') == 0 or href == ''
                 return
             else
                 e.preventDefault();
@@ -86,36 +83,84 @@ class Routy.Router
         template_url = route.template_url
         events       = route.events or @event.split(' ')
         context      = route.context
+        resolve      = route.resolve
         before       = route.before_enter
         enter        = route.on_enter
         after        = route.after_enter
         exit         = route.on_exit
 
-        new_route = new Routy.Action uri, template_url, events, $(context), @, before, enter, after, exit
+        new_route = new Routy.Action uri, template_url, events, $(context), @, resolve, before, enter, after, exit
 
-        @default = uri if route.default
         @actions.push new_route
 
     # delegate to register method
-    rootRegister: (template, callback) ->
-        @register('', template, callback)
+    rootRegister: (route) ->
+        @register '/', route
 
     run: (uri, event) ->
 
-        #first try to find if there is any matching route
-        for action in @actions
-            if !event or (event and (event in action.events))
-                for route in action.route
-                    regex = (@pathRegExp route, {}).regexp
-                    match = uri.match(regex)
-                    if match?
-                        @.go uri
-                        match.shift()
-                        return action.call(match...)
+        # always try to get the current user first
+        $.ajax
+            url: API_DOMAIN + '/api/current_user'
+            dataType: 'json'
+            xhrFields:
+                withCredentials: true
+        .done (data) =>
+            #the user has logged in
+            if data.data
+                if !@current_user
+                    @current_user = data.data
+                    @updateDOM @current_user
+        .fail ->
+            alert 'Failed to load current user'
+        .always =>
+            #first try to find if there is any matching route
+            for action in @actions
+                if !event or (event and (event in action.events))
+                    for route in action.route
+                        regex = (@pathRegExp route, {}).regexp
+                        match = uri.match(regex)
+                        if match?
+                            @.go uri
+                            match.shift()
+                            return action.call(match...)
 
-        #if no route is found, try default route
-        @.run @default if @default
+            #if no route is found, try default route
+            @.run '/'
 
+    updateDOM: (current_user) ->
+        $('#navigator a.login').removeClass('btn-success')
+                               .removeClass('login')
+                               .removeAttr('href')
+                               .addClass('btn-danger')
+                               .addClass('logout')
+                               .text('退出登录')
+                               .click (e) ->
+                                 $.ajax
+                                    url: API_DOMAIN + '/api/logout'
+                                    type: 'POST'
+                                    dataType: 'json'
+                                    xhrFields:
+                                        withCredentials: true
+                                 .done ->
+                                    location.reload()
+                                 .fail ->
+                                    alert 'Failed to logout'
+
+        template = '<li>
+                        <a class="items" href="#">
+                            <img class="current_user" src="#" height="22" width="22" />
+                            <span></span>
+                            <img class="right_arrow" src="/images/static/right_arrow.png" height="20" width="20" />
+                        </a>
+                    </li>'
+        $user = $(template)
+
+        $user.find('a.items').attr('href', '/user/' + current_user['global_key']);
+        $user.find('img.current_user').attr('src', current_user['avatar'])
+        $user.find('span').text(current_user['name'])
+
+        $('li.divider').before($user);
 
     # Checks if the route matches with the current uri
     pathRegExp: (path, opts) ->
@@ -159,6 +204,9 @@ class Routy.Action
     # The callback to execute
     callback: null
 
+    # The resolve object
+    resolve: null
+
     # Callback to execute before the action
     before_callback: null
 
@@ -173,7 +221,7 @@ class Routy.Action
     events: []
 
     # Create a new action
-    constructor: (routes, @template_url, @events, @context, @router, @before_callback, @callback, @after_callback, @on_exit_callback)->
+    constructor: (routes, @template_url, @events, @context, @router, @resolve, @before_callback, @callback, @after_callback, @on_exit_callback)->
         # so you can call it like: new Routy.Action(['/', 'home'], callback)
         # or: new Routy.Action('/, home', callback);
         routes = routes.split ', ' if typeof routes == 'string'
@@ -201,15 +249,36 @@ class Routy.Action
         # if it returned false when can't call the action
         false if ! result
 
-        #if template hasnt been fetched before, then fetch it
-        unless @template
+        if @resolve
+            @resolve(args...)
+            .then (data) =>
+                if(data.data)
+                    args.push(data.data)
+                    return @cacheTemplate(args)
+                else
+                    return @cacheTemplate(args)
+            ,() ->
+                alert('Failed to resolve promise')
+
+            .then (data) =>
+                @digest(data)
+        else
+            @cacheTemplate(args)
+            .then (data) =>
+                @digest(data)
+
+    cacheTemplate: (data) ->
+        deferred = $.Deferred()
+        #if template has been fetched before, then get it from cache
+        if @template
+            deferred.resolve(data)
+        #otherwise, get it from template_url
+        else
             $.get @template_url, (template) =>
                 @template = template
-                @digest(args)
+                deferred.resolve(data)
 
-        #otherwise, pull from cache
-        else
-            @digest(args)
+        return deferred.promise()
 
     digest: (args) ->
 

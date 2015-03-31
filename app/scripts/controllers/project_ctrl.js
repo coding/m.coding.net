@@ -6,7 +6,9 @@ var PROJECT_ROUTE = (function(){
     var pageSize  = 10,
         pageCount = 0,
         list      = null,
-        pros  = [];
+        pros      = [],
+        lastType  = 'public',
+        currentType = '';
 
     function assembleDOM(data){
         var data = data || {};
@@ -69,11 +71,12 @@ var PROJECT_ROUTE = (function(){
        $.ajax({
 		  url: API_DOMAIN + path,
 		  dataType: 'json',
+          xhrFields: {
+            withCredentials: true
+          },
 		  success: function(data){
               if(data.data){
                   assembleDOM(data.data);
-              }else{
-                  alert('Failed to load projects');
               }
 		  },
 		  error: function(xhr, type){
@@ -97,6 +100,11 @@ var PROJECT_ROUTE = (function(){
         list.appendChild(fragment)
     }
 
+    function reset(){
+        pros = [];
+        pageCount = 0;
+    }
+
     function assetPath(path){
         if(path.substr(0,1) === '/'){
             path = API_DOMAIN + path;
@@ -111,17 +119,47 @@ var PROJECT_ROUTE = (function(){
     return {
         template_url: '/views/project.html',
         context: ".container",
-        before_enter: function(){
-            //set up the page information in the banner
-            $('title').text('精彩项目');
+        before_enter: function(type){
             //active the project navbar item
             $('#navigator').find('li:first').addClass('active');
 
+            var project_nav = '<div class="row project_header">' +
+                    '<div class="col-xs-6">' +
+                    '<a href="#">精彩项目</a>' +
+                    '</div>' +
+                    '<div class="col-xs-6">' +
+                    '<a href="#">我的项目</a>' +
+                    '</div>',
+                nav_ele     = $(project_nav);
+
+            nav_ele.find('div').eq(0).children('a').attr('href', '/projects');
+            nav_ele.find('div').eq(1).children('a').attr('href', '/projects/mine');
+
+            $("nav.main-navbar").after(nav_ele);
+
+            if(type === 'mine'){
+                nav_ele.find('div').eq(1).addClass('active');
+            }else{
+                nav_ele.find('div').eq(0).addClass('active');
+            }
+
         },
-        on_enter: function(){
+        on_enter: function(type){
+
+            currentType = type || 'public';
+            //if the type has changed, clear all the contents
+            if(currentType != lastType){
+                reset();
+            }
+
+            if(!router.current_user && currentType === 'mine'){
+                alert('You are not logged in');
+                return;
+            }
+            var uri = (currentType === 'public') ? '/api/public/all' : '/api/user/' + router.current_user['global_key'] + '/public_projects';
             //check if it has previous loaded element
             if(pros.length === 0){
-                loadMore("/api/public/all");
+                loadMore(uri);
             }
             //otherwise just show the cached result
             else{
@@ -130,16 +168,14 @@ var PROJECT_ROUTE = (function(){
             var element = $("#load_more");
             element.on('click', function(e){
                 e.preventDefault();
-                loadMore("/api/public/all");
+                loadMore(uri);
             });
         },
         on_exit: function(){
-            //clean up the banner
-            $('title').text('');
             $('#navigator').find('li').removeClass('active');
-
-        },
-        default: true
+            $('.project_header').remove();
+            lastType = currentType; //remember the type set last time;
+        }
     }
 
 })();
