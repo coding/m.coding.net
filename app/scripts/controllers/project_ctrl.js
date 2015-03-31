@@ -152,6 +152,12 @@ var PROJECT_ROUTE = (function(){
                 reset();
             }
 
+            if(currentType === 'mine'){
+                $('#projects_list > a.projects_title').text('我的项目');
+            }else{
+                $('#projects_list > a.projects_title').text('精彩项目');
+            }
+
             if(!router.current_user && currentType === 'mine'){
                 alert('You are not logged in');
                 return;
