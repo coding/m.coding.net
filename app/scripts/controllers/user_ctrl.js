@@ -111,7 +111,7 @@ var USER_ROUTE = (function(){
 
             for (var i = 0; i < tags.length; i++) {
                 var obj = tags[i],
-                    ele = '<a href="/tags/search/' + obj + '">' + obj + '</a>';
+                    ele = '<span>' + obj + '</span>';
                 tags_ele.push(ele);
             }
             body_ele.find('table tbody').append('<tr class="tags"><td>标签</td><td>'+ tags_ele.join() + '</td></tr>')
