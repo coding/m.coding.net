@@ -429,6 +429,8 @@ form.login > button {
 }
 
 .project_header a {
+    width: 100%;
+    display: block;
     color: #ffffff !important;
     opacity: 0.5;
 }
@@ -442,7 +444,7 @@ form.login > button {
     color: #3bbd79 !important;
     opacity: 1;
     text-decoration: none;
-    padding-bottom: 7px;
+    /*padding-bottom: 7px;*/
 }
 
 .project_content {
