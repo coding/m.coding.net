@@ -93,7 +93,7 @@ var USER_ROUTE = (function(){
         body_ele.find('table .sufix td:eq(1)').text(user.global_key);
 
         if(typeof user.sex !== 'undefined' && user.sex !== ''){
-            var sex = (user.sex === 0) ? '男' : '女';
+            var sex = (user.sex === 0) ? '男' : (user.sex === 1) ? '女' : '未知';
             body_ele.find('table tbody').append('<tr class="sex"><td>性别</td><td>'+ sex +'</td></tr>')
         }
 
