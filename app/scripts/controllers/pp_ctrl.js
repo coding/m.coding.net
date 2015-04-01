@@ -132,12 +132,11 @@ var PP_ROUTE  = (function(){
             ele.find('.commentBox > .taskDescription').html($element);
         }
 
+        var commentsList = ele.find('.actionBox > .commentList');
 
         fetchMoreComments(pp)
             .then(function(comments){
-                var commentsList = ele.find('.actionBox > .commentList'),
-                    commentEle;
-
+                var commentEle;
                 for(var j = 0; j < comments.length; j++){
                     commentEle = createCommentDOM(comments[j]);
                     commentsList.append(commentEle);

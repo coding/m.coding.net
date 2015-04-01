@@ -297,11 +297,14 @@ form.login > button {
     padding-left: 15px;
 }
 
+#navigator div.row{
+    width: 90%;
+    margin: auto;
+}
+
 #navigator div.links {
     background: #002b36;
     font-size: 15px;
-    margin-left: 5%;
-    margin-right: 5%;
     margin-top: 5px;
     margin-bottom: 15px;
     padding: 15px 0;
@@ -360,7 +363,7 @@ form.login > button {
 
 .project_description {
     color: #333333;
-    font-size: 10px;
+    font-size: 12px;
     position: relative;
     top: 5px;
     margin-left: 10px;
@@ -426,6 +429,8 @@ form.login > button {
 }
 
 .project_header a {
+    width: 100%;
+    display: block;
     color: #ffffff !important;
     opacity: 0.5;
 }
@@ -439,7 +444,7 @@ form.login > button {
     color: #3bbd79 !important;
     opacity: 1;
     text-decoration: none;
-    padding-bottom: 7px;
+    /*padding-bottom: 7px;*/
 }
 
 .project_content {
