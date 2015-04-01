@@ -137,6 +137,7 @@ var PP_ROUTE  = (function(){
         fetchMoreComments(pp)
             .then(function(comments){
                 var commentEle;
+                comments = comments || [];
                 for(var j = 0; j < comments.length; j++){
                     commentEle = createCommentDOM(comments[j]);
                     commentsList.append(commentEle);
