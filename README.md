@@ -1,5 +1,5 @@
 # m.coding.net 项目介绍
-此项目为m.coding.net的前端代码，后端api和coding.net一致，通过跨域ajax请求 https://coding.net 域名下的api实现数据通信。实际开发过程中可能会因为本地域名导致CORS限制以至于无法获取到数据。具体解决方案可查看[这里](#%3Ca%20id-%22cors%22%3E%3C-a%3E%20%E5%85%B3%E4%BA%8ECORS)。项目通过Yeoman生成代码模版，并可使用Grunt来完成类似构建，开启服务器之类的任务。项目的开发基于ZeptoJS框架，并实现了类似于AngularJS的前端HTML5模式路由。具体实现请参看其[源代码](app/scripts/router.coffee)
+此项目为m.coding.net的前端代码，后端api和coding.net一致，通过跨域ajax请求 https://coding.net 域名下的api实现数据通信。实际开发过程中可能会因为本地域名导致CORS限制以至于无法获取到数据。具体解决方案可查看[这里](#cors)。项目通过Yeoman生成代码模版，并可使用Grunt来完成类似构建，开启服务器之类的任务。项目的开发基于ZeptoJS框架，并实现了类似于AngularJS的前端HTML5模式路由。具体实现请参看其[源代码](app/scripts/router.coffee)
 
 ## 项目运行
 Clone项目之后，执行以下步骤commands安装dependencies：
@@ -39,7 +39,7 @@ Clone项目之后，执行以下步骤commands安装dependencies：
     │   ├── node_modules：项目dependencies，包括grunt插件和其他开发工具都在这里
     │   ├── test：测试代码
 
-##<a id="cors"></a> 关于CORS
+##<a name="cors"></a> 关于CORS
 如果是在本地环境下运行项目，则需要修改操作系统的hosts文件来跳过CORS设置。由于目前coding后台API的CORS设置只允许m.coding.net域名下的ajax请求，所以当在本地localhost运行项目的时候，所有的ajax请求将被拒绝，导致无法获取数据。可将操作系统的域名解析hosts文件进行如下修改，让m.coding.net指向本地，然后通过浏览器访问m.coding.net来实现本地开发：
 
     127.0.0.1       m.coding.net
@@ -63,6 +63,6 @@ Clone项目之后，执行以下步骤commands安装dependencies：
     ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers         HIGH:!aNULL:!MD5;
     
-设置完上述步骤后，打开浏览器，输入https://m.coding.net访问本地环境下运行的m.coding.net。
+设置完上述步骤后，打开浏览器，输入 https://m.coding.net 访问本地环境下运行的m.coding.net。
 注：前提是grunt server已启动并在9000端口上运行。如果浏览器提示ssl证书不认可并有风险，可跳过提示并直接访问
 
