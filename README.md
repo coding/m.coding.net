@@ -39,7 +39,7 @@ Clone项目之后，执行以下步骤commands安装dependencies：
     │   ├── node_modules：项目dependencies，包括grunt插件和其他开发工具都在这里
     │   ├── test：测试代码
 
-##<a name="cors"></a> 关于CORS
+##<a id="cors"></a> 关于CORS
 如果是在本地环境下运行项目，则需要修改操作系统的hosts文件来跳过CORS设置。由于目前coding后台API的CORS设置只允许m.coding.net域名下的ajax请求，所以当在本地localhost运行项目的时候，所有的ajax请求将被拒绝，导致无法获取数据。可将操作系统的域名解析hosts文件进行如下修改，让m.coding.net指向本地，然后通过浏览器访问m.coding.net来实现本地开发：
 
     127.0.0.1       m.coding.net
