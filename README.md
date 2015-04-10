@@ -1,5 +1,5 @@
-# coding-mobile m.coding.net 项目介绍
-此项目为m.coding.net的前端代码，后端api和coding.net一致，通过跨域ajax请求https://coding.net域名下的api实现数据通信。实际开发过程中可能会因为本地域名导致CORS限制以至于无法获取到数据。具体解决方案可查看[这里](# 关于CORS)。项目通过Yeoman生成代码模版，并可使用Grunt来完成类似构建，开启服务器之类的任务。项目的开发基于ZeptoJS框架，并实现了类似于AngularJS的前端HTML5模式路由。具体实现请参看其[源代码](app/scripts/router.coffee)
+# m.coding.net 项目介绍
+此项目为m.coding.net的前端代码，后端api和coding.net一致，通过跨域ajax请求 https://coding.net 域名下的api实现数据通信。实际开发过程中可能会因为本地域名导致CORS限制以至于无法获取到数据。具体解决方案可查看[这里](# 关于CORS)。项目通过Yeoman生成代码模版，并可使用Grunt来完成类似构建，开启服务器之类的任务。项目的开发基于ZeptoJS框架，并实现了类似于AngularJS的前端HTML5模式路由。具体实现请参看其[源代码](app/scripts/router.coffee)
 
 # 项目运行
 Clone项目之后，执行以下步骤commands安装dependencies：
