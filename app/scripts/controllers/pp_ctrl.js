@@ -103,7 +103,7 @@ var PP_ROUTE  = (function(){
             userList.append(userEle);
         }
 
-        var $element = $(pp.content),
+        var $element = $('<div>').html(pp.content),
             $images  = $element.find('a.bubble-markdown-image-link');
 
         //if this pp contains images
@@ -126,10 +126,10 @@ var PP_ROUTE  = (function(){
                 $new_images.addClass('thumbnail');
             }
 
-            ele.find('.commentBox > .taskDescription').html($element);
+            ele.find('.commentBox > .taskDescription').html($element.html());
             ele.find('.commentBox > .taskDescription > p:last').after($new_images)
         }else{
-            ele.find('.commentBox > .taskDescription').html($element);
+            ele.find('.commentBox > .taskDescription').html($element.html());
         }
 
         var commentsList = ele.find('.actionBox > .commentList');
