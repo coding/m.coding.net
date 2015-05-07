@@ -64,7 +64,7 @@ class Routy.Router
             if href.indexOf('http://') == 0 or href.indexOf('https://') == 0 or href == ''
                 return
             else
-                e.preventDefault();
+                e.preventDefault()
                 router.run.call router, href, e.type if href?
 
         # Create an anonymous function to call the router.run method so we can
@@ -146,6 +146,7 @@ class Routy.Router
                                     location.reload()
                                  .fail ->
                                     alert 'Failed to logout'
+        $('#navigator a.register').hide()
 
         template = '<li>
                         <a class="items" href="#">
@@ -156,11 +157,11 @@ class Routy.Router
                     </li>'
         $user = $(template)
 
-        $user.find('a.items').attr('href', '/user/' + current_user['global_key']);
+        $user.find('a.items').attr('href', '/user/' + current_user['global_key'])
         $user.find('img.current_user').attr('src', current_user['avatar'])
         $user.find('span').text(current_user['name'])
 
-        $('li.divider').before($user);
+        $('li.divider').before($user)
 
     # Checks if the route matches with the current uri
     pathRegExp: (path, opts) ->

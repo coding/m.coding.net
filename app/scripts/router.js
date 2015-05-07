@@ -150,6 +150,7 @@
           return alert('Failed to logout');
         });
       });
+      $('#navigator a.register').hide();
       template = '<li>\
                         <a class="items" href="#">\
                             <img class="current_user" src="#" height="22" width="22" />\

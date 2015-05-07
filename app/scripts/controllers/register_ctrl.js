@@ -1,17 +1,17 @@
 /**
- * Created by simonykq on 08/03/2015.
+ * Created by jiong on 07/05/2015.
  */
-var LOGIN_ROUTE = (function(){
+var REGISTER_ROUTE = (function() {
 
     return {
-        template_url: '/views/login.html',
+        template_url: '/views/register.html',
         context: '.container',
         before_enter: function() {
             if (router.current_user) {
                 location.href = '/';
             }
         },
-        on_enter: function(){
+        on_enter: function() {
             $.ajax({
                 url: API_DOMAIN + '/api/captcha/login',
                 dataType: 'json',
@@ -25,42 +25,39 @@ var LOGIN_ROUTE = (function(){
                                                 '</div>' +
                                             '</div>' +
                                         '</div>',
-                            captcha  = $(template);
-                        $('div.checkbox').before(captcha);
+                        captcha  = $(template);
+                        $('input[name=global_key]').parent().after(captcha);
                     }
                 }
             });
 
-            $('form.login').submit(function(e){
+            $('form.register').submit(function(e) {
                 e.preventDefault();
-                var $password =  $('input[name="password"]'),
-                    hash = CryptoJS.SHA1($password.val());
-                $password.val(hash);
+
                 $.ajax({
-                    url: API_DOMAIN + '/api/login',
+                    url: API_DOMAIN + '/api/register',
                     type: 'POST',
                     dataType: 'json',
                     data: $(this).serialize(),
                     xhrFields: {
                         withCredentials: true
                     },
-                    success: function(data,status,xhr){
-                        //if login success
-                        if(data.data){
-                            router.run.call(router, '/')
+                    success: function(data, status, xhr) {
+                        if (data.data) {
+                            router.run.call(router, '/');
+                            alert(' 欢迎注册 Coding，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。');
                         }
-                        if(data.msg){
-                            for(var key in data.msg){
+                        if (data.msg) {
+                            for(var key in data.msg) {
                                 alert(data.msg[key]);
                             }
                         }
                     },
-                    error: function(){
-                        alert('Failed to login');
+                    error: function() {
+                        alert('Failed to reigster');
                     }
                 });
             })
         }
     }
-
 })();

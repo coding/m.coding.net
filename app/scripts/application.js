@@ -1,7 +1,7 @@
 /**
  * Created by simonykq on 21/12/2014.
  */
-(function (LOGIN_ROUTE, PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PROJECT_TOPIC_ROUTE, PP_ROUTE, USER_ROUTE) {
+(function (REGISTER_ROUTE, LOGIN_ROUTE, PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PROJECT_TOPIC_ROUTE, PP_ROUTE, USER_ROUTE) {
     $(function(){
         FastClick.attach(document.body);
         moment.locale('zh');
@@ -55,6 +55,8 @@
 
         router.register('/login', LOGIN_ROUTE);
 
+        router.register('/register', REGISTER_ROUTE);
+
         router.register('/projects', PROJECT_ROUTE);
 
         router.register('/projects/:type', PROJECT_ROUTE);
@@ -75,7 +77,7 @@
 
         router.register('/pp/:type', PP_ROUTE);
 
-        router.register('/user/:user', USER_ROUTE)
+        router.register('/user/:user', USER_ROUTE);
 
     })
-})(LOGIN_ROUTE ,PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PROJECT_TOPIC_ROUTE, PP_ROUTE, USER_ROUTE);
+})(REGISTER_ROUTE, LOGIN_ROUTE ,PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PROJECT_TOPIC_ROUTE, PP_ROUTE, USER_ROUTE);
