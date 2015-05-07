@@ -80,7 +80,7 @@ a {
     background-color: #d9edf7;
 }
 
-div.login {
+div.login, div.register {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -88,19 +88,23 @@ div.login {
     background-color: #e1e1e3;
 }
 
-img.login {
+img.login, img.register {
     margin: auto;
     margin-top: 20px;
     margin-bottom: 20px;
     display: block;
 }
 
-form.login {
+form.login, form.register {
     width: 80%;
     margin: auto;
 }
 
 form.login > button {
+    width: 100%;
+}
+
+form.register > button {
     width: 100%;
 }
 
@@ -256,6 +260,13 @@ form.login > button {
 #navigator > a.login {
     width: 90%;
     /*margin-top: 5%;*/
+    margin-bottom: 9px;
+    position: relative;
+    left: 5%;
+}
+
+#navigator > a.register {
+    width: 90%;
     margin-bottom: 9px;
     position: relative;
     left: 5%;

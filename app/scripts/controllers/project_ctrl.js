@@ -145,6 +145,10 @@ var PROJECT_ROUTE = (function(){
 
         },
         on_enter: function(type){
+            if (location.pathname === '/' && !router.current_user) {
+                location.href = '/home.html';
+                return
+            }
 
             currentType = type || 'public';
             //if the type has changed, clear all the contents
