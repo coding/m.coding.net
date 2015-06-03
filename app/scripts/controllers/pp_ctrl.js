@@ -425,7 +425,7 @@ var PP_ROUTE  = (function(){
             url: API_DOMAIN + path,
             dataType: 'json',
             type: 'POST',
-            data: {'content': content},
+            data: {'content': content, 'device': 'm.coding.net'},
             xhrFields: {
                 withCredentials: true
             },
