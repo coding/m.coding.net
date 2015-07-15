@@ -31,7 +31,7 @@ var LOGIN_ROUTE = (function(){
                 }
             });
 
-            $('form.login').submit(function(e){
+            $('#login_form').submit(function(e){
                 e.preventDefault();
                 var $password =  $('input[name="password"]'),
                     hash = CryptoJS.SHA1($password.val());
@@ -46,7 +46,39 @@ var LOGIN_ROUTE = (function(){
                     },
                     success: function(data,status,xhr){
                         //if login success
-                        if(data.data){
+                        if(data.code === 0){
+                            router.run.call(router, '/')
+                        } else if (data.code === 3205) {
+                            // 2fa
+                            $("#login_form").hide();
+                            $("#two_factor_auth_form").show();
+                            return ;
+                        }
+                        if(data.msg){
+                            for(var key in data.msg){
+                                alert(data.msg[key]);
+                            }
+                        }
+                    },
+                    error: function(){
+                        alert('Failed to login');
+                    }
+                });
+            });
+
+            $('#two_factor_auth_form').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: API_DOMAIN + '/api/check_two_factor_auth_code',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $(this).serialize(),
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function(data,status,xhr){
+                        //if login success
+                        if(data.code === 0){
                             router.run.call(router, '/')
                         }
                         if(data.msg){

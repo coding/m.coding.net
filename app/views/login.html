@@ -2,7 +2,7 @@
     <div class="col-xs-12">
         <img src="/images/icons/login_logo.png" class="login" height="100" width="100" />
     </div>
-    <form class="login">
+    <form id="login_form" class="login">
         <div class="form-group">
             <input type="text" class="form-control" name="email" placeholder="电子邮件/个性后缀">
         </div>
@@ -13,6 +13,12 @@
             <label>
                 <input type="checkbox" name="remember_me" value="true"> 记住我
             </label>
+        </div>
+        <button type="submit" class="btn btn-success">登录</button>
+    </form>
+    <form id="two_factor_auth_form" style="display: none;" class="login">
+        <div class="form-group">
+            <input type="text" class="form-control" name="code" placeholder="动态验证码">
         </div>
         <button type="submit" class="btn btn-success">登录</button>
     </form>
