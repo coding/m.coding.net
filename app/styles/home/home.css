@@ -5,7 +5,7 @@
   font-weight: normal;
   font-style: normal;
 }
-/* line 12, home.scss */
+/* line 10, home.scss */
 .icon {
   font-family: 'CodingHome';
   font-style: normal;
@@ -18,47 +18,47 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* line 24, home.scss */
+/* line 22, home.scss */
 .icon.logo:before {
   content: "\e608";
 }
 
-/* line 28, home.scss */
+/* line 26, home.scss */
 .icon.simpler:before {
   content: "\e60f";
 }
 
-/* line 32, home.scss */
+/* line 30, home.scss */
 .icon.collaboration:before {
   content: "\e605";
 }
 
-/* line 36, home.scss */
+/* line 34, home.scss */
 .icon.git:before {
   content: "\e607";
 }
 
-/* line 40, home.scss */
+/* line 38, home.scss */
 .icon.ide:before {
   content: "\e613";
 }
 
-/* line 44, home.scss */
+/* line 42, home.scss */
 .icon.terminal:before {
   content: "\e612";
 }
 
-/* line 48, home.scss */
+/* line 46, home.scss */
 .icon.play:before {
   content: "\e60c";
 }
 
-/* line 52, home.scss */
+/* line 50, home.scss */
 .icon.desktop:before {
   content: "\e600";
 }
 
-/* line 63, home.scss */
+/* line 61, home.scss */
 html, body {
   overflow: hidden;
   height: 100%;
@@ -68,105 +68,205 @@ html, body {
   padding: 0;
 }
 
-/* line 72, home.scss */
-body, input, textarea {
+/* line 70, home.scss */
+html, body, input, textarea {
   font-family: '微软雅黑', 'Helvetica Neue', sans-serif, SimHei;
   -webkit-font-smoothing: antialiased;
-  font-size: 14px;
+  font-size: 10px;
   color: #323A45;
 }
 
-/* line 79, home.scss */
+/* line 77, home.scss */
 body {
   box-sizing: border-box;
+  background-color: #fff;
+  line-height: 1.42857143;
 }
 
 /* line 83, home.scss */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* line 87, home.scss */
 a {
   color: #323A45;
   text-decoration: none;
 }
-/* line 87, home.scss */
+/* line 91, home.scss */
 a.blue {
   color: #5191BD;
 }
 
-/* line 92, home.scss */
+/* line 96, home.scss */
 .center {
   text-align: center;
 }
 
-/* line 96, home.scss */
+/* line 100, home.scss */
+.app {
+  height: 99px;
+  border-bottom: 1px solid #d1d1d1;
+  background-color: #f6f6f6;
+  color: #222222;
+  width: 100%;
+}
+
+/* line 108, home.scss */
+.app-close {
+  height: 100%;
+  float: left;
+  width: 40px;
+}
+/* line 113, home.scss */
+.app-close a {
+  position: relative;
+  top: 30px;
+  left: 11px;
+  font-size: 2.6rem;
+}
+/* line 119, home.scss */
+.app-close a:hover {
+  text-decoration: none;
+}
+
+/* line 125, home.scss */
+.app-show {
+  float: left;
+  height: 100%;
+}
+
+/* line 130, home.scss */
+.app-icon {
+  height: 76px;
+  width: 76px;
+  position: relative;
+  left: 0px;
+  top: 12px;
+  background: url("/images/icons/app-logo-ios.png");
+  -moz-background-size: 100% 100%;
+  background-size: 100% 100%;
+}
+
+/* line 141, home.scss */
+.app-desc {
+  position: relative;
+  left: 86px;
+  top: -60px;
+}
+/* line 145, home.scss */
+.app-desc .name {
+  font-size: 1.7rem;
+  font-weight: 450;
+  line-height: 20px;
+}
+/* line 150, home.scss */
+.app-desc .detail {
+  font-size: 1.6rem;
+  margin-top: 2px;
+  font-weight: 200;
+  line-height: 20px;
+}
+
+/* line 158, home.scss */
+.app-btn {
+  float: right;
+  height: 100%;
+}
+/* line 162, home.scss */
+.app-btn a {
+  position: relative;
+  top: 34px;
+  right: 15px;
+  color: #3bbd79;
+  font-size: 2.1rem;
+}
+/* line 170, home.scss */
+.app-btn a:hover {
+  text-decoration: none;
+}
+
+/* line 176, home.scss */
+.banner {
+  position: relative;
+  top: 8px;
+  left: 7px;
+}
+
+/* line 182, home.scss */
 #first-page {
+  font-size: 1.4rem;
   text-align: center;
   position: relative;
-  padding: 50px 0;
+  padding: 0;
 }
-/* line 101, home.scss */
+/* line 188, home.scss */
 #first-page h1 {
   font-size: 3rem;
-  padding: 20px 0 25px 0;
+  padding: 24px 0 24px 0;
 }
-/* line 105, home.scss */
+/* line 192, home.scss */
 #first-page h1 .icon {
-  font-size: 2rem;
+  font-size: 3.5rem;
 }
-/* line 110, home.scss */
+/* line 197, home.scss */
 #first-page h2 {
   font-size: 2.25rem;
 }
-/* line 113, home.scss */
+/* line 200, home.scss */
 #first-page h2 .icon {
   font-size: 2.2rem;
 }
-/* line 118, home.scss */
+/* line 205, home.scss */
 #first-page div.button-group {
-  margin-top: 3rem;
+  margin-top: 5.2rem;
 }
-/* line 122, home.scss */
+/* line 209, home.scss */
 #first-page a.button {
-  font-size: 14px;
-  padding: 0 2.5em;
+  font-size: 1.5rem;
+  padding: 0 3.2rem;
   text-transform: none;
-  line-height: 30px;
-  height: 30px;
-  border-radius: 2em;
+  line-height: 3rem;
+  height: 3rem;
+  border-radius: 2rem;
   display: inline-block;
-  margin: 0 0.5em;
+  margin: 0 1.0rem;
 }
-/* line 133, home.scss */
+/* line 220, home.scss */
 #first-page a.login {
   background: #323A45;
   color: #fff;
 }
-/* line 138, home.scss */
+/* line 225, home.scss */
 #first-page a.register {
   background: #fff;
   color: #323A45;
   box-shadow: rgba(50, 58, 69, 0.4) 0px 0px 0px 1px inset;
 }
-/* line 144, home.scss */
+/* line 231, home.scss */
 #first-page a.show-video {
+  font-size: 1.7rem;
   opacity: .7;
 }
-/* line 148, home.scss */
+/* line 236, home.scss */
 #first-page ul.services {
   display: inline-block;
-  margin-top: 3rem;
+  margin: 70px 0 0 0;
+  padding: 0px;
 }
-/* line 152, home.scss */
+/* line 241, home.scss */
 #first-page ul.services li {
   list-style: none;
   padding: 0 20px;
-  margin: 10px 0;
+  margin: 0;
   float: left;
   position: relative;
 }
-/* line 159, home.scss */
+/* line 248, home.scss */
 #first-page ul.services li:last-child:after {
   border-right: none;
 }
-/* line 163, home.scss */
+/* line 252, home.scss */
 #first-page ul.services li:after {
   content: '';
   height: 70%;
@@ -175,43 +275,28 @@ a.blue {
   right: 0;
   top: 7px;
 }
-/* line 172, home.scss */
+/* line 261, home.scss */
 #first-page ul.services li p {
   margin-top: 5px;
 }
 
-/* line 179, home.scss */
+/* line 268, home.scss */
 .go-desktop {
-  position: absolute;
+  margin-top: 1.6rem;
   text-align: center;
   width: 100%;
-  bottom: 20px;
+}
+/* line 273, home.scss */
+.go-desktop a {
+  font-size: 1.4rem;
 }
 
-/* line 188, home.scss */
-.iphone6 #first-page {
-  padding-top: 110px;
-}
-/* line 191, home.scss */
-.iphone6 .go-desktop {
-  bottom: 60px;
-}
-
-/* line 197, home.scss */
-.rotated #first-page {
-  padding: 40px 0;
-}
-/* line 201, home.scss */
-.rotated #first-page ul.services {
-  margin-top: 3rem;
-}
-
-/* line 209, home.scss */
+/* line 279, home.scss */
 .icon.big {
-  font-size: 1.3em;
+  font-size: 2.1rem;
 }
 
-/* line 215, home.scss */
+/* line 285, home.scss */
 .modal {
   width: 100%;
   height: 100%;
@@ -226,7 +311,7 @@ a.blue {
   left: 0;
 }
 
-/* line 229, home.scss */
+/* line 299, home.scss */
 .modal > a.close {
   background: url("/images/close.svg") no-repeat center;
   position: fixed;
@@ -247,7 +332,7 @@ a.blue {
   z-index: 10000;
 }
 
-/* line 249, home.scss */
+/* line 319, home.scss */
 .modal > a.close:hover {
   opacity: 1;
   -webkit-transform: rotate(90deg);
@@ -257,7 +342,7 @@ a.blue {
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* line 258, home.scss */
+/* line 328, home.scss */
 .modal > .content {
   display: table-cell;
   vertical-align: middle;

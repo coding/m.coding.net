@@ -370,7 +370,7 @@ module.exports = function (grunt) {
             options: {
                 dest: '<%= yeoman.dist %>'
             },
-            html: '<%= yeoman.app %>/index.html'
+            html: ['<%= yeoman.app %>/index.html','<%= yeoman.app %>/home.html']
         },
         usemin: {
             options: {
@@ -425,7 +425,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.app %>',
-                    src: 'index.html',
+                    src: ['index.html','home.html'],
                     dest: '<%= yeoman.dist %>'
                 }]
             }
@@ -456,6 +456,12 @@ module.exports = function (grunt) {
                 }, {
                   dest: '<%= yeoman.dist %>/nginx.conf',
                   src: '<%= yeoman.app %>/nginx.conf'
+                },{
+                  dest: '<%= yeoman.dist %>/styles/font/vjs.ttf',
+                  src: '<%= yeoman.app %>/bower_components/video.js/dist/video-js/font/vjs.ttf'
+                },{
+                  dest: '<%= yeoman.dist %>/styles/font/vjs.woff',
+                  src: '<%= yeoman.app %>/bower_components/video.js/dist/video-js/font/vjs.woff'
                 }]
             }
         },
