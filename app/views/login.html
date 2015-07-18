@@ -1,26 +1,36 @@
 <div class="row login">
     <div class="col-xs-12">
-        <img src="/images/icons/login_logo.png" class="login" height="100" width="100" />
+        <img src="/images/icons/login_logo.png" class="login" height="77" width="77" />
     </div>
-    <form id="login_form" class="login">
-        <div class="form-group">
-            <input type="text" class="form-control" name="email" placeholder="电子邮件/个性后缀">
+    <form id="login_form" class="login login-inputs">
+        <div class="form-group login-input">
+            <label class="label-email" for="email">电子邮件/个性后缀</label>
+            <input type="text" class="form-control input-right input-email" name="email" id='email' placeholder="">
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="密码">
+        <div class="form-group login-input">
+            <label class="label-password" for="password">密码</label>
+            <input type="password" class="form-control input-right input-password" name="password" id="password" placeholder="">
         </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" name="remember_me" value="true"> 记住我
-            </label>
-        </div>
-        <button type="submit" class="btn btn-success">登录</button>
+        <button type="submit" class="btn btn-login" disabled="disabled">登录</button>
     </form>
-    <form id="two_factor_auth_form" style="display: none;" class="login">
-        <div class="form-group">
-            <input type="text" class="form-control" name="code" placeholder="动态验证码">
-        </div>
-        <button type="submit" class="btn btn-success">登录</button>
-    </form>
-</div>
 
+<!--     <form id="two_factor_auth_form" style="display:none" class="login login-inputs">
+        <div class="form-group login-input">
+            <label class="label-code" for="code">验证码</label>
+            <input type="text" class="form-control input-right" name="code" id="code" placeholder="">
+            <img class="captcha" height="30" src="https://coding.net/api/getCaptcha">
+        </div>
+        <button type="submit" class="btn btn-login">登录</button>
+    </form> -->
+
+    <div class="col-xs-12 link-group">
+        <ul> 
+            <li>
+                <a href="/register">注册账号</a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">忘记密码</a>
+            </li>
+        </ul>
+    </div>
+</div>

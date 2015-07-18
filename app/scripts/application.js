@@ -5,21 +5,20 @@
     $(function(){
         FastClick.attach(document.body);
         moment.locale('zh');
-
-        $('button.navbar-toggle').click(function(){
-            var target = $(this).data('target'),
+        
+        $('button.navbar-toggle').on('click',function(){
+            var target = $('.navbar-collapse'),
+                target_cover = $('.black-cover'),
                 status = $(this).data('status');
-            if($(target).hasClass('collapsing')) return; //dont do anything if it is transitioning
+            if($(target).hasClass('collapsing') || $(target_cover).hasClass('collapsing')) return; //dont do anything if it is transitioning
             //the current status is open
             if(status === 'open'){
+                $(target_cover).hide();
                 $(target).collapse('hide');
-                $(this).find('img.up').hide();
-                $(this).find('img.down').show();
                 $(this).data('status', 'closed');
             }else{
+                $(target_cover).show();
                 $(target).collapse('show');
-                $(this).find('img.up').show();
-                $(this).find('img.down').hide();
                 $(this).data('status', 'open');
             }
         });
@@ -29,24 +28,23 @@
             var $nav_bar = $('div.navbar-collapse'),
                 $button  = $('button.navbar-toggle');
             if(!$nav_bar.hasClass('collapsing') && $button.data('status') === 'open'){
+                $('.black-cover').hide();
                 $nav_bar.collapse('hide');
-                $button.find('img.up').hide();
-                $button.find('img.down').show();
                 $button.data('status', 'closed');
             }
         });
 
-        var user_agent = navigator.userAgent;
+        // var user_agent = navigator.userAgent;
 
-        if(user_agent.match(/Android/i)){
-            $('a.mobile-app-link').attr('href', "https://coding.net/app/android")
-        }
-        else if(user_agent.match(/iPhone|iPad|iPod/i)){
-            $('a.mobile-app-link').attr('href', 'https://itunes.apple.com/app/id923676989')
-        }
-        else{
+        // if(user_agent.match(/Android/i)){
+        //     $('a.mobile-app-link').attr('href', "https://coding.net/app/android")
+        // }
+        // else if(user_agent.match(/iPhone|iPad|iPod/i)){
+        //     $('a.mobile-app-link').attr('href', 'https://itunes.apple.com/app/id923676989')
+        // }
+        // else{
 
-        }
+        // }
 
 
         window.router = new Routy.Router(null, 'a', '.main');

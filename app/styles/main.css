@@ -1,11 +1,12 @@
-nav.main-navbar{
-    border-bottom-width: 0;
-}
-
 body {
-    background: #fafafa;
+    background-color: #f6f6f6 !important;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
+}
+
+.container-coding{
+    margin-top: 80px;
+    margin-bottom: 20px;
 }
 
 a {
@@ -82,30 +83,125 @@ a {
 
 div.login, div.register {
     position: absolute;
-    height: 100%;
     width: 100%;
-    top: 11%;
-    background-color: #e1e1e3;
+    top: 57px;
+}
+
+div.login{
+    background-color: #f6f6f6;
+    left: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 30px;
+}
+
+div.login div.col-xs-12{
+    background-color: #f6f6f6;
 }
 
 img.login, img.register {
     margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 36px;
+    margin-bottom: 33px;
     display: block;
 }
 
 form.login, form.register {
-    width: 80%;
-    margin: auto;
+    width: 100%;
+}
+
+form.login-inputs{
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.login-input{
+    margin-bottom: 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+form.login-inputs label{
+    position: absolute;
+    left: 15px;
+    color: #999999;
+    font-size: 18px;
+    font-weight: 100;
+}
+
+form.login-inputs label.label-email{
+    top:162px;
+}
+
+form.login-inputs label.label-password{
+    top:216px;
+}
+
+form.login-inputs label.label-code{
+    top:270px;
+}
+
+.captcha{
+    position: absolute;
+    top: 270px;
+    right: 15px;
+}
+
+input.input-right{
+    border: none;
+    height: 54px;
+    line-height: 22px;
+    padding-top: 9px;
+    padding-left: 180px;
+    padding-right: 40px;
+    font-size: 18px;
+}
+
+.input-password{
+    padding-right: 100px;
 }
 
 form.login > button {
-    width: 100%;
+    width: 92%;
+    margin-left: 4%;
 }
 
 form.register > button {
     width: 100%;
+}
+
+.btn-login {
+    background-color: #3bbd79;
+    color: rgba(255,255,255,0.5);
+    font-size: 20px;
+    margin-top: 24px;
+    text-transform: none;
+    height: 53px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.link-group {
+    width: 100%;
+    text-align: center;
+    margin: 138px 0 auto 0;
+    font-size: 15px;
+    
+}
+
+.link-group ul{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.link-group ul li{
+    list-style: none;
+    float: left;
+    padding: 0 20px;
+}
+
+.link-group ul li:first-child{
+    border-right: 1px solid #d1d1d1;
 }
 
 .detailBox {
@@ -247,105 +343,6 @@ form.register > button {
     top: 10px;
 }
 
-#navigator a {
-    color: #fafafa !important;
-    /*padding-left: 25px;*/
-}
-
-#navigator {
-    background: #2a3644;
-    margin: 0 -15px;
-}
-
-#navigator > a.login {
-    width: 90%;
-    /*margin-top: 5%;*/
-    margin-bottom: 9px;
-    position: relative;
-    left: 5%;
-}
-
-#navigator > a.register {
-    width: 90%;
-    margin-bottom: 9px;
-    position: relative;
-    left: 5%;
-}
-
-#navigator > a.logout {
-    width: 90%;
-    /*margin-top: 5%;*/
-    margin-bottom: 9px;
-    position: relative;
-    left: 5%;
-}
-
-#navigator > li.active > a {
-    background: #2a3644;
-}
-
-#navigator img.current_user {
-    vertical-align: middle;
-    border-radius: 50%;
-}
-
-#navigator img.right_arrow{
-    position: absolute;
-    right: 5%;
-    top: 25%;
-}
-
-#navigator > li > a.items {
-    color: #fafafa;
-    padding-left: 25px;
-}
-
-#navigator > li.active > a{
-    background: #002b36;
-}
-
-#navigator a > span {
-    padding-left: 15px;
-}
-
-#navigator div.row{
-    width: 90%;
-    margin: auto;
-}
-
-#navigator div.links {
-    background: #002b36;
-    font-size: 15px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    padding: 15px 0;
-    width: 40%;
-}
-
-#navigator div.links > a {
-    color: #fafafa;
-}
-
-.navigation-item-dark {
-    background-color: #2a3644;
-    /*padding-left: 52px;*/
-    /*padding-top: 22px;*/
-    /*height: 88px;*/
-    /*font-size: 24px;*/
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #ffffff;
-}
-
-.navigation-item-white {
-    background-color: #fafafa;
-    /*padding-left: 52px;*/
-    /*padding-top: 22px;*/
-    /*height: 88px;*/
-    /*font-size: 24px;*/
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #2a3644;
-}
-
 .project_banner {
     background-image: none !important;
     background-color: #2a3644 !important;
@@ -428,11 +425,11 @@ form.register > button {
 .project_header {
     text-align: center;
     position: relative;
-    top: 57px;
     margin: 0 !important;
     background-color: #2a3644;
     color: #ffffff;
     font-size: 15px;
+    top: 56px;
 }
 
 .project_header > div {
