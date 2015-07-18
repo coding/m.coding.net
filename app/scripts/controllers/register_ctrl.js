@@ -12,21 +12,72 @@ var REGISTER_ROUTE = (function() {
             }
         },
         on_enter: function() {
+            var refreshCaptcha = function(){
+                 $.ajax({
+                    url: API_DOMAIN + '/api/captcha/login',
+                    dataType: 'json',
+                    success: function(data){
+                        if(data.data){
+                            $('img.captcha').attr('src', API_DOMAIN + '/api/getCaptcha?code=' + Math.random());
+                        }else{
+                            $('#div-captcha').remove();
+                        }
+                    }
+                });
+            }
+
+            var changeStyle = function (){
+                var controls = new Array('email','global_key');
+                if ($('#captcha').length === 1){
+                    controls.push('captcha');
+                }
+                var flag = true;
+                for (var i = controls.length - 1; i >= 0; i--) {
+                    var value = $.trim($('#' + controls[i]).val());
+                    var elem = $('.label-' + controls[i]);
+                    if (value == ''){
+                        elem.css('color','#999999');
+                        flag = false;
+                    }else{
+                        elem.css('color','#222222');
+                    }
+                };
+
+                var elem_btn = $('.btn-register');
+                if (flag){
+                    elem_btn.removeAttr('disabled');
+                    elem_btn.css('color','#ffffff');
+                }else{
+                    elem_btn.attr('disabled','disabled');
+                    elem_btn.css('color','rgba(255,255,255,0.5)');
+                }
+            }
+
+            var addCaptcha = function(){
+                var captcha = $('#captcha');
+                if (captcha.length === 1){
+                    return false;
+                }
+
+                var template = '<div class="form-group" id="div-captcha">' +
+                                    '<label class="label-captcha" for="captcha">验证码</label>' +
+                                    '<input type="text" class="form-control input-right" name="j_captcha" id="captcha" placeholder="">' +
+                                    '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
+                                '</div>',
+                captchaHtml = $(template);
+                $('button.btn-register').before(captchaHtml);
+                $('img.captcha').on('click',refreshCaptcha);
+                $('#captcha').on('input',changeStyle);
+                refreshCaptcha();
+                return true;
+            }
+
             $.ajax({
                 url: API_DOMAIN + '/api/captcha/login',
                 dataType: 'json',
                 success: function(data){
                     if(data.data){
-                        var template = '<div class="form-group">' +
-                                            '<div class="input-group">' +
-                                                '<input type="text" class="form-control" name="j_captcha" placeholder="验证码">' +
-                                                '<div class="input-group-addon" style="padding: 0">' +
-                                                    '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
-                                                '</div>' +
-                                            '</div>' +
-                                        '</div>',
-                        captcha  = $(template);
-                        $('input[name=global_key]').parent().after(captcha);
+                        addCaptcha();
                     }
                 }
             });
@@ -57,7 +108,10 @@ var REGISTER_ROUTE = (function() {
                         alert('Failed to reigster');
                     }
                 });
-            })
+            });
+
+            $('#email').on('input',changeStyle);
+            $('#global_key').on('input',changeStyle);
         }
     }
 })();

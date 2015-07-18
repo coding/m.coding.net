@@ -20,7 +20,7 @@ var LOGIN_ROUTE = (function(){
                         if(data.data){
                             $('img.captcha').attr('src', API_DOMAIN + '/api/getCaptcha?code=' + Math.random());
                         }else{
-                            $('#div-code').remove();
+                            $('#div-captcha').remove();
                         }
                     }
                 });
@@ -28,8 +28,8 @@ var LOGIN_ROUTE = (function(){
 
             var changeStyle = function (){
                 var controls = new Array('email','password');
-                if ($('#code').length === 1){
-                    controls.push('code');
+                if ($('#captcha').length === 1){
+                    controls.push('captcha');
                 }
                 var flag = true;
                 for (var i = controls.length - 1; i >= 0; i--) {
@@ -54,20 +54,21 @@ var LOGIN_ROUTE = (function(){
             }
 
             var addCaptcha = function(){
-                var icode = $('#code');
-                if (icode.length === 1){
+                var captcha = $('#captcha');
+                if (captcha.length === 1){
                     return false;
                 }
 
-                var template = '<div class="form-group login-input" id="#div-code">' +
-                                            '<label class="label-code" for="code">验证码</label>' +
-                                            '<input type="text" class="form-control input-right input-code" name="j_captcha" id="code" placeholder="">' +
+                var template = '<div class="form-group login-input" id="#div-captcha">' +
+                                            '<label class="label-captcha" for="captcha">验证码</label>' +
+                                            '<input type="text" class="form-control input-right input-captcha" name="j_captcha" id="captcha" placeholder="">' +
                                             '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
                                         '</div>',
-                captcha  = $(template);
-                $('button.btn-login').before(captcha);
+                captchaHtml  = $(template);
+                $('button.btn-login').before(captchaHtml);
                 $('img.captcha').on('click',refreshCaptcha);
-                $('input.input-code').on('input',changeStyle);
+                $('input.input-captcha').on('input',changeStyle);
+                changeStyle();
                 refreshCaptcha();
                 return true;
             }
