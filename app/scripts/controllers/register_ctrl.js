@@ -14,7 +14,7 @@ var REGISTER_ROUTE = (function() {
         on_enter: function() {
             var refreshCaptcha = function(){
                  $.ajax({
-                    url: API_DOMAIN + '/api/captcha/login',
+                    url: API_DOMAIN + '/api/captcha/register',
                     dataType: 'json',
                     success: function(data){
                         if(data.data){
@@ -73,7 +73,7 @@ var REGISTER_ROUTE = (function() {
             }
 
             $.ajax({
-                url: API_DOMAIN + '/api/captcha/login',
+                url: API_DOMAIN + '/api/captcha/register',
                 dataType: 'json',
                 success: function(data){
                     if(data.data){

@@ -81,22 +81,16 @@ a {
     background-color: #d9edf7;
 }
 
-div.login, div.register {
+div.login, div.register, div.activate {
     position: absolute;
     width: 100%;
     top: 57px;
-}
 
-div.login{
     background-color: #f6f6f6;
     left: 0;
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 30px;
-}
-
-div.login .col-xs-12{
-    background-color: #f6f6f6;
 }
 
 img.login{
@@ -106,7 +100,7 @@ img.login{
     display: block;
 }
 
-div.register h2{
+div.register h2, div.activate h2{
     font-size: 18px;
     font-weight: 100;
     margin-top: 63px;
@@ -114,22 +108,22 @@ div.register h2{
     text-align: center;
 }
 
-form.login, form.register {
+form.login, form.register, form.activate {
     width: 100%;
 }
 
-.login div,.register div{
+.login div, .register div, .activate div{
     padding-top: 1px;
     padding-bottom: 1px;
     margin-bottom: 0;
 }
 
-.login input,.register input{
+.login input, .register input ,.activate input{
     margin-bottom: 0;
     border-bottom: 1px solid #e5e5e5;
 }
 
-.login label,.register label{
+.login label, .register label, .activate label{
     position: absolute;
     left: 15px;
     color: #999999;
@@ -137,11 +131,11 @@ form.login, form.register {
     font-weight: 100;
 }
 
-.login .label-email,.register .label-email{
+.login .label-email, .register .label-email, .activate .label-email{
     top:162px;
 }
 
-.login .label-password,.register .label-global_key{
+.login .label-password, .register .label-global_key, .activate .label-captcha{
     top:216px;
 }
 
@@ -149,9 +143,15 @@ form.login, form.register {
     top:270px;
 }
 
-.captcha{
+.login .captcha, .register .captcha{
     position: absolute;
     top: 270px;
+    right: 15px;
+}
+
+.activate .captcha{
+    position: absolute;
+    top: 216px;
     right: 15px;
 }
 
@@ -169,12 +169,12 @@ input.input-right{
     padding-right: 100px;
 }
 
-form.login > button, form.register > button{
+form.login > button, form.register > button, form.activate > button{
     width: 92%;
     margin-left: 4%;
 }
 
-.btn-login,.btn-register {
+.btn-login,.btn-register, .btn-activate {
     background-color: #3bbd79;
     color: rgba(255,255,255,0.5);
     font-size: 20px;
