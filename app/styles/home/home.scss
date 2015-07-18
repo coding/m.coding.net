@@ -97,81 +97,81 @@ a {
     text-align: center;
 }
 
-.app {
-    height: 99px;
-    border-bottom:1px solid #d1d1d1;
-    background-color:#f6f6f6;
-    color: #222222;
-    width: 100%;
-}
+// .app {
+//     height: 99px;
+//     border-bottom:1px solid #d1d1d1;
+//     background-color:#f6f6f6;
+//     color: #222222;
+//     width: 100%;
+// }
 
-.app-close{
-    height: 100%;
-    float: left;
-    width: 40px;
+// .app-close{
+//     height: 100%;
+//     float: left;
+//     width: 40px;
     
-    a{
-        position: relative;
-        top: 30px;
-        left: 11px;
-        font-size: 2.6rem;
+//     a{
+//         position: relative;
+//         top: 30px;
+//         left: 11px;
+//         font-size: 2.6rem;
 
-        &:hover{
-            text-decoration:none;
-        }
-    }
-}
+//         &:hover{
+//             text-decoration:none;
+//         }
+//     }
+// }
 
-.app-show{
-    float: left;
-    height: 100%;
-}
+// .app-show{
+//     float: left;
+//     height: 100%;
+// }
 
-.app-icon {
-    height: 76px;
-    width: 76px;
-    position: relative;
-    left: 0px;
-    top:12px;
-    background: url("/images/icons/app-logo-ios.png");
-    -moz-background-size:100% 100%;
-    background-size:100% 100%; 
-}
+// .app-icon {
+//     height: 76px;
+//     width: 76px;
+//     position: relative;
+//     left: 0px;
+//     top:12px;
+//     background: url("/images/icons/app-logo-ios.png");
+//     -moz-background-size:100% 100%;
+//     background-size:100% 100%; 
+// }
 
-.app-desc {
-    position: relative;
-    left: 86px;
-    top: -60px;
-    .name{
-        font-size: 1.7rem;
-        font-weight: 450;
-        line-height: 20px;
-    }
-    .detail{
-        font-size: 1.6rem;
-        margin-top: 2px;
-        font-weight: 200;
-        line-height: 20px;
-    }
-}
+// .app-desc {
+//     position: relative;
+//     left: 86px;
+//     top: -60px;
+//     .name{
+//         font-size: 1.7rem;
+//         font-weight: 450;
+//         line-height: 20px;
+//     }
+//     .detail{
+//         font-size: 1.6rem;
+//         margin-top: 2px;
+//         font-weight: 200;
+//         line-height: 20px;
+//     }
+// }
 
-.app-btn{
-    float: right;
-    height: 100%;
+// .app-btn{
+//     float: right;
+//     height: 100%;
 
-    a{
-        position: relative;
-        top:34px;
-        right: 15px;
-        color: #3bbd79;
-        font-size:2.1rem;
-        // display: none;
+//     a{
+//         position: relative;
+//         top:34px;
+//         right: 15px;
+//         color: #3bbd79;
+//         font-size:2.1rem;
+//         // display: none;
 
-        &:hover{
-            text-decoration:none;
-        }
-    }    
-}
+//         &:hover{
+//             text-decoration:none;
+//         }
+//     }    
+// }
 
 .banner{
   position: relative;
@@ -184,10 +184,11 @@ a {
     text-align: center;
     position: relative;
     padding: 0;
+    margin-top: 57px;
 
     h1 {
         font-size: 3rem;
-        padding: 24px 0 24px 0;
+        padding: 34px 0 24px 0;
 
         .icon {
             font-size: 3.5rem;

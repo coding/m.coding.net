@@ -7,37 +7,9 @@
     <meta name="Description"
           content="Coding 是一个面向开发者的云端开发平台，目前提供代码托管，运行空间，质量控制，在线 WebIDE, 项目管理等功能。Coding 提供社会化协作功能，包含了社交元素，为开发者提供技术讨论和协作平台。 Coding，让开发更简单！">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-itunes-app" content="app-id=923676989">
     <title>Coding - 让开发更简单！</title>
     <base href="/"/>
-
-    <script>
-        function is_iphone(){
-            var u = navigator.userAgent, app = navigator.appVersion;
-            var is_iphone = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-            return is_iphone;  
-        }
-
-        window.onload = function(){
-            $("div.app-close a").click(function(){
-                $("div.app").slideUp(500,function(){
-                    $(this).remove();
-                    $("nav.navbar").removeClass("navbar-fixed-top-banner");
-                    $(".black-cover").removeClass('black-cover-top');
-                });
-            });
-
-            $('button[data-toggle="collapse"]').click(function(){
-                $(".black-cover").slideToggle(0);
-                $(".navbar-collapse").slideToggle(400);
-            });
-
-            if (is_iphone()){
-                $('#app-download').attr('href','https://appsto.re/cn/9eJd3.i');
-            }else{
-                $('#app-download').attr('href','https://coding.net/app/android');
-            }
-        }
-    </script>
     
     <!-- build:css({.tmp,app}) /styles/bootstrap.css -->
     <link rel="stylesheet" href="/styles/bootstrap.css">
@@ -51,33 +23,11 @@
     <!-- endbuild -->
 </head>
 <body>
-<div class="app ios">
-    <div class="app-close">
-        <a>x</a>
-    </div>
-    <div class="app-show">
-        <div class="app-icon">
-
-        </div>
-        <div class="app-desc">
-            <div class="name">
-                Coding
-            </div>
-            <div class="detail">
-                coding.net<br/><span id="app-status">未安装</span>
-            </div>
-        </div>
-    </div>
-    <div class="app-btn">
-         <a href="https://coding.net/app#download" id="app-download">下载</a>
-       <!--   <a href="coding-net://" id="app-open">打开</a> -->
-    </div>
-</div>
 
 <nav class="navbar navbar-fixed-top main-navbar navbar-coding " role="navigation">
   <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
+    <div class="navbar-header navbar-header-coding">
         <button type="button" class="navbar-toggle collapsed" style="border:none" data-toggle="collapse">
             <span class="sr-only">Toggle navigation</span>
             <img src="/images/icons/menu.png" height="23" width="23">
@@ -136,7 +86,7 @@
     </ul>
 </article>
 
-<div class="black-cover black-cover-top">
+<div class="black-cover">
 </div>
 <p class="go-desktop">
     <a href="http://coding.net"><i class="icon desktop"></i> 访问电脑版</a>
@@ -151,7 +101,7 @@
             <source src="/images/home/video/coding.ogv" type="video/ogg">
         </video> -->
         <video id="coding-video" class="video-js vjs-default-skin"
-               data-setup='{ "controls": false, "autoplay": true, "preload": "none" }'
+               data-setup='{ "controls": false, "autoplay": false, "preload": "none" }'
                poster="https://dn-coding-net-production-static.qbox.me/b8713bab-1567-49ab-9c9f-18e4e7dbaf3b.png">
             <source src="https://dn-coding-net-public-file.qbox.me/coding.webm" type="video/webm">
             <source src="https://dn-coding-net-public-file.qbox.me/coding.mp4" type="video/mp4">
@@ -177,6 +127,20 @@
 <script src="/bower_components/video.js/dist/video-js/video.js"></script>
 <script type="text/javascript" src="/lib/home-mobile.js"></script>
 <!-- endbuild -->
+
+<script type="text/javascript">
+    $(function(){
+        $('button[data-toggle="collapse"]').click(function(){
+            $(".black-cover").slideToggle(0);
+            $(".navbar-collapse").slideToggle(400);
+        });
+
+        $('.black-cover').click(function(){
+            $(".black-cover").hide();
+            $(".navbar-collapse").slideToggle(400);
+        });
+    });
+</script>
 
 </body>
 </html>

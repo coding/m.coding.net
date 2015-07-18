@@ -103,89 +103,6 @@ a.blue {
   text-align: center;
 }
 
-/* line 100, home.scss */
-.app {
-  height: 99px;
-  border-bottom: 1px solid #d1d1d1;
-  background-color: #f6f6f6;
-  color: #222222;
-  width: 100%;
-}
-
-/* line 108, home.scss */
-.app-close {
-  height: 100%;
-  float: left;
-  width: 40px;
-}
-/* line 113, home.scss */
-.app-close a {
-  position: relative;
-  top: 30px;
-  left: 11px;
-  font-size: 2.6rem;
-}
-/* line 119, home.scss */
-.app-close a:hover {
-  text-decoration: none;
-}
-
-/* line 125, home.scss */
-.app-show {
-  float: left;
-  height: 100%;
-}
-
-/* line 130, home.scss */
-.app-icon {
-  height: 76px;
-  width: 76px;
-  position: relative;
-  left: 0px;
-  top: 12px;
-  background: url("/images/icons/app-logo-ios.png");
-  -moz-background-size: 100% 100%;
-  background-size: 100% 100%;
-}
-
-/* line 141, home.scss */
-.app-desc {
-  position: relative;
-  left: 86px;
-  top: -60px;
-}
-/* line 145, home.scss */
-.app-desc .name {
-  font-size: 1.7rem;
-  font-weight: 450;
-  line-height: 20px;
-}
-/* line 150, home.scss */
-.app-desc .detail {
-  font-size: 1.6rem;
-  margin-top: 2px;
-  font-weight: 200;
-  line-height: 20px;
-}
-
-/* line 158, home.scss */
-.app-btn {
-  float: right;
-  height: 100%;
-}
-/* line 162, home.scss */
-.app-btn a {
-  position: relative;
-  top: 34px;
-  right: 15px;
-  color: #3bbd79;
-  font-size: 2.1rem;
-}
-/* line 170, home.scss */
-.app-btn a:hover {
-  text-decoration: none;
-}
-
 /* line 176, home.scss */
 .banner {
   position: relative;
@@ -199,29 +116,30 @@ a.blue {
   text-align: center;
   position: relative;
   padding: 0;
+  margin-top: 57px;
 }
-/* line 188, home.scss */
+/* line 189, home.scss */
 #first-page h1 {
   font-size: 3rem;
-  padding: 24px 0 24px 0;
+  padding: 34px 0 24px 0;
 }
-/* line 192, home.scss */
+/* line 193, home.scss */
 #first-page h1 .icon {
   font-size: 3.5rem;
 }
-/* line 197, home.scss */
+/* line 198, home.scss */
 #first-page h2 {
   font-size: 2.25rem;
 }
-/* line 200, home.scss */
+/* line 201, home.scss */
 #first-page h2 .icon {
   font-size: 2.2rem;
 }
-/* line 205, home.scss */
+/* line 206, home.scss */
 #first-page div.button-group {
   margin-top: 5.2rem;
 }
-/* line 209, home.scss */
+/* line 210, home.scss */
 #first-page a.button {
   font-size: 1.5rem;
   padding: 0 3.2rem;
@@ -232,29 +150,29 @@ a.blue {
   display: inline-block;
   margin: 0 1.0rem;
 }
-/* line 220, home.scss */
+/* line 221, home.scss */
 #first-page a.login {
   background: #323A45;
   color: #fff;
 }
-/* line 225, home.scss */
+/* line 226, home.scss */
 #first-page a.register {
   background: #fff;
   color: #323A45;
   box-shadow: rgba(50, 58, 69, 0.4) 0px 0px 0px 1px inset;
 }
-/* line 231, home.scss */
+/* line 232, home.scss */
 #first-page a.show-video {
   font-size: 1.7rem;
   opacity: .7;
 }
-/* line 236, home.scss */
+/* line 237, home.scss */
 #first-page ul.services {
   display: inline-block;
   margin: 70px 0 0 0;
   padding: 0px;
 }
-/* line 241, home.scss */
+/* line 242, home.scss */
 #first-page ul.services li {
   list-style: none;
   padding: 0 20px;
@@ -262,11 +180,11 @@ a.blue {
   float: left;
   position: relative;
 }
-/* line 248, home.scss */
+/* line 249, home.scss */
 #first-page ul.services li:last-child:after {
   border-right: none;
 }
-/* line 252, home.scss */
+/* line 253, home.scss */
 #first-page ul.services li:after {
   content: '';
   height: 70%;
@@ -275,28 +193,28 @@ a.blue {
   right: 0;
   top: 7px;
 }
-/* line 261, home.scss */
+/* line 262, home.scss */
 #first-page ul.services li p {
   margin-top: 5px;
 }
 
-/* line 268, home.scss */
+/* line 269, home.scss */
 .go-desktop {
   margin-top: 1.6rem;
   text-align: center;
   width: 100%;
 }
-/* line 273, home.scss */
+/* line 274, home.scss */
 .go-desktop a {
   font-size: 1.4rem;
 }
 
-/* line 279, home.scss */
+/* line 280, home.scss */
 .icon.big {
   font-size: 2.1rem;
 }
 
-/* line 285, home.scss */
+/* line 286, home.scss */
 .modal {
   width: 100%;
   height: 100%;
@@ -311,7 +229,7 @@ a.blue {
   left: 0;
 }
 
-/* line 299, home.scss */
+/* line 300, home.scss */
 .modal > a.close {
   background: url("/images/close.svg") no-repeat center;
   position: fixed;
@@ -332,7 +250,7 @@ a.blue {
   z-index: 10000;
 }
 
-/* line 319, home.scss */
+/* line 320, home.scss */
 .modal > a.close:hover {
   opacity: 1;
   -webkit-transform: rotate(90deg);
@@ -342,7 +260,7 @@ a.blue {
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* line 328, home.scss */
+/* line 329, home.scss */
 .modal > .content {
   display: table-cell;
   vertical-align: middle;

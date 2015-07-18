@@ -1,13 +1,11 @@
 .navbar-coding {
   background-color: #ffffff;
-  position: relative;
-  height: 56px;
+  height: 57px;
   margin-bottom: 0;
 }
 
-.navbar-header {
+.navbar-header-coding {
   border-bottom: 1px solid #e5e5e5;
-  float: none;
 }
 
 .navbar-coding-detail {
@@ -45,12 +43,12 @@
 }
 
 .nav-pp {
-  padding-bottom: 14px;
+  padding-bottom: 15px;
 }
 
 .black-cover {
   position: absolute;
-  top: 56px;
+  top: 57px;
   left: 0;
   width: 100%;
   height: 100%;
