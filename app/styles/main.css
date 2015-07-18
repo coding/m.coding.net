@@ -81,7 +81,7 @@ a {
     background-color: #d9edf7;
 }
 
-div.login, div.register, div.activate {
+div.login, div.register, div.activate, div.resetPassword {
     position: absolute;
     width: 100%;
     top: 57px;
@@ -100,7 +100,7 @@ img.login{
     display: block;
 }
 
-div.register h2, div.activate h2{
+div.register h2, div.activate h2, div.resetPassword h2{
     font-size: 18px;
     font-weight: 100;
     margin-top: 63px;
@@ -108,22 +108,22 @@ div.register h2, div.activate h2{
     text-align: center;
 }
 
-form.login, form.register, form.activate {
+form.login, form.register, form.activate, form.resetPassword {
     width: 100%;
 }
 
-.login div, .register div, .activate div{
+.login div, .register div, .activate div, .resetPassword div{
     padding-top: 1px;
     padding-bottom: 1px;
     margin-bottom: 0;
 }
 
-.login input, .register input ,.activate input{
+.login input, .register input ,.activate input, .resetPassword input{
     margin-bottom: 0;
     border-bottom: 1px solid #e5e5e5;
 }
 
-.login label, .register label, .activate label{
+.login label, .register label, .activate label, .resetPassword label{
     position: absolute;
     left: 15px;
     color: #999999;
@@ -131,11 +131,11 @@ form.login, form.register, form.activate {
     font-weight: 100;
 }
 
-.login .label-email, .register .label-email, .activate .label-email{
+.login .label-email, .register .label-email, .activate .label-email, .resetPassword .label-email{
     top:162px;
 }
 
-.login .label-password, .register .label-global_key, .activate .label-captcha{
+.login .label-password, .register .label-global_key, .activate .label-captcha, .resetPassword .label-captcha{
     top:216px;
 }
 
@@ -149,7 +149,7 @@ form.login, form.register, form.activate {
     right: 15px;
 }
 
-.activate .captcha{
+.activate .captcha, .resetPassword .captcha{
     position: absolute;
     top: 216px;
     right: 15px;
@@ -169,12 +169,12 @@ input.input-right{
     padding-right: 100px;
 }
 
-form.login > button, form.register > button, form.activate > button{
+form.login > button, form.register > button, form.activate > button, form.resetPassword > button{
     width: 92%;
     margin-left: 4%;
 }
 
-.btn-login,.btn-register, .btn-activate {
+.btn-login,.btn-register, .btn-activate, .btn-resetPassword {
     background-color: #3bbd79;
     color: rgba(255,255,255,0.5);
     font-size: 20px;
