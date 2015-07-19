@@ -121,6 +121,16 @@ var LOGIN_ROUTE = (function(){
     
             $('input.input-email').on('input',changeStyle);
             $('input.input-password').on('input',changeStyle);
+
+            $('#forget-password').on('click',function(){
+                $('.login-cover').show();
+                $('.login-controls').show();
+            });
+
+            $('button.cancel').on('click',function(){
+                $('.login-cover').hide();
+                $('.login-controls').hide();
+            });
         }
     }
 
