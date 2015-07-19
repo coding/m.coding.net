@@ -135,34 +135,34 @@
     };
 
     Router.prototype.updateDOM = function(current_user) {
-      var $user, template;
-      $('#navigator a.login').removeClass('btn-success').removeClass('login').removeAttr('href').addClass('btn-danger').addClass('logout').text('退出登录').click(function(e) {
-        return $.ajax({
-          url: API_DOMAIN + '/api/logout',
-          type: 'POST',
-          dataType: 'json',
-          xhrFields: {
-            withCredentials: true
-          }
-        }).done(function() {
-          return location.reload();
-        }).fail(function() {
-          return alert('Failed to logout');
-        });
+      var logoutTemplate;
+
+      $("a.nav-login").attr('href','/user/' + current_user['global_key']);
+      $(".nav-login img").attr('src', current_user['avatar']).css('border-radius','34px');
+      $(".nav-login span").text(current_user['name']);
+
+      logoutTemplate = '<li>' + 
+                              '<a class="nav_logout"><img src="" class="nav-icon"><span>退出</span></a>' + 
+                           '</li>';
+
+      $("#navigator").append(logoutTemplate);
+      
+      $('a.nav_logout').on('click',function(){
+          $.ajax({
+            url: API_DOMAIN + '/api/logout',
+            type: 'POST',
+            dataType: 'json',
+            xhrFields: {
+              withCredentials: true
+            }
+          }).done(function() {
+            return location.reload();
+          }).fail(function() {
+            return alert('Failed to logout');
+          });
       });
-      $('#navigator a.register').hide();
-      template = '<li>\
-                        <a class="items" href="#">\
-                            <img class="current_user" src="#" height="22" width="22" />\
-                            <span></span>\
-                            <img class="right_arrow" src="/images/static/right_arrow.png" height="20" width="20" />\
-                        </a>\
-                    </li>';
-      $user = $(template);
-      $user.find('a.items').attr('href', '/user/' + current_user['global_key']);
-      $user.find('img.current_user').attr('src', current_user['avatar']);
-      $user.find('span').text(current_user['name']);
-      return $('li.divider').before($user);
+
+      return;
     };
 
     Router.prototype.pathRegExp = function(path, opts) {

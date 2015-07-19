@@ -27,6 +27,7 @@
 
 .navbar-nav li a {
   padding: 12px 15px;
+  cursor: pointer;
 }
 
 .navbar-nav li span {
