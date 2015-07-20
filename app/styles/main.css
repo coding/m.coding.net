@@ -126,6 +126,12 @@ form.login, form.register, form.activate, form.resetPassword {
     border-bottom: 1px solid #e5e5e5;
 }
 
+.show-input-email{
+    background-color: #fff !important;
+    color: #999999 !important;
+    cursor: default !important;
+}
+
 .login .captcha, .register .captcha{
     position: absolute;
     top: 270px;
