@@ -105,8 +105,8 @@ img.login{
 }
 
 div.register h2, div.activate h2, div.resetPassword h2{
-    font-size: 18px;
-    font-weight: 100;
+    font-size: 20px;
+    font-weight: 200;
     margin-top: 63px;
     text-align: center;
 }
@@ -126,26 +126,6 @@ form.login, form.register, form.activate, form.resetPassword {
     border-bottom: 1px solid #e5e5e5;
 }
 
-.login label, .register label, .activate label, .resetPassword label{
-    position: absolute;
-    left: 15px;
-    color: #999999;
-    font-size: 18px;
-    font-weight: 100;
-}
-
-.login .label-email, .register .label-email, .activate .label-email, .resetPassword .label-email{
-    top:162px;
-}
-
-.login .label-password, .register .label-global_key, #activate .label-password, #user-activate .label-captcha,#resetPassword .label-captcha, #userResetPassword .label-password{
-    top:216px;
-}
-
-.login label.label-captcha,.register label.label-captcha, #activate label.label-confirm-password, #userResetPassword .label-confirm-password{
-    top:270px;
-}
-
 .login .captcha, .register .captcha{
     position: absolute;
     top: 270px;
@@ -163,12 +143,12 @@ input.input-right{
     height: 54px;
     line-height: 22px;
     padding-top: 9px;
-    padding-left: 180px;
-    padding-right: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
     font-size: 18px;
 }
 
-.input-password{
+input#captcha{
     padding-right: 100px;
 }
 
@@ -184,7 +164,7 @@ form.login > button, form.register > button, form.activate > button, form.resetP
     margin-top: 24px;
     text-transform: none;
     height: 53px;
-    border-radius: 20px;
+    border-radius: 40px;
     display: inline-block;
 }
 
@@ -238,7 +218,7 @@ form.login > button, form.register > button, form.activate > button, form.resetP
     font-size: 20px;
     font-weight: 100;
     width: 92%;
-    color: #b27bff !important; /*#5695f8*/
+    color: #3bbd79 !important; 
     background-color: #d4d3d4; 
     margin-bottom: 1px;
 

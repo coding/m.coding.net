@@ -34,12 +34,8 @@ var LOGIN_ROUTE = (function(){
                 var flag = true;
                 for (var i = controls.length - 1; i >= 0; i--) {
                     var value = $.trim($('.input-' + controls[i]).val());
-                    var elem = $('.label-' + controls[i]);
                     if (value == ''){
-                        elem.css('color','#999999');
                         flag = false;
-                    }else{
-                        elem.css('color','#222222');
                     }
                 };
 
@@ -60,8 +56,7 @@ var LOGIN_ROUTE = (function(){
                 }
 
                 var template = '<div class="form-group login-input" id="#div-captcha">' +
-                                            '<label class="label-captcha" for="captcha">验证码</label>' +
-                                            '<input type="text" class="form-control input-right input-captcha" name="j_captcha" id="captcha" placeholder="">' +
+                                            '<input type="text" class="form-control input-right input-captcha" name="j_captcha" id="captcha" placeholder="验证码">' +
                                             '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
                                         '</div>',
                 captchaHtml  = $(template);

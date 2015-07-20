@@ -16,12 +16,8 @@ var ACTIVATE_ROUTE = (function(){
         var flag = true;
         for (var i = controls.length - 1; i >= 0; i--) {
             var value = $.trim($('#' + controls[i]).val());
-            var elem = $('.label-' + controls[i]);
             if (value == ''){
-                elem.css('color','#999999');
                 flag = false;
-            }else{
-                elem.css('color','#222222');
             }
         };
 
