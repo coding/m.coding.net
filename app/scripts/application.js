@@ -55,6 +55,8 @@
 
         router.register('/register', REGISTER_ROUTE);
 
+        router.register('/activate/:email/:key', ACTIVATE_ROUTE);
+
         router.register('/user/activate', ACTIVATE_ROUTE);
 
         router.register('/resetPassword', RESETPASSWORD_ROUTE);

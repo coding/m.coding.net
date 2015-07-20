@@ -138,11 +138,11 @@ form.login, form.register, form.activate, form.resetPassword {
     top:162px;
 }
 
-.login .label-password, .register .label-global_key, .activate .label-captcha, .resetPassword .label-captcha{
+.login .label-password, .register .label-global_key, #activate .label-password, #user-activate .label-captcha,.resetPassword .label-captcha{
     top:216px;
 }
 
-.login label.label-captcha,.register label.label-captcha{
+.login label.label-captcha,.register label.label-captcha, #activate label.label-confirm-password{
     top:270px;
 }
 
@@ -209,7 +209,7 @@ form.login > button, form.register > button, form.activate > button, form.resetP
 }
 
 .link-group ul li.right-line{
-    border-right: 1px solid #d1d1d1;
+    border-right: 1px dotted #d1d1d1;
 }
 
 .login-cover {
@@ -238,9 +238,13 @@ form.login > button, form.register > button, form.activate > button, form.resetP
     font-size: 20px;
     font-weight: 100;
     width: 92%;
-    color: #5695f8 !important;
-    background-color: #d4d3d4;
+    color: #b27bff !important; /*#5695f8*/
+    background-color: #d4d3d4; 
     margin-bottom: 1px;
+
+    -moz-border-radius: 8px !important;
+    -webkit-border-radius: 8px !important;
+    border-radius: 8px !important;
 }
 
 .login-controls .cancel{

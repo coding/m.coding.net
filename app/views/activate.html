@@ -1,8 +1,11 @@
 <div class="row activate">
     <div class="col-xs-12 slogon">
         <h2>加入Coding，体验云端开发之美！</h2>
-    </div>
-    <form class="activate">
+    </div>    
+</div>
+
+<template id="user-activate-template">  
+    <form id="user-activate" class="activate">
         <div class="form-group">
             <label class="label-email" for="email">电子邮件</label>
             <input type="email" class="form-control input-right" name="email" id="email" placeholder="">
@@ -14,4 +17,24 @@
         </div>
         <button type="submit" class="btn btn-activate" disabled="disabled">重发激活邮件</button>
     </form>
-</div>
+</template > 
+
+<template id="activate-template">  
+    <form id="activate" class="activate">
+        <div class="form-group">
+            <label class="label-email" for="email">电子邮件</label>
+            <input type="email" class="form-control input-right" id="email" placeholder="" disabled="disabled">
+        </div>
+        <input type="hidden" name="email" id="email_hidden" placeholder="">
+        <input type="hidden" name="key" id="key" placeholder="">
+        <div class="form-group">
+            <label class="label-password" for="password">密码</label>
+            <input type="password" class="form-control input-right" name="password" id="password" placeholder="">
+        </div>
+        <div class="form-group">
+            <label class="label-confirm-password" for="confirm-password">确认密码</label>
+            <input type="password" class="form-control input-right" name="confirm_password" id="confirm-password" placeholder="">
+        </div>
+        <button type="submit" class="btn btn-activate" disabled="disabled">激活</button>
+    </form>
+</template > 
