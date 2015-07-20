@@ -61,6 +61,8 @@
 
         router.register('/resetPassword', RESETPASSWORD_ROUTE);
 
+        router.register('/user/resetPassword/:email/:key', RESETPASSWORD_ROUTE);
+
         router.register('/projects', PROJECT_ROUTE);
 
         router.register('/projects/:type', PROJECT_ROUTE);

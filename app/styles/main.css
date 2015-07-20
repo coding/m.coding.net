@@ -138,11 +138,11 @@ form.login, form.register, form.activate, form.resetPassword {
     top:162px;
 }
 
-.login .label-password, .register .label-global_key, #activate .label-password, #user-activate .label-captcha,.resetPassword .label-captcha{
+.login .label-password, .register .label-global_key, #activate .label-password, #user-activate .label-captcha,#resetPassword .label-captcha, #userResetPassword .label-password{
     top:216px;
 }
 
-.login label.label-captcha,.register label.label-captcha, #activate label.label-confirm-password{
+.login label.label-captcha,.register label.label-captcha, #activate label.label-confirm-password, #userResetPassword .label-confirm-password{
     top:270px;
 }
 
