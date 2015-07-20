@@ -136,33 +136,25 @@
 
     Router.prototype.updateDOM = function(current_user) {
       var logoutTemplate;
-
-      $("a.nav-login").attr('href','/user/' + current_user['global_key']);
-      $(".nav-login img").attr('src', current_user['avatar']).css('border-radius','34px');
+      $("a.nav-login").attr('href', '/user/' + current_user['global_key']);
+      $(".nav-login img").attr('src', current_user['avatar']).css('border-radius', '34px');
       $(".nav-login span").text(current_user['name']);
-
-      logoutTemplate = '<li>' + 
-                              '<a class="nav_logout"><img src="" class="nav-icon"><span>退出</span></a>' + 
-                           '</li>';
-
+      logoutTemplate = '<li>' + '<a class="nav_logout"><img src="" class="nav-icon"><span>退出</span></a>' + '</li>';
       $("#navigator").append(logoutTemplate);
-      
-      $('a.nav_logout').on('click',function(){
-          $.ajax({
-            url: API_DOMAIN + '/api/logout',
-            type: 'POST',
-            dataType: 'json',
-            xhrFields: {
-              withCredentials: true
-            }
-          }).done(function() {
-            return location.reload();
-          }).fail(function() {
-            return alert('Failed to logout');
-          });
+      return $('a.nav_logout').click(function(e) {
+        return $.ajax({
+          url: API_DOMAIN + '/api/logout',
+          type: 'POST',
+          dataType: 'json',
+          xhrFields: {
+            withCredentials: true
+          }
+        }).done(function() {
+          return location.reload();
+        }).fail(function() {
+          return alert('Failed to logout');
+        });
       });
-
-      return;
     };
 
     Router.prototype.pathRegExp = function(path, opts) {
