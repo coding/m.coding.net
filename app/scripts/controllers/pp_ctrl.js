@@ -502,7 +502,8 @@ var PP_ROUTE  = (function(){
         before_enter: function(type){
 
             //active this page link
-            $('#navigator').find("li:eq(1)").addClass('active');
+            $('#navigator').find(".li-pp").addClass('active');
+            $('#navigator').find(".li-pp img").attr('src','/images/icons/pp_active.png');
 
             var pp_nav =  '<div class="row project_header">' +
                                 '<div class="col-xs-4">' +
@@ -578,6 +579,7 @@ var PP_ROUTE  = (function(){
         on_exit: function(){
 
             $('#navigator').find('li').removeClass('active');
+            $('#navigator').find(".li-pp img").attr('src','/images/icons/pp.png');
             $('.project_header').remove();
 
             reset();

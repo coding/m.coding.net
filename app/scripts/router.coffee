@@ -134,7 +134,7 @@ class Routy.Router
         $(".nav-login span").text(current_user['name'])
 
         logoutTemplate = '<li>' + 
-                              '<a class="nav_logout"><img src="" class="nav-icon"><span>退出</span></a>' + 
+                              '<a class="nav_logout"><img src="/images/icons/logout.png" class="nav-icon"><span>退出</span></a>' + 
                            '</li>'
 
         $("#navigator").append(logoutTemplate)

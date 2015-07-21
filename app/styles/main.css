@@ -192,6 +192,8 @@ form.login > button, form.register > button, form.activate > button, form.resetP
     list-style: none;
     float: left;
     padding: 0 20px;
+    height: 17px;
+    line-height: 17px;
 }
 
 .link-group ul li.right-line{
@@ -231,6 +233,16 @@ form.login > button, form.register > button, form.activate > button, form.resetP
     -moz-border-radius: 8px !important;
     -webkit-border-radius: 8px !important;
     border-radius: 8px !important;
+}
+
+.login-controls .resetPassword{
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.login-controls .activate{
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
 }
 
 .login-controls .cancel{
@@ -367,13 +379,6 @@ form.login > button, form.register > button, form.activate > button, form.resetP
 
 .like_users img {
     border-radius: 50%;
-}
-
-
-.banner {
-    position: relative;
-    left: 5%;
-    top: 10px;
 }
 
 .project_banner {

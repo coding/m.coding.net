@@ -139,7 +139,7 @@
       $("a.nav-login").attr('href', '/user/' + current_user['global_key']);
       $(".nav-login img").attr('src', current_user['avatar']).css('border-radius', '34px');
       $(".nav-login span").text(current_user['name']);
-      logoutTemplate = '<li>' + '<a class="nav_logout"><img src="" class="nav-icon"><span>退出</span></a>' + '</li>';
+      logoutTemplate = '<li>' + '<a class="nav_logout"><img src="/images/icons/logout.png" class="nav-icon"><span>退出</span></a>' + '</li>';
       $("#navigator").append(logoutTemplate);
       return $('a.nav_logout').click(function(e) {
         return $.ajax({

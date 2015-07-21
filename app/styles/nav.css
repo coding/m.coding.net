@@ -8,6 +8,12 @@
   border-bottom: 1px solid #e5e5e5;
 }
 
+.banner {
+  position: relative;
+  top: 8px;
+  left: 7px;
+}
+
 .navbar-coding-detail {
   background-color: #f6f6f6;
   position: absolute;
@@ -23,6 +29,14 @@
 
 .navbar-nav {
   margin: 1px -14px;
+}
+
+.navbar-nav .active{
+  border-left: 6px solid #3bbd79;
+}
+
+.navbar-nav .active a{
+  padding-left: 9px !important;
 }
 
 .navbar-nav li a {

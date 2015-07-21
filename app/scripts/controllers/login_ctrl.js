@@ -10,6 +10,8 @@ var LOGIN_ROUTE = (function(){
             if (router.current_user) {
                 location.href = '/';
             }
+
+            $('#navigator').find(".li-login").addClass('active');
         },
         on_enter: function(){
             var refreshCaptcha = function(){
@@ -126,7 +128,11 @@ var LOGIN_ROUTE = (function(){
                 $('.login-cover').hide();
                 $('.login-controls').hide();
             });
+        },
+        on_exit: function(){
+            $('#navigator').find('li').removeClass('active');
         }
     }
+    
 
 })();
