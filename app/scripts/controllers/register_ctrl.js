@@ -3,6 +3,66 @@
  */
 var REGISTER_ROUTE = (function() {
 
+    function refreshCaptcha(){
+         $.ajax({
+            url: API_DOMAIN + '/api/captcha/register',
+            dataType: 'json',
+            success: function(data){
+                if(data.data){
+                    if (!addCaptcha()){
+                        $('img.captcha').attr('src', API_DOMAIN + '/api/getCaptcha?code=' + Math.random());
+                    }
+                }else{
+                    $('#div-captcha').remove();
+                }
+            }
+        });
+    }
+
+    function changeStyle(){
+        var controls = new Array('email','global_key');
+        if ($('#captcha').length === 1){
+            controls.push('captcha');
+        }
+        var flag = true;
+        for (var i = controls.length - 1; i >= 0; i--) {
+            var value = $.trim($('#' + controls[i]).val());
+            if (value == ''){
+                flag = false;
+            }
+        };
+
+        var elem_btn = $('.btn-register');
+        if (flag){
+            elem_btn.removeAttr('disabled');
+            elem_btn.css('color','#ffffff');
+        }else{
+            elem_btn.attr('disabled','disabled');
+            elem_btn.css('color','rgba(255,255,255,0.5)');
+        }
+    }
+
+    function addCaptcha(){
+        var captcha = $('#captcha');
+        if (captcha.length === 1){
+            return false;
+        }
+
+        var template = '<div class="form-group" id="div-captcha">' +
+                            '<input type="text" class="form-control input-right" name="j_captcha" id="captcha" placeholder="验证码">' +
+                            '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
+                        '</div>',
+        captchaHtml = $(template);
+        $('button.btn-register').before(captchaHtml);
+        $('img.captcha').on('click',refreshCaptcha);
+        $('#captcha').on('input',changeStyle);
+
+        var elem_btn = $('.btn-register');
+        elem_btn.attr('disabled','disabled');
+        elem_btn.css('color','rgba(255,255,255,0.5)');
+        return true;
+    }
+
     return {
         template_url: '/views/register.html',
         context: '.container',
@@ -13,20 +73,11 @@ var REGISTER_ROUTE = (function() {
         },
         on_enter: function() {
             $.ajax({
-                url: API_DOMAIN + '/api/captcha/login',
+                url: API_DOMAIN + '/api/captcha/register',
                 dataType: 'json',
                 success: function(data){
                     if(data.data){
-                        var template = '<div class="form-group">' +
-                                            '<div class="input-group">' +
-                                                '<input type="text" class="form-control" name="j_captcha" placeholder="验证码">' +
-                                                '<div class="input-group-addon" style="padding: 0">' +
-                                                    '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
-                                                '</div>' +
-                                            '</div>' +
-                                        '</div>',
-                        captcha  = $(template);
-                        $('input[name=global_key]').parent().after(captcha);
+                        addCaptcha();
                     }
                 }
             });
@@ -46,7 +97,11 @@ var REGISTER_ROUTE = (function() {
                         if (data.data) {
                             router.run.call(router, '/');
                             alert(' 欢迎注册 Coding，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。');
+                            return;
                         }
+
+                        refreshCaptcha();
+
                         if (data.msg) {
                             for(var key in data.msg) {
                                 alert(data.msg[key]);
@@ -57,7 +112,10 @@ var REGISTER_ROUTE = (function() {
                         alert('Failed to reigster');
                     }
                 });
-            })
+            });
+
+            $('#email').on('input',changeStyle);
+            $('#global_key').on('input',changeStyle);
         }
     }
 })();

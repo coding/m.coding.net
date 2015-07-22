@@ -7,28 +7,54 @@
     <meta name="Description"
           content="Coding 是一个面向开发者的云端开发平台，目前提供代码托管，运行空间，质量控制，在线 WebIDE, 项目管理等功能。Coding 提供社会化协作功能，包含了社交元素，为开发者提供技术讨论和协作平台。 Coding，让开发更简单！">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-itunes-app" content="app-id=923676989">
     <title>Coding - 让开发更简单！</title>
     <base href="/"/>
-
-    <script>
-        if (window.innerHeight > 460) {
-            document.documentElement.className += ' iphone6';
-        }
-        if (window.innerHeight < 460) {
-            document.documentElement.className += ' rotated';
-        }
-    </script>
-
-    <!-- build:css({src,.tmp}) assets/home-mobile.css -->
-    <link rel="stylesheet" type="text/css" href="styles/reset.css"/>
-    <link rel="stylesheet" type="text/css" href="bower_components/video.js/dist/video-js/video-js.css"/>
-    <link rel="stylesheet" type="text/css" href="styles/home/home.css"/>
+    
+    <!-- build:css({.tmp,app}) /styles/bootstrap.css -->
+    <link rel="stylesheet" href="/styles/bootstrap.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css">
+    <!-- endbuild -->
+       
+    <!-- build:css({.tmp,app}) /styles/home-mobile.css -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/video.js/dist/video-js/video-js.css"/>
+    <link rel="stylesheet" type="text/css" href="/styles/home/home.css"/>
+    <link rel="stylesheet" type="text/css" href="/styles/nav.css"/>
     <!-- endbuild -->
 </head>
 <body>
-<article id="first-page">
-    <h2><i class="icon logo"></i></h2>
 
+<nav class="navbar navbar-fixed-top main-navbar navbar-coding " role="navigation">
+  <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header navbar-header-coding">
+        <button type="button" class="navbar-toggle collapsed" style="border:none" data-toggle="collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <img src="/images/icons/menu.png" height="23" width="23">
+            <!--<span class="icon-bar"></span>-->
+            <!--<span class="icon-bar"></span>-->
+            <!--<span class="icon-bar"></span>-->
+        </button>
+        <a class="banner" href="/">
+            <img src="/images/icons/logo-coding.png" width="147" height="42">
+        </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-coding-detail">
+      <ul class="nav navbar-nav" id="navigator">
+        <li>
+            <a class="nav-login" href="/login"><img src="/images/icons/avatar.png" height="34" width="34"><span>未登录</span></a>
+        </li>
+        <li>
+            <a class="nav-projects" href="/projects"><img src="/images/icons/project.png" class="nav-icon"><span>广场</span></a>
+        </li>
+        <li>
+            <a class="nav_pp" href="/pp"><img src="/images/icons/pp.png" class="nav-icon"><span>冒泡</span></a>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<article id="first-page">
     <h1><i class="icon simpler"></i></h1>
 
     <p>
@@ -42,14 +68,12 @@
         <li>
             <a href="http://coding.net/git">
                 <i class="big icon git"></i>
-
                 <p>代码托管</p>
             </a>
         </li>
         <li>
             <a href="http://coding.net/pm">
                 <i class="big icon collaboration"></i>
-
                 <p>项目管理</p>
             </a>
         </li>
@@ -62,6 +86,8 @@
     </ul>
 </article>
 
+<div class="black-cover">
+</div>
 <p class="go-desktop">
     <a href="http://coding.net"><i class="icon desktop"></i> 访问电脑版</a>
 </p>
@@ -75,7 +101,7 @@
             <source src="/images/home/video/coding.ogv" type="video/ogg">
         </video> -->
         <video id="coding-video" class="video-js vjs-default-skin"
-               controls
+               data-setup='{ "controls": false, "autoplay": false, "preload": "none" }'
                poster="https://dn-coding-net-production-static.qbox.me/b8713bab-1567-49ab-9c9f-18e4e7dbaf3b.png">
             <source src="https://dn-coding-net-public-file.qbox.me/coding.webm" type="video/webm">
             <source src="https://dn-coding-net-public-file.qbox.me/coding.mp4" type="video/mp4">
@@ -89,12 +115,32 @@
     </div>
 </div>
 
-
-<!-- build:js assets/home-mobile.js -->
-<script type="text/javascript" src="bower_components/jquery/jquery.min.js"></script>
-<script src="bower_components/video.js/dist/video-js/video.js"></script>
-<script type="text/javascript" src="lib/home-mobile.js"></script>
+<!-- build:js /scripts/jquery.min.js -->
+<script type="text/javascript" src="/bower_components/jquery/jquery.min.js"></script>
 <!-- endbuild -->
+
+<!-- build:js /scripts/bootstrap.min.js -->
+<script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- endbuild -->
+
+<!-- build:js /scripts/home-mobile.js -->
+<script src="/bower_components/video.js/dist/video-js/video.js"></script>
+<script type="text/javascript" src="/lib/home-mobile.js"></script>
+<!-- endbuild -->
+
+<script type="text/javascript">
+    $(function(){
+        $('button[data-toggle="collapse"]').click(function(){
+            $(".black-cover").slideToggle(0);
+            $(".navbar-collapse").slideToggle(400);
+        });
+
+        $('.black-cover').click(function(){
+            $(".black-cover").hide();
+            $(".navbar-collapse").slideToggle(400);
+        });
+    });
+</script>
 
 </body>
 </html>

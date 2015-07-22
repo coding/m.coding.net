@@ -1,14 +1,21 @@
 <div class="row register">
-    <div class="col-xs-12">
-        <img src="/images/icons/login_logo.png" class="register" height="100" width="100" />
+    <div class="col-xs-12 slogan">
+        <h2>加入 Coding，体验云端开发之美！</h2>
     </div>
     <form class="register">
         <div class="form-group">
-            <input type="email" class="form-control" name="email" placeholder="电子邮件">
+            <input type="email" class="form-control input-right" name="email" id="email" placeholder="电子邮件">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="global_key" placeholder="个性后缀(用户名)">
+            <input type="text" class="form-control input-right" name="global_key" id="global_key" placeholder="个性后缀">
         </div>
-        <button type="submit" class="btn btn-success">注册</button>
+        <button type="submit" class="btn btn-register" disabled="disabled">立即体验</button>
     </form>
+    <div class="col-xs-12 link-group">
+        <ul> 
+            <li>
+                已经注册？<a href="/user/activate">重发激活邮件</a>
+            </li>
+        </ul>
+    </div>
 </div>

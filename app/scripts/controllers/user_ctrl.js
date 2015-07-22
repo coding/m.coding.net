@@ -163,7 +163,7 @@ var USER_ROUTE = (function(){
             //if the user has logged in and he is viewing the current user, active the link on navigation bar
             if(router.current_user){
                 if(user === router.current_user['global_key']){
-                    $('#navigator').find('li:eq(2)').addClass('active');
+                    $('#navigator').find('.li-login').addClass('active');
                 }
             }
 

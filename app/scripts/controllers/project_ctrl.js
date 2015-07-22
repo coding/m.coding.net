@@ -121,7 +121,8 @@ var PROJECT_ROUTE = (function(){
         context: ".container",
         before_enter: function(type){
             //active the project navbar item
-            $('#navigator').find('li:first').addClass('active');
+            $('#navigator').find('.li-square').addClass('active');
+            $('#navigator').find(".li-square img").attr('src','/images/icons/square_active.png');
 
             var project_nav = '<div class="row project_header">' +
                     '<div class="col-xs-6">' +
@@ -183,6 +184,8 @@ var PROJECT_ROUTE = (function(){
         },
         on_exit: function(){
             $('#navigator').find('li').removeClass('active');
+            $('#navigator').find(".li-square img").attr('src','/images/icons/square.png');
+
             $('.project_header').remove();
             lastType = currentType; //remember the type set last time;
         }

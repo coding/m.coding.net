@@ -10,23 +10,72 @@ var LOGIN_ROUTE = (function(){
             if (router.current_user) {
                 location.href = '/';
             }
+
+            $('#navigator').find(".li-login").addClass('active');
         },
         on_enter: function(){
+            var refreshCaptcha = function(){
+                 $.ajax({
+                    url: API_DOMAIN + '/api/captcha/login',
+                    dataType: 'json',
+                    success: function(data){
+                        if(data.data){
+                            $('img.captcha').attr('src', API_DOMAIN + '/api/getCaptcha?code=' + Math.random());
+                        }else{
+                            $('#div-captcha').remove();
+                        }
+                    }
+                });
+            }
+
+            var changeStyle = function (){
+                var controls = new Array('email','password');
+                if ($('#captcha').length === 1){
+                    controls.push('captcha');
+                }
+                var flag = true;
+                for (var i = controls.length - 1; i >= 0; i--) {
+                    var value = $.trim($('.input-' + controls[i]).val());
+                    if (value == ''){
+                        flag = false;
+                    }
+                };
+
+                var elem_btn = $('.btn-login');
+                if (flag){
+                    elem_btn.removeAttr('disabled');
+                    elem_btn.css('color','#ffffff');
+                }else{
+                    elem_btn.attr('disabled','disabled');
+                    elem_btn.css('color','rgba(255,255,255,0.5)');
+                }
+            }
+
+            var addCaptcha = function(){
+                var captcha = $('#captcha');
+                if (captcha.length === 1){
+                    return false;
+                }
+
+                var template = '<div class="form-group login-input" id="#div-captcha">' +
+                                            '<input type="text" class="form-control input-right input-captcha" name="j_captcha" id="captcha" placeholder="验证码">' +
+                                            '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
+                                        '</div>',
+                captchaHtml  = $(template);
+                $('button.btn-login').before(captchaHtml);
+                $('img.captcha').on('click',refreshCaptcha);
+                $('input.input-captcha').on('input',changeStyle);
+                changeStyle();
+                refreshCaptcha();
+                return true;
+            }
+
             $.ajax({
                 url: API_DOMAIN + '/api/captcha/login',
                 dataType: 'json',
                 success: function(data){
                     if(data.data){
-                        var template = '<div class="form-group">' +
-                                            '<div class="input-group">' +
-                                                '<input type="text" class="form-control" name="j_captcha" placeholder="验证码">' +
-                                                '<div class="input-group-addon" style="padding: 0">' +
-                                                    '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
-                                                '</div>' +
-                                            '</div>' +
-                                        '</div>',
-                            captcha  = $(template);
-                        $('div.checkbox').before(captcha);
+                        addCaptcha();
                     }
                 }
             });
@@ -48,11 +97,12 @@ var LOGIN_ROUTE = (function(){
                         //if login success
                         if(data.code === 0){
                             router.run.call(router, '/')
-                        } else if (data.code === 3205) {
-                            // 2fa
-                            $("#login_form").hide();
-                            $("#two_factor_auth_form").show();
-                            return ;
+                        } else if (data.code === 903) {
+                            if (addCaptcha()){ 
+                                return;
+                            }else{
+                                refreshCaptcha();
+                            }
                         }
                         if(data.msg){
                             for(var key in data.msg){
@@ -65,34 +115,24 @@ var LOGIN_ROUTE = (function(){
                     }
                 });
             });
+    
+            $('input.input-email').on('input',changeStyle);
+            $('input.input-password').on('input',changeStyle);
 
-            $('#two_factor_auth_form').submit(function(e){
-                e.preventDefault();
-                $.ajax({
-                    url: API_DOMAIN + '/api/check_two_factor_auth_code',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: $(this).serialize(),
-                    xhrFields: {
-                        withCredentials: true
-                    },
-                    success: function(data,status,xhr){
-                        //if login success
-                        if(data.code === 0){
-                            router.run.call(router, '/')
-                        }
-                        if(data.msg){
-                            for(var key in data.msg){
-                                alert(data.msg[key]);
-                            }
-                        }
-                    },
-                    error: function(){
-                        alert('Failed to login');
-                    }
-                });
-            })
+            $('#forget-password').on('click',function(){
+                $('.login-cover').show();
+                $('.login-controls').show();
+            });
+
+            $('button.cancel').on('click',function(){
+                $('.login-cover').hide();
+                $('.login-controls').hide();
+            });
+        },
+        on_exit: function(){
+            $('#navigator').find('li').removeClass('active');
         }
     }
+    
 
 })();
