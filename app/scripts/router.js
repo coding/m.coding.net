@@ -50,7 +50,7 @@
         _this = this;
       router = this;
       $(window).load(function(e) {
-        return router.run.call(router, window.location.pathname);
+        return router.run.call(router, window.location.pathname + window.location.search);
       });
       this.context_selector.on(this.event, this.state_changers_selector, function(e) {
         var href;
@@ -165,6 +165,7 @@
         regexp: path
       };
       keys = ret.keys = [];
+      path = path.replace('?', '\\?');
       path = path.replace(/([().])/g, "\\$1").replace(/(\/)?:(\w+)([\?\*])?/g, function(_, slash, key, option) {
         var optional, star;
         optional = (option === "?" ? option : null);

@@ -57,7 +57,7 @@ class Routy.Router
 
         # go to the route page by default
         $(window).load (e) =>
-            router.run.call router, window.location.pathname
+            router.run.call router, window.location.pathname + window.location.search
 
         @context_selector.on @event, @state_changers_selector, (e)->
             href = $(@).attr('href') || $(@).children('a').attr('href') || ''
@@ -160,6 +160,7 @@ class Routy.Router
             regexp: path
 
         keys = ret.keys = []
+        path = path.replace('?','\\?');
         path = path.replace(/([().])/g, "\\$1").replace(/(\/)?:(\w+)([\?\*])?/g, (_, slash, key, option) ->
             optional = (if option is "?" then option else null)
             star = (if option is "*" then option else null)
