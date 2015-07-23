@@ -4,6 +4,24 @@ body {
     color: #333;
 }
 
+.activate-tip{
+    position: absolute;
+    top: 56px;
+    width: 100%;
+    background-color: #f5edb6;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 2px;
+    padding-left: 10px;
+    font-size: 13px;
+}
+
+.activate-tip-close{
+    float: right;
+    cursor: pointer;
+    width: 30px;
+}
+
 .container-coding{
     margin-top: 80px;
     margin-bottom: 20px;
