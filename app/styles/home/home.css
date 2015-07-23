@@ -213,8 +213,12 @@ a.blue {
 .icon.big {
   font-size: 2.1rem;
 }
+/* line 284, home.scss */
+.icon.small {
+  font-size: 1.4rem;
+}
 
-/* line 286, home.scss */
+/* line 290, home.scss */
 .modal {
   width: 100%;
   height: 100%;
@@ -229,7 +233,7 @@ a.blue {
   left: 0;
 }
 
-/* line 300, home.scss */
+/* line 304, home.scss */
 .modal > a.close {
   background: url("/images/close.svg") no-repeat center;
   position: fixed;
@@ -250,7 +254,7 @@ a.blue {
   z-index: 10000;
 }
 
-/* line 320, home.scss */
+/* line 324, home.scss */
 .modal > a.close:hover {
   opacity: 1;
   -webkit-transform: rotate(90deg);
@@ -260,7 +264,7 @@ a.blue {
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* line 329, home.scss */
+/* line 333, home.scss */
 .modal > .content {
   display: table-cell;
   vertical-align: middle;
