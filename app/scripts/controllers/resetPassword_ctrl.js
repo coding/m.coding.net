@@ -64,6 +64,8 @@ var RESETPASSWORD_ROUTE = (function(){
         $('#email').on('input',changeStyle);
         $('#captcha').on('input',changeStyle);
         $('img.captcha').on('click',refreshCaptcha);
+        bindClearInput('email');
+        bindClearInput('j_captcha');
     }
 
     function userResetPassword(email,key){
@@ -95,21 +97,20 @@ var RESETPASSWORD_ROUTE = (function(){
         $('form#userResetPassword').submit(function(e) {
             e.preventDefault();
 
-            var password = $('#password').val(),
-                confirm_password = $('#confirm-password').val();
-            var $password =  $('input[name="password"]'),
+            var $email = $('input[name="email"]'),
+                $key = $('input[name="key"]'),
+                $password =  $('input[name="password"]'),
                 $confirm_password = $('input[name="confirm_password"]'),
-                    hash_password = CryptoJS.SHA1($password.val()),
-                    hash_confirm_password = CryptoJS.SHA1($confirm_password.val());
-
-                $password.val(hash_password);
-                $confirm_password.val(hash_confirm_password);
+                hash_password = CryptoJS.SHA1($password.val()),
+                hash_confirm_password = CryptoJS.SHA1($confirm_password.val()),
+                post_data = 'email=' + $.trim($email.val()) + '&key=' 
+                  + $key.val() + '&password=' + hash_password + '&confirm_password=' + hash_confirm_password;
   
             $.ajax({
                 url: API_DOMAIN + '/api/resetPassword',
                 type: 'POST',
                 dataType: 'json',
-                data: $(this).serialize(),
+                data: post_data,
                 xhrFields: {
                     withCredentials: true
                 },
@@ -132,6 +133,8 @@ var RESETPASSWORD_ROUTE = (function(){
 
         $('#password').on('input',changeStyle);
         $('#confirm-password').on('input',changeStyle);
+        bindClearInput('password');
+        bindClearInput('confirm_password');
     }
 
     function remove_template(){

@@ -50,12 +50,14 @@ var REGISTER_ROUTE = (function() {
 
         var template = '<div class="form-group" id="div-captcha">' +
                             '<input type="text" class="form-control input-right" name="j_captcha" id="captcha" placeholder="验证码">' +
+                            '<span class="btn-clear x-j_captcha">&nbsp;</span>' +
                             '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
                         '</div>',
         captchaHtml = $(template);
         $('button.btn-register').before(captchaHtml);
         $('img.captcha').on('click',refreshCaptcha);
         $('#captcha').on('input',changeStyle);
+        bindClearInput('j_captcha');
 
         var elem_btn = $('.btn-register');
         elem_btn.attr('disabled','disabled');
@@ -116,6 +118,8 @@ var REGISTER_ROUTE = (function() {
 
             $('#email').on('input',changeStyle);
             $('#global_key').on('input',changeStyle);
+            bindClearInput('email');
+            bindClearInput('global_key');
         }
     }
 })();

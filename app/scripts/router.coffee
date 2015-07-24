@@ -130,8 +130,19 @@ class Routy.Router
 
     updateDOM: (current_user) ->
         $("a.nav-login").attr('href','/user/' + current_user['global_key'])
-        $(".nav-login img").attr('src', current_user['avatar']).css('border-radius','34px')
+        imageUrl = current_user['avatar'];
+        if imageUrl.indexOf('/static') == 0
+            imageUrl = 'https://coding.net' + imageUrl
+    
+        $(".nav-login img").attr('src', imageUrl).css('border-radius','34px')
         $(".nav-login span").text(current_user['name'])
+
+        if current_user['status'] == 0
+            tipHtml = '<div class="activate-tip">欢迎注册 coding, 请尽快去邮箱查收邮件并激活账号<span class="activate-tip-close">x</span></div>'
+            $("nav.navbar-coding").after(tipHtml)
+
+            $('span.activate-tip-close').click (e)->
+                                        $('.activate-tip').remove()
 
         logoutTemplate = '<li>' + 
                               '<a class="nav_logout"><img src="/images/icons/logout.png" class="nav-icon"><span>退出</span></a>' + 
@@ -147,7 +158,7 @@ class Routy.Router
                             xhrFields: 
                                 withCredentials: true  
                           .done ->
-                            location.reload();
+                            window.location = '/';
                           .fail ->
                             alert('Failed to logout');
           

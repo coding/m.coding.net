@@ -4,6 +4,26 @@ body {
     color: #333;
 }
 
+.activate-tip{
+    position: absolute;
+    top: 56px;
+    width: 100%;
+    background-color: #f5edb6;
+    height: 37px;
+    line-height: 35px;
+    padding-top: 2px;
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.activate-tip-close{
+    float: right;
+    cursor: pointer;
+    width: 30px;
+    font-size: 20px;
+    line-height: 30px;
+}
+
 .container-coding{
     margin-top: 80px;
     margin-bottom: 20px;
@@ -156,6 +176,35 @@ input.input-right{
 
 input#captcha{
     padding-right: 100px;
+}
+
+.btn-clear{
+    position: absolute; 
+    width: 19px; 
+    right: 15px;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAqFJREFUWEfFmclOAzEMQFsWsS/iyFr2HQr8/1fBhQMIv1FThSEZO560RLJamCwvju143OHA34YydEtkU2RNZHUiYcZP+fIlwifyIfIu8u1fsmzkunQ/ERmLvBXKi/Q/nWywbNWC3mjtshCsayM3k9MoQOjuyhEfirxWhIw3MJJ5F/rSLskEVzMCjGHvZI0VLyxH/TgHyAD87LFdID3OUupc7f6Y165Vsxz3wxw12YYlMmxosDjO9T9CBmhMDoVlG96tHd+ToY82B/ao9SHeJhuBXAtBZ9KHUMKntlDu+cVkDkC0ObZTpEzQNRA4TIPGpweWNeI5NNjbNija7ILEucICYWwpbAwZ5uB0NFPaiWG5u7VjwH7bzQqbgmTsuWFd+jSNXVmMm414YPtAsiZ+00QA0jRNm/HzEti+kGHdPUD3C0GtmiXTStm15bjbijsG1DNQg60JyVqkhIN7h0bDjnNmUEuTccJidqScHadg4+hg9W7NT9TbSJsgZwbA1oJkjSqgKZsMoJ4bLKWc3kefgwzHb70UtJPr5Uw5745ttIZmuZDc4QnI9ktZsMmSS0HT5DQ8eQJ+F6QWujw22wT80ivUAlkbtrlCS5KSEshasNOkBFhLmueBrAE7TfMA1RJnktuc41icIXcpFCfOwGp1pVGUDXlvnDgaWOIrFZQ/zfJyByxa8GZcQbMWSPr+eg2JiY/kD+0otXccbTzPLQUOwli2sVNyP8tis+yjFiDYAe8nNbTm3YippBNUjb0ywLuYd1xRkSzAUqiad9kxWRnpstXwbHlONotzuQu5AZZwRDTQ6lLe46ass2jRmrUPO/ZkPrkNcMHgCzNr2C65gScyjGXczH++Se2cH8QORNAOlbe4NETU4H/8WMHViaO0X6PN2vwBXtDwHrylQ1oAAAAASUVORK5CYII=')
+        no-repeat center center;
+    -webkit-background-size:16px 16px;
+    display: none;
+    cursor: pointer;
+}
+
+#login_form .x-email, #resetPassword .x-email, #user-activate .x-email, #register .x-email{
+    top: 165px;
+}
+
+#login_form .x-password, #resetPassword .x-j_captcha, #userResetPassword .x-password,
+#user-activate .x-j_captcha, #activate .x-password, #register .x-global_key{
+    top: 220px;
+}
+
+#login_form .x-j_captcha, #userResetPassword .x-confirm_password, #activate .x-confirm_password,
+#register .x-j_captcha{
+    top: 274px;
+}
+
+.x-j_captcha{
+    right: 105px;
 }
 
 form.login > button, form.register > button, form.activate > button, form.resetPassword > button{

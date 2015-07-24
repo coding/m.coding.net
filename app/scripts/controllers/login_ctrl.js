@@ -59,12 +59,14 @@ var LOGIN_ROUTE = (function(){
 
                 var template = '<div class="form-group login-input" id="#div-captcha">' +
                                             '<input type="text" class="form-control input-right input-captcha" name="j_captcha" id="captcha" placeholder="验证码">' +
+                                            '<span class="btn-clear x-j_captcha">&nbsp;</span>' +
                                             '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
                                         '</div>',
                 captchaHtml  = $(template);
                 $('button.btn-login').before(captchaHtml);
                 $('img.captcha').on('click',refreshCaptcha);
                 $('input.input-captcha').on('input',changeStyle);
+                bindClearInput('j_captcha');
                 changeStyle();
                 refreshCaptcha();
                 return true;
@@ -82,14 +84,20 @@ var LOGIN_ROUTE = (function(){
 
             $('#login_form').submit(function(e){
                 e.preventDefault();
-                var $password =  $('input[name="password"]'),
-                    hash = CryptoJS.SHA1($password.val());
-                $password.val(hash);
+                var $email = $('input[name="email"]'),
+                    $password =  $('input[name="password"]'),
+                    hash = CryptoJS.SHA1($password.val()),
+                    post_data = 'email=' + $.trim($email.val()) + '&password=' + hash;
+                
+                if ($('input[name="j_captcha"]').length === 1){
+                    post_data += '&j_captcha=' + $('input[name="j_captcha"]').val();
+                }
+
                 $.ajax({
                     url: API_DOMAIN + '/api/login',
                     type: 'POST',
                     dataType: 'json',
-                    data: $(this).serialize(),
+                    data: post_data,
                     xhrFields: {
                         withCredentials: true
                     },
@@ -115,9 +123,11 @@ var LOGIN_ROUTE = (function(){
                     }
                 });
             });
-    
+            
             $('input.input-email').on('input',changeStyle);
             $('input.input-password').on('input',changeStyle);
+            bindClearInput('email');
+            bindClearInput('password');
 
             $('#forget-password').on('click',function(){
                 $('.login-cover').show();
