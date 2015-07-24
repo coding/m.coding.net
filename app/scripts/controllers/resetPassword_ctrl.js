@@ -2,26 +2,6 @@
  * Created by wenki on 19/07/2015.
  */
 var RESETPASSWORD_ROUTE = (function(){
-    function bindClearInput(name){
-        $input = $('input[name="' + name +'"]');
-
-        $input.on('focus input',function(){
-            span = $(this).next('span')[0];
-            if ($(this).val()  != ''){
-                if ($(span).css('display') == 'none'){
-                    $(span).show();
-                    $(span).one('click',function(){
-                        input = $(this).prev("input")[0];
-                        $(input).val('');
-                        $(input).trigger('focus');
-                        $(this).hide();
-                    });
-                }
-            }else{
-                $(span).hide();
-            }
-        });
-    }
 
     function refreshCaptcha(){
         $('img.captcha').attr('src', API_DOMAIN + '/api/getCaptcha?code=' + Math.random());

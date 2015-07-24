@@ -3,27 +3,6 @@
  */
 var LOGIN_ROUTE = (function(){
 
-    function bindClearInput(name){
-        $input = $('input[name="' + name +'"]');
-
-        $input.on('focus input',function(){
-            span = $(this).next('span')[0];
-            if ($(this).val()  != ''){
-                if ($(span).css('display') == 'none'){
-                    $(span).show();
-                    $(span).one('click',function(){
-                        input = $(this).prev("input")[0];
-                        $(input).val('');
-                        $(input).trigger('focus');
-                        $(this).hide();
-                    });
-                }
-            }else{
-                $(span).hide();
-            }
-        });
-    }
-
     return {
         template_url: '/views/login.html',
         context: '.container',
