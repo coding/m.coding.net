@@ -138,8 +138,11 @@ class Routy.Router
         $(".nav-login span").text(current_user['name'])
 
         if current_user['status'] == 0
-            tipHtml = '<div class="activate-tip">欢迎注册 coding, 请尽快去邮箱查收邮件并激活账号<span class="activate-tip-close">x</span></div>'
+            tipHtml = '<div class="activate-tip">欢迎注册 coding, 请尽快去邮箱查收邮件并激活账号<span class="activate-tip-close">&nbsp;</span></div>'
             $("nav.navbar-coding").after(tipHtml)
+            if window.innerHeight < 600
+                $(".activate-tip").css('font-size','12px')
+                $('.activate-tip-close').css('width','10px')
 
             $('span.activate-tip-close').click (e)->
                                         $('.activate-tip').remove()
