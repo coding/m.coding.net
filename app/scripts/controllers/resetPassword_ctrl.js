@@ -2,6 +2,26 @@
  * Created by wenki on 19/07/2015.
  */
 var RESETPASSWORD_ROUTE = (function(){
+    function bindClearInput(name){
+        $input = $('input[name="' + name +'"]');
+
+        $input.on('focus input',function(){
+            span = $(this).next('span')[0];
+            if ($(this).val()  != ''){
+                if ($(span).css('display') == 'none'){
+                    $(span).show();
+                    $(span).one('click',function(){
+                        input = $(this).prev("input")[0];
+                        $(input).val('');
+                        $(input).trigger('focus');
+                        $(this).hide();
+                    });
+                }
+            }else{
+                $(span).hide();
+            }
+        });
+    }
 
     function refreshCaptcha(){
         $('img.captcha').attr('src', API_DOMAIN + '/api/getCaptcha?code=' + Math.random());
@@ -64,6 +84,8 @@ var RESETPASSWORD_ROUTE = (function(){
         $('#email').on('input',changeStyle);
         $('#captcha').on('input',changeStyle);
         $('img.captcha').on('click',refreshCaptcha);
+        bindClearInput('email');
+        bindClearInput('j_captcha');
     }
 
     function userResetPassword(email,key){
@@ -131,6 +153,8 @@ var RESETPASSWORD_ROUTE = (function(){
 
         $('#password').on('input',changeStyle);
         $('#confirm-password').on('input',changeStyle);
+        bindClearInput('password');
+        bindClearInput('confirm_password');
     }
 
     function remove_template(){

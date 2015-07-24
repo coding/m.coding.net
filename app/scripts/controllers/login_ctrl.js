@@ -3,6 +3,27 @@
  */
 var LOGIN_ROUTE = (function(){
 
+    function bindClearInput(name){
+        $input = $('input[name="' + name +'"]');
+
+        $input.on('focus input',function(){
+            span = $(this).next('span')[0];
+            if ($(this).val()  != ''){
+                if ($(span).css('display') == 'none'){
+                    $(span).show();
+                    $(span).one('click',function(){
+                        input = $(this).prev("input")[0];
+                        $(input).val('');
+                        $(input).trigger('focus');
+                        $(this).hide();
+                    });
+                }
+            }else{
+                $(span).hide();
+            }
+        });
+    }
+
     return {
         template_url: '/views/login.html',
         context: '.container',
@@ -59,12 +80,14 @@ var LOGIN_ROUTE = (function(){
 
                 var template = '<div class="form-group login-input" id="#div-captcha">' +
                                             '<input type="text" class="form-control input-right input-captcha" name="j_captcha" id="captcha" placeholder="验证码">' +
+                                            '<span class="btn-clear x-j_captcha">&nbsp;</span>' +
                                             '<img class="captcha" height="30" src="https://coding.net/api/getCaptcha">' +
                                         '</div>',
                 captchaHtml  = $(template);
                 $('button.btn-login').before(captchaHtml);
                 $('img.captcha').on('click',refreshCaptcha);
                 $('input.input-captcha').on('input',changeStyle);
+                bindClearInput('j_captcha');
                 changeStyle();
                 refreshCaptcha();
                 return true;
@@ -121,9 +144,11 @@ var LOGIN_ROUTE = (function(){
                     }
                 });
             });
-    
+            
             $('input.input-email').on('input',changeStyle);
             $('input.input-password').on('input',changeStyle);
+            bindClearInput('email');
+            bindClearInput('password');
 
             $('#forget-password').on('click',function(){
                 $('.login-cover').show();
