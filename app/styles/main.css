@@ -184,7 +184,8 @@ input#captcha{
 
 .btn-clear{
     position: absolute; 
-    width: 19px; 
+    width: 15px; 
+    height: 20px;
     right: 15px;
     background: url('/images/icons/x_input_clear.png')
         no-repeat center center;
@@ -194,7 +195,7 @@ input#captcha{
 }
 
 #login_form .x-email, #resetPassword .x-email, #user-activate .x-email, #register .x-email{
-    top: 165px;
+    top: 164px;
 }
 
 #login_form .x-password, #resetPassword .x-j_captcha, #userResetPassword .x-password,

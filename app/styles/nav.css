@@ -28,15 +28,15 @@
 }
 
 .navbar-nav {
-  margin: 1px -14px;
+  margin: 1px -15px;
 }
 
 .navbar-nav .active{
-  border-left: 6px solid #3bbd79;
+  border-left: 4px solid #3bbd79;
 }
 
 .navbar-nav .active a{
-  padding-left: 9px !important;
+  padding-left: 11px !important;
 }
 
 .navbar-nav li a {
