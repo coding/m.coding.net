@@ -1,13 +1,20 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <div class="back-gray user-back">
-        <!--<div class="panel-heading" role="tab" id="user-heading">
-        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
-        </div>-->
+        <div class="panel-heading" role="tab" id="user-heading">
+            <!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>--->
+        </div>
         <div id="user-details" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="user-heading">
-            <div class="user-content" style="width:100%">
+            <div class="user-content">
+                <div class="fans_content border-color">
+                    <table id="fans_list">
+                    </table>
+                </div>
             </div>
-            <div class="user-mylogout">
-            </div>
+        </div>
+        <div class="more-fans">
+            <button type="button" id="load_more" class="btn btn-default btn-block">
+                加载更多
+            </button>
         </div>
     </div>
 </div>
@@ -16,19 +23,6 @@
         <img src="/images/icons/addfriend.png" class="pull-right adds" width="24"
         height="24" style="position: relative; top: 16px;right:15px;" />
     </a>
-</div>
-<div style="display:none" id='user-woman'>
-    <img width="15" style="margin-left:5px;" src="/images/icons/woman.png">
-</div>
-<div style="display:none" id='user-man'>
-    <img width="15" style="margin-left:5px;" src="/images/icons/man.png">
-</div>
-<div style="display:none" id='user-right'>
-    <img src="/images/icons/user_right.png" width="22" style="margin-right:12px;"
-    />
-</div>
-<div style="display:none" id='user-right1'>
-    <img src="/images/icons/user_right.png" width="22" />
 </div>
 <div id="fans-concerned" style="display:none">
     <img src="/images/icons/concerned.png" width="72" height="32" class="fans_icon"

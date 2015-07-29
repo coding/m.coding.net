@@ -1,0 +1,43 @@
+<!-- Modal -->
+<div class="modal fade" id="pp_input" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<a type="button" class="pull-left" data-dismiss="modal" aria-label="Close">取消</a>-->
+                <button type="button" class="close pull-left" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button>
+                <button type="button" class="btn btn-success pull-right" disabled id="pp_submit">
+                    发送
+                </button>
+                <h4 class="modal-title text-center" id="myModalLabel">
+                    发冒泡
+                </h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" id="pp_content" rows="5" placeholder="来，冒个泡吧...">
+                </textarea>
+            </div>
+            <!--<div class="modal-footer">-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<div class="list-group" id="pp_list">
+</div>
+<div class="more-fans">
+    <button type="button" id="load_more" class="btn btn-default btn-block">
+        更多泡泡
+    </button>
+</div>
+<div style="display:none" id="pp-comment">
+    <img src="/images/icons/comment.png" width="15" height="15" />
+</div>
+<div style="display:none" id="pp-like1">
+    <img src="/images/icons/like1.png" width="15" height="15" />
+</div>
+<div style="display:none" id="pp-like2">
+    <img src="/images/icons/like2.png" width="15" height="15" />
+</div>
