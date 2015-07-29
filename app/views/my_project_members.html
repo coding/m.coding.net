@@ -1,0 +1,29 @@
+
+<div class="bg-white">
+	<div id="members">
+	</div>
+</div>
+<div class="row m-t">
+   <div class="col-md-12">
+       <button type="button" id="load_more" class="btn btn-default btn-block">更多成员</button>
+   </div>
+</div>
+
+<script id="tlist" type="text/template">
+{{#list}}
+<div class="b-b b-light">
+	<a class="clear p-sm" href="/u/{{user.global_key}}">
+		<img src="{{user.avatar}}" alt="图片" class="pull-left b-a b-light rounded" style="width:36px;height:36px;">
+	    <div class="clear" style="margin-left:50px;" >
+			<div class="text-md text-dark m-t-xs">
+				<span>{{user.name}}</span>
+				{{#isCreator}}
+				<img src="/images/icons/user.png" style="width:18px;height:18px;border-radius:2px;margin-top:-2px;margin-left:16px" />
+				{{/isCreator}}
+			</div>
+	    </div>
+	</a>
+</div>
+{{/list}}
+</script>
+

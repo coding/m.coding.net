@@ -116,7 +116,7 @@ module.exports = function (grunt) {
                         return [
                             //proxyRequest,
                             modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.eot|\\.ttf|\\.woff$ /index.html [L]']),
-                            lrSnippet,
+                            //lrSnippet,
                             //mountFolder(connect, '.tmp'),
                             mountFolder(connect, yeomanConfig.app)
                         ];

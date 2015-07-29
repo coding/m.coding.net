@@ -1,0 +1,99 @@
+<div>
+	<div class="bg-white ">
+		<div class="row p p-b-sm">
+			<div class="col-xs-4 text-center" id="home_nav_activities">
+				<div class="">
+					<span class="rounded inline text-white" style="width:46px;height:46px;background:rgb(65,188,123)">
+						<span class="glyphicon glyphicon-flash" style="margin-top:15px"></span>
+					</span>
+					
+				</div>
+				<div class="m-t-7">动态</div>
+			</div>
+			<div class="col-xs-4 text-center" id="home_nav_task">
+				<div class="">
+					<span class="rounded inline text-white" style="width:46px;height:46px;background:rgb(50,194,211)">
+						<span class="glyphicon glyphicon-tasks" style="margin-top:15px"></span>
+					</span>
+					
+				</div>
+				<div class="m-t-7">任务</div>
+			</div>
+			<div class="col-xs-4 text-center" id="home_nav_topic">
+				<div class="">
+					<span class="rounded inline text-white" style="width:46px;height:46px;background:rgb(62,154,206)">
+						<span class="glyphicon glyphicon-comment" style="margin-top:15px"></span>
+					</span>
+					
+				</div>
+				<div class="m-t-7">讨论</div>
+			</div>
+		</div>
+		<div class="row p p-t-sm">
+			<div class="col-xs-4 text-center" id="home_nav_attachment">
+				<div class="">
+					<span class="rounded inline text-white" style="width:46px;height:46px;background:rgb(246,178,58)">
+						<span class="glyphicon glyphicon-folder-open" style="margin-top:15px"></span>
+					</span>
+					
+				</div>
+				<div class="m-t-7">文档</div>
+			</div>
+			<div class="col-xs-4 text-center" id="home_nav_code">
+				<div class="">
+					<span class="rounded inline text-white" style="width:46px;height:46px;background:rgb(236,140,64)">
+						<img src="/images/icons/code.png" style="margin-top:13px;width:20px;"/>
+					</span>
+				</div>
+				<div class="m-t-7">代码</div>
+
+			</div>
+			<div class="col-xs-4 text-center" id="home_nav_member" >
+				<div class="">
+					<span class="rounded inline text-white" style="width:46px;height:46px;background:rgb(229,104,68)">
+						<span class="glyphicon glyphicon-user" style="margin-top:15px"></span>
+						
+					</span>
+				</div>
+				<div class="m-t-7">成员</div>
+
+			</div>
+		</div>
+	</div>
+	
+	<div class="m-t">
+		<div class="bg-white p-sm">
+			最近动态
+		</div>
+		<div id="activities" class="p-b bg-white"></div>
+		<div class="row m-t">
+		   <div class="col-md-12">
+		       <button type="button" id="load_more" class="btn btn-default btn-block">更多</button>
+		   </div>
+		</div>
+	</div>
+</div>
+
+<script id="tlist" type="text/template">
+{{#list}}
+	{{#showHeader}}
+	<div class="bg-light p-sm text-11 text-light-dk">{{header}}</div>
+	{{/showHeader}}
+	<div class="bg-white p-l-sm p-r-sm clear streamline {{#showHeader}}p-t-sm{{/showHeader}}">
+		<a href="/u/{{user.global_key}}" class="pull-left">
+			<img src="{{user.avatar}}" alt="图片" class=" b-a b-light rounded" style="width:32px;height:32px;">
+		</a>
+        <div class="sl-item {{#isUnread}} sl-primary {{/isUnread}} b-l p-b b-primary " style="margin-left:45px;" >
+            <div class="m-l p-sm {{^showHeader}} b-t b-light {{/showHeader}}">
+                <div >
+					<span class="text-primary"><a href="/u/{{user.global_key}}">{{user.name}}</a></span> {{action_msg}}{{target_type_desc}}
+				</div>
+				<div class=" m-t-xs" style="font-size:13px;color:#555555;">{{{content}}}</div>
+				<div class="text-sm text-light m-t">{{display}}</div>               
+            </div>
+        </div>
+	</div>
+	</div>
+{{/list}}
+</script>
+

@@ -1,0 +1,115 @@
+
+<div class="m-t-xs m-b">
+	<a class="btn btn-default btn-block" href="#" id="create_task">增加新的任务</a>
+</div>
+
+<div class="text-light text-sm">进行中的任务</div>
+<div class="bg-white m-t-xs p-sm m-l-n m-r-n" id="tprocessing">
+</div>
+
+<div class="text-light text-sm m-t-md ">已完成的任务</div>
+<div class="bg-white m-t-xs p-sm m-l-n m-r-n p-l" id="tdone">
+</div>
+
+<div class="row m-t">
+   <div class="col-md-12">
+       <button type="button" id="load_more" class="btn btn-default btn-block">加载更多</button>
+   </div>
+</div>
+
+<script id="tlist" type="text/template">
+{{#list}}
+	<div class="bg-white clear task-deadline ">
+		<div class="checkbox checkbox-dark pull-left m-t-sm">
+            <input type='checkbox' data-task-id="{{id}}" class="task-status-checkbox" name="checkbox{{id}}" {{#isDone}} checked="checked" {{/isDone}} />
+			<label for="checkbox{{id}}"></label>
+        </div>		
+        <div class="{{^hideFirstLine}}b-t b-light{{/hideFirstLine}}" style="margin-left:35px;" >
+			<img src="{{owner.avatar}}" alt="图片" class="pull-left m-t b-a b-light rounded" style="width:32px;height:32px;">
+            <div class="m-l p-sm " style="margin-left:40px;">
+				<a href='{{projectHomeURL}}/task/{{id}}' class="text-dark">
+	                <div class="text-2line">
+						{{#priority_list}}
+						<img src="/images/icons/{{image}}" alt="" style="width:14px;margin-top:-3px;{{^isFirst}}margin-left:-12px;{{/isFirst}}" />
+						{{/priority_list}}
+						<span class="" style="margin-left:-3px;">{{content}}</span>
+					</div>
+					<div class="m-t-sm text-xs" style="overflow:hidden;white-space:nowrap;" >
+						{{#deadline}}
+						<span class="inline text-white date {{deadline_style}}" style="margin-right:18px;">{{deadline_display}}</span>
+						{{/deadline}}
+						<span class="m-r" style="color:#666;">{{creator.name}}</span>
+						<span class="m-r text-light"><i class="glyphicon glyphicon-time" style="margin-top:3px;"></i> {{display}}</span>
+						<span class="text-light">
+							<img src="/images/icons/comment_gray.png" style="width:13px;margin-top:-3px;" />
+							 {{comments}}</span>
+					</div>
+				</a>            
+            </div>
+        </div>
+	</div>
+{{/list}}
+</script>
+
+
+<script id="theader" type="text/template">
+<div class="row project_header text-md">
+	<div class="col-xs-3"></div>
+	<div class="col-xs-6 active text-center b-n">
+		<a data-toggle="collapse" data-target="#taskHeader"  aria-expanded="false" aria-controls="taskHeader" data-status="closed">
+			<span class="inline">
+				<span id="nav-content text-md">
+					{{^selected_user}}全部任务{{/selected_user}}
+					{{#selected_user}}{{selected_user.name}}的任务{{/selected_user}}
+				</span>
+				<span class="text-white glyphicon glyphicon-chevron-down text-xs"></span>
+			</span>
+		</a>
+	</div>
+	<div class="col-xs-3"></div>
+</div>
+<div class="collapse m-t-xxl bg-dark text-md" style="opacity:0.97;width:100%;position:absolute;z-index:1099;" id="taskHeader">
+	<div id="taskHeaderAll" class="p-sm text-white member-all">
+		<a href="{{projectHomeURL}}/tasks" class="text-white">
+			全部任务
+		</a>
+	</div>
+	<div class="p-sm p-b-xs b-b text-gray" style="border-color:rgba(255,255,255,0.1)">我的任务</div>
+	<div class="p-sm" id="taskHeaderMine">
+		{{#current_user}}
+		<div class="clear m-b-sm member-item" >
+			<a href="{{projectHomeURL}}/tasks/{{current_user.user.global_key}}">
+				<img src="{{current_user.user.avatar}}" alt="图片" class="pull-left m-t-xs b-a b-light rounded" style="width:32px;height:32px;">
+			    <div class="m-l p-sm text-md text-white" style="margin-left:35px;">
+					<div>{{current_user.user.name}} ({{current_user.task_count}})</div>
+			    </div>
+			</a>
+		</div>
+		{{/current_user}}
+	</div>
+	<div class="p-sm p-b-xs b-b text-gray" style="border-color:rgba(255,255,255,0.1)">成员任务</div>
+	<div class="p-sm" id="taskHeaderMembers">
+		{{#list}}
+		<div class="clear m-b-sm member-item" >
+			<a href="{{projectHomeURL}}/tasks/{{user.global_key}}">
+				<img src="{{user.avatar}}" alt="图片" class="pull-left m-t-xs b-a b-light rounded" style="width:32px;height:32px;">
+			    <div class="m-l p-sm text-md text-white" style="margin-left:35px;">
+					<div>{{user.name}} ({{task_count}})</div>
+			    </div>
+			</a>
+		</div>
+		{{/list}}
+	</div>
+</div>
+</script>
+
+<script id="tmembers" type="text/template">
+{{#list}}
+<div class="clear m-b-sm member-item" data-user-id="{{user.id}}>
+	<img src="{{user.avatar}}" alt="图片" class="pull-left m-t-xs b-a b-light rounded" style="width:32px;height:32px;">
+    <div class="m-l p-sm text-md text-white" style="margin-left:35px;">
+		<div>{{user.name}} ({{task_count}})</div>
+    </div>
+</div>
+{{/list}}
+</script>
