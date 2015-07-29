@@ -1,0 +1,30 @@
+
+<div class="bg-white">
+	<div id="projects_list">
+	</div>
+</div>
+<div class="row m-t">
+   <div class="col-md-12">
+       <button type="button" id="load_more" class="btn btn-default btn-block">更多项目</button>
+   </div>
+</div>
+
+<script id="tlist" type="text/template">
+{{#list}}
+<div class="b-b b-light">
+	<a class="clear p-sm" href="{{projectHomeURL}}">
+		<img src="{{icon}}" alt="图片" class="pull-left b-a b-light r-2x" style="width:60px;height:60px;">
+	    <div class="clear" style="margin-left:70px;" >
+			<div class="text-md text-dark">{{name}}</div>
+			<div class="text-sm text-light m-t-xs">
+				{{^is_public}}
+				<span class="glyphicon glyphicon-lock text-xxs"></span>
+				{{/is_public}}
+				<span>{{owner_user_name}}</span>
+			</div>
+	    </div>
+	</a>
+</div>
+{{/list}}
+</script>
+

@@ -1,0 +1,108 @@
+<div class="m-l-n m-r-n">
+	<div id="tcontainer">
+	</div>
+	<div class="p-sm">
+		<div class="m-t p-sm bg-white red text-center text-md" id="create_task">
+			确定创建任务
+		</div>	
+	</div>
+</div>
+
+<div id="priority_container" class="p-sm v-box popup-container" style="display:none;" >
+	<div class="bg-white content" style="width:100%;" id="priority_list"></div>
+</div>
+<div id="member_container" class="p-sm v-box popup-container" style="display:none;">
+	<div class="bg-white content" style="width:100%;max-height:85%;overflow-y:auto;" id="member_list"></div>
+</div>
+
+<div id="deadline_container" class="p-sm v-box popup-container" style="display:none;">
+	<div class="bg-white p-sm p-b-none content text-center" style="width:100%;max-height:85%;overflow-y:auto;" id="deadline_list">
+		<div class="row p-sm text-primary b-b b-primary text-lg" id='dp_display'></div>
+		<div class="row  p-t-sm p-b   text-light">
+			<div class="col-xs-2"></div>
+			<div class="col-xs-2 dp_arrow" data-step="1" data-target="years"><i class="glyphicon glyphicon-chevron-up"></i></div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-2 dp_arrow" data-step="1" data-target="months"><i class="glyphicon glyphicon-chevron-up"></i></div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-2 dp_arrow" data-step="1" data-target="days"><i class="glyphicon glyphicon-chevron-up"></i></div>
+			<div class="col-xs-2"></div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2"></div>
+			<div class="col-xs-2 p-sm b-t b-b b-primary"  id="dp_year"> </div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-2 p-sm b-t b-b b-primary"  id="dp_month"> </div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-2  p-sm b-t b-b b-primary"  id="dp_date"> </div>
+			<div class="col-xs-2"></div>
+		</div>
+		<div class="row p-t p-b-sm text-light b-b b-light">
+			<div class="col-xs-2"></div>
+			<div class="col-xs-2 dp_arrow" data-step="-1" data-target="years"><i class="glyphicon glyphicon-chevron-down"></i></div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-2 dp_arrow" data-step="-1" data-target="months"><i class="glyphicon glyphicon-chevron-down"></i></div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-2 dp_arrow" data-step="-1" data-target="days"><i class="glyphicon glyphicon-chevron-down"></i></div>
+			<div class="col-xs-2"></div>
+		</div>		
+
+		<div class="row">
+			<div class="col-xs-4 p-b-sm p-t-sm b-r b-light" id="dp_cancel">取消</div>
+			<div class="col-xs-4  p-b-sm p-t-sm b-r b-light" id="dp_clear">清除</div>
+			<div class="col-xs-4  p-b-sm p-t-sm" id="dp_ok">确定</div>
+		</div>
+	</div>
+</div>
+
+<script id="tpriority" type="text/template">
+	{{#list}}
+	<div class="b-b b-light p-sm priority-item" data-update-key="priority" data-update-value="{{level}}">
+		{{#images}}
+		<img src="/images/icons/{{image}}" alt="" style="width:12px;{{^isFirst}}margin-left:-11px;{{/isFirst}}" />
+		{{/images}}
+		<span class="text-md">{{name}}</span>
+	</div>
+	{{/list}}
+</script>
+
+<script id="tmember" type="text/template">
+{{#list}}
+<div class="b-b b-light clear p-sm member-item" data-update-key="owner_id"  data-update-value='{{user.id}}'>
+	<img src="{{user.avatar}}" alt="图片" class="pull-left b-a b-light rounded" style="width:36px;height:36px;">
+    <div class="clear" style="margin-left:50px;" >
+		<div class="text-md text-dark m-t-xs">
+			<span>{{user.name}}</span>  
+			{{#isCreator}}
+			<img src="/images/icons/user.png" style="width:14px;height:14px;border-radius:2px;margin-top:-2px;" />
+			{{/isCreator}}
+		</div>
+    </div>
+</div>
+{{/list}}
+</script>
+
+<script id="tlist" type="text/template">
+	<div class="bg-white p-sm ">
+		<div class="text-lg" ><textarea  id="task_content" rows="4" class="b-n w-full p-sm" placeholder="请输入内容">{{content}}</textarea></div>
+		<div class="m-t text-sm text-light b-b b-light m-b-xs">{{creator.name}} 现在</div>
+		<div class="p-t-sm text-md clear">
+			<div class="pull-left">暂不可添加描述</div>
+		</div>
+	</div>
+<div class="bg-white m-t p-l-sm p-r-sm">
+	<div class="p-t-sm p-b-sm b-b b-light text-md" id="task_owner">
+		执行者
+		<span class="pull-right text-light">{{owner.name}} <i class="text-sm glyphicon glyphicon-chevron-right"></i></span>
+	</div>
+	<div class="p-t-sm p-b-sm b-b b-light text-md" id="task_priority">
+		优先级
+		<span class="pull-right text-light">{{priority_display}} <i class="text-sm glyphicon glyphicon-chevron-right"></i></span>
+	</div>	
+	<div class="p-t-sm p-b-sm  text-md" id="task_deadline">
+		截止日期
+		<span class="pull-right text-light">{{deadline}} <i class="text-sm glyphicon glyphicon-chevron-right"></i></span>
+	</div>			
+</div>
+
+</script>
+

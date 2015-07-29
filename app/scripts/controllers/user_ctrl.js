@@ -131,9 +131,10 @@ var USER_ROUTE = (function() {
     return {
         template_url: '/views/user_item.html',
         context: '.container',
-        before_enter: function(user) {
+        before_enter: function(user){
 
-            var path = '/user/' + user;
+            var path =  '/u/' + user;
+
             console.log(router);
             //if the user has logged in and he is viewing the current user, active the link on navigation bar
             $(".container").css("padding", "0");

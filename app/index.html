@@ -16,7 +16,7 @@
         <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png" />
         <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
-       
+
         <!-- build:js /scripts/vendor/modernizr.js -->
         <script src="/bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild -->
@@ -48,14 +48,18 @@
             <!--<span class="icon-bar"></span>-->
             <!--<span class="icon-bar"></span>-->
         </button>
-        <a class="banner" href="/">
+        <a class="banner" href="/" id="main_banner">
             <img src="/images/icons/logo-coding.png" width="147" height="42">
         </a>
+        <span id="main_header" class="p-sm p-l p-t" style="display:none;"></span>
     </div>
     <div class="collapse navbar-collapse navbar-coding-detail">
       <ul class="nav navbar-nav" id="navigator">
         <li class="li-login">
             <a class="nav-login" href="/login"><img src="/images/icons/avatar.png" height="34" width="34"><span>未登录</span></a>
+        </li>
+        <li class="li-project">
+            <a class="nav-my-projects" href="/user/projects"><img src="/images/icons/project.png" class="nav-icon"><span>我的项目</span></a>
         </li>
         <li class="li-square">
             <a class="nav-projects" href="/projects"><img src="/images/icons/square.png" class="nav-icon"><span>广场</span></a>
@@ -75,8 +79,7 @@
 
 
     <!-- JS and analytics only. -->
-    <!-- Bootstrap core JavaScript
-================================================== -->
+    <!-- Bootstrap core JavaScript -->
 <!-- Placed at the end of the document so the pages load faster -->
 
 
@@ -86,12 +89,12 @@
         <![endif]-->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
+        <!--<script>
             var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
             g.src='//www.google-analytics.com/ga.js';
             s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
+        </script>-->
 
         <script src="/scripts/sha1.js"></script>
 
@@ -99,6 +102,7 @@
         <script src="/bower_components/highlightjs/highlight.pack.js"></script>
         <script src="/scripts/vendor/moment.js"></script>
         <script src="/scripts/vendor/zepto.js"></script>
+        <script src="/scripts/vendor/mustache.js"></script>
         <script src="/bower_components/bootstrap/js/collapse.js"></script>
         <script src="/bower_components/bootstrap/js/modal.js"></script>
         <script src="/bower_components/bootstrap/js/transition.js"></script>
@@ -109,6 +113,7 @@
         <!-- build:js /scripts/main.js -->
         <script src="/scripts/public_method.js"></script>
         <script src="/scripts/router.js"></script>
+        <script src="/scripts/coding.js"></script>
         <script src="/scripts/controllers/login_ctrl.js"></script>
         <script src="/scripts/controllers/register_ctrl.js"></script>
         <script src="/scripts/controllers/activate_ctrl.js"></script>
@@ -122,11 +127,31 @@
         <script src="/scripts/controllers/project_ctrl.js"></script>
         <script src="/scripts/controllers/pp_ctrl.js"></script>
         <script src="/scripts/controllers/user_ctrl.js"></script>
+
         <script src="/scripts/controllers/user_info.js"></script>
         <script src="/scripts/controllers/user_fans.js"></script>
         <script src="/scripts/controllers/user_projects.js"></script>
         <script src="/scripts/controllers/user_pp.js"></script>
         <script src="/scripts/controllers/friends_ctrl.js"></script>
+
+        <script src="/scripts/controllers/my_project_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_activities_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_home_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_member_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_attachment_list_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_attachment_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_topic_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_topics_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_topic_create_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_tasks_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_task_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_task_desc_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_task_create_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_git_home_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_git_code_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_git_merge_ctrl.js"></script>
+        <script src="/scripts/controllers/my_project_git_blob_ctrl.js"></script>
+
         <script src="/scripts/application.js"></script>
         <!-- endbuild -->
 

@@ -1,0 +1,61 @@
+
+<div class="bg-white">
+	<div id="tcontainer"></div>
+	<div id="tcomment" class="p-sm b-b b-light"></div>
+	<div class="p-sm">
+		<div class="input-group">
+		  <input type="text" id="reply-content" class="form-control" placeholder="在此输入评论内容" aria-describedby="basic-addon2">
+		  <span class="input-group-addon" id="reply">
+			  <i class="glyphicon glyphicon-arrow-right"></i>
+		  </span>
+		</div>
+	</div>
+</div>
+<div class="row m-t">
+   <div class="col-md-12">
+       <button type="button" id="load_more" class="btn btn-default btn-block">加载更多</button>
+   </div>
+</div>
+
+<script id="tlist" type="text/template">
+{{#list}}
+<div class="b-b b-light p-t-xs p-b-xs">
+	<div class="text-sm text-dark">
+		<span>{{{content}}}</span>
+	</div>
+	<div class="m-t-sm text-light text-xs">
+		<a href="/u/{{owner.global_key}}" class="text-primary">{{owner.name}}</a>
+		<span>&nbsp;&nbsp;{{fromNow}}&nbsp;&nbsp;</span>
+		<span class="text-primary reply-comment" data-owner-name="{{owner.name}}">回复</span>
+	</div>
+</div>
+{{/list}}
+</script>
+
+<script id="tmain" type="text/template">
+<div class="b-b b-light clear " style="padding:12px;">
+	<img src="{{owner.avatar}}" alt="图片" class="pull-left b-a b-light rounded" style="width:32px;height:32px;">
+    <div class="clear" style="margin-left:44px;" >
+		<div class="text-light text-2line">
+			{{title}}
+		</div>
+    </div>
+</div>
+<div class="b-b b-light clear " style="padding:14px 12px 6px 12px;">
+	<div class="text-dark-dk" style="">
+		{{{content}}}
+	</div>
+	<div class="text-sm text-light-dk ">{{display}}</div>
+	<div class="m-t text-sm text-light-dk">评论 ({{child_count}})</div>
+</div>
+</script>
+
+<!--<script id="theader" type="text/template">
+<div class="row project_header">
+{{#list}}
+	<div class="col-xs-6 {{#active}}active{{/active}}">
+		<a href="{{href}}">{{name}}</a>
+	</div>
+{{/list}}
+</div>
+</script>-->
