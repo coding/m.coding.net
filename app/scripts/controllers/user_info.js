@@ -96,10 +96,7 @@ var USER_INFO_ROUTE = (function() {
                     $('#navigator').find('.li-login').addClass('active');
                 }
             }
-            $(".container").css("padding", "0");
-            $(".container").css("width", "100%");
-            $(".container").css("margin-top", "0");
-            $(".main").css("background-color", "#e5e5e5");
+            $(".main").css("background-color", "#e5e5e5 !important");
         },
         on_enter: function(user) {
             userName = user;
@@ -108,6 +105,7 @@ var USER_INFO_ROUTE = (function() {
         on_exit: function(user) {
             $('#navigator').find('li').removeClass('active');
             $('.project_header').remove();
+            $(".main").css("background-color", "#f6f6f6 !important");
         }
     }
 })();

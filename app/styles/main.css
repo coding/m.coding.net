@@ -1,5 +1,5 @@
 body {
-    background-color: #f6f6f6 !important;
+    background-color: #dddddd !important;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
 }
@@ -45,9 +45,12 @@ button{
 }
 
 a {
-    color: #3bbd79 !important;
+    color: #3bbd79;
 }
 
+a:hover{
+    text-decoration: none;
+}
 .hero-unit {
     margin: 0 auto;
     max-width: 300px;
@@ -351,7 +354,7 @@ form.login > button, form.register > button, form.activate > button, form.resetP
     width:100%;
 }
 .taskDescription {
-    margin-top:10px 0;
+    margin-top:10px;
     /*width: 80%;*/
     line-height: 2.0;
 }
@@ -746,15 +749,48 @@ p.thumbnail .bubble-markdown-image{
 #pp_input{
     top: 20%;
 }
-/******/
+/***个人中心***/
+.user {
+    left: 0;
+    margin-bottom: 30px;
+    margin-left: 0;
+    margin-right: 0;
+    position: absolute;
+    width: 100%;
+    background-color: #e5e5e5;
+    top: 57px;
+}
+
 .user-back {
-    padding-top: 80px;
+    padding-top: 20px;
+}
+
+.user-back-pp {
+    padding-top: 8px;
+}
+
+.user-back-pro {
+    position: relative;
+    top: -10px;
 }
 
 .user-info {
     height: 86px;
     border: 1px solid #e5e5e5;
     background-color: #fff;
+}
+
+.user-people {
+    position: relative;
+    top: -2px;
+}
+
+.user-mypp {
+    display: inline-block;
+    height: 45px;
+    line-height: 45px;
+    margin-left: 15px;
+    width: 100%;
 }
 
 .user-info .img-bords {
@@ -781,7 +817,7 @@ p.thumbnail .bubble-markdown-image{
 
 .user-info label {
     font-size: 16px;
-    color: #666666;
+    color: #999;
     font-weight: 200;
     position: relative;
     top: -6px;
@@ -894,6 +930,12 @@ p.thumbnail .bubble-markdown-image{
     height: 35px;
     width: 60%;
     border-radius: 6px;
+    height: 36px;
+    line-height: 36px;
+}
+.dro-right2 {
+    display: inline-block;
+    width: 50px;
 }
 
 .searchicon::before {
@@ -1011,6 +1053,7 @@ p.thumbnail .bubble-markdown-image{
 .fans_avatar {
     border-radius: 50%;
     border: 1px solid #e5e5e5;
+    margin: 0 10px 0 16px;
 }
 
 .fans_name {
@@ -1039,7 +1082,7 @@ p.thumbnail .bubble-markdown-image{
 }
 
 .fans_img {
-    text-align: right;
+    text-align: left;
     border-bottom: 1px solid #e5e5e5;
 }
 

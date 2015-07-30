@@ -70,10 +70,10 @@ var USER_FANS_ROUTE = (function() {
             },
             success: function(data) {
                 if (data.data) {
-                    searchlist = data.data ;
+                    searchlist = data.data;
                     assembleDOM(searchlist);
                 } else {
-                    alert('Failed to load fans');
+                    //alert('Failed to load fans');
                 }
             },
             error: function(xhr, type) {
@@ -85,11 +85,15 @@ var USER_FANS_ROUTE = (function() {
 
     function updateFans(data) {
         var fans = data || {},
-        template = '<tr>' + '<td class="fans_watch" width="70" height="68"><a href="/friends/' + fans.global_key + '"><img src="#" class="avatar fans_avatar" width="50" height="50"></a></ td>' + '<td class="name fans_name"></td>' + '<td class="fans_img" width="72" ></td>' + '</tr>',
+            template = '<tr>' + '<td class="fans_watch" width="76" height="68"><a href="/friends/' + fans.global_key + '"><img src="#" class="avatar fans_avatar" width="50" height="50"></a></ td>' + '<td class="name fans_name"></td>' + '<td class="fans_img" width="92" ></td>' + '</tr>',
 
         body_ele = $(template);
-        body_ele.find('.avatar').attr('src', fans.avatar);
-        body_ele.find('.name').html('<a href="/friends/' + fans.global_key + '" style="color:#222 !important;">' + fans.name + '</a>');
+        var avatar = fans.avatar;
+        if (avatar.indexOf("https://") < 0) {
+            avatar = "https://coding.net/" + avatar;
+        }
+        body_ele.find('.avatar').attr('src', avatar);
+        body_ele.find('.name').html('<a href="/friends/' + fans.global_key + '" style="color:#222 !important;">' + truncateText(fans.name, 8) + '</a>');
         var fansconcerned = $("#fans-concerned").html();
         var fanseachconcerned = $("#fans-eachconcerned").html();
         var fanswatched = $("#fans-watched").html();
@@ -107,7 +111,8 @@ var USER_FANS_ROUTE = (function() {
         //    follow_btn.text('关注');
         //}
         //body_ele.find('.description').text(user.slogan);;
-        body_ele.on('click', '#watched',function(e) {
+        body_ele.on('click', '#watched',
+        function(e) {
             e.preventDefault();
             //follow_btn.attr('disabled','disabled');
             var path = fans.followed ? '/api/social/unfollow': '/api/social/follow';
@@ -159,17 +164,22 @@ var USER_FANS_ROUTE = (function() {
         }
         return path;
     }
+    function truncateText(text, length) {
+        return text.length < length ? text: text.substr(0, length);
+    }
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
 
     return {
         template_url: '/views/user_fans.html',
         context: '.container',
         before_enter: function(type) {
-            $(".container").css("padding", "0");
-            $(".container").css("width", "100%");
-            $(".container").css("margin-top", "0");
-            $(".main").css("background-color", "#e5e5e5");
 
-        },
+    	},
         on_enter: function(type) {
             if (type == 'followers' || type == 'friends') {
                 var src = $(".navbar-header-coding").find(".adds").attr("src");
@@ -177,24 +187,16 @@ var USER_FANS_ROUTE = (function() {
                     $(".navbar-header").append($(".addfriend").html());
                 }
             }
-            $(".user-back").css("padding-top", "60px");
-            var head = '<div class="header-search">' + '<input type="text" name="search" id="search" placeholder="姓名/个性后缀"/>' + '<span class="searchicon"></span>' + '</div>';
+            $(".main").css("background-color", "#e5e5e5 !important");
+            var head = '<div class="header-search">' + '<span class="searchicon"></span>' + '<form role="form">' + '<input type="text" name="search" id="search" placeholder="姓名/个性后缀"/>' + '</form>' + '</div>';
             $("#user-heading").html(head);
-            /***$("#search").click(function(){
-         	  $(".searchicon").css("left","7%"); 
-         	   $("#search").css("text-align","left");
-         	   $("#search").css("padding-left","8%");
-            });****/
-            $("#search").bind("keypress",
-            function(event) {
-                if (event.keyCode == '13') { // 回车按键的代码 	
-                    var key = $("#search").val();
-                    url = '/api/user/search';
-                    $(".more-fans").css("display", "none");
-                    search(url, key);
-
-                }
+            $("#search").bind("keyup", function(event) {
+                var key = $("#search").val();
+                url = '/api/user/search';
+                $(".more-fans").css("display", "none");
+                search(url, key);
             });
+
             if (type == 'followers') {
                 $(".more-fans").css("display", "block");
                 pageCount = 0,
@@ -208,7 +210,18 @@ var USER_FANS_ROUTE = (function() {
                 loadFans(url);
             }
             if (type == 'addfriend') {
+
                 $(".more-fans").css("display", "none");
+            }
+            var searchkey = getQueryString('search');
+            if (searchkey) {
+                $(".more-fans").css("display", "none");
+                $("#search").val(searchkey);
+                url = '/api/user/search';
+                search(url, searchkey);
+            } else if (searchkey == "") {
+                $(".more-fans").css("display", "none");
+                alert("请输入姓名/个性后缀");
             }
             var element = $("#load_more");
             element.on('click',
@@ -222,6 +235,7 @@ var USER_FANS_ROUTE = (function() {
             $('#navigator').find('li').removeClass('active');
             $('.project_header').remove();
             $(".adds").remove();
+            $(".main").css("background-color", "#f6f6f6 !important");
         }
     }
 })();

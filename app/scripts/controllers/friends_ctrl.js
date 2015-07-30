@@ -53,7 +53,7 @@ var FRIENDS_INFO_ROUTE = (function() {
         var locations = user.location.split(' ');
         body_ele.find('.img-bords').attr('src', assetPath(user.avatar));
         body_ele.find('.panel-font').text(truncateText(user.name, 6));
-        body_ele.find('label').text(truncateText(user.slogan, 10));
+        body_ele.find('label').text(truncateText(user.slogan, 9));
         body_ele.find('.fans').html('<font class="user-bule"> ' + user.fans_count + '</font> 粉丝');
         body_ele.find('.fllow').html('<font class="user-bule"> ' + user.follows_count + '</font> 关注 ');
         body_ele.find('.location').text(locations[1]);
@@ -153,10 +153,7 @@ var FRIENDS_INFO_ROUTE = (function() {
             var path = '/user/' + user;
 
             //if the user has logged in and he is viewing the current user, active the link on navigation bar
-            $(".container").css("padding", "0");
-            $(".container").css("width", "100%");
-            $(".container").css("margin-top", "0");
-            $(".main").css("background-color", "#e5e5e5");
+            $(".main").css("background-color", "#e5e5e5 !important");
         },
         on_enter: function(user) {
             loadUser(user);
@@ -164,6 +161,7 @@ var FRIENDS_INFO_ROUTE = (function() {
         on_exit: function(user) {
             $('#navigator').find('li').removeClass('active');
             $('.project_header').remove();
+            $(".main").css("background-color", "#f6f6f6 !important");
         }
     }
 })();

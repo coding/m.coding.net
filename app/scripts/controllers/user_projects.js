@@ -119,7 +119,7 @@ var USER_PROJECT_ROUTE = (function() {
         before_enter: function(data, type) {
             //active the project navbar item
             $('#navigator').find('li:first').addClass('active');
-            $(".main").css("background-color", "#e5e5e5");
+            $(".main").css("background-color", "#e5e5e5 !important");
             var project_nav = '<div class="row project_header">' + '<div class="col-xs-6">' + '<a href="#">我参与的</a>' + '</div>' + '<div class="col-xs-6">' + '<a href="#" style="opacity: 1;">我创建的</a>' + '</div>',
             nav_ele = $(project_nav);
 
@@ -177,6 +177,7 @@ var USER_PROJECT_ROUTE = (function() {
             $('#navigator').find('li').removeClass('active');
             $('.project_header').remove();
             lastType = currentType; //remember the type set last time;
+            $(".main").css("background-color", "#f6f6f6 !important");
         }
     }
 
