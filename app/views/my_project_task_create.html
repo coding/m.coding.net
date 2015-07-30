@@ -2,21 +2,19 @@
 	<div id="tcontainer">
 	</div>
 	<div class="p-sm">
-		<div class="m-t p-sm bg-white red text-center text-md" id="create_task">
-			确定创建任务
-		</div>	
+		<button class="btn btn-default w-full" id="create_task">确定创建任务</button>
 	</div>
 </div>
 
 <div id="priority_container" class="p-sm v-box popup-container" style="display:none;" >
-	<div class="bg-white content" style="width:100%;" id="priority_list"></div>
+	<div class=" content" style="width:100%;;background-color:rgba(255,255,255,0.94)" id="priority_list"></div>
 </div>
 <div id="member_container" class="p-sm v-box popup-container" style="display:none;">
-	<div class="bg-white content" style="width:100%;max-height:85%;overflow-y:auto;" id="member_list"></div>
+	<div class="content" style="width:100%;max-height:85%;overflow-y:auto;background-color:rgba(255,255,255,0.94)" id="member_list"></div>
 </div>
 
 <div id="deadline_container" class="p-sm v-box popup-container" style="display:none;">
-	<div class="bg-white p-sm p-b-none content text-center" style="width:100%;max-height:85%;overflow-y:auto;" id="deadline_list">
+	<div class=" p-sm p-b-none content text-center" style="width:100%;max-height:85%;overflow-y:auto;;background-color:rgba(255,255,255,0.94)" id="deadline_list">
 		<div class="row p-sm text-primary b-b b-primary text-lg" id='dp_display'></div>
 		<div class="row  p-t-sm p-b   text-light">
 			<div class="col-xs-2"></div>
@@ -67,7 +65,7 @@
 
 <script id="tmember" type="text/template">
 {{#list}}
-<div class="b-b b-light clear p-sm member-item" data-update-key="owner_id"  data-update-value='{{user.id}}'>
+<div class="b-b b-light clear p-sm member-item" data-update-key="owner_id"  data-update-value='{{user.id}}' >
 	<img src="{{user.avatar}}" alt="图片" class="pull-left b-a b-light rounded" style="width:36px;height:36px;">
     <div class="clear" style="margin-left:50px;" >
 		<div class="text-md text-dark m-t-xs">
@@ -85,7 +83,7 @@
 	<div class="bg-white p-sm ">
 		<div class="text-lg" ><textarea  id="task_content" rows="4" class="b-n w-full p-sm" placeholder="请输入内容">{{content}}</textarea></div>
 		<div class="m-t text-sm text-light b-b b-light m-b-xs">{{creator.name}} 现在</div>
-		<div class="p-t-sm text-md clear">
+		<div class="p-t-sm text-md  clear" style="color:#ccc;">
 			<div class="pull-left">暂不可添加描述</div>
 		</div>
 	</div>

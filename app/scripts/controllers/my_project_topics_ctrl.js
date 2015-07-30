@@ -57,6 +57,12 @@ var MY_PROJECT_TOPICS_ROUTE = (function(){
         path += '&page=' + pageCount + '&' + 'pageSize=20';
         coding.get(path, function(data){
             if(data.data){
+                if(pageCount===1&&data.data.list.length){
+                    $("#load_more").show();
+                }
+                if(pageCount===1&&!data.data.list.length){
+                    $("#bg-image").show();
+                }
                 assembleDOM(data.data);
             }
         },null, coding.loadingDone);

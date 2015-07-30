@@ -159,6 +159,7 @@ var MY_PROJECT_ATTACHMENT_ROUTE = (function(){
             $('#navigator').find('.li-project').addClass('active');
             $('#navigator').find(".li-project img").attr('src','/images/icons/project_active.png');
             pageCount = 0;
+            fileId = id;
         },
         on_enter: function(user, project, id){
 
