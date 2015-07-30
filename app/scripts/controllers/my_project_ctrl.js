@@ -23,7 +23,7 @@ var MY_PROJECT_ROUTE = (function(){
         if(!data || !data.list || !data.list.length) return;
         data.list = fixRelativeURL(data.list, "icon");  
         for(var i =0; i < data.list.length;i++){
-            data.list[i].projectHomeURL = coding.projectHomePath(data.list[i].owner_user_name, data.list[i].name);
+            data.list[i].projectHomeURL = coding.projectHomePath(null, null, data.list[i]);
         }
 
         $container = $('#projects_list');

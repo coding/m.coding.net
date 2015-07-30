@@ -21,9 +21,17 @@
 	
 	// 用户私有项目主页地址
 	// 因项目中用的到地方太多, 所以在此统一返回, 方便以后修改.
-	coding.projectHomePath = function(userName, projectName, data){
+	coding.projectHomePath = function(userName, projectName, project){
+		if(project){
+			var url = project.is_public?'/u/':'/i/';
+			url += project.owner_user_name;
+			url += '/p/';
+			url += project.name;
+			return url;
+		}
 		return '/i/'+userName+'/p/'+projectName;
 	}
+	
 	
 	// 显示主logo
 	coding.showBanner = function(){
@@ -34,11 +42,11 @@
 	// 显示项目导航栏
 	coding.showProjectBreadcrumb = function(project){
 		var content = [];
-		var userHomePath = '/u/projects';
+		var userHomePath = '/u/'+project.owner_user_name;
 		content.push("<a><img src='"+coding.assetPath(project.icon)+"' class='r-2x' style='width:22px;height:22px;margin-right:6px;'/></a>");
 		content.push("<span class='text-md '><a class='text-primary' href='"+userHomePath+"'>"+project.owner_user_name+"</a></span>");
 		content.push("<span class='text-md '>/</span>");
-		content.push("<span class='text-md text-primary'><a class='text-primary' href='"+coding.projectHomePath(project.owner_user_name, project.name)+"'>"+project.name+"</a></span>");
+		content.push("<span class='text-md text-primary'><a class='text-primary' href='"+coding.projectHomePath(null,null,project)+"'>"+project.name+"</a></span>");
 		$("#main_banner").hide();
 		$("#main_header").html(content.join("\n")).css('display', 'inline-block');
 	}

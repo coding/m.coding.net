@@ -8,6 +8,16 @@ var PROJECT_PULL_ROUTE = (function(){
         pageCount = 1,
         status = 'open';
 
+    function loadProject(){
+        var path = '/api/user/' + ownerName + '/project/' + projectName;
+        var successed = function(data){
+            if(data.data){
+                coding.showProjectBreadcrumb(data.data);
+            }
+        }
+       coding.get(path,successed);
+    }
+    
     function assembleDOM(data){
         var pulls       = data.list || [],
             fragment    = document.createDocumentFragment(),
@@ -123,16 +133,7 @@ var PROJECT_PULL_ROUTE = (function(){
             $('#navigator').find('li:first').addClass('active');
 
             //add the project header and navigation bar
-            var project_header = '<nav class="project_navbar navbar navbar-default">' +
-                    '<div class="container-fluid">' +
-                    '<div class="navbar-header">' +
-                    '<a class="navbar-brand" href="#">' +
-                    '<img alt="left" src="/images/static/left_arrow.png" height="20" width="20">' +
-                    '</a>' +
-                    '<span class="text-center"></span>' +
-                    '</div>' +
-                    '</div>' +
-                    '</nav>',
+            var
                 project_nav =  '<div class="row project_header nested">' +
                     '<div class="col-xs-3">' +
                     '<a href="#">项目主页</a>' +
@@ -147,11 +148,8 @@ var PROJECT_PULL_ROUTE = (function(){
                     '<a href="#">项目讨论</a>' +
                     '</div>' +
                     '</div>',
-                header_ele  = $(project_header),
+                
                 nav_ele     = $(project_nav);
-
-            header_ele.find('a.navbar-brand').attr('href', '/projects');
-            header_ele.find('span').text(project);
 
             nav_ele.find('div').eq(0).children('a').attr('href', path + '/git');
             nav_ele.find('div').eq(1).children('a').attr('href', path + '/tree');
@@ -161,18 +159,18 @@ var PROJECT_PULL_ROUTE = (function(){
             //active the current tab
             nav_ele.find('div').eq(2).addClass('active');
 
-            $("nav.main-navbar").after(header_ele);
-            header_ele.after(nav_ele);
+            $("nav.main-navbar").after(nav_ele);
+            
 
         },
         on_enter: function(user, project){
-
+            
             ownerName = user;
             projectName = project;
 
 
             var uri = '/api/user/' + user + '/project/' + project + '/git/pulls';
-
+            loadProject();
             loadMore(uri);
 
             $('#load_more').on('click', function(e){
@@ -187,7 +185,7 @@ var PROJECT_PULL_ROUTE = (function(){
             });
         },
         on_exit: function(user, project){
-
+            coding.showBanner();
             $('#navigator').find('li').removeClass('active');
 
             $('.project_navbar').remove();
