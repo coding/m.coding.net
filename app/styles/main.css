@@ -746,3 +746,374 @@ p.thumbnail .bubble-markdown-image{
 #pp_input{
     top: 20%;
 }
+/******/
+.user {
+    left: 0;
+    margin-bottom: 30px;
+    margin-left: 0;
+    margin-right: 0;
+    position: absolute;
+    width: 100%;
+    background-color: #e5e5e5;
+    top: 57px;
+}
+
+.user-back {
+    padding-top: 20px;
+}
+
+.user-back-pp {
+    padding-top: 8px;
+}
+
+.user-back-pro {
+    position: relative;
+    top: -10px;
+}
+
+.user-info {
+    height: 86px;
+    border: 1px solid #e5e5e5;
+    background-color: #fff;
+}
+
+.user-people {
+    position: relative;
+    top: -2px;
+}
+
+.user-info .img-bords {
+    border-radius: 35px;
+}
+
+.user-info .info-img {
+    width: 84px;
+    line-height: 85px;
+}
+/**.info-det {
+	width:55%;
+	overflow:hidden;
+	word-break:keep-all;
+	white-space:nowrap;
+}
+***/
+.panel-font {
+    font-size: 20px;
+    color: #222;
+    margin-top: 18px;
+    font-weight: 200;
+}
+
+.user-info label {
+    font-size: 16px;
+    color: #666666;
+    font-weight: 200;
+    position: relative;
+    top: -6px;
+}
+
+.info-right {
+    line-height: 85px;
+    margin-left: 5px;
+}
+
+.user-det {
+    background-color: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 14px 0;
+}
+
+.user-det span {
+    width: 50%;
+    display: inline-block;
+    font-size: 16px;
+    color: #222;
+}
+
+.fans {
+    border-right: 1px solid #d1d1d1;
+}
+
+.user-bule {
+    color: #3bbd79;
+}
+
+.user-dro {
+    margin: 20px 0;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+}
+
+.dro-pro {
+    width: 100%;
+    display: inline-block;
+    margin-left: 15px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.dro-pro span {
+    width: 50px;
+    display: inline-block;
+}
+
+.user-dro div {
+    font-size: 18px;
+    color: #222;
+}
+
+.myproject {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.user-logout {
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
+    color: #ff5847;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+}
+
+.userinfotable {
+    font-size: 18px;
+    width: 100%;
+}
+
+.userinfotable tr:first-child td {
+    border: none;
+}
+
+.userinfotable tr td {
+    border-top: 1px solid #e5e5e5;
+    padding: 15px 15px 15px 0;
+}
+
+.userinfotable tr td:nth-child(2) {
+    color: #999;
+    text-align: right;
+}
+
+.tablecom {
+    margin-top: 20px;
+}
+
+.avatarimg {
+    border-radius: 30px;
+    border: 1px solid #d1d1d1;
+}
+
+.header-search {
+    width: 100%;
+    border-radius: 6px;
+    height: 36px;
+    line-height: 36px;
+    background-color: #fff;
+}
+
+#search {
+    border: none;
+    color: #999;
+    font-size: 16px;
+    float: right;
+    height: 35px;
+    width: 60%;
+    border-radius: 6px;
+}
+
+.searchicon::before {
+    content: "";
+}
+
+.searchicon {
+    left: 35%;
+    line-height: 35px;
+    color: #999;
+    position: absolute;
+    -moz-osx-font-smoothing: grayscale;
+    display: inline-block;
+    font-family: "Glyphicons Halflings";
+    font-size: 16px;
+}
+
+.userproject {
+    background-color: #fff;
+}
+
+.list-public-project {
+    margin: 0 12px;
+    display: block;
+    border-bottom: 1px solid #e5e5e5;
+    display: block;
+    margin-bottom: -1px;
+    padding: 10px 0px;
+    position: relative;
+}
+
+.public-img {
+    border-radius: 6px;
+    border: 1px solid #e5e5e5;
+}
+
+.project_title {
+    color: #222 !important;
+    font-size: 16px;
+    margin-left: 14px;
+    vertical-align: top;
+}
+
+.public_description {
+    color: #999;
+    font-size: 14px;
+    margin-left: 14px;
+    position: relative;
+    top: 3px;
+    text-align: left;
+}
+
+.pull-icons {
+    margin-left: 14px;
+}
+
+.pull-icons span {
+    color: #999;
+    font-size: 12px;
+    margin-right: 15px;
+    display: inline-block;
+    top: 5px;
+}
+
+.icons-set {
+    display: inline-block;
+    margin-left: 4px;
+    position: relative;
+    top: -2px;
+}
+
+.public-right {
+    line-height: 90px;
+    position: relative;
+    top: -20px;
+    right: -5px;
+}
+
+.userpp {
+    background-color: #fff;
+    margin: 8px 13px;
+}
+
+.userpp_comment {
+    line-height: 20px;
+}
+
+.userpp-time {
+    font-size: 11px;
+    color: #aaa;
+    margin-left: 8px;
+    right: -2px;
+}
+
+.comm-fon {
+    font-size: 13px;
+    display: inline-block;
+    position: relative;
+    top: -2px;
+    left: 5px;
+    margin-left: 4px;
+}
+
+.fans_content {
+    background-color: #fff;
+}
+
+.fans_content ul li {
+    list-style-type: none;
+    line-height: 68px;
+    height: 68px;
+    margin-left: -24px;
+}
+
+.fans_avatar {
+    border-radius: 50%;
+    border: 1px solid #e5e5e5;
+}
+
+.fans_name {
+    font-size: 20px;
+    margin-left: 15px;
+}
+
+.fans_icon {
+    margin-right: 18px;
+}
+
+.clear {
+    clear: both;
+}
+
+#fans_list {
+    width: 100%;
+}
+
+#fans_list tr:last-child td {
+    border: none;
+}
+
+.fans_watch {
+    text-align: center;
+}
+
+.fans_img {
+    text-align: right;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.fans_name {
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.friends-info {
+    display: inline-block;
+    width: 90px;
+}
+
+.more-fans {
+    padding: 15px;
+}
+
+.userpp-comm {
+    margin: 15px;
+    color: rgb(184,184,184);
+    font-size: 12px;
+    position: relative;
+    top: -5px;
+}
+
+.border-color {
+    border: 1px solid #e5e5e5;
+}
+
+.pp-comment img {
+    position: relative;
+    top: -1px;
+}
+
+.fork-img {
+    position: relative;
+    top: -1px;
+}
+
+.icons-fork {
+    position: relative;
+    left: -12px;
+}
+
+#pp-star img {
+    position: relative;
+    top: -3px;
+}
+
+.pp-font {
+    top: 0px;
+}
