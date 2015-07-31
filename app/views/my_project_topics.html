@@ -1,0 +1,52 @@
+
+<div class="m-t-xs m-b">
+	<a class="btn btn-default btn-block" href="#" id="create_topic">发个讨论</a>
+</div>
+<div class="text-center" id='bg-image' style="display:none;">
+	<img src="/images/static/blankpage_image_Sleep.png" style="width:130px;height:130px;"/>
+	<div class="m-t text-md text-light">
+		这里怎么空空的<br>发个讨论让它热闹点吧
+	</div>
+</div>
+<div class="bg-white shadow-default">
+	<div id="tcontainer">
+	</div>
+</div>
+<div class="row m-t">
+   <div class="col-md-12">
+       <button type="button" id="load_more" class="btn btn-default btn-block" style="display:none;">加载更多</button>
+   </div>
+</div>
+
+<script id="tlist" type="text/template">
+{{#list}}
+<div class="b-b b-light">
+	<a class="clear " style="padding:13px 12px 8px 12px;" href="{{projectHomeURL}}/topic/{{id}}">
+		<img src="{{owner.avatar}}" alt="图片" class="pull-left b-a b-light rounded" style="width:32px;height:32px;">
+	    <div class="clear" style="margin-left:44px;" >
+			<div class="text-dark-dk text-2line">
+				{{title}}
+			</div>
+			<div class="m-t-sm text-light text-sm">
+				<span>{{display}}</span>
+				<span class="text-light pull-right">
+					<img src="/images/icons/comment_gray.png" style="width:13px;margin-top:-3px;" />
+					 {{child_count}}
+				 </span>
+				
+			</div>
+	    </div>
+	</a>
+</div>
+{{/list}}
+</script>
+
+<script id="theader" type="text/template">
+<div class="row project_header">
+{{#list}}
+	<div class="col-xs-6 {{#active}}active{{/active}}">
+		<a href="{{href}}">{{name}}</a>
+	</div>
+{{/list}}
+</div>
+</script>
