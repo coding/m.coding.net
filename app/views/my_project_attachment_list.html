@@ -1,0 +1,26 @@
+
+<div class="bg-white  shadow-default">
+	<div id="tcontainer">
+	</div>
+</div>
+<!--<div class="row m-t">
+   <div class="col-md-12">
+       <button type="button" id="load_more" class="btn btn-default btn-block">加载更多</button>
+   </div>
+</div>-->
+
+<script id="tlist" type="text/template">
+{{#list}}
+<div class="b-b b-light">
+	<a class="clear p-sm" href="{{projectHomeURL}}/attachment/{{file_id}}">
+		<img src="/images/icons/folder{{#isDefault}}_default{{/isDefault}}.png" alt="图片" class="pull-left m-t-xs" style="width:45px;height:45px;">
+	    <div class="clear" style="margin-left:60px;" >
+			<div class="text-md text-dark m-t">
+				<span>{{name}}</span>
+				<span class="text-light pull-right p-l-xs text-base">{{file_count}}</span>
+			</div>
+	    </div>
+	</a>
+</div>
+{{/list}}
+</script>

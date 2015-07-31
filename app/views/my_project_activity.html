@@ -1,0 +1,44 @@
+
+<div class="bg-white shadow-default">
+	<div id="tcontainer">
+	</div>
+</div>
+<div class="row m-t">
+   <div class="col-md-12">
+       <button type="button" id="load_more" class="btn btn-default btn-block">加载更多</button>
+   </div>
+</div>
+
+
+<script id="tlist" type="text/template">
+{{#list}}
+	{{#showHeader}}
+	<div class="bg-light p-sm text-11 text-light-dk">{{header}}</div>
+	{{/showHeader}}
+	<div class="bg-white p-l-sm p-r-sm p-r-none clear streamline {{#showHeader}}p-t-sm{{/showHeader}}">
+		<a href="/u/{{user.global_key}}" class="pull-left m-t-sm">
+			<img src="{{user.avatar}}" alt="图片" class=" b-a b-light rounded" style="width:32px;height:32px;">
+		</a>
+        <div class="sl-item {{#isUnread}} sl-primary {{/isUnread}} b-l p-b b-primary " style="margin-left:45px;" >
+            <div class="m-l p-sm {{^showHeader}} b-t b-light {{/showHeader}}">
+                <div >
+					<span class="text-primary"><a href="/u/{{user.global_key}}">{{user.name}}</a></span> {{action_msg}}{{target_type_desc}}
+				</div>
+				<div class=" m-t-xs" style="font-size:13px;color:#555555;">{{{content}}}</div>
+				<div class="text-sm text-light m-t">{{display}}</div>               
+            </div>
+        </div>
+	</div>
+	</div>
+{{/list}}
+</script>
+
+<script id="theader" type="text/template">
+<div class="row project_header">
+{{#list}}
+	<div class="col-xs-2 {{#active}}active{{/active}}">
+		<a href="{{href}}">{{name}}</a>
+	</div>
+{{/list}}
+</div>
+</script>

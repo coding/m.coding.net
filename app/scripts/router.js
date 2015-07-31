@@ -136,7 +136,7 @@
 
     Router.prototype.updateDOM = function(current_user) {
       var imageUrl, logoutTemplate, tipHtml;
-      $("a.nav-login").attr('href', '/user/' + current_user['global_key']);
+      $("a.nav-login").attr('href', '/u/' + current_user['global_key']);
       imageUrl = current_user['avatar'];
       if (imageUrl.indexOf('/static') === 0) {
         imageUrl = 'https://coding.net' + imageUrl;

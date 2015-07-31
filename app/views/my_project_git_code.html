@@ -1,0 +1,39 @@
+
+<div class="bg-white">
+	<div id="tcontainer">
+	</div>
+</div>
+
+
+<script id="tlist" type="text/template">
+{{#infos}}
+<div class="b-b b-light">
+	<a class="clear p-sm" href="{{redirectURL}}" >
+		{{#isFolder}}
+			<img src="/images/icons/folder_blue.png" alt="图片" class="pull-left " style="width:20px;height:20px;">
+		{{/isFolder}}
+		{{^isFolder}}
+			<img src="/images/icons/file.png" alt="图片" class="pull-left " style="width:20px;height:20px;">
+		{{/isFolder}}
+	    <div class="clear" style="margin-left:35px;" >
+			<div class="text-md text-dark ">
+				<span >{{name}}</span>
+				<span class="pull-right text-sm text-light m-t-xs">
+					{{last_commit_display}} {{lastCommitter.name}}
+				</span>
+			</div>
+	    </div>
+	</a>
+</div>
+{{/infos}}
+</script>
+
+<script id="theader" type="text/template">
+<div class="row project_header">
+{{#list}}
+	<div class="col-xs-4 {{#active}}active{{/active}}">
+		<a href="{{href}}">{{name}}</a>
+	</div>
+{{/list}}
+</div>
+</script>

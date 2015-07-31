@@ -1,0 +1,31 @@
+
+<div class="bg-white p-sm">
+	<div id="tcontainer">
+	</div>
+</div>
+
+<script id="tlist" type="text/template">
+{{#list}}
+	<div class="p-sm">
+		<div>
+			<h6 class="text-primary">{{iid}} {{title}}</h6>
+		</div>
+		<div class="p-t-xsp-b-xs">
+			{{source_owner_name}}:{{srcBranch}} -> {{ownerName}}:{{desBranch}}
+			{{#isAccepted}}
+			<span class="label label-warning">已合并</span>
+			{{/isAccepted}}
+			{{#isRefused}}
+			<span class="label label-warning">已拒绝</span>
+			{{/isRefused}}
+			{{#isCannotMerge}}
+			<span class="label label-info">不可合并</span>
+			{{/isCannotMerge}}
+			{{#isOpen}}
+			<span class="label label-success">未处理</span>
+			{{/isOpen}}
+		</div>
+		<div class="text-xs text-light">{{author.name}} 创建于 {{display}}</div>
+	</div>
+{{/list}}
+</script>

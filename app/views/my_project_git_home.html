@@ -1,0 +1,26 @@
+<div id="tcontainer">
+</div>
+
+<script id="tlist" type="text/template">
+	<div class="clear ">
+		<img src="{{project.icon}}" alt="" class="pull-left" height="100" width="100">
+		<div class="" style="margin-left:110px;">
+			<div class="text-lg text-primary"><h4>{{project.name}}</h4></div>
+			<div class="">{{project.short_description}}</div>
+			<div class="text-light text-xs m-t">{{project.owner.name}} 最后更新于 {{update_display}}</div>
+		</div>
+	</div>
+	<div class="m-t bg-white r-2x">
+		<div class="p-sm">{{readme.name}}</div>
+	</div>
+	<div style="margin-top:2px;" class="bg-white p-sm r-2x">{{{readme.preview}}}</div>
+</script>
+<script id="theader" type="text/template">
+<div class="row project_header"> 
+{{#list}}
+	<div class="col-xs-4 {{#active}}active{{/active}}">
+		<a href="{{href}}">{{name}}</a>
+	</div>
+{{/list}}
+</div>
+</script>

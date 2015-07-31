@@ -158,7 +158,7 @@ var USER_ROUTE = (function(){
         context: '.container',
         before_enter: function(user){
 
-            var path =  '/user/' + user;
+            var path =  '/u/' + user;
 
             //if the user has logged in and he is viewing the current user, active the link on navigation bar
             if(router.current_user){
