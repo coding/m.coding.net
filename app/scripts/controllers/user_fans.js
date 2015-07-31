@@ -85,14 +85,10 @@ var USER_FANS_ROUTE = (function() {
 
     function updateFans(data) {
         var fans = data || {},
-            template = '<tr>' + '<td class="fans_watch" width="76" height="68"><a href="/friends/' + fans.global_key + '"><img src="#" class="avatar fans_avatar" width="50" height="50"></a></ td>' + '<td class="name fans_name"></td>' + '<td class="fans_img" width="92" ></td>' + '</tr>',
+        template = '<tr>' + '<td class="fans_watch" width="70" height="68"><a href="/friends/' + fans.global_key + '"><img src="#" class="avatar fans_avatar" width="50" height="50"></a></ td>' + '<td class="name fans_name"></td>' + '<td class="fans_img" width="72" ></td>' + '</tr>',
 
         body_ele = $(template);
-        var avatar = fans.avatar;
-        if (avatar.indexOf("https://") < 0) {
-            avatar = "https://coding.net/" + avatar;
-        }
-        body_ele.find('.avatar').attr('src', avatar);
+        body_ele.find('.avatar').attr('src', fans.avatar);
         body_ele.find('.name').html('<a href="/friends/' + fans.global_key + '" style="color:#222 !important;">' + truncateText(fans.name, 8) + '</a>');
         var fansconcerned = $("#fans-concerned").html();
         var fanseachconcerned = $("#fans-eachconcerned").html();
@@ -166,12 +162,20 @@ var USER_FANS_ROUTE = (function() {
     }
     function truncateText(text, length) {
         return text.length < length ? text: text.substr(0, length);
+
     }
-    function getQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);
-        if (r != null) return unescape(r[2]);
-        return null;
+    function GetRequest() {
+
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
     }
 
     return {
@@ -179,7 +183,7 @@ var USER_FANS_ROUTE = (function() {
         context: '.container',
         before_enter: function(type) {
 
-    	},
+},
         on_enter: function(type) {
             if (type == 'followers' || type == 'friends') {
                 var src = $(".navbar-header-coding").find(".adds").attr("src");
@@ -188,15 +192,13 @@ var USER_FANS_ROUTE = (function() {
                 }
             }
             $(".main").css("background-color", "#e5e5e5 !important");
-            var head = '<div class="header-search">' + '<span class="searchicon"></span>' + '<form role="form">' + '<input type="text" name="search" id="search" placeholder="姓名/个性后缀"/>' + '</form>' + '</div>';
+            var head = '<div class="header-search">' + '<form role="form">' + '<input type="text" name="search" id="search" placeholder="姓名/个性后缀"/>' + '<span class="searchicon"></span>' + '</form>' + '</div>';
             $("#user-heading").html(head);
-            $("#search").bind("keyup", function(event) {
-                var key = $("#search").val();
-                url = '/api/user/search';
-                $(".more-fans").css("display", "none");
-                search(url, key);
-            });
-
+            /***$("#search").click(function(){
+         	  $(".searchicon").css("left","7%"); 
+         	   $("#search").css("text-align","left");
+         	   $("#search").css("padding-left","8%");
+            });****/
             if (type == 'followers') {
                 $(".more-fans").css("display", "block");
                 pageCount = 0,
@@ -213,7 +215,8 @@ var USER_FANS_ROUTE = (function() {
 
                 $(".more-fans").css("display", "none");
             }
-            var searchkey = getQueryString('search');
+            var keywrods = GetRequest();
+            var searchkey = decodeURI(keywrods['search']);
             if (searchkey) {
                 $(".more-fans").css("display", "none");
                 $("#search").val(searchkey);

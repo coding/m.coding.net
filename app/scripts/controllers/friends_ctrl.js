@@ -53,7 +53,9 @@ var FRIENDS_INFO_ROUTE = (function() {
         var locations = user.location.split(' ');
         body_ele.find('.img-bords').attr('src', assetPath(user.avatar));
         body_ele.find('.panel-font').text(truncateText(user.name, 6));
-        body_ele.find('label').text(truncateText(user.slogan, 9));
+        var slogan = (typeof user.slogan === 'undefined' || user.slogan === '') ? '座右铭未填写': user.slogan;
+        body_ele.find('label').text(truncateText(slogan, 6));
+        //body_ele.find('label').text(truncateText(user.slogan, 9));
         body_ele.find('.fans').html('<font class="user-bule"> ' + user.fans_count + '</font> 粉丝');
         body_ele.find('.fllow').html('<font class="user-bule"> ' + user.follows_count + '</font> 关注 ');
         body_ele.find('.location').text(locations[1]);
@@ -88,7 +90,8 @@ var FRIENDS_INFO_ROUTE = (function() {
         //    follow_btn.text('关注');
         //}
         //body_ele.find('.description').text(user.slogan);;
-        body_ele.on('click', '#watched',function(e) {
+        body_ele.on('click', '#watched',
+        function(e) {
             e.preventDefault();
             //follow_btn.attr('disabled','disabled');
             var path = user.followed ? '/api/social/unfollow': '/api/social/follow';
