@@ -4,18 +4,18 @@
 var USER_FANS_ROUTE = (function() {
 
     var fansName, fansData, url, pageSize = 10,
-    pageCount = 0,
-    list = null,
-    pros = [],
-    lastType = 'public',
-    currentType = '';
+        pageCount = 0,
+        list = null,
+        pros = [],
+        lastType = 'public',
+        currentType = '';
 
     function assembleDOM(data) {
         var data = data || {};
         var fans = data,
-        fragment = document.createDocumentFragment(),
-        pro,
-        ele;
+            fragment = document.createDocumentFragment(),
+            pro,
+            ele;
         list = document.getElementById('fans_list');
         for (var i = 0; i < fans.length; i++) {
             pro = fans[i];
@@ -85,10 +85,14 @@ var USER_FANS_ROUTE = (function() {
 
     function updateFans(data) {
         var fans = data || {},
-        template = '<tr>' + '<td class="fans_watch" width="70" height="68"><a href="/friends/' + fans.global_key + '"><img src="#" class="avatar fans_avatar" width="50" height="50"></a></ td>' + '<td class="name fans_name"></td>' + '<td class="fans_img" width="72" ></td>' + '</tr>',
+            template = '<tr>' + '<td class="fans_watch" width="76" height="68"><a href="/friends/' + fans.global_key + '"><img src="#" class="avatar fans_avatar" width="50" height="50"></a></ td>' + '<td class="name fans_name"></td>' + '<td class="fans_img" width="92" ></td>' + '</tr>',
 
-        body_ele = $(template);
-        body_ele.find('.avatar').attr('src', fans.avatar);
+            body_ele = $(template);
+        var avatar = fans.avatar;
+        if (avatar.indexOf("https://") < 0) {
+            avatar = "https://coding.net/" + avatar;
+        }
+        body_ele.find('.avatar').attr('src', avatar);
         body_ele.find('.name').html('<a href="/friends/' + fans.global_key + '" style="color:#222 !important;">' + truncateText(fans.name, 8) + '</a>');
         var fansconcerned = $("#fans-concerned").html();
         var fanseachconcerned = $("#fans-eachconcerned").html();
@@ -108,49 +112,49 @@ var USER_FANS_ROUTE = (function() {
         //}
         //body_ele.find('.description').text(user.slogan);;
         body_ele.on('click', '#watched',
-        function(e) {
-            e.preventDefault();
-            //follow_btn.attr('disabled','disabled');
-            var path = fans.followed ? '/api/social/unfollow': '/api/social/follow';
-            $.ajax({
-                url: API_DOMAIN + path,
-                dataType: 'json',
-                type: 'POST',
-                data: {
-                    users: fans.global_key
-                },
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function(data) {
-                    if (data.code == 0) {
-                        fans.followed = !fans.followed;
-                        var fansconcerned1 = $("#fans-concerned").html();
-                        var fanseachconcerned1 = $("#fans-eachconcerned").html();
-                        var fanswatched1 = $("#fans-watched").html();
+            function(e) {
+                e.preventDefault();
+                //follow_btn.attr('disabled','disabled');
+                var path = fans.followed ? '/api/social/unfollow': '/api/social/follow';
+                $.ajax({
+                    url: API_DOMAIN + path,
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {
+                        users: fans.global_key
+                    },
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function(data) {
+                        if (data.code == 0) {
+                            fans.followed = !fans.followed;
+                            var fansconcerned1 = $("#fans-concerned").html();
+                            var fanseachconcerned1 = $("#fans-eachconcerned").html();
+                            var fanswatched1 = $("#fans-watched").html();
 
-                        if (fans.followed == true && fans.follow == false) { //已关注
-                            body_ele.find('.fans_img').html(fansconcerned1);
-                        } else if (fans.followed == true && fans.follow == true) { //互相关注
-                            body_ele.find('.fans_img').html(fanseachconcerned1);
-                        } else if (fans.followed == false) { //关注
-                            body_ele.find('.fans_img').html(fanswatched1);
+                            if (fans.followed == true && fans.follow == false) { //已关注
+                                body_ele.find('.fans_img').html(fansconcerned1);
+                            } else if (fans.followed == true && fans.follow == true) { //互相关注
+                                body_ele.find('.fans_img').html(fanseachconcerned1);
+                            } else if (fans.followed == false) { //关注
+                                body_ele.find('.fans_img').html(fanswatched1);
+                            }
+                            //fans.follow = !fans.follow;
+                            updateFans(fans);
+                        } else {
+                            for (var key in data.msg) {
+                                alert(data.msg[key]);
+                            }
                         }
-                        //fans.follow = !fans.follow;
-                        updateFans(fans);
-                    } else {
-                        for (var key in data.msg) {
-                            alert(data.msg[key]);
-                        }
-                    }
-                },
-                error: function(xhr, type) {
-                    alert('error');
+                    },
+                    error: function(xhr, type) {
+                        alert('error');
 
-                },
+                    },
+                });
+
             });
-
-        });
         return body_ele;
     }
 
@@ -162,20 +166,12 @@ var USER_FANS_ROUTE = (function() {
     }
     function truncateText(text, length) {
         return text.length < length ? text: text.substr(0, length);
-
     }
-    function GetRequest() {
-
-        var url = location.search; //获取url中"?"符后的字串
-        var theRequest = new Object();
-        if (url.indexOf("?") != -1) {
-            var str = url.substr(1);
-            strs = str.split("&");
-            for (var i = 0; i < strs.length; i++) {
-                theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
-            }
-        }
-        return theRequest;
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
     }
 
     return {
@@ -183,7 +179,7 @@ var USER_FANS_ROUTE = (function() {
         context: '.container',
         before_enter: function(type) {
 
-},
+        },
         on_enter: function(type) {
             if (type == 'followers' || type == 'friends') {
                 var src = $(".navbar-header-coding").find(".adds").attr("src");
@@ -192,31 +188,32 @@ var USER_FANS_ROUTE = (function() {
                 }
             }
             $(".main").css("background-color", "#e5e5e5 !important");
-            var head = '<div class="header-search">' + '<form role="form">' + '<input type="text" name="search" id="search" placeholder="姓名/个性后缀"/>' + '<span class="searchicon"></span>' + '</form>' + '</div>';
+            var head = '<div class="header-search">' + '<span class="searchicon"></span>' + '<form role="form">' + '<input type="text" name="search" id="search" placeholder="姓名/个性后缀"/>' + '</form>' + '</div>';
             $("#user-heading").html(head);
-            /***$("#search").click(function(){
-         	  $(".searchicon").css("left","7%"); 
-         	   $("#search").css("text-align","left");
-         	   $("#search").css("padding-left","8%");
-            });****/
+            $("#search").bind("keyup", function(event) {
+                var key = $("#search").val();
+                url = '/api/user/search';
+                $(".more-fans").css("display", "none");
+                search(url, key);
+            });
+
             if (type == 'followers') {
                 $(".more-fans").css("display", "block");
                 pageCount = 0,
-                url = '/api/social/followers';
+                    url = '/api/social/followers';
                 loadFans(url);
             }
             if (type == 'friends') {
                 $(".more-fans").css("display", "block");
                 pageCount = 0,
-                url = '/api/social/friends';
+                    url = '/api/social/friends';
                 loadFans(url);
             }
             if (type == 'addfriend') {
 
                 $(".more-fans").css("display", "none");
             }
-            var keywrods = GetRequest();
-            var searchkey = decodeURI(keywrods['search']);
+            var searchkey = getQueryString('search');
             if (searchkey) {
                 $(".more-fans").css("display", "none");
                 $("#search").val(searchkey);
@@ -228,10 +225,10 @@ var USER_FANS_ROUTE = (function() {
             }
             var element = $("#load_more");
             element.on('click',
-            function(e) {
-                e.preventDefault();
-                loadFans(url);
-            });
+                function(e) {
+                    e.preventDefault();
+                    loadFans(url);
+                });
 
         },
         on_exit: function(user) {
