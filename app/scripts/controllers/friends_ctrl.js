@@ -88,8 +88,7 @@ var FRIENDS_INFO_ROUTE = (function() {
         //    follow_btn.text('关注');
         //}
         //body_ele.find('.description').text(user.slogan);;
-        body_ele.on('click', '#watched',
-        function(e) {
+        body_ele.on('click', '#watched',function(e) {
             e.preventDefault();
             //follow_btn.attr('disabled','disabled');
             var path = user.followed ? '/api/social/unfollow': '/api/social/follow';

@@ -43,7 +43,7 @@ var USER_ROUTE = (function() {
 
         '<span class="pull-right dro-right1"></span>' +
 
-        '</a>' + '<a href="/user_tweet" class="dro-pro"><div class="user-pp pull-left">我的冒泡</div>' + '<span class="pull-right dro-right2"></span>' +
+        '</a>' + '<a href="/active/' + user.global_key + '" class="user-mypp"><div class="user-pp pull-left">我的冒泡</div>' + '<span class="pull-right dro-right2"></span>' +
 
         '</a>' + '</div>',
         heading_ele = $(heading),
@@ -51,7 +51,7 @@ var USER_ROUTE = (function() {
 
         body_ele.find('.img-bords').attr('src', assetPath(user.avatar));
         body_ele.find('.panel-font').text(truncateText(user.name, 7));
-        body_ele.find('label').text(truncateText(user.slogan, 10));
+
         body_ele.find('.fans').html('<font class="user-bule"> ' + user.fans_count + '</font> 粉丝');
         body_ele.find('.fllow').html('<font class="user-bule"> ' + user.follows_count + '</font> 关注 ');
         var right = $("#user-right").html();
@@ -63,7 +63,8 @@ var USER_ROUTE = (function() {
         body_ele.find('table .join td:eq(1)').text(moment(user.created_at).format("YYYY-MM-DD"));
         body_ele.find('table .activity td:eq(1)').text(moment(user.last_activity_at).format("YYYY年MMMD号 ah点mm分"));
         body_ele.find('table .sufix td:eq(1)').text(user.global_key);
-
+        var slogan = (typeof user.slogan === 'undefined' || user.slogan === '') ? '座右铭未填写': user.slogan;
+        body_ele.find('label').text(truncateText(slogan, 9));
         if (typeof user.sex !== 'undefined' && user.sex !== '') {
             var man = $("#user-man").html();
             var woman = $("#user-woman").html();

@@ -372,7 +372,9 @@ var USER_PP_ROUTE = (function() {
                 withCredentials: true
             },
             success: function(data) {
-                if (data.data) {
+                if (data.data == "") {
+                    loadMoreBtn.text('没有更多泡泡');
+                } else {
                     assembleDOM(data.data);
                     last_id = data.data[data.data.length - 1]['id']; //id of last item in list
                 }
@@ -494,7 +496,7 @@ var USER_PP_ROUTE = (function() {
                 sort = 'mine';
                 userkey = user;
             } else {
-                var uri = '/api/tweet/public_tweets';
+                var uri = '/api/account/activities/user_tweet';
             }
             loadMore(uri);
 
