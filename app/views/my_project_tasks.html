@@ -79,7 +79,7 @@
 		{{#current_user}}
 		<div class="clear m-b-sm member-item" >
 			<a href="{{projectHomeURL}}/tasks/{{current_user.user.global_key}}">
-				<img src="{{current_user.user.avatar}}" alt="图片" class="pull-left m-t-xs b-a b-light rounded" style="width:32px;height:32px;">
+				<img src="{{current_user.user.avatar}}" alt="图片" class="pull-left m-t-xs rounded" style="width:32px;height:32px;">
 			    <div class="m-l p-sm text-md text-white" style="margin-left:35px;">
 					<div>{{current_user.user.name}} ({{current_user.task_count}})</div>
 			    </div>
@@ -92,7 +92,7 @@
 		{{#list}}
 		<div class="clear m-b-sm member-item" >
 			<a href="{{projectHomeURL}}/tasks/{{user.global_key}}">
-				<img src="{{user.avatar}}" alt="图片" class="pull-left m-t-xs b-a b-light rounded" style="width:32px;height:32px;">
+				<img src="{{user.avatar}}" alt="图片" class="pull-left m-t-xs rounded" style="width:32px;height:32px;">
 			    <div class="m-l p-sm text-md text-white" style="margin-left:35px;">
 					<div>{{user.name}} ({{task_count}})</div>
 			    </div>
@@ -105,8 +105,8 @@
 
 <script id="tmembers" type="text/template">
 {{#list}}
-<div class="clear m-b-sm member-item" data-user-id="{{user.id}}>
-	<img src="{{user.avatar}}" alt="图片" class="pull-left m-t-xs b-a b-light rounded" style="width:32px;height:32px;">
+<div class="clear m-b-sm member-item" data-user-id="{{user.id}}">
+	<img src="{{user.avatar}}" alt="图片" class="pull-left m-t-xs rounded" style="width:32px;height:32px;">
     <div class="m-l p-sm text-md text-white" style="margin-left:35px;">
 		<div>{{user.name}} ({{task_count}})</div>
     </div>
