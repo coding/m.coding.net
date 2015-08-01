@@ -39,7 +39,7 @@ var USER_ROUTE = (function() {
 
         '</div>' + '<div style="clear:both;"></div>' + '</div></a>' +
 
-        '<div class="user-det">' + '<a href="/social/followers"><span class="fans text-center"></span></a>' + '<a href="/social/friends"><span class="fllow text-center"></span></a>' + '</div>' + '<div class="user-dro">' + '<a href="/user/' + user.global_key + '/projects/public" class="dro-pro myproject"><div class="user-project pull-left">我的项目</div>' +
+        '<div class="user-det">' + '<a href="/social/' + user.global_key + '/followers"><span class="fans text-center"></span></a>' + '<a href="/social/' + user.global_key + '/friends"><span class="fllow text-center"></span></a>' + '</div>' + '<div class="user-dro">' + '<a href="/user/' + user.global_key + '/projects/public" class="dro-pro myproject"><div class="user-project pull-left">我的项目</div>' +
 
         '<span class="pull-right dro-right1"></span>' +
 
@@ -168,7 +168,7 @@ var USER_ROUTE = (function() {
                     success: function(data, status, xhr) {
                         //if login success
                         if (data.code === 0) {
-                            location.reload();
+                            window.location = '/';
                         }
                         if (data.msg) {
                             alert('Failed to logout');
