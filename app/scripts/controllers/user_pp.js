@@ -274,7 +274,7 @@ var USER_PP_ROUTE = (function() {
         if (router.current_user) {
             var global_key = router.current_user.global_key;
             if (global_key === owner_key) {
-                ele.find('.reply').after('<a class="delete" href="#" class="comment-hash"> 删除 </a>');
+                ele.find('.reply').after('<a class="delete" href="#" class="comment-hash" style="font-size:12px;"> 删除 </a>');
             }
         }
 

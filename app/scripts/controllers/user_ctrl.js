@@ -3,8 +3,7 @@
  */
 var USER_ROUTE = (function() {
 
-    var userName,
-        userData;
+    var userName, userData;
 
     function loadUser(user) {
 
@@ -18,6 +17,7 @@ var USER_ROUTE = (function() {
             },
             success: function(data) {
                 if (data.data) {
+
                     userData = data.data;
                     updateUser(userData);
                 } else {
@@ -134,8 +134,9 @@ var USER_ROUTE = (function() {
     return {
         template_url: '/views/user_item.html',
         context: '.container',
-        before_enter: function(user){
+        before_enter: function(user) {
 
+            var path = '/user/' + user;
             //if the user has logged in and he is viewing the current user, active the link on navigation bar
             $(".main").css("background-color", "#e5e5e5 !important");
 
