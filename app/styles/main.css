@@ -884,7 +884,7 @@ p.thumbnail .bubble-markdown-image{
 }
 
 .dro-pro span {
-    width: 50px;
+    width: 47px;
     display: inline-block;
 }
 
@@ -953,9 +953,10 @@ p.thumbnail .bubble-markdown-image{
     height: 36px;
     line-height: 36px;
 }
+
 .dro-right2 {
     display: inline-block;
-    width: 50px;
+    width: 47px;
 }
 
 .searchicon::before {
@@ -975,6 +976,8 @@ p.thumbnail .bubble-markdown-image{
 
 .userproject {
     background-color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .list-public-project {
@@ -985,6 +988,9 @@ p.thumbnail .bubble-markdown-image{
     margin-bottom: -1px;
     padding: 10px 0px;
     position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .public-img {
@@ -995,17 +1001,28 @@ p.thumbnail .bubble-markdown-image{
 .project_title {
     color: #222 !important;
     font-size: 16px;
-    margin-left: 14px;
+    left: 14px;
     vertical-align: top;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    width: 60%;
+    height: 22px;
+    position: relative;
 }
 
 .public_description {
     color: #999;
     font-size: 14px;
-    margin-left: 14px;
+    left: 14px;
     position: relative;
     top: 3px;
     text-align: left;
+    overflow: hidden;
+    display: block;
+    width: 60%;
+    height: 22px;
+    text-overflow: ellipsis;
 }
 
 .pull-icons {
@@ -1085,9 +1102,9 @@ p.thumbnail .bubble-markdown-image{
     margin-right: 18px;
 }
 
-.clear {
+/**.clear {
     clear: both;
-}
+}****/
 
 #fans_list {
     width: 100%;
@@ -1095,6 +1112,10 @@ p.thumbnail .bubble-markdown-image{
 
 #fans_list tr:last-child td {
     border: none;
+}
+
+.userpp p.thumbnail .bubble-markdown-image {
+    height: auto;
 }
 
 .fans_watch {
@@ -1155,6 +1176,7 @@ p.thumbnail .bubble-markdown-image{
 .pp-font {
     top: 0px;
 }
+
 
 /* 我的项目相关 */
 #main_header {

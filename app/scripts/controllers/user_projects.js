@@ -34,15 +34,14 @@ var USER_PROJECT_ROUTE = (function() {
     }
 
     function createTemplate(pro) {
-        var template = '<a href="#" class="needsclick list-public-project" style="height: 90px">' + '<img class="pull-left project_icon public-img" src="#" width="64" height="68">' + '<span class="project_title"></span>' + '<br />' + '<span class="public_description"></span>' + '<br/>' + '<span class="pull-icons">' + '<span class="glyphicon glyphicon-star star_count"></span>' + '<span class="glyphicon glyphicon-eye-open watch_count"></span>' + '<span class="glyphicon user-fork fork_count"></span>' + '</span>' + '<span class="right"></span>' +
+        var template = '<a href="#" class="needsclick list-public-project" style="height: 90px">' + '<img class="pull-left project_icon public-img" src="#" width="64" height="68">' + '<span class="project_title"></span>' + '<span class="public_description"></span>' + '<span class="pull-icons">' + '<span class="glyphicon glyphicon-star star_count"></span>' + '<span class="glyphicon glyphicon-eye-open watch_count"></span>' + '<span class="glyphicon user-fork fork_count"></span>' + '</span>' + '<span class="right"></span>' +
         //'<img src="/images/icons/acaa9d8d.right_arrow.png" width="24"  class="pull-right public-right" />'+
         '</a>',
         ele = $(template);
-        console.log(pro);
         ele.attr('href', pro['project_path']);
         ele.find('img.project_icon').attr('src', assetPath(pro['icon']));
         ele.find('span.project_title').text(pro['name']);
-        ele.find('span.public_description').text(truncateText(pro['description'], 10));
+        ele.find('span.public_description').text(pro['description']);
         ele.find('span.star_count').html('<font class="icons-set">' + pro['star_count'] + '</font>');
         ele.find('span.watch_count').html('<font class="icons-set">' + pro['watch_count'] + '</font>');
         ele.find('span.fork_count').html('<font class="icons-set icons-fork">' + pro['fork_count'] + '</font>');
@@ -63,7 +62,11 @@ var USER_PROJECT_ROUTE = (function() {
         var element = $("#load_more");
         element.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
         path += '?page=' + pageCount + '&' + 'pageSize=' + pageSize;
-
+        if (currentType === 'mine') {
+            path += '&type=stared';
+        } else {
+            path += '&type=joined';
+        }
         $.ajax({
             url: API_DOMAIN + path,
             dataType: 'json',
@@ -110,7 +113,6 @@ var USER_PROJECT_ROUTE = (function() {
 
     function truncateText(text, length) {
         return text.length < length ? text: text.substr(0, length) + '...';
-
     }
 
     return {
@@ -120,12 +122,11 @@ var USER_PROJECT_ROUTE = (function() {
             //active the project navbar item
             $('#navigator').find('li:first').addClass('active');
             $(".main").css("background-color", "#e5e5e5 !important");
-            var project_nav = '<div class="row project_header">' + '<div class="col-xs-6">' + '<a href="#">我参与的</a>' + '</div>' + '<div class="col-xs-6">' + '<a href="#" style="opacity: 1;">我创建的</a>' + '</div>',
+            var project_nav = '<div class="row project_header">' + '<div class="col-xs-6">' + '<a href="/user/' + data + '/projects/public">我参与的</a>' + '</div>' + '<div class="col-xs-6">' + '<a href="/user/' + data + '/projects/mine" style="opacity: 1;">我收藏的</a>' + '</div>',
             nav_ele = $(project_nav);
 
-            nav_ele.find('div').eq(0).children('a').attr('href', '/user/' + data + '/projects/public');
-            nav_ele.find('div').eq(1).children('a').attr('href', '/user/' + data + '/projects/mine');
-
+            //nav_ele.find('div').eq(0).children('a').attr('href', '/user/' + data + '/projects/public');
+            //nav_ele.find('div').eq(1).children('a').attr('href', '/user/' + data + '/projects/mine');
             $("nav.main-navbar").after(nav_ele);
 
             if (type === 'mine') {
@@ -138,7 +139,6 @@ var USER_PROJECT_ROUTE = (function() {
         on_enter: function(data, type) {
 
             currentType = type;
-            console.log(type);
             //if the type has changed, clear all the contents
             if (currentType != lastType) {
                 reset();
@@ -147,7 +147,7 @@ var USER_PROJECT_ROUTE = (function() {
             if (currentType === 'mine') {
                 $('#projects_list > a.projects_title').text('我参与的');
             } else {
-                $('#projects_list > a.projects_title').text('我创建的');
+                $('#projects_list > a.projects_title').text('我收藏的');
             }
 
             if (!router.current_user && currentType === 'mine') {
@@ -156,7 +156,7 @@ var USER_PROJECT_ROUTE = (function() {
             }
             // var uri = (currentType === 'public') ? '/api/public/all' : '/api/user/' + router.current_user['name'] + '/public_projects';
             //check if it has previous loaded element
-            var uri = (currentType === 'public') ? '/api//user/' + data + '/projects/public': '/api/user/' + data + '/projects';
+            var uri = '/api/user/' + data + '/public_projects';
             //var uri='/api//user/'+data+'/projects/public';
             //var uri='/account/activities/projects_last';
             if (pros.length === 0) {
