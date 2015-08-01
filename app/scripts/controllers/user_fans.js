@@ -187,7 +187,7 @@ var USER_FANS_ROUTE = (function() {
         before_enter: function(type) {
 
 },
-        on_enter: function(type) {
+        on_enter: function(user, type) {
             if (type == 'followers' || type == 'friends') {
                 var src = $(".navbar-header-coding").find(".adds").attr("src");
                 if (src == undefined) {
@@ -212,13 +212,13 @@ var USER_FANS_ROUTE = (function() {
             if (type == 'followers') {
                 $(".more-fans").css("display", "block");
                 pageCount = 0;
-                url = '/api/social/followers';
+                url = '/api/user/followers/' + user;
                 loadFans(url);
             }
             if (type == 'friends') {
                 $(".more-fans").css("display", "block");
                 pageCount = 0;
-                url = '/api/user/friends';
+                url = '/api/user/friends/' + user;
                 loadFans(url);
             }
             if (type == 'addfriend') {

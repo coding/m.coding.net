@@ -810,9 +810,9 @@ p.thumbnail .bubble-markdown-image{
 }
 
 .user-mypp {
-    display: inline-block;
-    height: 45px;
-    line-height: 45px;
+    display: block;
+    height: 44px;
+    line-height: 44px;
     margin-left: 15px;
     width: 100%;
 }
@@ -881,10 +881,10 @@ p.thumbnail .bubble-markdown-image{
 
 .dro-pro {
     width: 100%;
-    display: inline-block;
+    display: block;
     margin-left: 15px;
-    height: 50px;
-    line-height: 50px;
+    height: 44px;
+    line-height: 44px;
 }
 
 .dro-pro span {
@@ -903,7 +903,7 @@ p.thumbnail .bubble-markdown-image{
 
 .user-logout {
     width: 100%;
-    height: 50px;
+    height: 44px;
     font-size: 18px;
     color: #ff5847;
     background-color: #fff;
@@ -945,6 +945,7 @@ p.thumbnail .bubble-markdown-image{
     line-height: 36px;
     background-color: #fff;
 }
+
 #search {
     border: none;
     color: #999;

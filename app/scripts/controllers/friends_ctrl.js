@@ -32,14 +32,13 @@ var FRIENDS_INFO_ROUTE = (function() {
     }
 
     function updateUser(data) {
-        console.log(data);
         var user = data || {},
         heading = '<h4 class="panel-title">' + '<img src="#" height="25" width="25" />' + '<a class="panel-title" data-toggle="collapse" href="#accordion" data-target="#user-details" aria-expanded="true" aria-controls="user-details">' + '</a>' + '<span href="#" class="pull-right watched"></span>' + '<span href="#" class="pull-right followed"></span>' + '</h4>',
         body = '<div class="user-info">' + '<div class="info-img pull-left text-center"><img src="#"  width="57" height="57" class="img-bords"/></div>' + '<div class="info-det pull-left">' + '<h4 class="panel-font">' + '</h4>' + '<label></label>' + '</div>' + '<div class="info-right pull-right">' +
         //'<img src="#" width="72" height="32"  style="margin-right:10px;" id="watched"/>'+
         '</div>' + '</div>' +
 
-        '<div class="user-det">' + '<span class="fans text-center"></span>' + '<span class="fllow text-center"></span>' + '</div>' + '<div class="user-dro">' + '<div class="user-project dro-pro myproject"><font color="#666" class="friends-info">所在地</font><label class="location" style="font-weight:200"></label></div>' + '<div class="user-pp dro-pro"><font color="#666" class="friends-info">个性标签</font><label class="tags_str" style="font-weight:200"></label></div>' + '</div>' + '<div class="user-dro">' + '<a href="/info/' + user.global_key + '" class="dro-pro myproject"><div class="user-project pull-left">详细信息</div>' +
+        '<div class="user-det">' + '<a href="/social/' + user.global_key + '/followers"><span class="fans text-center"></span></a>' + '<a href="/social/' + user.global_key + '/friends"><span class="fllow text-center"></span></a>' + '</div>' + '<div class="user-dro">' + '<div class="user-project dro-pro myproject"><font color="#666" class="friends-info">所在地</font><label class="location" style="font-weight:200"></label></div>' + '<div class="user-pp dro-pro"><font color="#666" class="friends-info">个性标签</font><label class="tags_str" style="font-weight:200"></label></div>' + '</div>' + '<div class="user-dro">' + '<a href="/info/' + user.global_key + '" class="dro-pro myproject"><div class="user-project pull-left">详细信息</div>' +
 
         '<span class="pull-right dro-right1"></span>' +
 
@@ -50,7 +49,6 @@ var FRIENDS_INFO_ROUTE = (function() {
         '</a>' + '</div>',
         heading_ele = $(heading),
         body_ele = $(body);
-        var locations = user.location.split(' ');
         body_ele.find('.img-bords').attr('src', assetPath(user.avatar));
         body_ele.find('.panel-font').text(truncateText(user.name, 6));
         //body_ele.find('label').text(truncateText(user.slogan, 9));
@@ -58,8 +56,11 @@ var FRIENDS_INFO_ROUTE = (function() {
         body_ele.find('label').text(truncateText(slogan, 6));
         body_ele.find('.fans').html('<font class="user-bule"> ' + user.fans_count + '</font> 粉丝');
         body_ele.find('.fllow').html('<font class="user-bule"> ' + user.follows_count + '</font> 关注 ');
-        body_ele.find('.location').text(locations[1]);
-        body_ele.find('.tags_str').text(truncateText(user.tags_str, 11));
+        var locations = user.location.split(' ');
+        var location = (typeof locations[1] === 'undefined' || locations[1] === '') ? '未填写': locations[1];
+        body_ele.find('.location').text(location);
+        var tags_str = (typeof user.tags_str === 'undefined' || user.tags_str === '') ? '未填写': user.tags_str;
+        body_ele.find('.tags_str').text(truncateText(tags_str, 11));
         if (typeof user.sex !== 'undefined' && user.sex !== '') {
             var man = $("#user-man").html();
             var woman = $("#user-woman").html();
