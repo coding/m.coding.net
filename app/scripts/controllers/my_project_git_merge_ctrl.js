@@ -60,6 +60,8 @@ var MY_PROJECT_GIT_MERGE_ROUTE = (function(){
     function reset(stat){
         pageCount = 0;
         status    = stat;
+        var txt = $('select.status').find('option:selected').text();
+        $("#status_text").text(txt);
     }
 
     function refresh(){
@@ -108,7 +110,6 @@ var MY_PROJECT_GIT_MERGE_ROUTE = (function(){
         on_exit: function(){
             $('#navigator').find('li').removeClass('active');
             $('#navigator').find(".li-project img").attr('src','/images/icons/project.png');
-
             
             $('.project_header').remove();
             coding.showBanner();

@@ -2,136 +2,112 @@ var PROJECT_ITEM_ROUTE = (function(){
 
     var projectData,
         ownerName,
-        projectName;
-
+        projectName,
+        readme;
+    
+    var forking = false;
+        
+    var type_list = {'git':'项目介绍','tree':'阅读代码', 'pull':'合并请求', 'topics':'项目讨论'};
+    
     function loadProject(){
 
         var path = '/api/user/' + ownerName + '/project/' + projectName;
-
-        $.ajax({
-            url: API_DOMAIN + path,
-            dataType: 'json',
-            success: function(data){
-                if(data.data){
-                    coding.showProjectBreadcrumb(data.data);
-                    projectData = data.data;
-                    $('#project_readme').before(createProjectDOM(projectData));
-                }else{
-                    alert('Failed to load project');
-                }
-            },
-            error: function(xhr, type){
-                alert('Failed to load project');
-            }
-        });
+        coding.get(path, function(data){
+            coding.showProjectBreadcrumb(data.data);
+            projectData = data.data;
+            loadReadme();
+        }); 
     }
 
     function loadReadme(){
         var path = '/api/user/' + ownerName + '/project/' + projectName + '/git/tree/master';
-
-        $.ajax({
-            url: API_DOMAIN + path,
-            dataType: 'json',
-            success: function(data){
-                if(data.data){
-                    var readme = data.data['readme']['preview'];
-                    $('#readme_body > .panel-body').html(readme);
-                }else{
-                    alert('Failed to load README file');
-                }
-            },
-            error: function(xhr, type){
-                alert('Failed to load README file');
-            },
-            complete: function(){
-                $('span.loading').remove();
-            }
-        })
+        coding.get(path, function(data){
+            readme = data.data;
+            assembleDOM();            
+        });
     }
-
-    function createProjectDOM(pro){
-        var template =  '<div class="project_content row">' +
-                            '<div class="col-xs-4 col-md-2">' +
-                                '<img src="#" height="100" width="100">' +
-                            '</div>' +
-                            '<div class="col-xs-8 col-md-5 description">' +
-                                '<h4></h4>' +
-                                '<p></p>' +
-                                '<div>' +
-                                    '<img src="#" height="20" width="20" />' +
-                                    '<span> 最后更新于 </span>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>',
-            ele      = $(template);
-
-        ele.find('img').eq(0).attr('src', assetPath(pro['icon']));
-        ele.find('.description h4').text(pro['name']);
-        ele.find('.description p').text(truncateText(pro['description'],35));
-        ele.find('.description img').attr('src', assetPath(pro['owner_user_picture']));
-        ele.find('.description span').text(' 最后更新于' + moment(pro['updated_at']).fromNow());
-
-        return ele;
+    function assembleDOM(){
+        data = readme;
+        data.project = projectData;
+        //data.project.short_description = coding.truncateText(projectData.description);
+        data.stared = projectData.stared;
+        data.watched = projectData.watched;
+        data.forked = projectData.forked;
+        data.project.icon = coding.assetPath(projectData.icon);
+        var rendered = Mustache.render($('#tlist').html(), data);
+        $("#tcontainer").html(rendered);
+        $("#star_link").on('click', starProject);
+        $("#watch_link").on('click', watchProject);
+        $("#fork_link").on('click', forkProject);
+    } 
+    
+    function starProject(params) {
+        var url = '/api/user/'+ownerName+'/project/'+projectName+'/';
+        url += projectData.stared? 'unstar' : 'star';
+        
+        coding.post(url, null, function(data){
+            projectData.stared = !projectData.stared;
+            reload();
+        });
     }
-
-    function assetPath(path){
-        if(path.substr(0,1) === '/'){
-            path = API_DOMAIN + path;
+    function watchProject(params) {
+        var url = '/api/user/'+ownerName+'/project/'+projectName+'/';
+        url += projectData.watched? 'unwatch' : 'watch';
+        
+        coding.post(url, null, function(data){
+            projectData.watched = !projectData.watched;
+            reload();
+        });
+    }
+    function forkProject(params) {
+        if(forking) return;
+        if(projectData.forked){
+            alert('已经在此仓库中或者fork过此仓库');
+            return;
         }
-        return path;
+        if(!confirm('fork会将此项目复制到您的个人空间，确定要fork吗？'))return;
+        
+        
+        $("#fork_image").hide();
+        $("#fork_icon").show();
+        var url = '/api/user/'+ownerName+'/project/'+projectName+'/git/fork';
+        forking = true;
+        
+        coding.post(url, null, function(data){
+            projectData.stared = true;
+            $("#fork_icon").hide();
+            $("#fork_image").show();
+            forking = false;
+            reload();
+        });
+    }        
+    function reload(){
+        $("#tcontainer").html('');
+        
+        loadProject();
     }
-
-    function truncateText(text, length){
-        return text.length < length ? text : text.substr(0,length) + '...';
-    }
-
-
+    
     return {
         template_url: '/views/project_item.html',
         //events: ['doubleTap','swipe'],
         context: '.container',
         before_enter: function(user, project){
-
-            var path =  '/u/' + user + '/p/' +  project;
-            //active the project navbar item
-            $('#navigator').find('li:first').addClass('active');
-
-            //add the project header and navigation bar
-            var project_nav =  '<div class="row project_header nested">' +
-                                    '<div class="col-xs-3">' +
-                                        '<a href="#">项目主页</a>' +
-                                    '</div>' +
-                                    '<div class="col-xs-3">' +
-                                        '<a href="#">阅读代码</a>' +
-                                    '</div>' +
-                                    '<div class="col-xs-3">' +
-                                        '<a href="#">合并请求</a>' +
-                                    '</div>' +
-                                    '<div class="col-xs-3">' +
-                                        '<a href="#">项目讨论</a>' +
-                                    '</div>' +
-                                '</div>',
-                
-                nav_ele     = $(project_nav);
-
-
-            nav_ele.find('div').eq(0).children('a').attr('href', path + '/git');
-            nav_ele.find('div').eq(1).children('a').attr('href', path + '/tree');
-            nav_ele.find('div').eq(2).children('a').attr('href', path + '/pull');
-            nav_ele.find('div').eq(3).children('a').attr('href', path + '/topics');
-
-            //active the current tab
-            nav_ele.find('div').eq(0).addClass('active');
-
-            $("nav.main-navbar").after(nav_ele);
             
-
         },
         on_enter: function(user, project){
 
             ownerName = user;
             projectName = project;
-
+            
+            var path =  '/u/' + user + '/p/' +  project + '/';
+            var data = {list:[]};
+            $.each(type_list, function(k,v){
+               data.list.push({href:path+k,name:v,active:k=='git'});
+            });            
+            var rendered = Mustache.render($('#theader').html(), data);
+            
+            $("nav.main-navbar").after(rendered);
+            
             loadProject();
             loadReadme();
 

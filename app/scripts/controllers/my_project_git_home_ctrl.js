@@ -65,7 +65,7 @@ var MY_PROJECT_GIT_HOME_ROUTE = (function(){
             projectName = project;
             lastType = type || 'home';
             
-            var path = coding.projectHomePath(ownerName, projectName)+'/git/';
+            var path =  '/u/' + user + '/p/' +  project;
             var data = {list:[]};
             $.each(type_list, function(k,v){
                data.list.push({href:path+k,name:v,active:k==lastType});

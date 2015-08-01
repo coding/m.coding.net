@@ -143,6 +143,7 @@
       }
       $(".nav-login img").attr('src', imageUrl).css('border-radius', '34px');
       $(".nav-login span").text(current_user['name']);
+      $(".li-project").show();
       if (current_user['status'] === 0) {
         tipHtml = '<div class="activate-tip">欢迎注册 coding, 请尽快去邮箱查收邮件并激活账号<span class="activate-tip-close">&nbsp;</span></div>';
         $("nav.navbar-coding").after(tipHtml);

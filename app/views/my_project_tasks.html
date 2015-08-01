@@ -2,21 +2,22 @@
 <div class="m-t-xs m-b">
 	<a class="btn btn-default btn-block" href="#" id="create_task">增加新的任务</a>
 </div>
-
-<div class="text-light text-sm">进行中的任务</div>
-<div class="bg-white m-t-xs p-sm m-l-n m-r-n" id="tprocessing">
+<div id="task_container" style="display:none;">
+	<div class="text-light text-sm">进行中的任务</div>
+	<div class="bg-white m-t-xs p-sm m-l-n m-r-n" id="tprocessing">
+	</div>
+	
+	<div class="text-light text-sm m-t-md ">已完成的任务</div>
+	<div class="bg-white m-t-xs p-sm m-l-n m-r-n p-l" id="tdone">
+	</div>
+	
+	<div class="row m-t">
+	   <div class="col-md-12">
+	       <button type="button" id="load_more" class="btn btn-default btn-block">加载更多</button>
+	   </div>
+	</div>
 </div>
-
-<div class="text-light text-sm m-t-md ">已完成的任务</div>
-<div class="bg-white m-t-xs p-sm m-l-n m-r-n p-l" id="tdone">
-</div>
-
-<div class="row m-t">
-   <div class="col-md-12">
-       <button type="button" id="load_more" class="btn btn-default btn-block">加载更多</button>
-   </div>
-</div>
-
+	
 <script id="tlist" type="text/template">
 {{#list}}
 	<div class="bg-white clear task-deadline ">
