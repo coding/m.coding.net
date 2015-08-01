@@ -119,7 +119,7 @@
         router.register('/i/:user/p/:project', MY_PROJECT_HOME_ROUTE);
         router.register('/user/:user', USER_ROUTE);
         router.register('/info/:user', USER_INFO_ROUTE);
-        router.register('/social/:type', USER_FANS_ROUTE);
+        router.register('/social/:user/:type', USER_FANS_ROUTE);
         router.register('/user/:user/projects/:type', USER_PROJECT_ROUTE);
         router.register('/user_tweet', USER_PP_ROUTE);
         router.register('/active/:user', USER_PP_ROUTE);

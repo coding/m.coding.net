@@ -35,7 +35,7 @@ var USER_INFO_ROUTE = (function() {
         var user = data || {},
         body = '<div style="background-color:#fff;padding-left:15px;" class="border-color">' + '<table class="userinfotable">' + '<tr class="avatar">' +
 
-        '<td width="85"> 头像</td>' + '<td><img src="＃" width="60" height="60" class="avatarimg"/></td>' + '</tr>' + '<tr class="name">' +
+        '<td width="88"> 头像</td>' + '<td><img src="＃" width="60" height="60" class="avatarimg"/></td>' + '</tr>' + '<tr class="name">' +
 
         '<td> 昵称</td>' + '<td></td>' + '</tr>' + '<tr class="sex">' +
 
@@ -45,7 +45,9 @@ var USER_INFO_ROUTE = (function() {
 
         '<td> 所在地</td>' + '<td></td>' + '</tr>' + '<tr class="motto">' +
 
-        '<td> 座右铭</td>' + '<td></td>' + '</tr>' + '</table>' + '</div>' + '<div style="background-color:#fff;padding-left:15px" class="border-color tablecom">' + '<table class="userinfotable ">' + '<tr class="company">' +
+        '<td> 座右铭</td>' + '<td></td>' + '</tr>' + '<tr class="tags_str">' + '<td> 个性标签</td>' + '<td></td>' + '</tr>' +
+
+        '</table>' + '</div>' + '<div style="background-color:#fff;padding-left:15px" class="border-color tablecom">' + '<table class="userinfotable ">' + '<tr class="company">' +
 
         '<td width="85">公司</td>' + '<td></td>' + '</tr>' + '<tr class="job">' +
 
@@ -71,6 +73,9 @@ var USER_INFO_ROUTE = (function() {
 
         var company = (typeof user.company === 'undefined' || user.company === '') ? '未填写': user.company;
         body_ele.find('.company td:eq(1)').text(company);
+
+        var tags_str = (typeof user.tags_str === 'undefined' || user.tags_str === '') ? '未填写': user.tags_str;
+        body_ele.find('.tags_str td:eq(1)').text(tags_str);
 
         var jobs = ['未填写', '开发', '产品', '设计', '运维', '运营', '打杂', '测试', '市场'];
         var job = (typeof user.job === 'undefined' || user.job === '') ? '未填写': user.job;
