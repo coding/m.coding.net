@@ -1900,4 +1900,7 @@ text-13-7{
     z-index:2000;
     background-color:rgba(0,0,0,0.5);
 }
+.btn-fork:active, .btn-fork:focus{
+    background-color: #dcdee0 !important;
+}
 /* 我的项目相关 结束 */

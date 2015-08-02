@@ -13,7 +13,7 @@
 		<div class="p-t text-dark-dk" style="font-size:13px;">{{project.description}}</div>	
 	</div>
 	<div class="clear text-center" style="background:#eceef1">
-		<a class="col-xs-4  text-11 b-r  b-white text-dark-dk" style="padding:11px 8px;" id="star_link">
+		<a class="col-xs-4  text-11 b-r  b-white text-dark-dk btn-fork" style="padding:11px 8px;" id="star_link">
 			{{#stared}}
 			<i class="glyphicon glyphicon-ok text-primary" ></i>
 			<span id="like_text">已收藏</span>
@@ -27,7 +27,7 @@
 
 			<span id="like_count">{{project.star_count}}</span>
 		</a>
-		<a class="col-xs-4 p-sm text-11 b-r b-white text-dark-dk" style="padding:11px 8px;" id="watch_link">
+		<a class="col-xs-4 p-sm text-11 b-r b-white text-dark-dk btn-fork" style="padding:11px 8px;" id="watch_link">
 			{{#watched}}
 			<i class="glyphicon glyphicon-ok text-primary" ></i>
 			<span id="like_text">已关注</span>
@@ -40,7 +40,7 @@
 			{{/watched}}
 			<span id="like_count">{{project.watch_count}}</span>
 		</a>
-		<a class="col-xs-4 p-sm text-11 text-dark-dk" style="padding:11px 8px;" id="fork_link">
+		<a class="col-xs-4 p-sm text-11 text-dark-dk btn-fork" style="padding:11px 8px;" id="fork_link">
 			<img src="/images/icons/fork.png" style="width:15px;height:15px;" id='fork_image'/>
 			<i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" id='fork_icon' style="display:none;"></i>
 			<span id="like_text">Fork </span>			
