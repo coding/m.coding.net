@@ -150,7 +150,7 @@ var MY_PROJECT_TASK_CREATE_ROUTE = (function(){
         var path = '/api/user/' + ownerName +'/project/' + projectName + '/task';
         var data = {owner_id: task.owner_id, priority:task.priority, content:content, deadline:task.deadline||''};
         coding.post(path, data, function(res){
-           router.run.call(router, coding.projectHomePath(ownerName, projectName)+'/task/'+res.data.id); 
+           router.run.call(router, coding.projectHomePath(ownerName, projectName)+'/tasks'); 
         });
     }
     
