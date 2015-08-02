@@ -12,44 +12,7 @@
 		</div>	
 		<div class="p-t text-dark-dk" style="font-size:13px;">{{project.description}}</div>	
 	</div>
-	<div class="clear text-center" style="background:#eceef1">
-		<a class="col-xs-4  text-11 b-r  b-white text-dark-dk btn-fork" style="padding:11px 8px;" id="star_link">
-			{{#stared}}
-			<i class="glyphicon glyphicon-ok text-primary" ></i>
-			<span id="like_text">已收藏</span>
-			<span style="margin-left:0px;margin-right:3px;color:#cacaca;font-size:10px;">|</span>
-			{{/stared}}
-			{{^stared}}
-			<i class="glyphicon glyphicon-star  " style="color:rgb(141,141,141)"></i>
-			<span id="like_text">收藏</span>
-			<span style="margin-left:5px;margin-right:5px;color:#cacaca;font-size:10px;">|</span>
-			{{/stared}}
-
-			<span id="like_count">{{project.star_count}}</span>
-		</a>
-		<a class="col-xs-4 p-sm text-11 b-r b-white text-dark-dk btn-fork" style="padding:11px 8px;" id="watch_link">
-			{{#watched}}
-			<i class="glyphicon glyphicon-ok text-primary" ></i>
-			<span id="like_text">已关注</span>
-			<span style="margin-left:0px;margin-right:3px;color:#cacaca;font-size:10px;">|</span>
-			{{/watched}}
-			{{^watched}}
-			<i class="glyphicon glyphicon-eye-open " style="color:rgb(141,141,141)"></i>
-			<span id="like_text">关注</span>
-			<span style="margin-left:5px;margin-right:5px;color:#cacaca;font-size:10px;">|</span>
-			{{/watched}}
-			<span id="like_count">{{project.watch_count}}</span>
-		</a>
-		<a class="col-xs-4 p-sm text-11 text-dark-dk btn-fork" style="padding:11px 8px;" id="fork_link">
-			<img src="/images/icons/fork.png" style="width:15px;height:15px;" id='fork_image'/>
-			<i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" id='fork_icon' style="display:none;"></i>
-			<span id="like_text">Fork </span>			
-			<span style="margin-left:5px;margin-right:5px;color:#cacaca;font-size:10px;">|</span>
-
-
-			<span id="like_count">{{project.fork_count}}</span>
-		</a>		
-	</div>
+	
 	<div class="m-t bg-white shadow-default">
 		<div class="p-sm b-b b-light">{{readme.name}}</div>
 		<div class="p-sm">{{{readme.preview}}}</div>
