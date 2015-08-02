@@ -101,6 +101,8 @@ var PROJECT_PULL_ROUTE = (function(){
     function reset(stat){
         pageCount = 1;
         status    = stat;
+        var txt = $('select.status').find('option:selected').text();
+        $("#status_text").text(txt);        
     }
 
     function refresh(path){

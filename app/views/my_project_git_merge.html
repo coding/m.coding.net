@@ -1,14 +1,18 @@
-
-<div class="bg-white p-sm">
-	<div class="m-t-sm m-b">
-		<select class="form-control status">
-		    <option value="open">未处理</option>
-		    <option value="closed">已处理</option>
-		    <option value="all">全部</option>
-		</select>
-	</div>
+<div class=" m-b">
+    <div class="bg-white text-md w-full " style="width:100px;position:absolute;border:1px solid #ccc;padding:8px 8px 8px 8px;">
+        <span id="status_text">未处理</span>
+        <div class="pull-right text-light text-xs" style="margin-top:3px;">
+			<img src="/images/icons/dropdown.png" style="width:10px;height:16px;" />
+		</div>
+    </div>	
+	<select class="form-control status" style="opacity:0;width:100px;" >
+	    <option value="open">未处理</option>
+	    <option value="closed">已处理</option>
+	    <option value="all">全部</option>
+	</select>
 
 </div>
+
 <div class="bg-white m-t-sm m-b-sm">
 	<div id="tcontainer">
 	</div>

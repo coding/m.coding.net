@@ -36,6 +36,11 @@ var MY_PROJECT_TASK_ROUTE = (function(){
         var successed = function(data){
             if(data.data){
                 assembleDOM(data.data);
+                if(data.data.creator.id == router.current_user.id){
+                    $("#delete_task").show();
+                } else {
+                    $("#delete_task").hide();
+                }
             }
         };
         coding.get(path,successed);
@@ -149,8 +154,7 @@ var MY_PROJECT_TASK_ROUTE = (function(){
     function deleteTask() {
         if(!confirm('您确定要删除当前任务吗?')) return;
         coding.delete('/api/user/'+ ownerName +'/project/' + projectName +'/task/'+taskId, function(data){
-            var url = '/u/' + ownerName + '/p/'+projectName +'/tasks';
-            router.run.call(router, url);
+            router.run.call(router, coding.projectHomePath(ownerName, projectName)+'/tasks'); 
         });
     }
     
@@ -161,6 +165,8 @@ var MY_PROJECT_TASK_ROUTE = (function(){
             $('#navigator').find('.li-project').addClass('active');
             $('#navigator').find(".li-project img").attr('src','/images/icons/project_active.png');
             pageCount = 0;
+            $("#delete_task").hide();
+            
         },
         on_enter: function(user, project, id){
             ownerName = user;

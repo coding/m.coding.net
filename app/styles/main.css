@@ -11,6 +11,10 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
     -webkit-box-shadow: 0 0 0 1000px white inset;
 }
 
+input, textarea {
+    outline: none !important;
+}
+
 /* 修改bootstrap样式 */
 .btn-default {
     border: 1px solid #CCC;
@@ -1268,6 +1272,9 @@ text-13-7{
 .b-r {
     border-right: 1px solid transparent;
 }
+.b-2x{
+    border-width: 2px
+}
 .b-b {
     border-bottom: 1px solid transparent;
 }
@@ -1276,6 +1283,9 @@ text-13-7{
 }
 .b-trans {
     border-color: transparent !important;
+}
+.b-white{
+    border-color: #ffffff;
 }
 .b-light {
     border-color: #e0e0e0;
@@ -1889,5 +1899,8 @@ text-13-7{
     height:100%;
     z-index:2000;
     background-color:rgba(0,0,0,0.5);
+}
+.btn-fork:active, .btn-fork:focus{
+    background-color: #dcdee0 !important;
 }
 /* 我的项目相关 结束 */
