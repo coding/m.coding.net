@@ -77,7 +77,7 @@
         router.register('/u/:user/p/:project/topics/:topic', PROJECT_TOPIC_ROUTE);
 
         router.register('/pp', PP_ROUTE);
-
+       
         router.register('/pp/:type', PP_ROUTE);
 
         router.register('/u/:user', USER_ROUTE);
@@ -124,6 +124,6 @@
         router.register('/user_tweet', USER_PP_ROUTE);
         router.register('/active/:user', USER_PP_ROUTE);
         router.register('/friends/:user', FRIENDS_INFO_ROUTE);
-
+        router.register('/active/:user/:id', USER_PP_ROUTE);
     })
 })(REGISTER_ROUTE, LOGIN_ROUTE, ACTIVATE_ROUTE, RESETPASSWORD_ROUTE, PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PROJECT_TOPIC_ROUTE, PP_ROUTE, USER_ROUTE, USER_INFO_ROUTE, USER_FANS_ROUTE, USER_PROJECT_ROUTE, USER_PP_ROUTE, FRIENDS_INFO_ROUTE);
