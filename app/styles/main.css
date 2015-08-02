@@ -1889,6 +1889,7 @@ text-13-7{
 .v-box .content{
     position: relative;
     top: 50%;
+    -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
 }
 .popup-container{
