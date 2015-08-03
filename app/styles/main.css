@@ -784,7 +784,6 @@ p.thumbnail .bubble-markdown-image{
     background-color: #e5e5e5;
     top: 57px;
 }
-
 .user-back {
     padding-top: 20px;
 }
@@ -924,7 +923,11 @@ p.thumbnail .bubble-markdown-image{
     padding: 15px 15px 15px 0;
 }
 
-.userinfotable tr td:nth-child(2) {
+/**.userinfotable tr td:nth-child(2) {
+    color: #999;
+    text-align: right;
+}***/
+.userinfotable .userinfo-content{
     color: #999;
     text-align: right;
 }

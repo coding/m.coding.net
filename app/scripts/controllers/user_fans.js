@@ -45,13 +45,10 @@ var USER_FANS_ROUTE = (function() {
                     }
                     assembleDOM(fansData);
 
-                } else {
-                    alert('Failed to load fans');
-
-                }
+                } 
             },
             error: function(xhr, type) {
-                alert('Failed to load fans');
+                //alert('Failed to load fans');
             },
         });
     }
@@ -72,12 +69,10 @@ var USER_FANS_ROUTE = (function() {
                 if (data.data) {
                     searchlist = data.data;
                     assembleDOM(searchlist);
-                } else {
-                    //alert('Failed to load fans');
                 }
             },
             error: function(xhr, type) {
-                alert('Failed to load fans');
+                //alert('Failed to load fans');
 
             },
         });
@@ -242,7 +237,6 @@ var USER_FANS_ROUTE = (function() {
                 e.preventDefault();
                 loadFans(url);
             });
-
         },
         on_exit: function(user) {
             $('#navigator').find('li').removeClass('active');

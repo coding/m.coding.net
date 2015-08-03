@@ -1,38 +1,22 @@
-<!-- Modal -->
-<div class="modal fade" id="pp_input" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <!--<a type="button" class="pull-left" data-dismiss="modal" aria-label="Close" >取消</a>-->
-                <button type="button" class="close pull-left" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <button type="button" class="btn btn-success pull-right" disabled id="pp_submit">发送</button>
-                <h4 class="modal-title text-center" id="myModalLabel">发冒泡</h4>
-            </div>
-            <div class="modal-body">
-                <textarea class="form-control" id="pp_content" rows="5" placeholder="来，冒个泡吧..."></textarea>
-            </div>
-            <!--<div class="modal-footer">-->
-            <!--</div>-->
-        </div>
-    </div>
-</div>
+<!-- 保证样式文件不会和其他地方冲突 -->
+<div class="pp-container">
+    <div include="/views/pp_modal.html" loaded-msg="input-modal-ready"></div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <div class="input-group toggle-modal">
-            <input type="text" class="form-control" disabled placeholder="冒个泡...">
+    <div class="row" id="pp_add">
+        <div class="input-group">
+            <input type="text" class="form-control" disabled placeholder="来，冒个泡吧 ...">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">
-                    <span class="glyphicon glyphicon-pencil"></span>
+                    <span class="glyphicon glyphicon-edit"></span>
                 </button>
             </span>
         </div><!-- /input-group -->
     </div>
-</div>
-<div class="list-group" id="pp_list">
-</div>
-<div class="row">
-    <div class="col-md-12">
+    <div class="list-group" id="pp_list">
+    </div>
+    <div class="row">
         <button type="button" id="load_more" class="btn btn-default btn-block">更多泡泡</button>
     </div>
-</div>
+
+    <div include="/views/pp_iphoneAddtoDesk.html"></div>
+</div><!-- // pp-container -->

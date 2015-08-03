@@ -11,19 +11,24 @@ var USER_PP_ROUTE = (function() {
     pagesize = 10,
     userkey;
 
-    function assembleDOM(data) {
+    function assembleDOM(data, pathid) {
 
         var pps = data || [],
         fragment = document.createDocumentFragment(),
         ele;
+        if (pathid) {
 
-        for (var i = 0; i < pps.length; i++) {
-            ele = createTweetDOM(pps[i]);
+            ele = createTweetDOM(pps);
             fragment.appendChild(ele[0]);
-            elements[pps[i]['id']] = pps[i];
+            elements[pps['id']] = pps;
+        } else {
+            for (var i = 0; i < pps.length; i++) {
+                ele = createTweetDOM(pps[i]);
+                fragment.appendChild(ele[0]);
+                elements[pps[i]['id']] = pps[i];
 
+            }
         }
-
         list.appendChild(fragment);
 
     }
@@ -31,7 +36,7 @@ var USER_PP_ROUTE = (function() {
     function createTweetDOM(pp) {
         var template = '<div class="userpp border-color" id="detailBox">' + '<div class="titleBox" style="padding:12px 15px;">' + '<div class="commenterImage userppimg" style="width:36px;">' + '<a href="#"><img src="#" height="36" width="36" /></a>' + '</div>' + '<a class="commenterName" href="#" style="color:#222 !important;font-size:16px;bottom:10px;margin-left:8px;"></a>' + '<div class="commentedAt" style="left:64px;font-size:11px"></div>' + '</div>' + '<div class="commentBox" style="border:none;padding:10px 15px;">' + '<p class="taskDescription" style="font-size:16px;"></p>' + '</div>' +
 
-        '<div class="commenterDetail pull-left userpp-comm"></div>' + '<div class="userpp_comment" style="border-bottom:1px solid #e5e5e5;margin:0 10px;padding:10px 0">' + '<a href="#" class="pull-right comment" style="font-size:14px;right:-5px;color: #999 !important;">' + '<span class="glyphicon pp-comment" ></span><font class="comm-fon pp-font">评论</font>' + '</a>' + '<a href="#" class="pull-right star" style="font-size:15px;color: #999 !important;">' + '<span class="glyphicon" id="pp-star"></span><font class="comm-fon">赞</font>' + '</a>' + '<br />' + '</div>' + '<div class="actionBox" style="background: #fff none repeat scroll 0 0;border:none;">' + '<div class="row" style="margin-bottom:10px;">' + '<div class="col-sm-12 like_users">' + '</div>' + '</div>' + '<ul class="commentList">' + '</ul>' + '<form class="form-inline commentSubmit" role="form">' + '<div class="input-group">' + '<input type="text" class="form-control" placeholder="在此输入评论内容">' + '<span class="input-group-btn">' + '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-arrow-right"></span></button>' + '</span>' + '</div>' + '</form>' + '</div>' + '</div>',
+        '<div class="commenterDetail pull-left userpp-comm"></div>' + '<div class="userpp_comment" style="border-bottom:1px solid #e5e5e5;margin:0 10px;padding:10px 0">' + '<a href="#" class="pull-right comment" style="font-size:14px;right:-5px;color: #999 !important;">' + '<span class="glyphicon pp-comment" ></span><font class="comm-fon pp-font">评论</font>' + '</a>' + '<a href="#" class="pull-right star" style="font-size:15px;color: #999 !important;">' + '<span class="glyphicon" id="pp-star"></span><font class="comm-fon">赞</font>' + '</a>' + '<br />' + '</div>' + '<div class="actionBox" style="background: #fff none repeat scroll 0 0;border:none;">' + '<div class="row user_pplike">' + '<div class="col-sm-12 like_users">' + '</div>' + '</div>' + '<ul class="commentList">' + '</ul>' + '<form class="form-inline commentSubmit" role="form">' + '<div class="input-group">' + '<input type="text" class="form-control" placeholder="在此输入评论内容">' + '<span class="input-group-btn">' + '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-arrow-right"></span></button>' + '</span>' + '</div>' + '</form>' + '</div>' + '</div>',
         ele = $(template);
 
         ele.attr('id', pp.id);
@@ -62,7 +67,12 @@ var USER_PP_ROUTE = (function() {
         var likeUsers = pp.like_users || [],
         userList = ele.find('.actionBox .like_users'),
         userEle;
-
+        if (likeUsers.length > 0) {
+            ele.find('.user_pplike').css("margin-bottom", "10px");
+            ele.find('.user_pplike').css("white-space", "nowrap");
+            ele.find('.user_pplike').css("overflow", "hidden");
+            ele.find('.user_pplike').css("height", "24px");
+        }
         for (var i = 0; i < likeUsers.length; i++) {
             userEle = createLikedUsersDOM(likeUsers[i]);
             userList.append(userEle);
@@ -112,6 +122,8 @@ var USER_PP_ROUTE = (function() {
             ele.find(".star font").text("赞了");
         }
         //event listeners for this element
+        ele.find('.comment').attr("href", "/active/" + owner_key + "/" + pp.id);
+
         ele.on('click', '.star',
         function(e) {
             e.preventDefault();
@@ -304,7 +316,7 @@ var USER_PP_ROUTE = (function() {
             var r = confirm('确认删除该评论？');
 
             if (r) {
-                var ppId = ele.parents('.detailBox').attr('id'),
+                var ppId = ele.parents('.userpp').attr('id'),
                 commentId = comment.id,
                 path = '/api/tweet/' + ppId + '/comment/' + commentId;
 
@@ -352,8 +364,7 @@ var USER_PP_ROUTE = (function() {
         return ele;
     }
 
-    function loadMore(path) {
-
+    function loadMore(path, pathid) {
         var loadMoreBtn = $('#load_more');
 
         loadMoreBtn.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
@@ -372,11 +383,17 @@ var USER_PP_ROUTE = (function() {
                 withCredentials: true
             },
             success: function(data) {
+
                 if (data.data == "") {
                     loadMoreBtn.text('没有更多泡泡');
                 } else {
-                    assembleDOM(data.data);
-                    last_id = data.data[data.data.length - 1]['id']; //id of last item in list
+                    if (pathid) {
+                        assembleDOM(data.data, pathid);
+                        loadMoreBtn.remove();
+                    } else {
+                        assembleDOM(data.data, pathid);
+                        last_id = data.data[data.data.length - 1]['id']; //id of last item in list
+                    }
                 }
             },
             error: function(xhr, type) {
@@ -477,7 +494,7 @@ var USER_PP_ROUTE = (function() {
             $(".main").css("background-color", "#e5e5e5 !important");
             $(".addfriend").attr("src", "");
         },
-        on_enter: function(user) {
+        on_enter: function(user, pathid) {
 
             list = document.getElementById('pp_list');
 
@@ -498,12 +515,16 @@ var USER_PP_ROUTE = (function() {
             } else {
                 var uri = '/api/account/activities/user_tweet';
             }
-            loadMore(uri);
+            if (pathid) {
+                var uri = '/api/tweet/' + user + '/' + pathid;
+
+            }
+            loadMore(uri, pathid);
 
             $('#load_more').on('click',
             function(e) {
                 e.preventDefault();
-                loadMore(uri);
+                loadMore(uri, pathid);
             });
 
             $('#pp_content').on('keyup',
