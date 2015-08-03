@@ -55,10 +55,7 @@ var PP_ROUTE  = (function(){
                                 '</ul>' +
                                 '<form class="form-inline commentSubmit" role="form">' +
                                      '<div class="input-group">' +
-                                        '<input type="text" class="form-control" placeholder="在此输入评论内容">' +
-                                        '<span class="input-group-btn">' +
-                                            '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-arrow-right"></span></button>' +
-                                        '</span>' +
+                                        '<input type="text" class="form-control" disabled placeholder="我也说一句 ...">' +
                                     '</div>' +
                                 '</form>' +
                             '</div>' +
@@ -229,57 +226,9 @@ var PP_ROUTE  = (function(){
             return false
         });
 
-        ele.on('submit', '.commentSubmit', function(e){
-            e.preventDefault();
-
-            var id    = pp.id,
-                input = $(this).find('input'),
-                button= $(this).find('button'),
-                path  = '/api/tweet/' + id + '/comment';
-
-            $.ajax({
-                url: API_DOMAIN + path,
-                type: 'POST',
-                dataType: 'json',
-                data: {content: input.val()},
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function(data){
-                    if(data.msg){
-                        for(var key in data.msg){
-                            alert(data.msg[key]);
-                        }
-                    }
-                    if(data.data){
-                        data.data['owner'] = router.current_user; //current user
-                        elements[id]['comment_list'] = elements[id]['comment_list'] || [];
-                        elements[id]['comment_list'].unshift(data.data);
-                        elements[id]['comments'] += 1;
-
-                        var commentEle = createCommentDOM(data.data);
-                        commentsList.prepend(commentEle);
-                        input.val('');
-                    }
-                },
-                error: function(){
-                    alert('Failed to send comment');
-                },
-                complete: function(){
-                    input.removeAttr('disabled');
-                    button.removeAttr('disabled');
-                }
-            });
-
-            input.attr('disabled','disabled');
-            button.attr('disabled','disabled');
-
-            return false
-        });
-
-
         return ele;
     }
+
 
     function createCommentDOM(comment){
         var template = '<li>' +
@@ -313,17 +262,7 @@ var PP_ROUTE  = (function(){
         ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
         //ele.find('.commentText > a').attr('id', comment.owner_id);
 
-        ele.on('click', '.reply', function(e){
-            e.preventDefault();
-            var input = ele.parents('.commentList').next('form').find('input');
-            if(input.val() === ''){
-                input.val('@' + owner_name)
-            }else{
-                var value = input.val();
-                input.val(value + ', @' + owner_name);
-            }
-            return false
-        });
+    
 
         ele.on('click', '.delete', function(e){
             e.preventDefault();
@@ -417,40 +356,126 @@ var PP_ROUTE  = (function(){
         });
     }
 
-    function submitTweet(path, content){
-        var $button = $("#pp_submit");
-        $button.attr('disabled','disabled');
+    function tweetFailed(){
+        alert('Failed to post pp');
+    }
 
-        $.ajax({
-            url: API_DOMAIN + path,
-            dataType: 'json',
-            type: 'POST',
-            data: {'content': content, 'device': 'm.coding.net'},
-            xhrFields: {
-                withCredentials: true
-            },
-            success: function(data){
-                if(data.msg){
-                    for(var key in data.msg){
-                        alert(data.msg[key]);
-                    }
-                }else if(data.data){
-                    var tweet = data.data;
-                    tweet['owner'] = router.current_user;
-                    var ele   = createTweetDOM(tweet);
-                    $('#pp_content').val('');//clear the data in form
-                    $('#pp_input').modal('hide');//close the modal
-                    elements[tweet['id']] = tweet;
-                    list.insertBefore(ele[0], list.childNodes[0])
-                }
-            },
-            error: function(xhr, type){
-                alert('Failed to post pp');
-            },
-            complete: function(){
-                $button.removeAttr('disabled');
+    function tweetSuccess(data){
+        if(data.msg){
+            for(var key in data.msg){
+                alert(data.msg[key]);
             }
-        })
+        }else if(data.data){
+            var tweet = data.data;
+            tweet['owner'] = router.current_user;
+            var ele   = createTweetDOM(tweet);
+            $('#pp_content').val('');//clear the data in form
+            $('#pp_input').modal('hide');//close the modal
+            elements[tweet['id']] = tweet;
+            list.insertBefore(ele[0], list.childNodes[0])
+        }
+    }
+
+    function commentSuccess(data){
+        if(data.msg){
+            for(var key in data.msg){
+                alert(data.msg[key]);
+            }
+        }
+        if(data.data){
+            var id = data.data.tweet_id;
+            var commentsList = $('#'+id).find('.actionBox > .commentList');
+
+            data.data['owner'] = router.current_user; //current user
+            elements[id]['comment_list'] = elements[id]['comment_list'] || [];//elements 是全局变量
+            elements[id]['comment_list'].unshift(data.data);
+            elements[id]['comments'] += 1;
+
+            var commentEle = createCommentDOM(data.data);
+            commentsList.prepend(commentEle);//commentList 是局部变量
+        }
+    }
+
+    function commentFailed(){
+        alert('Failed to send comment');
+    }
+
+    function openInputModal(params){
+
+        var $inputModal = $('#pp_input');
+
+        var path = params.path,
+            post_success = params.success || function(){},
+            post_failed = params.failed || function(){};
+
+        //配置弹窗基本信息
+        $inputModal.find('.modal-title').html( params.title || '发冒泡' );
+
+        $inputModal.removeClass('small').removeClass('large');
+        $inputModal.addClass( params.size || 'large' );
+
+        $('html').removeClass('pp-modaling-small').removeClass('pp-modaling-large');
+        $('html').addClass( 'pp-modaling-' + (params.size || 'large') );
+
+        $('#pp_content').val( params.precontent || '' );
+        $('#pp_content').attr('placeholder', params.placeholder || '来，冒个泡吧...');
+
+        //关键部分处理
+        $('#pp_form').off('submit').on('submit', function(){
+
+            var content = $('#pp_content').val().trim();
+            if(!content){
+                return console.log('数据为空...');
+            }
+
+            //如果有图片，拽上图片咯
+            var images = '';
+            $('#image_board > .image').each(function(){
+                var url = $(this).attr('url');
+                if(url){
+                    images += '\n![图片](' + url + ')\n';
+                }
+            });
+            content += images;
+
+            console.log('正在提交数据...');
+
+            $.ajax({
+                url: API_DOMAIN + path,
+                type: 'POST',
+                dataType: 'json',
+                data: {content: content},
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function(data){
+                    $inputModal.modal('hide');
+                    $('html').removeClass('pp-modaling-small').removeClass('pp-modaling-large');
+                    typeof post_success == 'function' && post_success(data);
+                },
+                error: function(){
+                    typeof post_failed == 'function' && post_failed(data);
+                },
+                complete: function(){
+                }
+            });
+
+            return false;
+        });
+
+        resetInputModal(); //模态框重置
+
+        // fucking html5 history api
+        window.location.hash = "#pp_input"; //这里设置这个是为了增加空白历史记录，防止后面的 hash 直接返回到 /pp 引起的页面刷新
+
+        $inputModal.modal('show');
+    }
+
+    function resetInputModal(){
+        var $inputModal = $('#pp_input');
+        //表情归位
+        $('#pp_input').removeClass('chose-emoji');
+        $('#input_tool').find('.emojiboard').addClass('chose-emojis').removeClass('chose-monkeys');
     }
 
     function assetPath(path){
@@ -458,7 +483,7 @@ var PP_ROUTE  = (function(){
             path = API_DOMAIN + path;
         }
         return path;
-    }
+    }       
 
     function reset(){
         elements = {};
@@ -555,29 +580,77 @@ var PP_ROUTE  = (function(){
                 loadMore(uri);
             });
 
-            $('#pp_content').on('keyup', function(e){
-                e.preventDefault();
-                if($(this).val() !== ''){
-                    $('#pp_submit').removeAttr('disabled');
-                }else{
-                    $('#pp_submit').attr('disabled', 'disabled');
-                }
+            //加载调用组件，加载完成广播事件
+            $('[include]').each(function(){
+                var walker = $(this);
+                var msg = $(this).attr('loaded-msg') || '';
+                var path = walker.attr('include');
+                $.get(path,function(html){
+                    msg && window.postMessage(msg,'*');
+                    walker.replaceWith( html );
+                });
             });
 
-            $('#pp_submit').click(function(e){
-                e.preventDefault();
-                var content = $('#pp_content').val();
-                submitTweet('/api/tweet', content);
+            $(window).on('message',function(event){
+                event.data  == 'input-modal-ready' && inputModalLoaded();
             });
 
-            $('div.toggle-modal').click(function(e){
-                e.preventDefault();
-                $('#pp_input').modal('toggle');
-            });
+            function inputModalLoaded(){
 
+                $('#pp_content').on('keyup', function(e){
+                    e.preventDefault();
+                    if($(this).val() !== ''){
+                        $('#pp_submit').removeAttr('disabled');
+                    }else{
+                        $('#pp_submit').attr('disabled', 'disabled');
+                    }
+                });
+
+                $('#pp_add').on('click', function(e){
+                    openInputModal({
+                        path: '/api/tweet',
+                        success: tweetSuccess,
+                        failed: tweetFailed,
+                        title: '发冒泡',
+                        precontent: '',
+                        placeholder: '来，冒个泡吧...',
+                        size: 'large'
+                    });
+                    return false;
+                });
+
+                $('#pp_list').on('click', '.commentSubmit,.comment', function(){
+                    var id = $(this).closest('.detailBox').attr('id');
+                    openInputModal({
+                        path: '/api/tweet/' + id + '/comment',
+                        success: commentSuccess,
+                        failed: commentFailed,
+                        title: '评论冒泡',
+                        precontent: '',
+                        placeholder: '来，冒个泡吧...',
+                        size: 'small'
+                    });
+                    return false;
+                });
+
+                $('#pp_list').on('click', '.reply', function(){
+                    var id = $(this).closest('.detailBox').attr('id');
+                    var owner_name = $(this).closest('.commentText').find('.comment-meta').html();
+                    openInputModal({
+                        path: '/api/tweet/' + id + '/comment',
+                        success: commentSuccess,
+                        failed: commentFailed,
+                        title: '评论冒泡',
+                        precontent: '@' + owner_name,
+                        placeholder: '来，冒个泡吧...',
+                        size: 'small'
+                    });
+                    return false;
+                });
+            }
         },
         on_exit: function(){
-
+            
             $('#navigator').find('li').removeClass('active');
             $('#navigator').find(".li-pp img").attr('src','/images/icons/pp.png');
             $('.project_header').remove();
