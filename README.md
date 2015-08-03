@@ -66,3 +66,13 @@ Clone项目之后，执行以下步骤commands安装dependencies：
 设置完上述步骤后，打开浏览器，输入 https://m.coding.net 访问本地环境下运行的m.coding.net。
 注：前提是grunt server已启动并在9000端口上运行。如果浏览器提示ssl证书不认可并有风险，可跳过提示并直接访问
 
+
+## 关于调试及浏览器选用
+Chrome 4.0 以上的版本完全禁止访问带自签发证书的 https 请求
+    Chrome 4.0 能手动选择继续访问不安全的链接
+    下载地址：http://download.csdn.net/download/NothingSky/2033778
+    请停用所有翻墙工具和自动代理，已防止 Chrome 自动更新
+
+## 可能的点击失效
+FastClick 会导致非 iphone 设备启用 iphone 浏览器标识点击失效
+    已经检查到的情况有 小米 和 Chrome
