@@ -35,23 +35,23 @@ var USER_INFO_ROUTE = (function() {
         var user = data || {},
         body = '<div style="background-color:#fff;padding-left:15px;" class="border-color">' + '<table class="userinfotable">' + '<tr class="avatar">' +
 
-        '<td width="88"> 头像</td>' + '<td><img src="＃" width="60" height="60" class="avatarimg"/></td>' + '</tr>' + '<tr class="name">' +
+        '<td width="88"> 头像</td>' + '<td class="userinfo-content"><img src="＃" width="60" height="60" class="avatarimg"/></td>' + '</tr>' + '<tr class="name">' +
 
-        '<td> 昵称</td>' + '<td></td>' + '</tr>' + '<tr class="sex">' +
+        '<td> 昵称</td>' + '<td class="userinfo-content"></td>' + '</tr>' + '<tr class="sex">' +
 
-        '<td> 性别</td>' + '<td></td>' + '</tr>' + '<tr class="brithday">' +
+        '<td> 性别</td>' + '<td class="userinfo-content"></td>' + '</tr>' + '<tr class="brithday">' +
 
-        '<td> 生日</td>' + '<td></td>' + '</tr>' + '<tr class="location">' +
+        '<td> 生日</td>' + '<td class="userinfo-content"></td>' + '</tr>' + '<tr class="location">' +
 
-        '<td> 所在地</td>' + '<td></td>' + '</tr>' + '<tr class="motto">' +
+        '<td> 所在地</td>' + '<td class="userinfo-content"></td>' + '</tr>' + '<tr class="motto">' +
 
-        '<td> 座右铭</td>' + '<td></td>' + '</tr>' + '<tr class="tags_str">' + '<td> 个性标签</td>' + '<td></td>' + '</tr>' +
+        '<td> 座右铭</td>' + '<td class="userinfo-content"></td>' + '</tr>' + '<tr class="tags_str">' + '<td > 个性标签</td>' + '<td class="userinfo-content"></td>' + '</tr>' +
 
         '</table>' + '</div>' + '<div style="background-color:#fff;padding-left:15px" class="border-color tablecom">' + '<table class="userinfotable ">' + '<tr class="company">' +
 
-        '<td width="85">公司</td>' + '<td></td>' + '</tr>' + '<tr class="job">' +
+        '<td width="85">公司</td>' + '<td class="userinfo-content"></td>' + '</tr>' + '<tr class="job">' +
 
-        '<td>职位</td>' + '<td></td>' + '</tr>' + '</table>' + '</div>',
+        '<td >职位</td>' + '<td class="userinfo-content"></td>' + '</tr>' + '</table>' + '</div>',
 
         body_ele = $(body);
         body_ele.find('img').attr('src', assetPath(user.avatar));
