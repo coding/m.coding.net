@@ -110,12 +110,20 @@ var MY_PROJECT_TASKS_ROUTE = (function(){
         if(data.data.list&&data.data.list.length){
             data.data.list[0].hideFirstLine = true;
         }
+        
         $("#tprocessing").html('');
+        if(data.data.list.length){
+            $("#task_container").show();
+        }
+        
         assembleDOM(data.data, '#tprocessing', '#tlist');
     }
     function assembleDoneDOM(data) {
         if(pageCount === 1 && data.data.list&&data.data.list.length){
             data.data.list[0].hideFirstLine = true;
+        }
+        if(data.data.list.length){
+            $("#task_container").show();
         }
         assembleDOM(data.data, '#tdone', '#tlist');
     }
@@ -183,6 +191,7 @@ var MY_PROJECT_TASKS_ROUTE = (function(){
             pageCount = 0;
             $('#tprocessing').html('');
             $('#tdone').html('');
+            $("#task_container").hide();
         },
         on_enter: function(user, project, member){
             ownerName = user;

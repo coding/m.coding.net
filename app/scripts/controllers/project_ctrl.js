@@ -125,11 +125,8 @@ var PROJECT_ROUTE = (function(){
             $('#navigator').find(".li-square img").attr('src','/images/icons/square_active.png');
 
             var project_nav = '<div class="row project_header">' +
-                    '<div class="col-xs-6">' +
+                    '<div class="col-xs-12">' +
                     '<a href="#">精彩项目</a>' +
-                    '</div>' +
-                    '<div class="col-xs-6">' +
-                    '<a href="#">我的项目</a>' +
                     '</div>',
                 nav_ele     = $(project_nav);
 

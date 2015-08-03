@@ -4,7 +4,8 @@ var MY_PROJECT_ROUTE = (function(){
         pageCount = 0,
         lastType  = 'public',
         $container = null;
-        currentType = '';
+        currentType = '',
+        pinList = [];
 
     // 修复图片的相对路径
     function fixRelativeURL(list, key){
@@ -22,10 +23,21 @@ var MY_PROJECT_ROUTE = (function(){
     function assembleDOM(data){
         if(!data || !data.list || !data.list.length) return;
         data.list = fixRelativeURL(data.list, "icon");  
+        var newList = [];
         for(var i =0; i < data.list.length;i++){
             data.list[i].projectHomeURL = coding.projectHomePath(null, null, data.list[i]);
+            // 删除常用项目
+            var exist = false;
+            for(var j = 0; j < pinList.length;j++){
+                console.log(pinList[j].id,  data.list[i].id)
+                if(pinList[j].id == data.list[i].id){
+                    exist = true;
+                }
+            }
+            if(!exist) newList.push(data.list[i]);
         }
-
+        data.list = newList;
+        
         $container = $('#projects_list');
         var template = $('#tlist').html();
         Mustache.parse(template);   // optional, speeds up future uses
@@ -33,9 +45,34 @@ var MY_PROJECT_ROUTE = (function(){
         
         $container.append(rendered);
     }
-
-    function loadMore(path){
-
+     function assemblePinDOM(data){
+        if(!data || !data.list || !data.list.length) {
+            $("#pinProjectContainer").hide();
+            return;
+        }
+        
+        data.list = fixRelativeURL(data.list, "icon");  
+        for(var i =0; i < data.list.length;i++){
+            data.list[i].projectHomeURL = coding.projectHomePath(null, null, data.list[i]);
+        }
+        
+        $container = $('#projects_pin');
+        var template = $('#tlist').html();
+        Mustache.parse(template);   // optional, speeds up future uses
+        var rendered = Mustache.render(template, data);
+        
+        $container.append(rendered);
+    }   
+    function loadPinProjects(){
+        coding.get('/api/user/projects/pin?pageSize=9999',function(data){
+            pinList = data.data.list;
+            assemblePinDOM(data.data);
+            loadMore();
+        });
+    }
+    
+    function loadMore(){
+        var path = '/api/projects';
         pageCount++;
         var element = $("#load_more");
         element.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
@@ -77,14 +114,14 @@ var MY_PROJECT_ROUTE = (function(){
                 alert('You are not logged in');
                 return;
             }
-            var uri = '/api/projects';
             
-            loadMore(uri);
+            loadPinProjects();
+            
             
             var element = $("#load_more");
             element.on('click', function(e){
                 e.preventDefault();
-                loadMore(uri);
+                loadMore();
             });
         },
         on_exit: function(){

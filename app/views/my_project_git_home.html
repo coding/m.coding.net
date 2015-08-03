@@ -2,19 +2,23 @@
 </div>
 
 <script id="tlist" type="text/template">
-	<div class="clear ">
-		<img src="{{project.icon}}" alt="" class="pull-left" height="100" width="100">
-		<div class="" style="margin-left:110px;">
-			<div class="text-lg text-primary"><h4>{{project.name}}</h4></div>
-			<div class="">{{project.short_description}}</div>
-			<div class="text-light text-xs m-t">{{project.owner.name}} 最后更新于 {{update_display}}</div>
-		</div>
+	<div class="bg-white shadow-default " style="padding:12px 12px 20px 12px;">
+		<div class="clear  " style="padding-bottom:12px;border:1px dashed transparent;border-bottom-color:#c3c3c3;">
+			<img src="{{project.icon}}" alt="" class="pull-left r-2x" height="54" width="54">
+			<div class="" style="margin-left:64px;">
+				<div class="text-dark-dk">{{project.name}}</div>
+				<div class="text-light text-sm m-t-sm">{{project.owner.name}}</div>
+			</div>
+		</div>	
+		<div class="p-t text-dark-dk" style="font-size:13px;">{{project.description}}</div>	
 	</div>
-	<div class="m-t bg-white r-2x">
-		<div class="p-sm">{{readme.name}}</div>
+	
+	<div class="m-t bg-white shadow-default">
+		<div class="p-sm b-b b-light">{{readme.name}}</div>
+		<div class="p-sm">{{{readme.preview}}}</div>
 	</div>
-	<div style="margin-top:2px;" class="bg-white p-sm r-2x">{{{readme.preview}}}</div>
 </script>
+
 <script id="theader" type="text/template">
 <div class="row project_header"> 
 {{#list}}
