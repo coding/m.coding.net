@@ -111,6 +111,12 @@ var MY_PROJECT_TASKS_ROUTE = (function(){
             data.data.list[0].hideFirstLine = true;
         }
         
+        if(data.data.list.length){
+            $("#processing-container").show();
+        }else{
+            $("#processing-container").hide();
+        }
+        
         $("#tprocessing").html('');
         if(data.data.list.length){
             $("#task_container").show();
@@ -121,6 +127,14 @@ var MY_PROJECT_TASKS_ROUTE = (function(){
     function assembleDoneDOM(data) {
         if(pageCount === 1 && data.data.list&&data.data.list.length){
             data.data.list[0].hideFirstLine = true;
+        }
+        if(pageCount == 1){
+            
+            if(data.data.list.length){
+                $('#done-container').show();
+            } else {
+                $('#done-container').hide();
+            }
         }
         if(data.data.list.length){
             $("#task_container").show();
