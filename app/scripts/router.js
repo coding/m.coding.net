@@ -1,5 +1,5 @@
 (function() {
-  var History, last_route,
+  var History, last_route, _location,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
     __slice = [].slice;
 
@@ -8,6 +8,20 @@
   History = window.History;
 
   last_route = {};
+
+  _location = {};
+
+  Object.defineProperty(_location, 'pathname', {
+    set: function(x) {
+      $('html').removeClass(this.$$html__location_class || '');
+      this.$$html__location_class = 'path-' + x.replace(/\//g, '-').replace(/^\-|\-$/g, '');
+      $('html').addClass(this.$$html__location_class);
+      this.$$pathname = x;
+    },
+    get: function() {
+      return this.$$pathname;
+    }
+  });
 
   Routy.Router = (function() {
     Router.prototype.actions = [];
@@ -65,7 +79,7 @@
         }
       });
       return $(window).bind('popstate', function(e) {
-        return router.run.call(router, e.state['state']);
+        return e.state && router.run.call(router, e.state['state']);
       });
     };
 
@@ -301,6 +315,7 @@
       if (this.before_callback) {
         this.before_callback.apply(this, args);
       }
+      _location.pathname = window.location.pathname;
       this.context.html(this.template);
       this.callback.apply(this, args);
       if (this.after_callback) {
