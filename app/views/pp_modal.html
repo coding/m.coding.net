@@ -20,7 +20,7 @@
                     <div class="imageboard" id="image_board">
                         <div class="image add-image icon icon-plus" id="pp_image"></div>
                         <p class="image-tip">最多可以上传6张图片~</p>
-                        <div class="location" id="pp_location">
+                        <div class="location hide" id="pp_location">
                             <span class="icon icon-location"></span>
                             <span id="location_name">显示地理位置</span>
                             <span class="icon icon-right"></span>
@@ -749,16 +749,15 @@ Zepto(function(){
             console.log('正在通过 IP 获取用户信息...');
 
             $.ajaxJSONP({
-              // url: 'http://api.map.baidu.com/location/ip?callback=?',
-              url: 'https://m.coding.net/location/ip?callback=?',
+                url: API_DOMAIN + '/api/map/location/ip?callback=?',
                 data: {
                     ak: BAIDU_MAP_AK
                 },
                 xhrFields: {
                     withCredentials: true
                 },
-                success: function(data){
-                    if(!data.status) return console.log('通过 Ip 获取地理位置失败');
+                success: function(data){console.log(data);
+                    if(data.status) return console.log('通过 Ip 获取地理位置失败');
                     var content = data.content;
                     lo = content.point.x;
                     la = content.point.y;
@@ -809,20 +808,22 @@ Zepto(function(){
                 ['大厦','楼','餐厅','街','公园','学校'].forEach(getPOI);
 
                 function getPOI( keyword ){
-                    $.get({
-                        // url: 'http://api.map.baidu.com/place/v2/search',
-                        url: 'https://m.coding.net/place/v2/search',
+                    $.ajaxJSONP({
+                        url: API_DOMAIN + '/api/map/place/v2/search?callback=?',
                         data: {
                             ak: BAIDU_MAP_AK,
-                            output: 'json',
                             query: keyword,
                             page_size: 10,
                             page_num: 0,
                             scope: 1,
                             location: la + ',' + lo,
-                            radius: 2000
+                            radius: 2000,
+                            output: 'json'
                         },
-                        success: function(data){
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        success: function(data){console.log(data);
                             if(!data.status) return console.log( '根据关键词' + keyword + '地理位置信息失败' );
                             collectLocations( data.results );
                         },
