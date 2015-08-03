@@ -237,7 +237,6 @@ var USER_FANS_ROUTE = (function() {
                 e.preventDefault();
                 loadFans(url);
             });
-
         },
         on_exit: function(user) {
             $('#navigator').find('li').removeClass('active');
