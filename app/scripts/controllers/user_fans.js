@@ -45,13 +45,10 @@ var USER_FANS_ROUTE = (function() {
                     }
                     assembleDOM(fansData);
 
-                } else {
-                    alert('Failed to load fans');
-
-                }
+                } 
             },
             error: function(xhr, type) {
-                alert('Failed to load fans');
+                //alert('Failed to load fans');
             },
         });
     }
