@@ -52,7 +52,6 @@ var USER_INFO_ROUTE = (function() {
         '<td width="85">公司</td>' + '<td class="userinfo-content"></td>' + '</tr>' + '<tr class="job">' +
 
         '<td >职位</td>' + '<td class="userinfo-content"></td>' + '</tr>' + '</table>' + '</div>',
-
         body_ele = $(body);
         body_ele.find('img').attr('src', assetPath(user.avatar));
         body_ele.find('.name td:eq(1)').text(user.name);
