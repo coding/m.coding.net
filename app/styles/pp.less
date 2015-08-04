@@ -14,13 +14,35 @@
 		box-shadow: 0 0 5px #ddd !important;
 	}
 	.detailBox{
+		margin: 9px 0;
 		box-shadow: 0 0 5px #ddd !important;
+
+		i{
+			display: inline-block;
+			margin-right: 6px;
+			position: relative;
+			top: -1px;
+			width: 15px;
+			height: 15px;
+			background-size: 100%;
+			vertical-align: middle;
+			&.icon-like{
+				background-image: url(/images/icons/like1.png);
+			}
+			&.icon-comment{
+				background-image: url(/images/icons/comment.png);
+			}
+		}
+
+		.star.liked{
+			color: #D95C5C !important;
+			.icon-like{
+				background-image: url(/images/icons/like2.png);
+			}
+		}
 	}
 	.row{
 		margin: 0;
-	}
-	.detailBox{
-		margin: 9px 0;
 	}
 	.actionBox{
 		margin: 10px;
@@ -75,7 +97,8 @@
 		color: initial !important;
 	}
 	.commentedAt{
-		top: 50% !important;
+		font-size: 11px !important;
+		// top: 50% !important;
 		color: #999999 !important;
 	}
 	.like_users{
@@ -95,14 +118,6 @@
 		color: #aaa;
 	}
 
-	.comment,.star{
-		.glyphicon:before{
-			position: relative;
-			top: 2px;
-			left: 5px;
-		}
-	}
-
 	.commentSubmit{
 		.input-group{
 			width: 100%;
@@ -113,6 +128,9 @@
 	.taskDescription{
 		line-height: 1.5;
 		font-size: 15px;
+		p{
+			overflow: initial;
+		}
 	}
 }
 
@@ -123,6 +141,7 @@
 	right: 0;
 	bottom: -10px;
 	margin: auto;
+	overflow: hidden;
 	#pp_form{
 		background: #fff;
 		position: relative;
@@ -171,6 +190,7 @@
 			top: 5px;
 			.toggle-emoji{
 				bottom: -23px;
+				z-index: 1;
 			}
 		}
 		.slide .dot{
@@ -246,6 +266,17 @@
 	&.chose-emoji:not(.chose-friend){
 		&.small{
 			height: 291px;
+			.input-tool:before{
+				color: #e8e8e8;
+			}
+			.emojiboard{
+				background-color: #e8e8e8;
+				top: -5px;
+				padding-top: 5px;
+				.slide li{
+					background-color: #e8e8e8;
+				}
+			}
 		}
 		.imageboard{
 			display: none;
