@@ -304,6 +304,8 @@ module.exports = function (grunt) {
                     src: [
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
                         '!<%= yeoman.dist %>/scripts/sha1.js',
+                        '!<%= yeoman.dist %>/scripts/rangoUploader.js',
+                        '!<%= yeoman.dist %>/scripts/pp.modal.js',
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
                         '!<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
                         '!<%= yeoman.dist %>/images/static/*.{png,jpg,jpeg,gif,webp}',
@@ -446,7 +448,13 @@ module.exports = function (grunt) {
                         'views/**/*.html',
                         'scripts/sha1.js'
                     ]
-                }, {
+                },{
+                  dest: '<%= yeoman.dist %>/scripts/pp.modal.js',
+                  src: '<%= yeoman.app %>/scripts/pp.modal.js'
+                },{
+                  dest: '<%= yeoman.dist %>/scripts/rangoUploader.js',
+                  src: '<%= yeoman.app %>/scripts/rangoUploader.js'
+                },{
                     expand: true,
                     cwd: '.tmp/images',
                     dest: '<%= yeoman.dist %>/images',
