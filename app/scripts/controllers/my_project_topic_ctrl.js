@@ -7,6 +7,7 @@ var MY_PROJECT_TOPIC_ROUTE = (function(){
         topicId = 0;
         currentType = '';
     var lastType = "all";
+    var topicData = null;
     
     var type_list = {'all':'全部讨论','mine':'我的讨论'};
     
@@ -26,6 +27,7 @@ var MY_PROJECT_TOPIC_ROUTE = (function(){
        var path = '/api/topic/'+topicId;
        coding.get(path, function(data){
           if(data.data){
+              topicData = data.data;
               assembleDOM(data.data);
               loadComment();
           }
@@ -37,7 +39,7 @@ var MY_PROJECT_TOPIC_ROUTE = (function(){
         data.display =  data.owner.name + ' 创建于' + moment(data.created_at).fromNow();
 
         var rendered = Mustache.render($('#tmain').html(), data);
-        $('#tcontainer').append(rendered);
+        $('#tcontainer').html(rendered);
     }
 
     function assembleCommentDOM(data){
@@ -74,7 +76,11 @@ var MY_PROJECT_TOPIC_ROUTE = (function(){
             {content:$input.val()},
             function(data){
                 $input.val('');
+                
                 if(data.data){
+                    topicData.child_count ++;
+                    if(!topicData.child_count) topicData.child_count = 1;
+                    assembleDOM(topicData);
                     assembleCommentDOM({list:[data.data]});
                 }
             }
