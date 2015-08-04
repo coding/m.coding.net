@@ -17,7 +17,6 @@ var PP_ROUTE  = (function(){
             ele = createTweetDOM(pps[i]);
             fragment.appendChild(ele[0]);
             elements[pps[i]['id']] = pps[i];
-
         }
 
         list.appendChild(fragment);
@@ -40,10 +39,10 @@ var PP_ROUTE  = (function(){
                             '<div class="commenterDetail pull-left"></div>' +
 
                             '<a href="#" class="pull-right comment">' +
-                                '<span class="glyphicon glyphicon-comment"> 评论 </span>' +
+                                '<span><i class="icon-comment"></i> 评论 </span>' +
                             '</a>' +
                             '<a href="#" class="pull-right star">' +
-                                '<span class="glyphicon glyphicon-heart"> 赞 </span>' +
+                                '<span><i class="icon-like"></i> 赞 </span>' +
                             '</a>' +
                             '<br />' +
                             '<div class="actionBox">' +
@@ -87,7 +86,7 @@ var PP_ROUTE  = (function(){
         }
 
         if(pp.liked){
-            ele.find('.detailBox > a.star > span').css('color','#D95C5C');
+            ele.find('.detailBox > a.star').addClass('liked');
         }
 
         //create liked users
@@ -328,7 +327,7 @@ var PP_ROUTE  = (function(){
 
         path += '?last_id=' + last_id;
 
-        if(sort === 'mine'){
+        if(sort === 'friends'){
             var key = router.current_user ? router.current_user.global_key : '';
             path += '&' + 'global_key=' + key;
         }else{
@@ -536,20 +535,20 @@ var PP_ROUTE  = (function(){
                                     '<a href="#">热门</a>' +
                                 '</div>' +
                                 '<div class="col-xs-4">' +
-                                     '<a href="#">我的</a>' +
+                                     '<a href="#">朋友圈</a>' +
                                 '</div>' +
                             '</div>',
                 nav_ele = $(pp_nav);
 
             nav_ele.find('div').eq(0).children('a').attr('href', '/pp');
             nav_ele.find('div').eq(1).children('a').attr('href',  '/pp/hot');
-            nav_ele.find('div').eq(2).children('a').attr('href',  '/pp/mine');
+            nav_ele.find('div').eq(2).children('a').attr('href',  '/pp/friends');
 
             $("nav.main-navbar").after(nav_ele);
 
             if(type === 'hot'){
                 nav_ele.find('div').eq(1).addClass('active');
-            }else if(type === 'mine'){
+            }else if(type === 'friends'){
                 nav_ele.find('div').eq(2).addClass('active');
             }else{
                 nav_ele.find('div').eq(0).addClass('active');
@@ -563,13 +562,13 @@ var PP_ROUTE  = (function(){
             //decide if this is hot page
             if(type === 'hot'){
                 sort = 'hot';
-            }else if(type === 'mine'){
-                sort = 'mine';
+            }else if(type === 'friends'){
+                sort = 'friends';
             }else{
                 sort = 'time';
             }
 
-            var uri = ( sort === 'mine') ? '/api/tweet/user_public' : '/api/tweet/public_tweets';
+            var uri = ( sort === 'friends') ? '/api/activities/user_tweet' : '/api/tweet/public_tweets';
 
             loadMore(uri);
 
@@ -595,14 +594,25 @@ var PP_ROUTE  = (function(){
 
             function inputModalLoaded(){
 
+                //插入模板所关联的代码
+                $('<script>').attr('src', '/scripts/pp.modal.js').appendTo( $('body') );
+
                 $('#pp_content').on('keyup', function(e){
                     e.preventDefault();
+                    checkCouldSend();
+                });
+
+                $('#emoji_board').on('click', function(e){
+                    checkCouldSend();
+                });
+
+                function checkCouldSend(e){
                     if($(this).val() !== ''){
                         $('#pp_submit').removeAttr('disabled');
                     }else{
                         $('#pp_submit').attr('disabled', 'disabled');
                     }
-                });
+                }
 
                 $('#pp_add').on('click', function(e){
                     openInputModal({
@@ -639,7 +649,7 @@ var PP_ROUTE  = (function(){
                         success: commentSuccess,
                         failed: commentFailed,
                         title: '评论冒泡',
-                        precontent: '@' + owner_name,
+                        precontent: '@' + owner_name + ' ',
                         placeholder: '来，冒个泡吧...',
                         size: 'small'
                     });
