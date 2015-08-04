@@ -60,17 +60,21 @@
 		}
 		.btn{
 			margin-left: 0;
+			padding-right: 6px;
 			.glyphicon-edit{
-				transform: scale(1.6) translate(2px,0px);
-				background-image: url('data:image/svg+xml;utf8,<svg version="1.1" id="图形" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1024px" height="1024px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve"><path fill="#272636" d="M869.350033 574.888115l-60.423903 60.423903 71.126792 71.126792c0 0 60.943241 1.264476 60.943241-59.701345L869.350033 574.888115zM209.428886 543.863286l0-569.014333 569.014333 0L778.443219 360.965821l81.287762 81.287762 0-467.404631c0-44.866329-36.398853-81.287762-81.287762-81.287762l-569.014333 0c-44.911488 0-81.287762 36.398853-81.287762 81.287762l0 569.014333c0 44.888908 36.376273 81.287762 81.287762 81.287762l467.404631 0-81.310342-81.287762L209.428886 543.863286zM412.648291 178.068357l0 60.965821 30.482911 30.505491 60.920662-60.943241-30.437751-30.528071L412.648291 178.068357zM828.751312 534.176494l-304.377508-305.235546-60.898082 60.898082 304.829107 304.829107L828.751312 534.176494z" transform="translate(0, 812) scale(1, -1)"/></svg>');
+				background-image: url(/images/pp/write.png);
 				background-size: 100%;
-				height: 14px;
+				height: 22px;
+				width: 22px;
+				vertical-align: middle;
 				&:before{
 					content: initial;
 				}
 			}
 		}
 		input{
+			appearance: none;
+			-webkit-appearance: none;
 			border-radius: 2px !important;
 			height: 35px;
 			border: 1px solid #d3d3d3;
@@ -445,12 +449,15 @@
 			i.icon-delete{
 				display: block;
 				position: absolute;
-				top: -8px;
-				right: -8px;
-				width: 16px;
-				height: 16px;
+				top: -9px;
+				right: -9px;
+				width: 18px;
+				border: 1px solid #aaa;
+				height: 18px;
 				border-radius: 50% !important;
-				background-color: red;
+				background-image: url(/images/icons/x_input_clear.png);
+				background-origin: content-box;
+				padding: 2px;
 			}
 		}
 
