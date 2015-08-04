@@ -3,6 +3,21 @@ History = window.History
 
 last_route = {}
 
+#路由变更通知 html 变换类名，实现全局 css 通知
+#使用示例_location.pathname = 'pp'，那么 html 会 addClass('path-pp');
+_location = {}
+Object.defineProperty _location, 'pathname',
+  set: (x) ->
+    $('html').removeClass @$$html__location_class or ''
+    @$$html__location_class = 'path-' + x.replace(/\//g, '-').replace(/^\-|\-$/g, '')
+    $('html').addClass @$$html__location_class
+    @$$pathname = x
+    #这一句好像没什么用，哈哈
+    return
+  get: ->
+    @$$pathname
+    #这里也没有什么用，随便啦
+
 # The router, used to manage and store the actions
 class Routy.Router
 
@@ -70,7 +85,7 @@ class Routy.Router
         # Create an anonymous function to call the router.run method so we can
         # pass the router as "this" variable
         $(window).bind 'popstate', (e)->
-            router.run.call router, e.state['state']
+            e.state and router.run.call router, e.state['state']
 
     # Redirect (using pushState) to a specific page
     go: (url, title, data)->
@@ -295,6 +310,9 @@ class Routy.Action
         if @before_callback
             # execute it passing the same arguments as the action
             @before_callback.apply @, args
+
+        #路由变更通知 html 变换类名，实现全局 css 通知
+        _location.pathname = window.location.pathname
 
         # render the template
         @context.html(@template)

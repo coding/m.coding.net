@@ -431,12 +431,24 @@
 
 		.location{
 			display: inline-block;
-			padding-left: 10px;
+			padding: 0 10px;
 			height: 32px;
 			font-size: 12px;
 			line-height: 32px;
 			background-color: #fff;
 			border-radius: 2px !important;
+			.icon-right{
+				display: none;
+			}
+			&.success{
+				padding-right: 0;
+				.icon-location{
+					background-image: url(/images/pp/location2.png);
+				}
+				.icon-right{
+					display: inline-block;
+				}
+			}
 		}
 
 		.icon{
@@ -455,9 +467,6 @@
 				vertical-align: middle;
 				position: relative;
 				top: -2px;
-				&.success{
-					background-image: url(/images/pp/location2.png);
-				}
 			}
 			&-right{
 				background-image: url(/images/icons/right_arrow.png);
