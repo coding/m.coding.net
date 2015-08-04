@@ -498,14 +498,12 @@ Zepto(function(){
 
         function uploading( persent ){
             image.removeClass('upload-start').addClass('upload-ing');
-            console.log('已经上传：' +(persent*100) + '%') 
         }
 
         function success( data ){
             typeof data == 'string' && ( data=JSON.parse(data) );
 
             if( !data.code ){
-                console.log('文件上传成功！');
                 if(!imageurl){
                     imageurl = data.data;
                     image.css('background-image', 'url(' + imageurl + ')');
@@ -513,7 +511,7 @@ Zepto(function(){
                 image.attr('url', data.data);
                 addImageToContent( data.data );
             }else{
-                console.log( data.msg || '上传失败' );
+                alert( data.msg || '上传失败' );
             }
 
             image.removeClass('upload-start').removeClass('upload-ing').addClass('upload-success');
@@ -556,7 +554,6 @@ Zepto(function(){
 
         //这里可能会有代码冗余
         function callSuccessOnce(){
-            console.log( '上传组件准备成功...' );
             success && success( window.rangoUploader );
             callSuccessOnce = function(){};
         }
@@ -717,17 +714,13 @@ Zepto(function(){
                 },function(error){
                     switch(error.code){
                         case error.PERMISSION_DENIED:
-                          console.log( "用户拒绝对获取地理位置的请求。" );
                           getLocationFailed();
                           break;
                         case error.POSITION_UNAVAILABLE:
-                          console.log( "位置信息是不可用的。" );
                           break;
                         case error.TIMEOUT:
-                          console.log( "请求用户地理位置超时。" );
                           break;
                         case error.UNKNOWN_ERROR:
-                          console.log( "未知错误。" );
                           break;
                     }
                     getLocationByIP();
@@ -746,7 +739,6 @@ Zepto(function(){
             getLocationByIP = function(){};
 
             if(userRejected) return;
-            console.log('正在通过 IP 获取用户信息...');
 
             $.ajaxJSONP({
                 url: API_DOMAIN + '/api/map/location/ip?callback=?',
@@ -756,8 +748,8 @@ Zepto(function(){
                 xhrFields: {
                     withCredentials: true
                 },
-                success: function(data){console.log(data);
-                    if(data.status) return console.log('通过 Ip 获取地理位置失败');
+                success: function(data){
+                    if(data.status) return;
                     var content = data.content;
                     lo = content.point.x;
                     la = content.point.y;
@@ -766,14 +758,12 @@ Zepto(function(){
                     showPosition();
                 },
                 error: function(err){
-                    console.log(err);
                 }
             });
         }
 
         function fastShowAddress(){
             if(!fastAddress) return;
-            console.log( fastAddress );alert();
             $('#location_name').html( location.name );
             $('#pp_location').removeClass('getting').removeClass('failed').addClass('success');
         }
@@ -799,8 +789,6 @@ Zepto(function(){
                           '&center=' + lo + ',' + la +
                           '&copyright=' + 1 +
                           '&bbox=' + minX + ',' + minY + ';' + maxX + ',' + maxY;
-
-                console.log( src );
                 $('#location_image').attr('src', src);
             }
 
@@ -823,20 +811,17 @@ Zepto(function(){
                         xhrFields: {
                             withCredentials: true
                         },
-                        success: function(data){console.log(data);
-                            if(!data.status) return console.log( '根据关键词' + keyword + '地理位置信息失败' );
+                        success: function(data){
+                            if(!data.status) return;
                             collectLocations( data.results );
                         },
                         error: function(err){
-                            console.log(err);
                         }
                     });
                 }
 
                 function collectLocations( lists ){
-                    console.log(lists);
                     locations = locations.concat( lists );
-                    console.log(locations);
                     locations.sort(function(x,y){
                         if( x == location ) return 1;
                         var Xdistance = Math.sqrt( Math.pow(x.location.lng - lo,2) + Math.pow(x.location.lat - la,2) );
@@ -844,7 +829,6 @@ Zepto(function(){
                         return Xdistance < Ydistance ? 1 : -1;
                     });
                     locations.length = 10;
-                    console.log( locations );
 
                     //如果是第一次获取到地理位置
                     if( !location.name ){

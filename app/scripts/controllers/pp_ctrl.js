@@ -425,7 +425,7 @@ var PP_ROUTE  = (function(){
 
             var content = $('#pp_content').val().trim();
             if(!content){
-                return console.log('数据为空...');
+                return;
             }
 
             //如果有图片，拽上图片咯
@@ -437,8 +437,6 @@ var PP_ROUTE  = (function(){
                 }
             });
             content += images;
-
-            console.log('正在提交数据...');
 
             $.ajax({
                 url: API_DOMAIN + path,
