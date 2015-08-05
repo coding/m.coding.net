@@ -1,6 +1,6 @@
 // created by yuanoook@foxmail.com
 // website: yuanoook.com
-// weichat: yuanoook
+// wechat: yuanoook
 // dependences: Zepto.js
 
 +function(window){
@@ -32,13 +32,16 @@
             url,
             formdata,
             ajaxparams,
-            input = $('<input>').attr({
+            input = $('<input class="hide">').attr({
                 type: 'file',
                 accept: 'image/*'
             }),
             target = $(this.target);
 
-        target.on('click', function(){
+            input.appendTo( $('body') );
+
+        //fastClick.js 会导致 click 失效，采用 touchend 事件
+        target.on('touchend', function(){
             reset();
             input.click();
         });

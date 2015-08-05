@@ -165,10 +165,15 @@
 
     // css位移
     function fnTranslate(me, dom, distance){
-        var result = me.opts.axisX ? distance+'px,0,0' : '0,'+distance+'px,0';
+        // fucking translate, why don't you use marginLeft or left, why??????????
+        // var result = me.opts.axisX ? distance+'px,0,0' : '0,'+distance+'px,0';
+        // dom.css({
+        //     '-webkit-transform':'translate3d('+result+')',
+        //     'transform':'translate3d('+result+')'
+        // });
+        var result = distance + 'px';
         dom.css({
-            '-webkit-transform':'translate3d('+result+')',
-            'transform':'translate3d('+result+')'
+            'left': result
         });
     }
 

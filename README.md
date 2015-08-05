@@ -73,6 +73,8 @@ Chrome 4.0 以上的版本完全禁止访问带自签发证书的 https 请求
     下载地址：http://download.csdn.net/download/NothingSky/2033778
     请停用所有翻墙工具和自动代理，已防止 Chrome 自动更新
 
+    已经访问过 https://m.coding.net 原站的情况，再次访问本地代理的 https://m.coding.net 将会失去继续访问不安全链接的选项，Mac 通过 Finder 进入 /Users/xxx/Library/Application Support/Google，直接将其中的 Chrome 文件夹备份更名，才可以重新访问并调试。
+
 ## 可能的点击失效
 FastClick 会导致非 iphone 设备启用 iphone 浏览器标识点击失效
     已经检查到的情况有 小米 和 Chrome
