@@ -1907,4 +1907,11 @@ text-13-7{
 .btn-fork:active, .btn-fork:focus{
     background-color: #dcdee0 !important;
 }
+.readme-container{
+    width:100%;
+    overflow: auto;
+}
+.readme-container img {
+    max-width: 100%;
+}
 /* 我的项目相关 结束 */
