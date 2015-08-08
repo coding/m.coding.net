@@ -80,6 +80,8 @@
        
         router.register('/pp/:type', PP_ROUTE);
 
+        router.register('/pp/detail/:user/:tweet_id', PP_DETAIL_ROUTE);
+
         router.register('/u/:user', USER_ROUTE);
 
 
