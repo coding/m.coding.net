@@ -477,6 +477,7 @@ var PP_ROUTE  = (function(){
                     withCredentials: true
                 },
                 success: function(data){
+                    window.history.replaceState(null,null, window.location.pathname );
                     $inputModal.modal('hide');
                     $('html').removeClass('pp-modaling-small').removeClass('pp-modaling-large');
                     typeof post_success == 'function' && post_success(data);
