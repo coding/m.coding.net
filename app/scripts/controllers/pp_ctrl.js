@@ -332,11 +332,6 @@ var PP_ROUTE  = (function(){
         ele.find('span').text(comment_count);
         ele.find('a').attr('href', url);
 
-        console.log(url);
-        console.log(pp.id);
-        console.log(pp.owner.global_key);
-        console.log(pp.comments);
-
         return ele;
     }
 

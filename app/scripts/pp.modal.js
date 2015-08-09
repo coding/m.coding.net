@@ -31,8 +31,7 @@ Zepto(function(){
 Zepto(function(){
 
     var slide_emojis,
-        slide_monkeys,
-        slideWidth;
+        slide_monkeys;
 
     var emojiMap = {
         emoji: [
@@ -172,7 +171,6 @@ Zepto(function(){
     function initialize(){
         setEmoji();
         setSlide();
-        justifyEmojis();
 
         eventAndHandlers();
     }
@@ -211,18 +209,14 @@ Zepto(function(){
         //滑动组件归位
         $(window).on('message', function(event){
             if( event.data == 'slideReset' ){
-                $(window).resize();
-            }
-        });
-
-        $(window).on('resize',function(){
-            setTimeout(function(){
-                slideWidth = $('#pp_form').width();
-                reSetSlide();
                 justifyEmojis();
                 slide_emojis.goTo(0);
                 slide_monkeys.goTo(0);
-            },160);
+            }
+        });
+
+        $(window).on('onorientationchange' in window ? 'orientationchange' : 'resize',function(){
+            justifyEmojis();
         });
     }
 
@@ -325,10 +319,6 @@ Zepto(function(){
             transitionType : 'cubic-bezier(0.22, 0.69, 0.72, 0.88)',
             callback : function(i){
                 $('#slide_emojis').find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
-                // callback手动设置目标值，为啥啊，坑爹的插件
-                $('#slide_emojis').find('ul').css({
-                    left: '-' + i * slideWidth + 'px'
-                });
             }
         });
         
@@ -336,42 +326,13 @@ Zepto(function(){
             transitionType : 'cubic-bezier(0.22, 0.69, 0.72, 0.88)',
             callback : function(i){
                 $('#slide_monkeys').find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
-                //callback手动设置目标值，为啥啊，坑爹的插件
-                $('#slide_monkeys').find('ul').css({
-                    left: '-' + i * slideWidth + 'px'
-                });
             }
-        });
-    }
-
-    function reSetSlide(){
-        //宽度预处理，swipeSlide 完全没有考虑开始拿不到宽度的情况啊
-        console.log(slideWidth);
-        $('#slide_emojis').find('ul').css({
-            width: ($('#pp_form').width()) +'px'
-        });
-
-        $('#slide_monkeys').find('ul').css({
-            width: ($('#pp_form').width()) +'px'
-        });
-
-        //初始化滑块的位置，修复手机 swipeSlide  端位置初始化失败的情况
-        $('#slide_emojis').find('ul > li').each(function(index, li){
-            $(this).css({
-                left: index * ($('#pp_form').width()) + 'px'
-            })
-        });
-
-        $('#slide_emojis').find('ul > li').each(function(index, li){
-            $(this).css({
-                left: index * ($('#pp_form').width()) + 'px'
-            })
         });
     }
 
     function justifyEmojis(){
         var board_padding = 10;
-        var board_width = slideWidth;
+        var board_width = $('#pp_form').width();
 
         var emoji_width = 24;
         var monkey_width = 50;
