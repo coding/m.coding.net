@@ -483,23 +483,12 @@ var PP_DETAIL_ROUTE  = (function(){
     return {
         template_url: '/views/pp_detail.html',
         context: ".container",
-        before_enter: function(type){
-
+        before_enter: function(user, tweet_id){
             //active this page link
             $('#navigator').find(".li-pp").addClass('active');
             $('#navigator').find(".li-pp img").attr('src','/images/icons/pp_active.png');
-
-            var pp_nav =  '<div class="row project_header">' +
-                                '<div class="col-xs-12">' +
-                                    '<a href="javascript:void(0);">冒泡详情</a>' +
-                                '</div>' +
-                            '</div>',
-                nav_ele = $(pp_nav);
-
-            $("nav.main-navbar").after(nav_ele);
-
         },
-        on_enter: function(type){
+        on_enter: function(user, tweet_id){
 
             list = document.getElementById('pp_list');
 

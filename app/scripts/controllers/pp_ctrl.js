@@ -135,6 +135,11 @@ var PP_ROUTE  = (function(){
                 var commentEle;
                 comments = comments || [];
                 for(var j = 0; j < comments.length; j++){
+                    if(j>=5){
+                        commentEle = createLookAllCommentDOM(pp);
+                        commentsList.append(commentEle);
+                        break;
+                    }
                     commentEle = createCommentDOM(comments[j]);
                     commentsList.append(commentEle);
                 }
@@ -231,9 +236,6 @@ var PP_ROUTE  = (function(){
 
     function createCommentDOM(comment){
         var template = '<li>' +
-                            //'<div class="commenterImage">' +
-                            //     '<a href="#"><img src="#" /></a>' +
-                            //'</div>' +
                             '<div class="commentText">' +
                                 '<p></p>' +
                                 '<a class="commenterName" href="#"><span class="comment-meta"></span></a>' +
@@ -305,6 +307,29 @@ var PP_ROUTE  = (function(){
         });
 
         return ele
+    }
+
+    function createLookAllCommentDOM(pp){
+        var template = '<li class="to-look-all" >' +
+                            '<a href="#">查看全部 <span></span> 条评论</a>' +
+                        '</li>',
+            ele  = $(template);
+
+        var tweet_id = pp.id,
+            owner_key = pp.owner.global_key,
+            comment_count = pp.comments;
+
+        var url = '/u/' + owner_key + '/pp/' + tweet_id;
+        
+        ele.find('span').text(comment_count);
+        ele.find('a').attr('href', url);
+
+        console.log(url);
+        console.log(pp.id);
+        console.log(pp.owner.global_key);
+        console.log(pp.comments);
+
+        return ele;
     }
 
     function createLikedUsersDOM(user){

@@ -136,6 +136,30 @@
 			overflow: initial;
 		}
 	}
+
+	.to-look-all{
+		text-align: center;
+		a{
+			color: initial;
+			position: relative;
+			&:before{
+				content: '';
+				position: absolute;
+				top: 2px;
+				left: -21px;
+				height: 14px;
+				width: 14px;
+				background-image: url(/images/pp/comment_more.png);
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+			}
+		}
+	}
+}
+
+.pp-detail-container{
+	margin-top: -5px;
 }
 
 #pp_input{
@@ -656,7 +680,8 @@
 	}
 }
 
-html[class*='path-pp']{
+
+html[class*='path-pp'],html[class*='path-u-'][class*='-pp-']{
 	.list-group{
 		margin-bottom: 9px;
 	}
