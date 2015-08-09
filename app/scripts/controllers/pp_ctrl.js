@@ -504,6 +504,7 @@ var PP_ROUTE  = (function(){
         //表情归位
         $('#pp_input').removeClass('chose-emoji');
         $('#input_tool').find('.emojiboard').addClass('chose-emojis').removeClass('chose-monkeys');
+        window.postMessage('ppUploaderReset','*');
     }
 
     function assetPath(path){

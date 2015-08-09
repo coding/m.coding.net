@@ -527,7 +527,8 @@ Zepto(function(){
 
 // 上传图片功能模块
 Zepto(function(){
-    var images = [];
+    var images = {};
+    var uploader;
 
     initialize();
 
@@ -539,21 +540,29 @@ Zepto(function(){
     function eventAndHandlers(){
         //删除图片
         $('#image_board').on('click','i.icon-delete',function(){
-            removeImage( $(this).closest('.image') );
+            removeImage( $(this).closest('.image[key]').attr('key') );
+        });
+
+        //清空图片
+        $(window).on('message', function(event){
+            if( event.data == 'ppUploaderReset' ){
+                for(key in images){
+                    removeImage(key);
+                }
+            }
         });
     }
 
     function setUploader(){
-        var image;
-        var imageurl;
-
         uploaderPrepare( uploaderReady );
 
         function uploaderReady( Uploader ){
-            new Uploader({
+            uploader = new Uploader({
                 target: $('#pp_image'),
                 path: API_DOMAIN + '/api/tweet/insert_image',
                 filefiled: 'tweetImg',
+                multiple: true,
+                multipleSize: 6,
                 start: start,
                 uploading: uploading,
                 success: success,
@@ -567,57 +576,56 @@ Zepto(function(){
             });
         }
 
-        function start( url ){
-            imageurl = '';
-            image = $('<div class="image"><i class="icon icon-delete"></i></div>');
-            $('#pp_image').before( image );
+        function start( url, key ){
+            uploader.multipleSize --;
+            var imageurl = '';
+            var image = $('<div class="image"><i class="icon icon-delete"></i></div>');
+
             if(url){
                 imageurl = url;
                 image.css('background-image', 'url(' + imageurl + ')');
             }
-            image.addClass('upload-start');
+            image.addClass('upload-start').attr('key', key);
+
+            $('#pp_image').before( image );
+
+            images[key] = {
+                imageurl: imageurl,
+                image: image
+            }
         }
 
-        function uploading( persent ){
-            image.removeClass('upload-start').addClass('upload-ing');
+        function uploading( persent, key ){
+            images[key]['image'].removeClass('upload-start').addClass('upload-ing');
         }
 
-        function success( data ){
+        function success( data, key ){
             typeof data == 'string' && ( data=JSON.parse(data) );
 
             if( !data.code ){
-                if(!imageurl){
-                    imageurl = data.data;
-                    image.css('background-image', 'url(' + imageurl + ')');
+                if(!images[key]['imageurl']){
+                    images[key]['imageurl'] = data.data;
+                    images[key]['image'].css('background-image', 'url(' + imageurl + ')');
                 }
-                image.attr('url', data.data);
-                addImageToContent( data.data );
+                images[key]['image'].attr('url', data.data);
             }else{
                 alert( data.msg || '上传失败' );
             }
 
-            image.removeClass('upload-start').removeClass('upload-ing').addClass('upload-success');
+            images[key]['image'].removeClass('upload-start').removeClass('upload-ing').addClass('upload-success');
         }
 
-        function failed( err ){
+        function failed( err, key ){
             alert( err || '上传失败' );
-            image.remove();
+            removeImage(key);
         }
     }
 
-    function addImageToContent(url){
-        images.push( url );
-    }
-
-    function removeImage(image){
-        var url = $(image).attr('url');
-        $(image).remove();
-        removeImageToContent(url);
-    }
-
-    function removeImageToContent(url){
-        var index = images.indexOf(url);
-        images.splice(index,1);
+    function removeImage(key){
+        if(!images[key]) return;
+        uploader.multipleSize ++;
+        images[key]['image'].remove();
+        delete images[key];
     }
 
     function uploaderPrepare( success ){
