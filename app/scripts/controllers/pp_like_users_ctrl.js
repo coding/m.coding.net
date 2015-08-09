@@ -11,6 +11,7 @@ var PP_LIKE_USERS_ROUTE  = (function(){
             fragment  = document.createDocumentFragment(),
             ele;
 
+        users.reverse();
         for (var i = 0; i < users.length; i++) {
             ele = createUserDOM(users[i]);
             fragment.appendChild(ele[0]);
@@ -159,7 +160,6 @@ var PP_LIKE_USERS_ROUTE  = (function(){
             $('#navigator').find(".li-pp img").attr('src','/images/icons/pp_active.png');
         },
         on_enter: function(user, tweet_id){
-            console.log( user, tweet_id );
 
             list = document.getElementById('friends_list');
 
