@@ -98,7 +98,7 @@ var PP_ROUTE  = (function(){
 
         for (var i = 0; i < likeUsers.length; i++) {
             userEle = createLikedUsersDOM(likeUsers[i]);
-            userList.append(userEle);
+            userList.prepend(userEle);
         }
 
         if( likeUsers.length ){

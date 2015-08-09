@@ -46,6 +46,7 @@ var PP_DETAIL_ROUTE  = (function(){
                             '<div class="actionBox">' +
                                 '<div class="row">' +
                                     '<div class="col-sm-12 like_users">' +
+                                        '<a class="toLikeUsers" href="#"></a>' + 
                                     '</div>' +
                                 '</div>' +
                                 '<ul class="commentList">' +
@@ -90,11 +91,18 @@ var PP_DETAIL_ROUTE  = (function(){
         //create liked users
         var likeUsers   = pp.like_users || [],
             userList    = ele.find('.actionBox .like_users'),
+            toLikeUsers = ele.find('.actionBox .toLikeUsers'),
             userEle;
 
         for (var i = 0; i < likeUsers.length; i++) {
             userEle = createLikedUsersDOM(likeUsers[i]);
-            userList.append(userEle);
+            userList.prepend(userEle);
+        }
+
+        if( likeUsers.length ){
+            toLikeUsers.attr('href', '/u/' + pp.owner.global_key + '/pp/' + pp.id + '/likeusers' ).text(likeUsers.length);
+        }else{
+            toLikeUsers.remove();
         }
 
         var $element = $('<div>').html(pp.content),
