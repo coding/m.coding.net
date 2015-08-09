@@ -1,11 +1,10 @@
 /**
- * Created by simonykq on 21/12/2014.
+ * Created by yuanoook on 8/8/2015.
+ * is similar with pp_ctrl.js
  */
-var PP_ROUTE  = (function(){
+var PP_DETAIL_ROUTE  = (function(){
 
-    var last_id  = 99999999,
-        sort     = 'time',
-        list     = null,
+    var list     = null,
         elements = {};
 
     function assembleDOM(data){
@@ -20,7 +19,6 @@ var PP_ROUTE  = (function(){
         }
 
         list.appendChild(fragment);
-
     }
 
     function createTweetDOM(pp){
@@ -143,11 +141,6 @@ var PP_ROUTE  = (function(){
                 var commentEle;
                 comments = comments || [];
                 for(var j = 0; j < comments.length; j++){
-                    if(j>=5){
-                        commentEle = createLookAllCommentDOM(pp);
-                        commentsList.append(commentEle);
-                        break;
-                    }
                     commentEle = createCommentDOM(comments[j]);
                     commentsList.append(commentEle);
                 }
@@ -264,14 +257,10 @@ var PP_ROUTE  = (function(){
             }
         }
 
-        //ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
         ele.find('a.commenterName').attr('href', '/user/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
         ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
-        //ele.find('.commentText > a').attr('id', comment.owner_id);
-
-    
 
         ele.on('click', '.delete', function(e){
             e.preventDefault();
@@ -317,24 +306,6 @@ var PP_ROUTE  = (function(){
         return ele
     }
 
-    function createLookAllCommentDOM(pp){
-        var template = '<li class="toLookAll" >' +
-                            '<a href="#">查看全部 <span></span> 条评论</a>' +
-                        '</li>',
-            ele  = $(template);
-
-        var tweet_id = pp.id,
-            owner_key = pp.owner.global_key,
-            comment_count = pp.comments;
-
-        var url = '/u/' + owner_key + '/pp/' + tweet_id;
-
-        ele.find('span').text(comment_count);
-        ele.find('a').attr('href', url);
-
-        return ele;
-    }
-
     function createLikedUsersDOM(user){
         var template = '<a class="pull-left" style="padding: 0 3px 0" href="#">' +
                             '<img src="#" height="15" width="15" />' +
@@ -347,20 +318,11 @@ var PP_ROUTE  = (function(){
         return ele;
     }
 
-    function loadMore(path){
+    function loadTweet(path){
 
-        var loadMoreBtn = $('#load_more');
+        var loadTweetBtn = $('#load_tweet');
 
-        loadMoreBtn.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
-
-        path += '?last_id=' + last_id;
-
-        if(sort === 'friends'){
-            var key = router.current_user ? router.current_user.global_key : '';
-            path += '&' + 'global_key=' + key;
-        }else{
-            path += '&' + 'sort=' + sort
-        }
+        loadTweetBtn.html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 读取中...');
 
         $.ajax({
             url: API_DOMAIN + path,
@@ -370,37 +332,15 @@ var PP_ROUTE  = (function(){
             },
             success: function(data){
                 if(data.data){
-                    assembleDOM(data.data);
-                    last_id = data.data[data.data.length - 1]['id']; //id of last item in list
+                    assembleDOM([data.data]); //assembleDom accepts pps array
                 }
+                loadTweetBtn.remove();
             },
             error: function(xhr, type){
                 alert('Failed to load pp');
-            },
-            complete: function(){
-                loadMoreBtn.text('更多泡泡');
+                loadTweetBtn.text('重新加载');
             }
         });
-    }
-
-    function tweetFailed(){
-        alert('Failed to post pp');
-    }
-
-    function tweetSuccess(data){
-        if(data.msg){
-            for(var key in data.msg){
-                alert(data.msg[key]);
-            }
-        }else if(data.data){
-            var tweet = data.data;
-            tweet['owner'] = router.current_user;
-            var ele   = createTweetDOM(tweet);
-            $('#pp_content').val('');//clear the data in form
-            $('#pp_input').modal('hide');//close the modal
-            elements[tweet['id']] = tweet;
-            list.insertBefore(ele[0], list.childNodes[0])
-        }
     }
 
     function commentSuccess(data){
@@ -505,7 +445,6 @@ var PP_ROUTE  = (function(){
         //表情归位
         $('#pp_input').removeClass('chose-emoji');
         $('#input_tool').find('.emojiboard').addClass('chose-emojis').removeClass('chose-monkeys');
-        window.postMessage('ppUploaderReset','*');
     }
 
     function assetPath(path){
@@ -517,7 +456,6 @@ var PP_ROUTE  = (function(){
 
     function reset(){
         elements = {};
-        last_id = 99999999;
     }
 
     function fetchMoreComments(pp){
@@ -552,62 +490,24 @@ var PP_ROUTE  = (function(){
     }
 
     return {
-        template_url: '/views/pp.html',
+        template_url: '/views/pp_detail.html',
         context: ".container",
-        before_enter: function(type){
-
+        before_enter: function(user, tweet_id){
             //active this page link
             $('#navigator').find(".li-pp").addClass('active');
             $('#navigator').find(".li-pp img").attr('src','/images/icons/pp_active.png');
-
-            var pp_nav =  '<div class="row project_header">' +
-                                '<div class="col-xs-4">' +
-                                    '<a href="#">最新</a>' +
-                                '</div>' +
-                                '<div class="col-xs-4">' +
-                                    '<a href="#">热门</a>' +
-                                '</div>' +
-                                '<div class="col-xs-4">' +
-                                     '<a href="#">朋友圈</a>' +
-                                '</div>' +
-                            '</div>',
-                nav_ele = $(pp_nav);
-
-            nav_ele.find('div').eq(0).children('a').attr('href', '/pp');
-            nav_ele.find('div').eq(1).children('a').attr('href',  '/pp/hot');
-            nav_ele.find('div').eq(2).children('a').attr('href',  '/pp/friends');
-
-            $("nav.main-navbar").after(nav_ele);
-
-            if(type === 'hot'){
-                nav_ele.find('div').eq(1).addClass('active');
-            }else if(type === 'friends'){
-                nav_ele.find('div').eq(2).addClass('active');
-            }else{
-                nav_ele.find('div').eq(0).addClass('active');
-            }
-
         },
-        on_enter: function(type){
+        on_enter: function(user, tweet_id){
 
             list = document.getElementById('pp_list');
 
-            //decide if this is hot page
-            if(type === 'hot'){
-                sort = 'hot';
-            }else if(type === 'friends'){
-                sort = 'friends';
-            }else{
-                sort = 'time';
-            }
+            var uri = '/api/tweet/' + user + '/' + tweet_id;
 
-            var uri = ( sort === 'friends') ? '/api/activities/user_tweet' : '/api/tweet/public_tweets';
+            loadTweet(uri);
 
-            loadMore(uri);
-
-            $('#load_more').on('click', function(e){
+            $('#load_tweet').on('click', function(e){
                 e.preventDefault();
-                loadMore(uri);
+                loadTweet(uri);
             });
 
             //加载调用组件，加载完成广播事件
@@ -646,19 +546,6 @@ var PP_ROUTE  = (function(){
                         $('#pp_submit').attr('disabled', 'disabled');
                     }
                 }
-
-                $('#pp_add').on('click', function(e){
-                    openInputModal({
-                        path: '/api/tweet',
-                        success: tweetSuccess,
-                        failed: tweetFailed,
-                        title: '发冒泡',
-                        precontent: '',
-                        placeholder: '来，冒个泡吧...',
-                        size: 'large'
-                    });
-                    return false;
-                });
 
                 $('#pp_list').on('click', '.commentSubmit,.comment', function(){
                     var id = $(this).closest('.detailBox').attr('id');

@@ -31,8 +31,7 @@ Zepto(function(){
 Zepto(function(){
 
     var slide_emojis,
-        slide_monkeys,
-        slideWidth;
+        slide_monkeys;
 
     var emojiMap = {
         emoji: [
@@ -172,12 +171,14 @@ Zepto(function(){
     function initialize(){
         setEmoji();
         setSlide();
-        justifyEmojis();
 
         eventAndHandlers();
     }
 
     function eventAndHandlers(){
+        $('#input_tool').off();
+        $('#emoji_board').off();
+
         //表情卡片展示 状态切换
         $('#input_tool').on('click','.icon-emoji,.icon-keyboard',function(){
             window.postMessage('slideReset','*');
@@ -211,22 +212,21 @@ Zepto(function(){
         //滑动组件归位
         $(window).on('message', function(event){
             if( event.data == 'slideReset' ){
-                $(window).resize();
-            }
-        });
-
-        $(window).on('resize',function(){
-            setTimeout(function(){
-                slideWidth = $('#pp_form').width();
-                reSetSlide();
                 justifyEmojis();
                 slide_emojis.goTo(0);
                 slide_monkeys.goTo(0);
-            },160);
+            }
+        });
+
+        $(window).on('onorientationchange' in window ? 'orientationchange' : 'resize',function(){
+            justifyEmojis();
         });
     }
 
     function setEmoji(){
+
+        $('#slide_emojis').find('.dot').html('');
+        $('#slide_monkeys').find('.dot').html('');
 
         setEmojis();
 
@@ -273,7 +273,7 @@ Zepto(function(){
             str = str.replace(/^(\<(\/)?li\>)*|(\<(\/)?li\>)*$/g,'');
             str = '<li>' + str + '</li>';
 
-            $('.emoji-emojis').append( $(str) );
+            $('.emoji-emojis').html('').append( $(str) );
 
             $('#slide_emojis').find('.dot').find('span').first().addClass('cur');
 
@@ -313,7 +313,7 @@ Zepto(function(){
             str = str.replace(/^(\<(\/)?li\>)*|(\<(\/)?li\>)*$/g,'');
             str = '<li>' + str + '</li>';
 
-            $('.emoji-monkeys').append( $(str) );
+            $('.emoji-monkeys').html('').append( $(str) );
 
             $('#slide_monkeys').find('.dot').find('span').first().addClass('cur');
         }
@@ -325,10 +325,6 @@ Zepto(function(){
             transitionType : 'cubic-bezier(0.22, 0.69, 0.72, 0.88)',
             callback : function(i){
                 $('#slide_emojis').find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
-                // callback手动设置目标值，为啥啊，坑爹的插件
-                $('#slide_emojis').find('ul').css({
-                    left: '-' + i * slideWidth + 'px'
-                });
             }
         });
         
@@ -336,42 +332,13 @@ Zepto(function(){
             transitionType : 'cubic-bezier(0.22, 0.69, 0.72, 0.88)',
             callback : function(i){
                 $('#slide_monkeys').find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
-                //callback手动设置目标值，为啥啊，坑爹的插件
-                $('#slide_monkeys').find('ul').css({
-                    left: '-' + i * slideWidth + 'px'
-                });
             }
-        });
-    }
-
-    function reSetSlide(){
-        //宽度预处理，swipeSlide 完全没有考虑开始拿不到宽度的情况啊
-        console.log(slideWidth);
-        $('#slide_emojis').find('ul').css({
-            width: ($('#pp_form').width()) +'px'
-        });
-
-        $('#slide_monkeys').find('ul').css({
-            width: ($('#pp_form').width()) +'px'
-        });
-
-        //初始化滑块的位置，修复手机 swipeSlide  端位置初始化失败的情况
-        $('#slide_emojis').find('ul > li').each(function(index, li){
-            $(this).css({
-                left: index * ($('#pp_form').width()) + 'px'
-            })
-        });
-
-        $('#slide_emojis').find('ul > li').each(function(index, li){
-            $(this).css({
-                left: index * ($('#pp_form').width()) + 'px'
-            })
         });
     }
 
     function justifyEmojis(){
         var board_padding = 10;
-        var board_width = slideWidth;
+        var board_width = $('#pp_form').width();
 
         var emoji_width = 24;
         var monkey_width = 50;
@@ -411,10 +378,10 @@ Zepto(function(){
     function eventAndHandlers(){
         //展开关闭好友列表 切换 
         $('#input_tool').on('click','.icon-at', openFriendList);
-        $('#cancel_at').on('click', closeFriendsList);
+        $('#cancel_at').off('click').on('click', closeFriendsList);
 
         //@好友
-        $('#friends_list').on('click', 'li[name]' ,function(){
+        $('#friends_list').off('click').on('click', 'li[name]' ,function(){
             var name = $(this).attr('name');
             var content = $('#pp_content').val();
             content = content + '@' + name + ' ';
@@ -566,7 +533,8 @@ Zepto(function(){
 
 // 上传图片功能模块
 Zepto(function(){
-    var images = [];
+    var images = {};
+    var uploader;
 
     initialize();
 
@@ -577,22 +545,30 @@ Zepto(function(){
 
     function eventAndHandlers(){
         //删除图片
-        $('#image_board').on('click','i.icon-delete',function(){
-            removeImage( $(this).closest('.image') );
+        $('#image_board').off('click').on('click','i.icon-delete',function(){
+            removeImage( $(this).closest('.image[key]').attr('key') );
+        });
+
+        //清空图片
+        $(window).on('message', function(event){
+            if( event.data == 'ppUploaderReset' ){
+                for(key in images){
+                    removeImage(key);
+                }
+            }
         });
     }
 
     function setUploader(){
-        var image;
-        var imageurl;
-
         uploaderPrepare( uploaderReady );
 
         function uploaderReady( Uploader ){
-            new Uploader({
+            uploader = new Uploader({
                 target: $('#pp_image'),
                 path: API_DOMAIN + '/api/tweet/insert_image',
                 filefiled: 'tweetImg',
+                multiple: true,
+                multipleSize: 6,
                 start: start,
                 uploading: uploading,
                 success: success,
@@ -606,57 +582,56 @@ Zepto(function(){
             });
         }
 
-        function start( url ){
-            imageurl = '';
-            image = $('<div class="image"><i class="icon icon-delete"></i></div>');
-            $('#pp_image').before( image );
+        function start( url, key ){
+            uploader.multipleSize --;
+            var imageurl = '';
+            var image = $('<div class="image"><i class="icon icon-delete"></i></div>');
+
             if(url){
                 imageurl = url;
                 image.css('background-image', 'url(' + imageurl + ')');
             }
-            image.addClass('upload-start');
+            image.addClass('upload-start').attr('key', key);
+
+            $('#pp_image').before( image );
+
+            images[key] = {
+                imageurl: imageurl,
+                image: image
+            }
         }
 
-        function uploading( persent ){
-            image.removeClass('upload-start').addClass('upload-ing');
+        function uploading( persent, key ){
+            images[key]['image'].removeClass('upload-start').addClass('upload-ing');
         }
 
-        function success( data ){
+        function success( data, key ){
             typeof data == 'string' && ( data=JSON.parse(data) );
 
             if( !data.code ){
-                if(!imageurl){
-                    imageurl = data.data;
-                    image.css('background-image', 'url(' + imageurl + ')');
+                if(!images[key]['imageurl']){
+                    images[key]['imageurl'] = data.data;
+                    images[key]['image'].css('background-image', 'url(' + imageurl + ')');
                 }
-                image.attr('url', data.data);
-                addImageToContent( data.data );
+                images[key]['image'].attr('url', data.data);
             }else{
                 alert( data.msg || '上传失败' );
             }
 
-            image.removeClass('upload-start').removeClass('upload-ing').addClass('upload-success');
+            images[key]['image'].removeClass('upload-start').removeClass('upload-ing').addClass('upload-success');
         }
 
-        function failed( err ){
+        function failed( err, key ){
             alert( err || '上传失败' );
-            image.remove();
+            removeImage(key);
         }
     }
 
-    function addImageToContent(url){
-        images.push( url );
-    }
-
-    function removeImage(image){
-        var url = $(image).attr('url');
-        $(image).remove();
-        removeImageToContent(url);
-    }
-
-    function removeImageToContent(url){
-        var index = images.indexOf(url);
-        images.splice(index,1);
+    function removeImage(key){
+        if(!images[key]) return;
+        uploader.multipleSize ++;
+        images[key]['image'].remove();
+        delete images[key];
     }
 
     function uploaderPrepare( success ){

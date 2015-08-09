@@ -136,8 +136,14 @@
 
         // 横竖屏、窗口调整
         $(win).on('onorientationchange' in win ? 'orientationchange' : 'resize',function(){
-            clearTimeout(me.timer);
-            me.timer = setTimeout(fnGetSlideDistance,150);
+            fnGetSlideDistance();
+        });
+
+        // 接受 slideReset 的事件广播
+        $(window).on('message', function(event){
+            if( event.data == 'slideReset' ){
+                fnGetSlideDistance();
+            }
         });
 
         // 获取轮播宽度
@@ -165,12 +171,6 @@
 
     // css位移
     function fnTranslate(me, dom, distance){
-        // fucking translate, why don't you use marginLeft or left, why??????????
-        // var result = me.opts.axisX ? distance+'px,0,0' : '0,'+distance+'px,0';
-        // dom.css({
-        //     '-webkit-transform':'translate3d('+result+')',
-        //     'transform':'translate3d('+result+')'
-        // });
         var result = distance + 'px';
         dom.css({
             'left': result

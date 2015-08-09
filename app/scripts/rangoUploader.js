@@ -1,10 +1,7 @@
-// created by yuanoook@foxmail.com
-// website: yuanoook.com
-// wechat: yuanoook
+// created by yuanoook
 // dependences: Zepto.js
 
 +function(window){
-    
     window.rangoUploader = Uploader;
 
 	function Uploader(params){
@@ -15,6 +12,8 @@
     Uploader.prototype.config = function(params){
         this.target = params.target;
         this.path = params.path;
+        this.multiple = params.multiple || false;
+        this.multipleSize = params.multipleSize || 1;
         this.uploading = params.uploading || function( persent ){ console.log('已经上传：' +(persent*100) + '%') };
         this.start = params.start || function(){ console.log('正在开始上传') };
         this.success = params.success;
@@ -28,7 +27,6 @@
 
     function initialize(){
         var Me = this,
-            xhr,
             url,
             formdata,
             ajaxparams,
@@ -38,34 +36,46 @@
             }),
             target = $(this.target);
 
+            if( Me.multiple ){
+                input.attr({
+                    multiple: 'multiple'
+                });
+            };
+
             input.appendTo( $('body') );
 
         //fastClick.js 会导致 click 失效，采用 touchend 事件
-        target.on('touchend', function(){
+        target.off('touchend').on('touchend', function(){
             reset();
             input.click();
         });
 
         input.on('change', function(){
-            var file = this.files && this.files[0];
-            if(!file){
+            var files = this.files || [];
+            if(!files.length){
                 return console.log('你没有选择任何文件');
             }
-            upload(file);
+
+            files = Array.prototype.splice.call(files, 0, Me.multipleSize);
+            Array.prototype.forEach.call(files, function(file){
+                upload(file);
+            });
         });
 
         function upload(file){
+            var xhr;
+            var key = +new Date + '' + Math.random();
 
             if( !/^image\//.test(file.type)){
-                return Me.failed('你上传的不是图片！');
+                return Me.failed( '你上传的不是图片！', key );
             }
 
             if( file.size > 1000000 ){
-                return Me.failed('图片不能超过 1M');
+                return Me.failed( '图片不能超过 1M', key );
             }
 
             if( !window.FormData ){
-                return Me.failed('不支持 FormData');
+                return Me.failed( '不支持 FormData', key );
             }
 
             url = window.URL && window.URL.createObjectURL && window.URL.createObjectURL(file);
@@ -87,19 +97,19 @@
                 xhr[i] = xhrfields[i];
             }
             xhr.upload.addEventListener('progress', function(event){
-                Me.uploading( event.loaded/event.total );
+                Me.uploading( event.loaded/event.total, key );
             });
             xhr.onreadystatechange = function () {
                 if( xhr.readyState == 4 ){
                     if( xhr.status == 200 ){
-                        Me.success(this.responseText);
+                        Me.success( this.responseText, key );
                     }else{
-                        Me.failed('上传失败');
+                        Me.failed( '上传失败', key );
                     }
                 }
             }
             //开始传输
-            Me.start(url);
+            Me.start(url, key);
             xhr.open('POST', Me.path);
             xhr.send(formdata);
         }
