@@ -2,7 +2,6 @@
 // dependences: Zepto.js
 
 +function(window){
-    
     window.rangoUploader = Uploader;
 
 	function Uploader(params){
@@ -46,7 +45,7 @@
             input.appendTo( $('body') );
 
         //fastClick.js 会导致 click 失效，采用 touchend 事件
-        target.on('touchend', function(){
+        target.off('touchend').on('touchend', function(){
             reset();
             input.click();
         });

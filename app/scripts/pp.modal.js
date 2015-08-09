@@ -176,6 +176,9 @@ Zepto(function(){
     }
 
     function eventAndHandlers(){
+        $('#input_tool').off();
+        $('#emoji_board').off();
+
         //表情卡片展示 状态切换
         $('#input_tool').on('click','.icon-emoji,.icon-keyboard',function(){
             window.postMessage('slideReset','*');
@@ -222,6 +225,9 @@ Zepto(function(){
 
     function setEmoji(){
 
+        $('#slide_emojis').find('.dot').html('');
+        $('#slide_monkeys').find('.dot').html('');
+
         setEmojis();
 
         setMonkeys();
@@ -267,7 +273,7 @@ Zepto(function(){
             str = str.replace(/^(\<(\/)?li\>)*|(\<(\/)?li\>)*$/g,'');
             str = '<li>' + str + '</li>';
 
-            $('.emoji-emojis').append( $(str) );
+            $('.emoji-emojis').html('').append( $(str) );
 
             $('#slide_emojis').find('.dot').find('span').first().addClass('cur');
 
@@ -307,7 +313,7 @@ Zepto(function(){
             str = str.replace(/^(\<(\/)?li\>)*|(\<(\/)?li\>)*$/g,'');
             str = '<li>' + str + '</li>';
 
-            $('.emoji-monkeys').append( $(str) );
+            $('.emoji-monkeys').html('').append( $(str) );
 
             $('#slide_monkeys').find('.dot').find('span').first().addClass('cur');
         }
@@ -372,10 +378,10 @@ Zepto(function(){
     function eventAndHandlers(){
         //展开关闭好友列表 切换 
         $('#input_tool').on('click','.icon-at', openFriendList);
-        $('#cancel_at').on('click', closeFriendsList);
+        $('#cancel_at').off('click').on('click', closeFriendsList);
 
         //@好友
-        $('#friends_list').on('click', 'li[name]' ,function(){
+        $('#friends_list').off('click').on('click', 'li[name]' ,function(){
             var name = $(this).attr('name');
             var content = $('#pp_content').val();
             content = content + '@' + name + ' ';
@@ -539,7 +545,7 @@ Zepto(function(){
 
     function eventAndHandlers(){
         //删除图片
-        $('#image_board').on('click','i.icon-delete',function(){
+        $('#image_board').off('click').on('click','i.icon-delete',function(){
             removeImage( $(this).closest('.image[key]').attr('key') );
         });
 
