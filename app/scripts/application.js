@@ -81,6 +81,8 @@
         router.register('/pp/:type', PP_ROUTE);
         
         router.register('/u/:user/pp/:tweet_id', PP_DETAIL_ROUTE);
+        
+        router.register('/u/:user/pp/:tweet_id/likeusers', PP_LIKE_USERS_ROUTE);
 
         router.register('/u/:user', USER_ROUTE);
 

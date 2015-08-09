@@ -48,6 +48,7 @@ var PP_ROUTE  = (function(){
                             '<div class="actionBox">' +
                                 '<div class="row">' +
                                     '<div class="col-sm-12 like_users">' +
+                                        '<a class="toLikeUsers" href="#"></a>' + 
                                     '</div>' +
                                 '</div>' +
                                 '<ul class="commentList">' +
@@ -80,6 +81,7 @@ var PP_ROUTE  = (function(){
         ele.find('.titleBox > a.commenterName').attr('href', '/user/' + owner_key);
         ele.find('.titleBox > a.commenterName').text(owner_name);
         ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow());
+        ele.find('a.toLikeUsers').attr('href', '/u/' + pp.owner.global_key + '/pp/' + pp.id + '/likeusers' )
 
         if(device !== ''){
             ele.find('.detailBox > div.commenterDetail').text("来自" + device);
@@ -310,7 +312,7 @@ var PP_ROUTE  = (function(){
     }
 
     function createLookAllCommentDOM(pp){
-        var template = '<li class="to-look-all" >' +
+        var template = '<li class="toLookAll" >' +
                             '<a href="#">查看全部 <span></span> 条评论</a>' +
                         '</li>',
             ele  = $(template);
@@ -320,7 +322,7 @@ var PP_ROUTE  = (function(){
             comment_count = pp.comments;
 
         var url = '/u/' + owner_key + '/pp/' + tweet_id;
-        
+
         ele.find('span').text(comment_count);
         ele.find('a').attr('href', url);
 
