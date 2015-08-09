@@ -6,16 +6,7 @@ var PP_LIKE_USERS_ROUTE  = (function(){
         page = 1,
         pageSize = 10;
 
-
     function assembleDOM(data){
-        // avatar: "/static/fruit_avatar/Fruit-16.png"
-        // follow: 0 关注了你
-        // followed: 0 已经关注
-        // global_key: "st0ne"
-        // name: "Anenn"
-        // path: "/u/st0ne"
-
-
         var users     = data || [],
             fragment  = document.createDocumentFragment(),
             ele;
@@ -40,10 +31,17 @@ var PP_LIKE_USERS_ROUTE  = (function(){
         ele.find('.name').text(user.name);
         ele.find('.avatar').attr('src', user.avatar);
 
-        if(user.follow){
-            ele.find('.relation').addClass('follow');
+        var current_user_key = router.current_user && router.current_user['global_key'];
+
+        if( user['global_key'] == current_user_key ){
+            ele.find('.relation').addClass('myself');
+        }else{
+            if(user.follow){
+                ele.find('.relation').addClass('follow');
+            }
+            setFollowedState();
         }
-        setFollowedState();
+        
 
         function setFollowedState(){
             if(user.followed){
@@ -53,7 +51,7 @@ var PP_LIKE_USERS_ROUTE  = (function(){
             }
         }
 
-        ele.on('click','.relation',function(e){
+        ele.on('click','.relation:not(.myself)',function(e){
             e.preventDefault();
 
             var users = user.global_key;

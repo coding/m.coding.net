@@ -81,7 +81,6 @@ var PP_ROUTE  = (function(){
         ele.find('.titleBox > a.commenterName').attr('href', '/user/' + owner_key);
         ele.find('.titleBox > a.commenterName').text(owner_name);
         ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow());
-        ele.find('a.toLikeUsers').attr('href', '/u/' + pp.owner.global_key + '/pp/' + pp.id + '/likeusers' )
 
         if(device !== ''){
             ele.find('.detailBox > div.commenterDetail').text("来自" + device);
@@ -94,11 +93,18 @@ var PP_ROUTE  = (function(){
         //create liked users
         var likeUsers   = pp.like_users || [],
             userList    = ele.find('.actionBox .like_users'),
+            toLikeUsers = ele.find('.actionBox .toLikeUsers'),
             userEle;
 
         for (var i = 0; i < likeUsers.length; i++) {
             userEle = createLikedUsersDOM(likeUsers[i]);
             userList.append(userEle);
+        }
+
+        if( likeUsers.length ){
+            toLikeUsers.attr('href', '/u/' + pp.owner.global_key + '/pp/' + pp.id + '/likeusers' ).text(likeUsers.length);
+        }else{
+            toLikeUsers.remove();
         }
 
         var $element = $('<div>').html(pp.content),
