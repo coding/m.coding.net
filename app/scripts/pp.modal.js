@@ -770,9 +770,7 @@ Zepto(function(){
 
             //ip 接口不可用
             //PC 端专用测试
-            lo = 114.022059;
-            la = 22.532219;
-            return showPosition();
+            return getLocationFailed();
 
             //这段代码也只能执行一次
             getLocationByIP = function(){};
