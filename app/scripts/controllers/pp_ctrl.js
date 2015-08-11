@@ -473,14 +473,21 @@ var PP_ROUTE  = (function(){
             });
             content += images;
 
+            var data = {
+                content: content,
+                device: 'm.coding.net'
+            };
+
+            //确定地理位置
+            if( $('#pp_location').hasClass('success') ){
+                data.address = $('#pp_location').find('#location_name').html();
+            };
+
             $.ajax({
                 url: API_DOMAIN + path,
                 type: 'POST',
                 dataType: 'json',
-                data: {
-                    content: content,
-                    device: 'm.coding.net'
-                },
+                data: data,
                 xhrFields: {
                     withCredentials: true
                 },
@@ -500,20 +507,10 @@ var PP_ROUTE  = (function(){
             return false;
         });
 
-        resetInputModal(); //模态框重置
-
         // fucking html5 history api
         window.location.hash = "#pp_input"; //这里设置这个是为了增加空白历史记录，防止后面的 hash 直接返回到 /pp 引起的页面刷新
 
         $inputModal.modal('show');
-    }
-
-    function resetInputModal(){
-        var $inputModal = $('#pp_input');
-        //表情归位
-        $('#pp_input').removeClass('chose-emoji');
-        $('#input_tool').find('.emojiboard').addClass('chose-emojis').removeClass('chose-monkeys');
-        window.postMessage('ppUploaderReset','*');
     }
 
     function assetPath(path){
@@ -647,8 +644,12 @@ var PP_ROUTE  = (function(){
                     checkCouldSend();
                 });
 
-                function checkCouldSend(e){
-                    if($(this).val() !== ''){
+                $(window).on('message',function(event){
+                    event.data == 'checkModalCouldSend' && checkCouldSend();
+                });
+
+                function checkCouldSend(){
+                    if( $('#pp_content').val() !== '' || ($('#image_board .upload-success').length)){
                         $('#pp_submit').removeAttr('disabled');
                     }else{
                         $('#pp_submit').attr('disabled', 'disabled');
