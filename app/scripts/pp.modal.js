@@ -747,7 +747,7 @@ Zepto(function(){
                 },function(error){
                     switch(error.code){
                         case error.PERMISSION_DENIED:
-                          getLocationFailed();
+                          deniedGetLocation();
                           break;
                         case error.POSITION_UNAVAILABLE:
                           break;
@@ -960,8 +960,18 @@ Zepto(function(){
             getLocationSuccess();
         }
 
-        function getLocationFailed(){
+        function deniedGetLocation(){
             userRejected = true;
+            $('#location_name').html('地理位置获取失败');
+            $('#pp_location').removeClass('success').removeClass('getting').addClass('failed');
+        }
+
+        function getLocationFailed(){
+            if( $('#pp_location').hasClass('success') ){
+                //可能会获取到，但是夹带 getCurrentPosition 错误，没关系
+                return;
+            }
+
             $('#location_name').html('地理位置获取失败');
             $('#pp_location').removeClass('success').removeClass('getting').addClass('failed');
         }
