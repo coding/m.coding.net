@@ -629,12 +629,12 @@ Zepto(function(){
                     images[key]['image'].css('background-image', 'url(' + imageurl + ')');
                 }
                 images[key]['image'].attr('url', data.data);
-            }else{
-                alert( data.msg || '上传失败' );
-            }
 
-            images[key]['image'].removeClass('upload-start').removeClass('upload-ing').addClass('upload-success');
-            window.postMessage('checkModalCouldSend','*');
+                images[key]['image'].removeClass('upload-start').removeClass('upload-ing').addClass('upload-success');
+                window.postMessage('checkModalCouldSend','*');
+            }else{
+                failed( '上传失败', key );
+            }
         }
 
         function failed( err, key ){
