@@ -19,7 +19,7 @@
 
 		i{
 			display: inline-block;
-			margin-right: 6px;
+			margin-right: 3px;
 			position: relative;
 			top: -1px;
 			width: 15px;
@@ -35,7 +35,6 @@
 		}
 
 		.star.liked{
-			color: #D95C5C !important;
 			.icon-like{
 				background-image: url(/images/icons/like2.png);
 			}
@@ -114,6 +113,11 @@
 			width: 22px;
 			height: auto;
 		}
+		&.moreLikedUsers{
+			.toLikeUsers{
+				display: block;
+			}
+		}
 	}
 	.commentList li{
 		padding: 8px;
@@ -159,6 +163,7 @@
 	}
 
 	.toLikeUsers{
+		display: none;
 		float: right;
 		color: #fff;
 		text-align: center;
@@ -539,7 +544,7 @@
 			border-radius: 2px !important;
 			background-position: center;
 			background-size: cover;
-			&:nth-of-type(7){
+			&:nth-of-type(10){
 				display: none;
 			}
 			&.upload-start{}

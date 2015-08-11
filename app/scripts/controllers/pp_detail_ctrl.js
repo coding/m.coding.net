@@ -85,7 +85,7 @@ var PP_DETAIL_ROUTE  = (function(){
         }
 
         if(pp.liked){
-            ele.find('.detailBox > a.star').addClass('liked');
+            ele.find('.detailBox > a.star').addClass('liked').find('.star-tip').text('赞了');
         }
 
         //create liked users
@@ -96,8 +96,16 @@ var PP_DETAIL_ROUTE  = (function(){
 
         for (var i = 0; i < likeUsers.length; i++) {
             userEle = createLikedUsersDOM(likeUsers[i]);
-            userList.prepend(userEle);
+            toLikeUsers.after(userEle);
         }
+
+        setTimeout(function(){
+            var totalWidth = userList.width();
+            var subWidth = userList.children().eq(1).width();
+            if( likeUsers.length * subWidth > (totalWidth - 22) ){
+                userList.addClass('moreLikedUsers');
+            }
+        },0);
 
         if( likeUsers.length ){
             toLikeUsers.attr('href', '/u/' + pp.owner.global_key + '/pp/' + pp.id + '/likeusers' ).text(likeUsers.length);
