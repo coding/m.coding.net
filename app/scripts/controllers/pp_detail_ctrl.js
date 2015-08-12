@@ -78,7 +78,7 @@ var PP_DETAIL_ROUTE  = (function(){
         ele.find('.titleBox > .commenterImage > a > img').attr('src', assetPath(pp.owner.avatar));
         ele.find('.titleBox > a.commenterName').attr('href', '/user/' + owner_key);
         ele.find('.titleBox > a.commenterName').text(owner_name);
-        ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow());
+        ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow() + ' ' + pp.location);
 
         if(device !== ''){
             ele.find('.detailBox > div.commenterDetail').text("来自" + device);
