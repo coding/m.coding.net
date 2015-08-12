@@ -21,23 +21,34 @@ Zepto(function(){
         }
     };
 
-    function closeModal(){
-        //关闭的时候模态框重置
+    //清空图片
+    $(window).on('message', function(event){
+        if( event.data == 'ppModelOpenning' ){
+            resetModal();
+        }
+    });
 
+    function resetModal(){
+        //打开的时候模态框重置，主要是数据的处理
         //表情归位
         $('#pp_input').removeClass('chose-emoji');
         $('#input_tool').find('.emojiboard').addClass('chose-emojis').removeClass('chose-monkeys');
 
         //清空地理位置
-        $('#pp_location').removeClass('success').find('#location_name').text('显示地理位置');
+        $('#pp_location').removeClass('success').removeAttr('location').find('#location_name').text('显示地理位置');
         $('#pp_location').removeClass('show-location');
 
-        $("#pp_input").modal('hide');
+        //清空图片数据
+        window.postMessage('ppUploaderReset','*');
+    }
 
+    function closeModal(){
+        //关闭的时候模态框重置，主要是类名的处理
+        $("#pp_input").modal('hide');
         $('html').removeClass('chose-friend').removeClass('chose-location');
         $('#pp_input').removeClass('chose-friend').removeClass('chose-location');
-
         $('html').removeClass('pp-modaling-small').removeClass('pp-modaling-large');
+
         window.history.replaceState(null,null, window.location.pathname );
     }
 });
@@ -676,7 +687,6 @@ Zepto(function(){
 
 // 地理位置功能模块
 Zepto(function(){
-    var location = {};
 
     initialize();
 
@@ -708,8 +718,8 @@ Zepto(function(){
     function setLocation(){
         var BAIDU_MAP_AK = 'mlGflW2HdV47hAFTsmxGvGrH'; //上线烦请换成 coding 的百度地图 ak
         var lo,la,
-            firstLocation,
-            location = {
+            firstLocation = false,
+            chosedLocation = {
                 name: ''
             },
             locationLists = [],
@@ -815,10 +825,6 @@ Zepto(function(){
             getLocationList();
 
             function getLocationImage(){
-                var minX = +la - .0001,
-                    minY = +lo - .0001,
-                    maxX = +la + .0001,
-                    maxY = +lo + .0001;
                 var src = API_DOMAIN + '/api/map/staticimage' + 
                           '?width=' + 620 +
                           '&heigth=' + 320 +
@@ -902,7 +908,7 @@ Zepto(function(){
         function choseLocationName( name ){
 
             if(firstLocation && firstLocation.name == name){
-                location = firstLocation;
+                chosedLocation = firstLocation;
                 getLocationSuccess();
                 return;
             }
@@ -913,7 +919,7 @@ Zepto(function(){
                     index = i;
                 }
             });
-            location = locationLists[index];
+            chosedLocation = locationLists[index];
             getLocationSuccess();
         }
 
@@ -956,8 +962,8 @@ Zepto(function(){
             });
             $('#location_list').html( domStr );
 
-            location = firstLocation || locationLists[0];
-            getLocationSuccess();
+            chosedLocation = firstLocation || locationLists[0];
+            chosedLocation && getLocationSuccess();
         }
 
         function deniedGetLocation(){
@@ -982,8 +988,15 @@ Zepto(function(){
         }
 
         function getLocationSuccess(){
-            $('#location_name').html( location.name );
-            $('#pp_location').removeClass('getting').removeClass('failed').addClass('success');
+            var locationName = chosedLocation.name;
+            var locationAddress = chosedLocation.address;
+            var coord = la + ',' + lo + ',' + 0;
+            $('#location_name').html( locationName );
+            $('#pp_location').removeClass('getting').removeClass('failed').addClass('success').attr('location',window.JSON.stringify({
+                location: locationName,
+                address: locationAddress,
+                coord: coord
+            }));
         }
     }
 });

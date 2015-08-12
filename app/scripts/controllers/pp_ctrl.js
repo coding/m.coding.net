@@ -80,7 +80,7 @@ var PP_ROUTE  = (function(){
         ele.find('.titleBox > .commenterImage > a > img').attr('src', assetPath(pp.owner.avatar));
         ele.find('.titleBox > a.commenterName').attr('href', '/user/' + owner_key);
         ele.find('.titleBox > a.commenterName').text(owner_name);
-        ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow());
+        ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow() + ' ' + pp.location);
 
         if(device !== ''){
             ele.find('.detailBox > div.commenterDetail').text("来自" + device);
@@ -479,9 +479,14 @@ var PP_ROUTE  = (function(){
             };
 
             //确定地理位置
+            var locationInfo = {};
             if( $('#pp_location').hasClass('success') ){
-                data.address = $('#pp_location').find('#location_name').html();
-            };
+                locationInfo = $('#pp_location').attr('location');
+                locationInfo = window.JSON.parse(locationInfo);
+                for(i in locationInfo){
+                    data[i] = locationInfo[i];
+                }
+            }
 
             $.ajax({
                 url: API_DOMAIN + path,
@@ -509,7 +514,7 @@ var PP_ROUTE  = (function(){
 
         // fucking html5 history api
         window.location.hash = "#pp_input"; //这里设置这个是为了增加空白历史记录，防止后面的 hash 直接返回到 /pp 引起的页面刷新
-
+        window.postMessage('ppModelOpenning','*');
         $inputModal.modal('show');
     }
 
