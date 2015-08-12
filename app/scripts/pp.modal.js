@@ -718,7 +718,7 @@ Zepto(function(){
     function setLocation(){
         var BAIDU_MAP_AK = 'mlGflW2HdV47hAFTsmxGvGrH'; //上线烦请换成 coding 的百度地图 ak
         var lo,la,
-            firstLocation,
+            firstLocation = false,
             chosedLocation = {
                 name: ''
             },
@@ -963,7 +963,7 @@ Zepto(function(){
             $('#location_list').html( domStr );
 
             chosedLocation = firstLocation || locationLists[0];
-            getLocationSuccess();
+            chosedLocation && getLocationSuccess();
         }
 
         function deniedGetLocation(){
