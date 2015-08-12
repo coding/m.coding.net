@@ -179,19 +179,29 @@
 	.users-list{
 		background-color: #fff;
 		list-style: none;
-		padding-left: 64px;
 		font-size: 15px;
+		padding-left: 0;
 		li{
 			padding: 0;
 			height: 55px;
 			line-height: 55px;
-			&:not(:last-of-type){
-				border-bottom: 1px solid #dddddd;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			position: relative;
+			&:not(:last-of-type):after{
+				content: '';
+				position: absolute;
+				display: block;
+				left: 60px;
+				right: 0;
+				bottom: 0;
+				height: 1px;
+				background: #dddddd;
 			}
-			& *{
-				position: relative;
-				left: -64px;
-			}
+		}
+		&.like-users li{
+			padding-right: 85px;
 		}
 		img{
 			margin: 0 12px;
@@ -202,19 +212,21 @@
 		}
 		.relation{
 			display: inline-block;
-			float: right;
-			top: 14px;
-			margin-right: -52px;
+			position: absolute;
 			width: 59px;
+			right: 13px;
+			top: 13px;
 			height: 28px;
 			line-height: 28px;
 			text-align: center;
 			border-radius: 2px !important;
 			color: #fff;
 			font-size: 12px;
-			// background-color: #3abd79;
 			trasition: all .3s ease;
 			-webkit-transition: all .3s ease;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 59px;
 
 			//关系变为 icon 处理
 			&:not(.myself){

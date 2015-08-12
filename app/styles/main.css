@@ -422,7 +422,7 @@ form.login > button, form.register > button, form.activate > button, form.resetP
     display: inline-block;
 }
 .detailBox div.commenterDetail{
-    font-size: 8px;
+    font-size: 10px;
     color: #979797;
     padding: 0 10px 0;
 }
@@ -456,10 +456,10 @@ form.login > button, form.register > button, form.activate > button, form.resetP
 .close {
     padding: 0 10px 0;
     color: #999 !important;
-    line-height: 2.0;
-    font-size: 12px;
-    /*position: relative;*/
-    /*bottom: 5px;*/
+    line-height: 1;
+    font-size: 25px;
+    position: relative;
+    bottom: 1px;
 }
 
 .watched, .followed {
