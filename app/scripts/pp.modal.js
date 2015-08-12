@@ -10,8 +10,10 @@ Zepto(function(){
     // fucking html5 history api
     window.onpopstate = function(event){
         if( window.location.hash=='#pp_input' ){
-            $('html').removeClass('chose-friend');
+
+            $('html').removeClass('chose-friend').removeClass('chose-location');
             $('#pp_input').removeClass('chose-friend').removeClass('chose-location');
+
         }
 
         if( !window.location.hash ){
@@ -20,8 +22,21 @@ Zepto(function(){
     };
 
     function closeModal(){
+        //关闭的时候模态框重置
+
+        //表情归位
+        $('#pp_input').removeClass('chose-emoji');
+        $('#input_tool').find('.emojiboard').addClass('chose-emojis').removeClass('chose-monkeys');
+
+        //清空地理位置
+        $('#pp_location').removeClass('success').find('#location_name').text('显示地理位置');
+        $('#pp_location').removeClass('show-location');
+
         $("#pp_input").modal('hide');
+
+        $('html').removeClass('chose-friend').removeClass('chose-location');
         $('#pp_input').removeClass('chose-friend').removeClass('chose-location');
+
         $('html').removeClass('pp-modaling-small').removeClass('pp-modaling-large');
         window.history.replaceState(null,null, window.location.pathname );
     }
@@ -523,7 +538,7 @@ Zepto(function(){
     function openFriendList(){
         $('#friend_search').val('');
         showFriends(friends);
-        $('html').addClass('chose-friend'); //小弹窗的时候朋友列表对 modal背景的影响，所以需要通知到全局 html
+        $('html').removeClass('chose-location').addClass('chose-friend'); //小弹窗的时候朋友列表对 modal背景的影响，所以需要通知到全局 html
         $('#pp_input').removeClass('chose-location').addClass('chose-friend');
 
         //历史记录管控，在 DOM 操作完成后再操作历史记录，防止意外刷新
@@ -614,11 +629,12 @@ Zepto(function(){
                     images[key]['image'].css('background-image', 'url(' + imageurl + ')');
                 }
                 images[key]['image'].attr('url', data.data);
-            }else{
-                alert( data.msg || '上传失败' );
-            }
 
-            images[key]['image'].removeClass('upload-start').removeClass('upload-ing').addClass('upload-success');
+                images[key]['image'].removeClass('upload-start').removeClass('upload-ing').addClass('upload-success');
+                window.postMessage('checkModalCouldSend','*');
+            }else{
+                failed( '上传失败', key );
+            }
         }
 
         function failed( err, key ){
@@ -631,6 +647,7 @@ Zepto(function(){
         if(!images[key]) return;
         uploader.multipleSize ++;
         images[key]['image'].remove();
+        window.postMessage('checkModalCouldSend','*');
         delete images[key];
     }
 
@@ -674,15 +691,16 @@ Zepto(function(){
     }
 
     function eventAndHandlers(){
-
         //定位，展开关闭位置列表 切换，
-        $('#pp_location').on('click','.icon-right',function(){
+        $('#pp_location').off('touchend').on('touchend','.icon-right',function(){
             $('#pp_input').removeClass('chose-friend').addClass('chose-location');
+            $('html').removeClass('chose-friend').addClass('chose-location');
             addHistory('chose_location');
         });
 
-        $('#cancel_location').on('click',function(){
+        $('#cancel_location').off('click').on('click',function(){
             $('#pp_input').removeClass('chose-location');
+            $('html').removeClass('chose-location');
             window.history.back();
         });
     }
@@ -690,8 +708,11 @@ Zepto(function(){
     function setLocation(){
         var BAIDU_MAP_AK = 'mlGflW2HdV47hAFTsmxGvGrH'; //上线烦请换成 coding 的百度地图 ak
         var lo,la,
-            fastAddress,
-            locations = [],
+            firstLocation,
+            location = {
+                name: ''
+            },
+            locationLists = [],
             userRejected = false;
 
         init();
@@ -699,18 +720,19 @@ Zepto(function(){
         function init(){
 
             //用户触发主动定位需求
-            $('#pp_location').on('click',function(){
+            $('#pp_location').off('click').on('click',function(){
                 if( !$(this).hasClass('show-location') ){
                     $(this).addClass('show-location');
                     getLocationByGPS();
                 }
             });
 
-            $('#location_list').on('click', 'li' ,function(){
+            $('#location_list').off('click').on('click', 'li' ,function(){
                 var name = $(this).attr('name');
                 $('#location_name').html(name);
                 $('#pp_input').removeClass('chose-location');
-                setLocation( name );
+                $('html').removeClass('chose-location');
+                choseLocationName( name );
             });
         }
 
@@ -725,7 +747,7 @@ Zepto(function(){
                 },function(error){
                     switch(error.code){
                         case error.PERMISSION_DENIED:
-                          getLocationFailed();
+                          deniedGetLocation();
                           break;
                         case error.POSITION_UNAVAILABLE:
                           break;
@@ -746,6 +768,10 @@ Zepto(function(){
         //通过 ip 定位候选方案，只要不是用户主动拒绝，但是因为其他原因获取失败的，一律采用候选方案
         function getLocationByIP(){
 
+            //ip 接口不可用
+            //PC 端专用测试
+            return getLocationFailed();
+
             //这段代码也只能执行一次
             getLocationByIP = function(){};
 
@@ -760,23 +786,21 @@ Zepto(function(){
                     withCredentials: true
                 },
                 success: function(data){
+                    console.log(data);
                     if(data.status) return;
                     var content = data.content;
                     lo = content.point.x;
                     la = content.point.y;
                     address = content.address_detail;
-                    fastShowAddress();
+                    firstLocation = {
+                        name: address.city + address.district,
+                        address: address.province + address.city + address.district
+                    };
                     showPosition();
                 },
                 error: function(err){
                 }
             });
-        }
-
-        function fastShowAddress(){
-            if(!fastAddress) return;
-            $('#location_name').html( location.name );
-            $('#pp_location').removeClass('getting').removeClass('failed').addClass('success');
         }
 
         //只要不是用户主动拒绝，此段代码都会强制执行一次
@@ -787,24 +811,55 @@ Zepto(function(){
             showPosition = function(){};
 
             getLocationImage();
+            getGeoInfo();
             getLocationList();
 
             function getLocationImage(){
-                var minX = +la - .001,
-                    minY = +lo - .001,
-                    maxX = +la + .001,
-                    maxY = +lo + .001;
-                var src = 'http://api.map.baidu.com/staticimage' + 
+                var minX = +la - .0001,
+                    minY = +lo - .0001,
+                    maxX = +la + .0001,
+                    maxY = +lo + .0001;
+                var src = API_DOMAIN + '/api/map/staticimage' + 
                           '?width=' + 620 +
                           '&heigth=' + 320 +
                           '&center=' + lo + ',' + la +
                           '&copyright=' + 1 +
-                          '&bbox=' + minX + ',' + minY + ';' + maxX + ',' + maxY;
+                          '&zoom=15';
                 $('#location_image').attr('src', src);
             }
 
+            function getGeoInfo(){
+                return; //获取基本位置信息，现在获取不到，先不管了
+                $.ajaxJSONP({
+                    url: API_DOMAIN + '/geocoder/v2?callback=?',
+                    data: {
+                        ak: BAIDU_MAP_AK,
+                        location: la + ',' + lo,
+                        output: 'json'
+                    },
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function(data){
+                        console.log(data);
+
+                        if(data.status) return;
+
+                        var name = data.addressComponent.city + data.addressComponent.district;
+                        var address = data.addressComponent.province + name;
+
+                        firstLocation = {
+                            name: name,
+                            address: address
+                        }
+                    },
+                    error: function(err){
+                    }
+                });
+            }
+
             function getLocationList(){
-                ['大厦','楼','餐厅','街','公园','学校'].forEach(getPOI);
+                ['大厦','街','楼','小区'].forEach(getPOI);
 
                 function getPOI( keyword ){
                     $.ajaxJSONP({
@@ -823,7 +878,7 @@ Zepto(function(){
                             withCredentials: true
                         },
                         success: function(data){
-                            if(!data.status) return;
+                            if(data.status) return;
                             collectLocations( data.results );
                         },
                         error: function(err){
@@ -832,46 +887,91 @@ Zepto(function(){
                 }
 
                 function collectLocations( lists ){
-                    locations = locations.concat( lists );
-                    locations.sort(function(x,y){
-                        if( x == location ) return 1;
+                    locationLists = locationLists.concat( lists );
+                    locationLists.sort(function(x,y){
                         var Xdistance = Math.sqrt( Math.pow(x.location.lng - lo,2) + Math.pow(x.location.lat - la,2) );
                         var Ydistance = Math.sqrt( Math.pow(y.location.lng - lo,2) + Math.pow(y.location.lat - la,2) );
-                        return Xdistance < Ydistance ? 1 : -1;
+                        return Xdistance < Ydistance ? -1 : 1;
                     });
-                    locations.length = 10;
-
-                    //如果是第一次获取到地理位置
-                    if( !location.name ){
-                        location = locations[0];
-                        getLocationSuccess();
-                    }
 
                     listLocations();
                 }
             }
         }
 
-        function setLocation( name ){
-            locations = locations.filter(function(loc){
-                location = loc;
-                if(loc.name === name) return false;
-                return true;
+        function choseLocationName( name ){
+
+            if(firstLocation && firstLocation.name == name){
+                location = firstLocation;
+                getLocationSuccess();
+                return;
+            }
+
+            var index = 0;
+            locationLists.forEach(function(loc,i){
+                if(loc.name === name){
+                    index = i;
+                }
             });
-            locations.unshift( location );
-            listLocations();
+            location = locationLists[index];
+            getLocationSuccess();
+        }
+
+        function findFirstLocation(){
+            //ip 和 Geo接口不好使的情况下先使用这个
+            //策略，遍历locationLists，至少找到两个相同的的 市区 匹配模式
+            var match = false;
+            var bestlocation = '';
+            locationLists.forEach(function(location){
+                if(match) return;
+                var maybeBestlocation = location.address.replace(/^([^市]*市[^区]*区)?.*/,'$1');
+                if(maybeBestlocation){
+                    if( bestlocation == maybeBestlocation ){
+                        match = true;
+                    }else{
+                        bestlocation = maybeBestlocation;
+                    }
+                }
+            });
+            if(match){
+                firstLocation = {
+                    name: bestlocation,
+                    address: bestlocation
+                }
+            }
         }
 
         function listLocations(){
+            var listCount = 10;
             var domStr = '';
-            locations.forEach(function(location){
-                domStr += '<li name="' + location.name + '">' + location.name + '</li>';
+            findFirstLocation();
+
+            if(firstLocation){
+                domStr += '<li name="' + firstLocation.name + '"><p>' + firstLocation.name + '</p><p>' + firstLocation.address + '</p></li>'
+                listCount --;
+            }
+
+            locationLists.forEach(function(location){
+                (listCount-- > 0) && (domStr += '<li name="' + location.name + '"><p>' + location.name + '</p><p>' + location.address + '</p></li>');
             });
             $('#location_list').html( domStr );
+
+            location = firstLocation || locationLists[0];
+            getLocationSuccess();
+        }
+
+        function deniedGetLocation(){
+            userRejected = true;
+            $('#location_name').html('地理位置获取失败');
+            $('#pp_location').removeClass('success').removeClass('getting').addClass('failed');
         }
 
         function getLocationFailed(){
-            userRejected = true;
+            if( $('#pp_location').hasClass('success') ){
+                //可能会获取到，但是夹带 getCurrentPosition 错误，没关系
+                return;
+            }
+
             $('#location_name').html('地理位置获取失败');
             $('#pp_location').removeClass('success').removeClass('getting').addClass('failed');
         }
@@ -882,7 +982,6 @@ Zepto(function(){
         }
 
         function getLocationSuccess(){
-            if( $('#pp_location').hasClass('success') ) return;
             $('#location_name').html( location.name );
             $('#pp_location').removeClass('getting').removeClass('failed').addClass('success');
         }

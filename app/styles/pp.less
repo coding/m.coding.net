@@ -204,23 +204,37 @@
 			float: right;
 			top: 14px;
 			margin-right: -52px;
-			width: 64px;
+			width: 59px;
 			height: 28px;
 			line-height: 28px;
 			text-align: center;
 			border-radius: 2px !important;
 			color: #fff;
 			font-size: 12px;
-			background-color: #3abd79;
+			// background-color: #3abd79;
 			trasition: all .3s ease;
 			-webkit-transition: all .3s ease;
-			&.followed{
-				border: 1px solid #c7c7c7;
-				color: #999999;
-				background-color: transparent;
+
+			//关系变为 icon 处理
+			&:not(.myself){
+				color: transparent;
+				background-image: url(/images/icons/watched.png);
 			}
 			&.myself{
 				background-color: #c7c7c7;
+			}
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 59px;
+			&.followed{
+				// border: 1px solid #c7c7c7;
+				// color: #999999;
+				color: transparent;
+				background-color: transparent;
+				background-image: url(/images/icons/concerned.png);
+				&.follow{
+					background-image: url(/images/icons/eachconcerned.png);
+				}
 			}
 		}
 		.nothing{
@@ -413,26 +427,6 @@
 		}
 	}
 
-	//#pp_input.chose-friend
-	&.chose-friend{
-		.modal-dialog > div:not(.pp-at){
-			display: none;
-		}
-		.pp-at{
-			display: block;
-		}
-	}
-
-	//#pp_input.chose-location
-	&.chose-location{
-		.modal-dialog > div:not(.pp-location){
-			display: none;
-		}
-		.pp-location{
-			display: block;
-		}
-	}
-
 	.emojiboard{
 		display: none;
 		position: relative;
@@ -621,6 +615,9 @@
 			}
 		}
 	}
+}
+
+#pp_modal_wrap{
 
 	.pp-at{
 		display: none;
@@ -630,6 +627,10 @@
 		.search-wrap{
 			height: 45px;
 			padding: 9px;
+		}
+
+		.users-list{
+			margin-bottom: 0;
 		}
 
 		input#friend_search{
@@ -648,6 +649,49 @@
 		display: none;
 		min-height: 200px;
 		background: #f6f6f6;
+		img{
+			width: 100%;
+			border-bottom: 1px solid #dddddd;
+		}
+		.location-list{
+			padding-left: 12px;
+			margin-bottom: 0;
+			list-style: none;
+			background: #fff;
+			li{
+				height: 44px;
+				background: #fff;
+				overflow: hidden;
+				position: relative;
+				&:not(:last-of-type){
+					border-bottom: 1px solid #dddddd;
+				}
+				&:after{
+					content: '';
+					display: block;
+					position: absolute;
+					height: 24px;
+					width: 24px;
+					top: 9px;
+					right: 2px;
+					background-image: url(/images/icons/right_arrow.png);
+					background-size: cover;
+				}
+				p{
+					margin: 5px 0 0;
+					font-size: 15px;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					width: 100%;
+					overflow: hidden;
+					+ p{
+						margin: 0;
+						font-size: 12px;
+						color: #999999;
+					}
+				}
+			}
+		}
 	}
 
 	.list-header{
@@ -761,6 +805,44 @@ html.chose-friend{
 	}
 	#pp_list{
 		display: none;
+	}
+}
+
+//解决 modal 不让翻页的问题
+//#pp_input.chose-friend
+html.chose-friend,html.chose-location{
+	#pp_input{
+		display: none !important;
+	}
+	.project_header{
+		display: none;
+	}
+	.pp-container > div:not(#pp_modal_wrap){
+		display: none;
+	}
+	.container-coding{
+		padding: 0 !important;
+		margin-top: 58px;
+		margin-bottom: 0;
+	}
+}
+
+html.chose-friend{
+	.pp-at{
+		display: block !important;
+	}
+	.pp-location{
+		display: none;
+	}
+}
+
+//#pp_input.chose-location
+html.chose-location{
+	.pp-at{
+		display: none;
+	}
+	.pp-location{
+		display: block !important;
 	}
 }
 

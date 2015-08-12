@@ -1,6 +1,6 @@
 <!-- Modal : input -->
 <!-- 可调用的 Modal 组件 -->
-
+<div class="pp-modal-wrap" id="pp_modal_wrap">
 <div class="modal fade" id="pp_input" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -22,7 +22,7 @@
                     <div class="imageboard" id="image_board">
                         <div class="image add-image icon icon-plus" id="pp_image"></div>
                         <p class="image-tip">最多可以上传9张图片~</p>
-                        <div class="location hide" id="pp_location">
+                        <div class="location" id="pp_location">
                             <span class="icon icon-location"></span>
                             <span id="location_name">显示地理位置</span>
                             <span class="icon icon-right"></span>
@@ -51,27 +51,28 @@
                 </div>
             </form>
         </div>
-
-        <!-- at好友独立的页面面板 -->
-        <div class="pp-at">
-            <div class="list-header">
-                <span class="cancel" id="cancel_at">取消</span>
-            </div>
-            <div class="search-wrap">
-                <input id="friend_search" placeholder="姓名/个性后缀">
-            </div>
-            <ul class="users-list" id="friends_list">
-            </ul>
-        </div>
-
-        <!-- at地理位置独立的页面面板 -->
-        <div class="pp-location">
-            <div class="list-header">
-                <span class="cancel" id="cancel_location">取消</span>
-            </div>
-            <img id="location_image">
-            <ul class="location-list" id="location_list">
-            </ul>
-        </div>
     </div>
+</div>
+
+<!-- at好友独立的页面面板，独立出来解决翻页问题 -->
+<div class="pp-at" id="pp_at_container">
+    <div class="list-header">
+        <span class="cancel" id="cancel_at">取消</span>
+    </div>
+    <div class="search-wrap">
+        <input id="friend_search" placeholder="姓名/个性后缀">
+    </div>
+    <ul class="users-list" id="friends_list">
+    </ul>
+</div>
+
+<!-- at地理位置独立的页面面板 -->
+<div class="pp-location" id="pp_location_container">
+    <div class="list-header">
+        <span class="cancel" id="cancel_location">取消</span>
+    </div>
+    <img id="location_image">
+    <ul class="location-list" id="location_list">
+    </ul>
+</div>
 </div>
