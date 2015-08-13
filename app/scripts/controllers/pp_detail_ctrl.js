@@ -145,6 +145,11 @@ var PP_DETAIL_ROUTE  = (function(){
         }else{
             ele.find('.commentBox > .taskDescription').html($element.html());
         }
+        
+        //change at-someone /u/xxx ->  /friends/xxx
+        ele.find('.at-someone').each(function(){
+            $(this).attr( 'href', $(this).attr('href').replace(/^\/u\//,'/friends/') );
+        });
 
         var commentsList = ele.find('.actionBox > .commentList');
 
@@ -273,6 +278,11 @@ var PP_DETAIL_ROUTE  = (function(){
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
         ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
+
+        //change at-someone /u/xxx ->  /friends/xxx
+        ele.find('.at-someone').each(function(){
+            $(this).attr( 'href', $(this).attr('href').replace(/^\/u\//,'/friends/') );
+        });
 
         ele.on('click', '.delete', function(e){
             e.preventDefault();
