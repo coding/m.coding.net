@@ -413,10 +413,6 @@ var PP_DETAIL_ROUTE  = (function(){
         $('#pp_form').off('submit').on('submit', function(){
 
             var content = $('#pp_content').val().trim();
-            if(!content){
-                return;
-            }
-
             //如果有图片，拽上图片咯
             var images = '';
             $('#image_board > .image').each(function(){
@@ -426,6 +422,10 @@ var PP_DETAIL_ROUTE  = (function(){
                 }
             });
             content += images;
+
+            if(!content){
+                return;
+            }
 
             $.ajax({
                 url: API_DOMAIN + path,

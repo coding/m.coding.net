@@ -152,7 +152,7 @@ var PP_ROUTE  = (function(){
         }else{
             ele.find('.commentBox > .taskDescription').html($element.html());
         }
-        
+
         //change at-someone /u/xxx ->  /friends/xxx
         ele.find('.at-someone').each(function(){
             $(this).attr( 'href', $(this).attr('href').replace(/^\/u\//,'/friends/') );
@@ -478,10 +478,7 @@ var PP_ROUTE  = (function(){
         $('#pp_form').off('submit').on('submit', function(){
 
             var content = $('#pp_content').val().trim();
-            if(!content){
-                return;
-            }
-
+       
             //如果有图片，拽上图片咯
             var images = '';
             $('#image_board > .image').each(function(){
@@ -491,6 +488,10 @@ var PP_ROUTE  = (function(){
                 }
             });
             content += images;
+
+            if(!content){
+                return;
+            }
 
             var data = {
                 content: content,
