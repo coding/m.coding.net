@@ -116,7 +116,11 @@ var PP_ROUTE  = (function(){
         }
 
         var $element = $('<div>').html(pp.content),
-            $images  = $element.find('a.bubble-markdown-image-link');
+            $images  = $element.find('a.bubble-markdown-image-link'),
+            $topic = $element.find('a.topic');
+
+        //change pp topic link to pc web
+        $topic.length && $topic.attr('href', 'https://coding.net' + $topic.attr('href') );
 
         //if this pp contains images
         if($images.length !== 0){
