@@ -249,6 +249,8 @@ Zepto(function(){
             }
 
             $('#pp_content').val( contentVal );
+
+            window.postMessage('checkModalCouldSend','*');
         });
         
         //滑动组件归位
@@ -432,6 +434,8 @@ Zepto(function(){
             at_friends.push( name );
 
             closeFriendsList();
+
+            window.postMessage('checkModalCouldSend','*');
         });
 
         //删除@好友，通过正则和 at_friends 列表协同判断
@@ -447,6 +451,8 @@ Zepto(function(){
                 content = content.replace(/\@[^\@]*$/,'');
                 $('#pp_content').val( content );
                 at_friends.pop();
+                
+                window.postMessage('checkModalCouldSend','*');
             }
         });
     }
