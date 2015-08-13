@@ -2,7 +2,23 @@
 Zepto(function(){
 
     //取消发/评论冒泡
+    $('#pp_content').off('focus').on('focus',function(){
+        setTimeout(function(){
+            $('#pp_input').addClass('focus').removeClass('blur');
+        },30);
+    });
+
+    $('#pp_content').off('blur').on('blur',function(){
+        setTimeout(function(){
+            $('#pp_input').removeClass('focus').addClass('blur');
+        },30);
+    });
+
     $('#pp_cancel').off('click').on('click',function(){
+        if( $('#pp_input').hasClass('focus') ){
+            $('#pp_content').blur();
+            return;
+        }
         closeModal();
     });
 
@@ -703,9 +719,11 @@ Zepto(function(){
     function eventAndHandlers(){
         //定位，展开关闭位置列表 切换，
         $('#pp_location').off('touchend').on('touchend','.icon-right',function(){
-            $('#pp_input').removeClass('chose-friend').addClass('chose-location');
-            $('html').removeClass('chose-friend').addClass('chose-location');
-            addHistory('chose_location');
+            setTimeout(function(){
+                $('#pp_input').removeClass('chose-friend').addClass('chose-location');
+                $('html').removeClass('chose-friend').addClass('chose-location');
+                addHistory('chose_location');
+            },30);
         });
 
         $('#cancel_location').off('click').on('click',function(){
@@ -820,8 +838,8 @@ Zepto(function(){
             //只此执行一次
             showPosition = function(){};
 
-            getLocationImage();
             getGeoInfo();
+            getLocationImage();
             getLocationList();
 
             function getLocationImage(){
@@ -835,12 +853,13 @@ Zepto(function(){
             }
 
             function getGeoInfo(){
-                return; //获取基本位置信息，现在获取不到，先不管了
+                return;//接口还是不好使
                 $.ajaxJSONP({
-                    url: API_DOMAIN + '/geocoder/v2?callback=?',
+                    url: API_DOMAIN + '/api/map/geocoder/v2?callback=?',
                     data: {
                         ak: BAIDU_MAP_AK,
                         location: la + ',' + lo,
+                        pois: 0,
                         output: 'json'
                     },
                     xhrFields: {
