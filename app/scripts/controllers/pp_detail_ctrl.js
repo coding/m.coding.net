@@ -108,9 +108,13 @@ var PP_DETAIL_ROUTE  = (function(){
         },0);
 
         if( likeUsers.length ){
-            toLikeUsers.attr('href', '/u/' + pp.owner.global_key + '/pp/' + pp.id + '/likeusers' ).text(likeUsers.length);
+            toLikeUsers.attr('href', '/u/' + pp.owner.global_key + '/pp/' + pp.id + '/likeusers' ).text( pp.likes );
         }else{
             toLikeUsers.remove();
+        }
+
+        if( pp.likes>10 ){
+            userList.addClass('moreLikedUsers');
         }
 
         var $element = $('<div>').html(pp.content),
@@ -320,7 +324,7 @@ var PP_DETAIL_ROUTE  = (function(){
                         '</a>',
             ele = $(template);
 
-        ele.attr('href', '/u/' + user.global_key);
+        ele.attr('href', '/friends/' + user.global_key);
         ele.find('img').attr('src', assetPath(user.avatar));
 
         return ele;
