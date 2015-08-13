@@ -22,13 +22,16 @@ var PP_LIKE_USERS_ROUTE  = (function(){
 
     function createUserDOM(user){
         var template = '<li>' +
-                            '<img class="avatar">' +
-                            '<span class="name"></span>' +
-                            '<span class="relation">关注</span>' +
+                            '<a>' + 
+                                '<img class="avatar">' +
+                                '<span class="name"></span>' +
+                                '<span class="relation">关注</span>' +
+                            '</a>'
                         '</li>',
             ele  = $(template);
 
         user.avatar = user.avatar.replace(/(?=^\/)/,'https://coding.net');
+        ele.find('a').attr('href', '/friends/' + user.global_key);
         ele.find('.name').text(user.name);
         ele.find('.avatar').attr('src', user.avatar);
 

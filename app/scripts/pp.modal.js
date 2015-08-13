@@ -2,23 +2,14 @@
 Zepto(function(){
 
     //取消发/评论冒泡
-    $('#pp_content').off('focus').on('focus',function(){
-        setTimeout(function(){
-            $('#pp_input').addClass('focus').removeClass('blur');
-        },30);
-    });
 
-    $('#pp_content').off('blur').on('blur',function(){
-        setTimeout(function(){
-            $('#pp_input').removeClass('focus').addClass('blur');
-        },30);
+    $('html').off('click','.modal-backdrop').on('click','.modal-backdrop',function(){
+        if( $('#pp_submit').is('[disabled]') ){
+            closeModal();
+        }
     });
 
     $('#pp_cancel').off('click').on('click',function(){
-        if( $('#pp_input').hasClass('focus') ){
-            $('#pp_content').blur();
-            return;
-        }
         closeModal();
     });
 

@@ -56,9 +56,14 @@
                 return console.log('你没有选择任何文件');
             }
 
-            files = Array.prototype.splice.call(files, 0, Me.multipleSize);
+            var uploadcount = 0;
             Array.prototype.forEach.call(files, function(file){
-                upload(file);
+                if( uploadcount++ < Me.multipleSize ){
+                    //突破浏览器请求并发数量限制，Chrome 是5
+                    setTimeout(function(){
+                        upload(file);
+                    }, parseInt(Math.random()*10) );
+                }
             });
         });
 

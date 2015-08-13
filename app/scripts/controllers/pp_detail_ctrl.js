@@ -108,9 +108,13 @@ var PP_DETAIL_ROUTE  = (function(){
         },0);
 
         if( likeUsers.length ){
-            toLikeUsers.attr('href', '/u/' + pp.owner.global_key + '/pp/' + pp.id + '/likeusers' ).text(likeUsers.length);
+            toLikeUsers.attr('href', '/u/' + pp.owner.global_key + '/pp/' + pp.id + '/likeusers' ).text( pp.likes );
         }else{
             toLikeUsers.remove();
+        }
+
+        if( pp.likes>10 ){
+            userList.addClass('moreLikedUsers');
         }
 
         var $element = $('<div>').html(pp.content),
@@ -141,6 +145,11 @@ var PP_DETAIL_ROUTE  = (function(){
         }else{
             ele.find('.commentBox > .taskDescription').html($element.html());
         }
+        
+        //change at-someone /u/xxx ->  /friends/xxx
+        ele.find('.at-someone').each(function(){
+            $(this).attr( 'href', $(this).attr('href').replace(/^\/u\//,'/friends/') );
+        });
 
         var commentsList = ele.find('.actionBox > .commentList');
 
@@ -270,6 +279,11 @@ var PP_DETAIL_ROUTE  = (function(){
         ele.find('.commentText > p').html(comment.content);
         ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
 
+        //change at-someone /u/xxx ->  /friends/xxx
+        ele.find('.at-someone').each(function(){
+            $(this).attr( 'href', $(this).attr('href').replace(/^\/u\//,'/friends/') );
+        });
+
         ele.on('click', '.delete', function(e){
             e.preventDefault();
 
@@ -320,7 +334,7 @@ var PP_DETAIL_ROUTE  = (function(){
                         '</a>',
             ele = $(template);
 
-        ele.attr('href', '/u/' + user.global_key);
+        ele.attr('href', '/friends/' + user.global_key);
         ele.find('img').attr('src', assetPath(user.avatar));
 
         return ele;
@@ -399,10 +413,6 @@ var PP_DETAIL_ROUTE  = (function(){
         $('#pp_form').off('submit').on('submit', function(){
 
             var content = $('#pp_content').val().trim();
-            if(!content){
-                return;
-            }
-
             //如果有图片，拽上图片咯
             var images = '';
             $('#image_board > .image').each(function(){
@@ -412,6 +422,10 @@ var PP_DETAIL_ROUTE  = (function(){
                 }
             });
             content += images;
+
+            if(!content){
+                return;
+            }
 
             $.ajax({
                 url: API_DOMAIN + path,
