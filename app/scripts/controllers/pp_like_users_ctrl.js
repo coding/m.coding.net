@@ -7,9 +7,9 @@ var PP_LIKE_USERS_ROUTE  = (function(){
         pageSize = 10;
 
     function assembleDOM(data){
-        var users     = data || [],
-            fragment  = document.createDocumentFragment(),
-            ele;
+        var users     = data || [];
+        var fragment  = document.createDocumentFragment();
+        var ele;
 
         users.reverse();
         for (var i = 0; i < users.length; i++) {
@@ -27,8 +27,8 @@ var PP_LIKE_USERS_ROUTE  = (function(){
                                 '<span class="name"></span>' +
                                 '<span class="relation">关注</span>' +
                             '</a>'
-                        '</li>',
-            ele  = $(template);
+                        '</li>';
+        var ele  = $(template);
 
         user.avatar = user.avatar.replace(/(?=^\/)/,'https://coding.net');
         ele.find('a').attr('href', '/friends/' + user.global_key);
@@ -58,6 +58,7 @@ var PP_LIKE_USERS_ROUTE  = (function(){
         ele.on('click','.relation:not(.myself)',function(e){
             e.preventDefault();
 
+            // var users = $(this).attr('global_key');
             var users = user.global_key;
                 path = '/api/social/unfollow';
 
@@ -110,6 +111,8 @@ var PP_LIKE_USERS_ROUTE  = (function(){
                     }
                 });
             }
+
+            return false;
         });
 
         return ele;

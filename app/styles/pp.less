@@ -274,7 +274,6 @@
 }
 
 #pp_input{
-	position: fixed;
 	top: 58px;
 	left: 0;
 	right: 0;
@@ -321,7 +320,8 @@
 		}
 	}
 	&.large{
-		background-color: #ccc;
+		position: initial;
+		overflow: initial;
 		.modal-content{
 			height: 360px;
 		}
@@ -794,7 +794,32 @@ html[class*='path-pp'],html[class*='path-u-'][class*='-pp-']{
 	}
 }
 
+html.pp-modaling-large, html.chose-friend, html.chose-location{
+	.pp-container > div:not(.pp-modal-wrap){
+		display: none;
+	}
+	.navbar-coding{
+		position: relative;
+		z-index: 1;
+	}
+	.container-coding{
+		margin-top: 0;
+		padding: 0;
+		position: relative;
+		z-index: 100000000;
+	}
+	.black-cover{
+		display: none !important;
+	}
+}
+
 html.pp-modaling-large{
+	body{
+		background-color: #e5e5e5 !important;
+	}
+	.project_header{
+		display: none;
+	}
 	.modal-backdrop{
 		display: none;
 	}
@@ -826,7 +851,6 @@ html.chose-friend{
 	}
 }
 
-//解决 modal 不让翻页的问题
 //#pp_input.chose-friend
 html.chose-friend,html.chose-location{
 	#pp_input{
@@ -835,12 +859,7 @@ html.chose-friend,html.chose-location{
 	.project_header{
 		display: none;
 	}
-	.pp-container > div:not(#pp_modal_wrap){
-		display: none;
-	}
 	.container-coding{
-		padding: 0 !important;
-		margin-top: 58px;
 		margin-bottom: 0;
 	}
 }
@@ -863,30 +882,3 @@ html.chose-location{
 		display: block !important;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
