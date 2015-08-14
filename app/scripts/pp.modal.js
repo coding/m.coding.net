@@ -610,7 +610,7 @@ Zepto(function(){
                 path: API_DOMAIN + '/api/tweet/insert_image',
                 filefiled: 'tweetImg',
                 multiple: true,
-                multipleSize: 9,
+                multipleSize: 6,
                 start: start,
                 uploading: uploading,
                 success: success,
