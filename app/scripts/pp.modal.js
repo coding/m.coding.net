@@ -567,6 +567,9 @@ Zepto(function(){
 
         //历史记录管控，在 DOM 操作完成后再操作历史记录，防止意外刷新
         addHistory('chose_friends');
+
+        //回到顶部，保证主界面不受影响
+        $('.navbar-header')[0].scrollIntoView();
     }
 });
 
@@ -607,7 +610,7 @@ Zepto(function(){
                 path: API_DOMAIN + '/api/tweet/insert_image',
                 filefiled: 'tweetImg',
                 multiple: true,
-                multipleSize: 9,
+                multipleSize: 6,
                 start: start,
                 uploading: uploading,
                 success: success,
@@ -676,11 +679,14 @@ Zepto(function(){
     }
 
     function uploaderPrepare( success ){
-        var script = $('<script>');
+        if(window.rangoUploader){
+            callSuccessOnce();
+            return;
+        }
 
+        var script = $('<script>');
         //这里可能会有代码冗余
         script.on('load', function(){
-
             setTimeout(function(){
                 if( window.rangoUploader ){
                     callSuccessOnce();
