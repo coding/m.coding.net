@@ -76,9 +76,9 @@ var PP_ROUTE  = (function(){
             }
         }
 
-        ele.find('.titleBox > .commenterImage > a').attr('href', '/user/' + owner_key);
+        ele.find('.titleBox > .commenterImage > a').attr('href', '/friends/' + owner_key);
         ele.find('.titleBox > .commenterImage > a > img').attr('src', assetPath(pp.owner.avatar));
-        ele.find('.titleBox > a.commenterName').attr('href', '/user/' + owner_key);
+        ele.find('.titleBox > a.commenterName').attr('href', '/friends/' + owner_key);
         ele.find('.titleBox > a.commenterName').text(owner_name);
         ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow() + ' ' + pp.location);
 
@@ -287,7 +287,7 @@ var PP_ROUTE  = (function(){
         }
 
         //ele.find('.commenterImage img').attr('src', assetPath(comment.owner.avatar));
-        ele.find('a.commenterName').attr('href', '/user/' + owner_key);
+        ele.find('a.commenterName').attr('href', '/friends/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
         ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
@@ -463,7 +463,7 @@ var PP_ROUTE  = (function(){
             post_failed = params.failed || function(){};
 
         //配置弹窗基本信息
-        $inputModal.find('.modal-title').html( params.title || '发冒泡' );
+        $inputModal.find('#myModalLabel').html( params.title || '发冒泡' );
 
         $inputModal.removeClass('small').removeClass('large');
         $inputModal.addClass( params.size || 'large' );
@@ -501,12 +501,13 @@ var PP_ROUTE  = (function(){
             //确定地理位置
             var locationInfo = {};
             if( $('#pp_location').hasClass('success') ){
-                locationInfo = $('#pp_location').attr('location');
-                locationInfo = window.JSON.parse(locationInfo);
+                locationInfo = $('#pp_location')[0].locationInfo;
                 for(i in locationInfo){
                     data[i] = locationInfo[i];
                 }
             }
+
+            $inputModal.removeClass('failed').removeClass('success').addClass('sending');
 
             $.ajax({
                 url: API_DOMAIN + path,
@@ -526,6 +527,7 @@ var PP_ROUTE  = (function(){
                     typeof post_failed == 'function' && post_failed(data);
                 },
                 complete: function(){
+                    $inputModal.removeClass('sending');
                 }
             });
 

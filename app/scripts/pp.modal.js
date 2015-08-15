@@ -43,6 +43,7 @@ Zepto(function(){
 
         //清空地理位置
         $('#pp_location').removeClass('success').removeAttr('location').find('#location_name').text('显示地理位置');
+        $('#pp_location')[0].locationInfo = null;
         $('#pp_location').removeClass('show-location');
 
         //清空图片数据
@@ -52,6 +53,8 @@ Zepto(function(){
     function closeModal(){
         //关闭的时候模态框重置，主要是类名的处理
         $("#pp_input").modal('hide');
+        $('#pp_input').removeClass('sending').removeClass('success').removeClass('failed');
+        
         $('html').removeClass('chose-friend').removeClass('chose-location');
         $('#pp_input').removeClass('chose-friend').removeClass('chose-location');
         $('html').removeClass('pp-modaling-small').removeClass('pp-modaling-large');
@@ -746,6 +749,8 @@ Zepto(function(){
             locationLists = [],
             userRejected = false;
 
+        var listCount = 10;
+
         init();
 
         function init(){
@@ -764,6 +769,11 @@ Zepto(function(){
                 $('#pp_input').removeClass('chose-location');
                 $('html').removeClass('chose-location');
                 choseLocationName( name );
+            });
+
+            $('#load_more_location').off('click').on('click',function(){
+                listCount += 10;
+                listLocations();
             });
         }
 
@@ -790,7 +800,7 @@ Zepto(function(){
                     getLocationByIP();
                 });
                 
-                setTimeout(getLocationByIP,2000);
+                //setTimeout(getLocationByIP,2000);
             }else{
                 getLocationFailed();
             }
@@ -887,7 +897,7 @@ Zepto(function(){
             }
 
             function getLocationList(){
-                ['大厦','街','楼','小区'].forEach(getPOI);
+                ['大厦','餐厅','购物','娱乐','旅游','旅店','酒店','街','楼','小区'].forEach(getPOI);
 
                 function getPOI( keyword ){
                     $.ajaxJSONP({
@@ -921,6 +931,13 @@ Zepto(function(){
                         var Ydistance = Math.sqrt( Math.pow(y.location.lng - lo,2) + Math.pow(y.location.lat - la,2) );
                         return Xdistance < Ydistance ? -1 : 1;
                     });
+
+                    //数据去重
+                    for(i=locationLists.length-1; i>1 ; i--){
+                        if(locationLists[i].name == locationLists[i-1].name){
+                            locationLists.splice(i,1);
+                        }
+                    }
 
                     listLocations();
                 }
@@ -970,22 +987,32 @@ Zepto(function(){
         }
 
         function listLocations(){
-            var listCount = 10;
+            var count = listCount;
             var domStr = '';
             findFirstLocation();
 
             if(firstLocation){
                 domStr += '<li name="' + firstLocation.name + '"><p>' + firstLocation.name + '</p><p>' + firstLocation.address + '</p></li>'
-                listCount --;
+                count --;
             }
 
             locationLists.forEach(function(location){
-                (listCount-- > 0) && (domStr += '<li name="' + location.name + '"><p>' + location.name + '</p><p>' + location.address + '</p></li>');
+                (count-- > 0) && (domStr += '<li name="' + location.name + '"><p>' + location.name + '</p><p>' + location.address + '</p></li>');
             });
             $('#location_list').html( domStr );
 
+            checkHaveMore();
+
             chosedLocation = firstLocation || locationLists[0];
             chosedLocation && getLocationSuccess();
+        }
+
+        function checkHaveMore(){
+            if( locationLists.length > listCount ){
+                $('#location_list').addClass('hasmore');
+            }else{
+                $('#location_list').removeClass('hasmore');
+            }
         }
 
         function deniedGetLocation(){
@@ -1014,11 +1041,11 @@ Zepto(function(){
             var locationAddress = chosedLocation.address;
             var coord = la + ',' + lo + ',' + 0;
             $('#location_name').html( locationName );
-            $('#pp_location').removeClass('getting').removeClass('failed').addClass('success').attr('location',window.JSON.stringify({
+            $('#pp_location').removeClass('getting').removeClass('failed').addClass('success')[0].locationInfo = {
                 location: locationName,
                 address: locationAddress,
                 coord: coord
-            }));
+            };
         }
     }
 });

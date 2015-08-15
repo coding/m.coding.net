@@ -131,7 +131,8 @@
 	.commentSubmit{
 		.input-group{
 			width: 100%;
-			padding: 9px 0;
+			padding: 0;
+			height: 35px;
 		}
 	}
 
@@ -301,10 +302,10 @@
 		}
 		.modal-header{
 			margin: 0 15px;
-			padding: 10px 0;
 			height: 40px;
 			background-color: #f2f2f2;
 			& *{
+				line-height: 39px;
 				color: #222222 !important;
 			}
 			h4{
@@ -322,6 +323,18 @@
 	&.large{
 		position: initial;
 		overflow: initial;
+		.modal-header{
+			height: 51px;
+			& *{
+				line-height: 51px;
+			}
+			#pp_cancel{
+				left: 0;
+			}
+			#pp_submit, #pp_submit_sending{
+				right: 0;
+			}
+		}
 		.modal-content{
 			height: 360px;
 		}
@@ -353,21 +366,39 @@
 		background-color: #e5e5e5;
 	}
 	.modal-header{
+		margin: 0;
+		padding: 0;
 		background: #2A3644;
 		& *{
 			color: #fff !important;
 			font-size: 14px;
 			text-decoration: none !important;
+			position: relative;
+			z-index: 2;
 		}
 		h4{
 			font-size: 15px;
+			z-index: 1;
 		}
-		#pp_submit{
+		#pp_cancel{
+			display: inline-block;
+			height: 100%;
+			position: relative;
+			width: 4em;
+			left: -1em;
+			text-align: center;
+		}
+		#pp_submit, #pp_submit_sending{
 			color: #3bbd79 !important;
 			background: none;
 			border: 0;
 			border-radius: 0;
 			padding: 0;
+			height: 100%;
+			position: relative;
+			width: 4em;
+			right: -1em;
+			text-align: center;
 		}
 	}
 	.modal-body{
@@ -631,6 +662,27 @@
 			}
 		}
 	}
+
+	#myModalLabelSending{
+		display: none;
+	}
+	#pp_submit_sending{
+		display: none;
+	}
+	&.sending{
+		#myModalLabel{
+			display: none;
+		}
+		#myModalLabelSending{
+			display: inherit;
+		}
+		#pp_submit{
+			display: none;
+		}
+		#pp_submit_sending{
+			display: inline-block;
+		}
+	}
 }
 
 #pp_modal_wrap{
@@ -674,6 +726,19 @@
 			margin-bottom: 0;
 			list-style: none;
 			background: #fff;
+			& + #load_more_location{
+				display: none;
+				height: 44px;
+				text-align: center;
+				line-height: 44px;
+				background: white;
+				border-top: 1px solid #ddd;
+			}
+
+			&.hasmore + #load_more_location{
+					display: block;
+			}
+
 			li{
 				height: 44px;
 				background: #fff;
@@ -698,7 +763,7 @@
 					font-size: 15px;
 					white-space: nowrap;
 					text-overflow: ellipsis;
-					width: 100%;
+					width: 90%;
 					overflow: hidden;
 					+ p{
 						margin: 0;
