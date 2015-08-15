@@ -74,9 +74,9 @@ var PP_DETAIL_ROUTE  = (function(){
             }
         }
 
-        ele.find('.titleBox > .commenterImage > a').attr('href', '/user/' + owner_key);
+        ele.find('.titleBox > .commenterImage > a').attr('href', '/friends/' + owner_key);
         ele.find('.titleBox > .commenterImage > a > img').attr('src', assetPath(pp.owner.avatar));
-        ele.find('.titleBox > a.commenterName').attr('href', '/user/' + owner_key);
+        ele.find('.titleBox > a.commenterName').attr('href', '/friends/' + owner_key);
         ele.find('.titleBox > a.commenterName').text(owner_name);
         ele.find('.titleBox > div.commentedAt').text(moment(pp.created_at).fromNow() + ' ' + pp.location);
 
@@ -274,7 +274,7 @@ var PP_DETAIL_ROUTE  = (function(){
             }
         }
 
-        ele.find('a.commenterName').attr('href', '/user/' + owner_key);
+        ele.find('a.commenterName').attr('href', '/friends/' + owner_key);
         ele.find('a.commenterName > span').text(owner_name);
         ele.find('.commentText > p').html(comment.content);
         ele.find('.commentText > .date').text(moment(comment.created_at).fromNow());
