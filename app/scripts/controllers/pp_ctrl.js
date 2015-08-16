@@ -98,7 +98,7 @@ var PP_ROUTE  = (function(){
 
         for (var i = 0; i < likeUsers.length; i++) {
             userEle = createLikedUsersDOM(likeUsers[i]);
-            toLikeUsers.after(userEle);
+            toLikeUsers.before(userEle);
         }
 
         setTimeout(function(){
@@ -106,12 +106,15 @@ var PP_ROUTE  = (function(){
             var subWidth = userList.children().eq(1).width();
             if( likeUsers.length * subWidth > (totalWidth - 22) ){
                 userList.addClass('moreLikedUsers');
+
+                while( userList.height() > 22 ){
+                   toLikeUsers.prev().remove();
+                }
             }
         },0);
 
         if( likeUsers.length ){
             toLikeUsers.attr('href', '/u/' + pp.owner.global_key + '/pp/' + pp.id + '/likeusers' ).text( pp.likes );
-
         }else{
             toLikeUsers.remove();
         }

@@ -15,18 +15,24 @@ Zepto(function(){
 
     //历史记录回滚监听，这里需要判断是 back 使然，还是浏览器操作使然
     // fucking html5 history api
-    window.onpopstate = function(event){
+    $(window).on('popstate', function(event){
         if( window.location.hash=='#pp_input' ){
-
             $('html').removeClass('chose-friend').removeClass('chose-location');
             $('#pp_input').removeClass('chose-friend').removeClass('chose-location');
-
         }
 
         if( !window.location.hash ){
             closeModal();
         }
-    };
+    });
+
+    // ios 键盘弹出 100vh 失效处理
+    $(window).on('resize', function(){
+        $('.modal-backdrop').css({
+            height: $(window).height() + 'px',
+            width: $(window).width() + 'px'
+        });
+    });
 
     //清空图片
     $(window).on('message', function(event){
@@ -909,7 +915,7 @@ Zepto(function(){
                             page_num: 0,
                             scope: 1,
                             location: la + ',' + lo,
-                            radius: 2000,
+                            radius: 1250,
                             output: 'json'
                         },
                         xhrFields: {
@@ -980,7 +986,7 @@ Zepto(function(){
             });
             if(match){
                 firstLocation = {
-                    name: bestlocation,
+                    name: bestlocation.replace(/.*?省/,''),
                     address: bestlocation
                 }
             }
