@@ -915,7 +915,7 @@ Zepto(function(){
                             page_num: 0,
                             scope: 1,
                             location: la + ',' + lo,
-                            radius: 800,
+                            radius: 1250,
                             output: 'json'
                         },
                         xhrFields: {
@@ -986,7 +986,7 @@ Zepto(function(){
             });
             if(match){
                 firstLocation = {
-                    name: bestlocation,
+                    name: bestlocation.replace(/.*?省/,''),
                     address: bestlocation
                 }
             }
