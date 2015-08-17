@@ -65,6 +65,8 @@ Zepto(function(){
         $('#pp_input').removeClass('chose-friend').removeClass('chose-location');
         $('html').removeClass('pp-modaling-small').removeClass('pp-modaling-large');
 
+        $('.modal-backdrop').remove();
+
         window.history.replaceState(null,null, window.location.pathname );
     }
 });
@@ -915,7 +917,7 @@ Zepto(function(){
                             page_num: 0,
                             scope: 1,
                             location: la + ',' + lo,
-                            radius: 1250,
+                            radius: 1000,
                             output: 'json'
                         },
                         xhrFields: {
