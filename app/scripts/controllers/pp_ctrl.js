@@ -505,9 +505,9 @@ var PP_ROUTE  = (function(){
             var locationInfo = {};
             if( $('#pp_location').hasClass('success') ){
                 locationInfo = $('#pp_location')[0].locationInfo;
-                for(i in locationInfo){
-                    data[i] = locationInfo[i];
-                }
+                data['address'] = locationInfo['address'];
+                data['location'] = locationInfo['location'];
+                data['coord'] = locationInfo['coord'];
             }
 
             $inputModal.removeClass('failed').removeClass('success').addClass('sending');
