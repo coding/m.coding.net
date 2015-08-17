@@ -523,6 +523,7 @@ var PP_ROUTE  = (function(){
                 success: function(data){
                     window.history.replaceState(null,null, window.location.pathname );
                     $inputModal.modal('hide');
+                    window.postMessage('scrollToOpenning', '*');
                     $('html').removeClass('pp-modaling-small').removeClass('pp-modaling-large');
                     typeof post_success == 'function' && post_success(data);
                 },
@@ -682,6 +683,11 @@ var PP_ROUTE  = (function(){
                     if( $('#pp_content').val() !== '' || ($('#image_board .upload-success').length)){
                         $('#pp_submit').removeAttr('disabled');
                     }else{
+                        $('#pp_submit').attr('disabled', 'disabled');
+                    }
+
+                    //有图片正在上传，不能提交
+                    if( $('#image_board .upload-ing').length ){
                         $('#pp_submit').attr('disabled', 'disabled');
                     }
                 }

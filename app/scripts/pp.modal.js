@@ -26,15 +26,7 @@ Zepto(function(){
         }
     });
 
-    // ios 键盘弹出 100vh 失效处理
-    $(window).on('resize', function(){
-        $('.modal-backdrop').css({
-            height: $(window).height() + 'px',
-            width: $(window).width() + 'px'
-        });
-    });
-
-    //清空图片
+    //清空数据，重置modal数据
     $(window).on('message', function(event){
         if( event.data == 'ppModelOpenning' ){
             resetModal();
@@ -58,6 +50,8 @@ Zepto(function(){
 
     function closeModal(){
         //关闭的时候模态框重置，主要是类名的处理
+        window.postMessage('scrollToOpenning', '*');
+
         $("#pp_input").modal('hide');
         $('#pp_input').removeClass('sending').removeClass('success').removeClass('failed');
         
@@ -69,6 +63,38 @@ Zepto(function(){
 
         window.history.replaceState(null,null, window.location.pathname );
     }
+});
+
+// 小弹窗各种滚动翻页修复
+Zepto(function(){
+
+    //整个容器的处理，防止 touchmove 事件冒泡，导致页面滑动
+    $('#pp_input').off('touchmove').on('touchmove',function(event){
+        if( $('#pp_input').is('.small') && !$(event.target).is('.slide i') ){
+            return false;
+        }
+    });
+    //遮罩层的处理，防止 touchmove 冒泡，导致页面滑动
+    $('html').on('touchmove','.modal-backdrop',function(event){
+        return false;
+    });
+
+    var openSclY = 0;
+    //打开的时候，位置修复
+    $(window).on('message', function(){
+        if( event.data == 'ppModelOpenning' ){
+            openSclY = window.scrollY;
+            setTimeout(function(){
+                window.postMessage('scrollToOpenning', '*');
+            },10);
+        }
+    });
+
+    $(window).on('message', function(){
+        if( event.data = 'scrollToOpenning' ){
+            window.scrollTo(0,openSclY);
+        }
+    });
 });
 
 // 表情功能模块
@@ -469,6 +495,8 @@ Zepto(function(){
         init();
         getFriends();
 
+        var loadtimes = 0;
+
         function init(){
             uri = '/api/user/friends';
             page = 1;
@@ -479,6 +507,7 @@ Zepto(function(){
         }
 
         function getFriends(){
+            loadtimes ++;
             $.ajax({
                 url: API_DOMAIN + uri,
                 dataType: 'json',
@@ -510,7 +539,14 @@ Zepto(function(){
         }
 
         function failed(){
-            alert('Failed to load friends');
+            //加载失败自动重复加载
+            if(loadtimes<2){
+                setTimeout(function(){
+                    getFriends();
+                },30);
+            }else{
+                alert('Failed to load friends');
+            }
         }
 
         function searchFriends(){
@@ -580,7 +616,9 @@ Zepto(function(){
         addHistory('chose_friends');
 
         //回到顶部，保证主界面不受影响
-        $('.navbar-header')[0].scrollIntoView();
+        setTimeout(function(){
+            window.scrollTo(0,0);
+        },10)
     }
 });
 
@@ -656,6 +694,7 @@ Zepto(function(){
 
         function uploading( persent, key ){
             images[key]['image'].removeClass('upload-start').addClass('upload-ing');
+            window.postMessage('checkModalCouldSend','*');
         }
 
         function success( data, key ){
@@ -805,51 +844,13 @@ Zepto(function(){
                         case error.UNKNOWN_ERROR:
                           break;
                     }
-                    getLocationByIP();
+                    getLocationFailed();
                 });
                 
                 //setTimeout(getLocationByIP,2000);
             }else{
                 getLocationFailed();
             }
-        }
-
-        //通过 ip 定位候选方案，只要不是用户主动拒绝，但是因为其他原因获取失败的，一律采用候选方案
-        function getLocationByIP(){
-
-            //ip 接口不可用
-            //PC 端专用测试
-            return getLocationFailed();
-
-            //这段代码也只能执行一次
-            getLocationByIP = function(){};
-
-            if(userRejected) return;
-
-            $.ajaxJSONP({
-                url: API_DOMAIN + '/api/map/location/ip?callback=?',
-                data: {
-                    ak: BAIDU_MAP_AK
-                },
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function(data){
-                    console.log(data);
-                    if(data.status) return;
-                    var content = data.content;
-                    lo = content.point.x;
-                    la = content.point.y;
-                    address = content.address_detail;
-                    firstLocation = {
-                        name: address.city + address.district,
-                        address: address.province + address.city + address.district
-                    };
-                    showPosition();
-                },
-                error: function(err){
-                }
-            });
         }
 
         //只要不是用户主动拒绝，此段代码都会强制执行一次
@@ -887,7 +888,6 @@ Zepto(function(){
                         withCredentials: true
                     },
                     success: function(data){
-                        console.log(data);
 
                         if(data.status) return;
 
@@ -905,7 +905,9 @@ Zepto(function(){
             }
 
             function getLocationList(){
-                ['大厦','餐厅','购物','娱乐','旅游','旅店','酒店','街','楼','小区'].forEach(getPOI);
+                var localArr = ['大厦','餐厅','购物','娱乐','旅游','旅店','酒店','街','楼','小区'];
+                var count = localArr.length;
+                localArr.forEach(getPOI);
 
                 function getPOI( keyword ){
                     $.ajaxJSONP({
@@ -928,6 +930,9 @@ Zepto(function(){
                             collectLocations( data.results );
                         },
                         error: function(err){
+                        },
+                        complete: function(){
+                            count --;
                         }
                     });
                 }
@@ -947,7 +952,11 @@ Zepto(function(){
                         }
                     }
 
-                    listLocations();
+                    setTimeout(function(){
+                        if(count <= 0){
+                            listLocations();
+                        }
+                    },0)
                 }
             }
         }
@@ -1047,7 +1056,7 @@ Zepto(function(){
         function getLocationSuccess(){
             var locationName = chosedLocation.name;
             var locationAddress = chosedLocation.address;
-            var coord = la + ',' + lo + ',' + 0;
+            var coord = (la+'').substr(0,9) + ',' + (lo+'').substr(0,9) + ',' + 0;
             $('#location_name').html( locationName );
             $('#pp_location').removeClass('getting').removeClass('failed').addClass('success')[0].locationInfo = {
                 location: locationName,

@@ -445,6 +445,7 @@ var PP_DETAIL_ROUTE  = (function(){
                 success: function(data){
                     window.history.replaceState(null,null, window.location.pathname );
                     $inputModal.modal('hide');
+                    window.postMessage('scrollToOpenning', '*');
                     $('html').removeClass('pp-modaling-small').removeClass('pp-modaling-large');
                     typeof post_success == 'function' && post_success(data);
                 },
