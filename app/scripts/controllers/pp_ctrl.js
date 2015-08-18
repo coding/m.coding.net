@@ -467,6 +467,7 @@ var PP_ROUTE  = (function(){
 
         //配置弹窗基本信息
         $inputModal.find('#myModalLabel').html( params.title || '发冒泡' );
+        $inputModal.removeClass('sending');
 
         $inputModal.removeClass('small').removeClass('large');
         $inputModal.addClass( params.size || 'large' );
@@ -510,7 +511,9 @@ var PP_ROUTE  = (function(){
                 data['coord'] = locationInfo['coord'];
             }
 
-            $inputModal.removeClass('failed').removeClass('success').addClass('sending');
+            $inputModal.addClass('sending');
+            $inputModal.find('#myModalLabel').html('发送中...');
+            $('#pp_submit').attr('disabled', 'disabled');
 
             $.ajax({
                 url: API_DOMAIN + path,
@@ -688,6 +691,11 @@ var PP_ROUTE  = (function(){
 
                     //有图片正在上传，不能提交
                     if( $('#image_board .upload-ing').length ){
+                        $('#pp_submit').attr('disabled', 'disabled');
+                    }
+
+                    //正在发送中，不能提交
+                    if( $('#pp_input').hasClass('sending') ){
                         $('#pp_submit').attr('disabled', 'disabled');
                     }
                 }
