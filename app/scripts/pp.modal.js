@@ -74,6 +74,7 @@ Zepto(function(){
             return false;
         }
     });
+
     //遮罩层的处理，防止 touchmove 冒泡，导致页面滑动
     $('html').on('touchmove','.modal-backdrop',function(event){
         return false;
