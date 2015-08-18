@@ -586,8 +586,23 @@
 			&:nth-of-type(7){
 				display: none;
 			}
+
 			&.upload-start{}
-			&.upload-ing{}
+			&.upload-ing{
+				&:before{
+					content: '';
+					display: block;
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background-color: rgba(255,255,255,.5);
+					background-image: url(/images/pp/loading.png);
+					background-position: center;
+					background-repeat: no-repeat;
+				}
+			}
 			&.upload-success{}
 
 			i.icon-delete{
@@ -862,8 +877,8 @@ html.pp-modaling-large, html.chose-friend, html.chose-location{
 		display: none;
 	}
 	.navbar-coding{
-		position: relative;
-		z-index: 1;
+		position: relative !important;
+		z-index: 1 !important;
 	}
 	.container-coding{
 		margin-top: 0;
@@ -894,11 +909,14 @@ html.pp-modaling-large{
 html.pp-modaling-small{
 	body{
 		overflow: hidden;
+		position: relative;
 	}
 	.modal-backdrop{
 		display: block;
-		height: 100vh;
-		bottom: initial;
+		position: absolute !important;
+		top: 0 !important;
+		bottom: 0 !important;
+		height: initial !important;
 	}
 }
 
