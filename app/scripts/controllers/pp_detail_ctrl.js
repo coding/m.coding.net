@@ -469,7 +469,7 @@ var PP_DETAIL_ROUTE  = (function(){
         });
 
         // fucking html5 history api
-        window.location.hash = "#pp_input"; //这里设置这个是为了增加空白历史记录，防止后面的 hash 直接返回到 /pp 引起的页面刷新
+        window.location.hash = "#ppinput"; //这里设置这个是为了增加空白历史记录，防止后面的 hash 直接返回到 /pp 引起的页面刷新
         window.postMessage('ppModelOpenning','*');
         $inputModal.modal('show');
     }
