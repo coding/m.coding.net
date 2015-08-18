@@ -458,6 +458,9 @@ var PP_ROUTE  = (function(){
     }
 
     function openInputModal(params){
+        if(!router.current_user){
+            return alert('请登录后操作！');
+        }
 
         var $inputModal = $('#pp_input');
 

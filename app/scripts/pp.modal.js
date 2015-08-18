@@ -433,6 +433,11 @@ Zepto(function(){
 
 // @好友功能模块
 Zepto(function(){
+
+    if(!router.current_user){
+        return;
+    }
+
     var friends = [],
         at_friends = [];
 
