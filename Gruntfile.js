@@ -115,7 +115,7 @@ module.exports = function (grunt) {
                     middleware: function (connect) {
                         return [
                             //proxyRequest,
-                            modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.eot|\\.ttf|\\.woff$ /index.html [L]']),
+                            modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.gif|\\.eot|\\.ttf|\\.woff$ /index.html [L]']),
                             //lrSnippet,
                             //mountFolder(connect, '.tmp'),
                             mountFolder(connect, yeomanConfig.app)
@@ -138,7 +138,7 @@ module.exports = function (grunt) {
                     middleware: function (connect) {
                         return [
                             proxyRequest,
-                            modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.eot|\\.ttf|\\.woff$ /index.html [L]']),
+                            modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.gif|\\.eot|\\.ttf|\\.woff$ /index.html [L]']),
                             mountFolder(connect, yeomanConfig.dist)
                         ];
                     }
