@@ -403,6 +403,7 @@ var PP_DETAIL_ROUTE  = (function(){
 
         //配置弹窗基本信息
         $inputModal.find('.modal-title').html( params.title || '发冒泡' );
+        $inputModal.removeClass('sending');
 
         $inputModal.removeClass('small').removeClass('large');
         $inputModal.addClass( params.size || 'large' );
@@ -431,6 +432,10 @@ var PP_DETAIL_ROUTE  = (function(){
                 return;
             }
 
+            $inputModal.addClass('sending');
+            $inputModal.find('#myModalLabel').html('发送中...');
+            $('#pp_submit').attr('disabled', 'disabled');
+
             $.ajax({
                 url: API_DOMAIN + path,
                 type: 'POST',
@@ -453,25 +458,17 @@ var PP_DETAIL_ROUTE  = (function(){
                     typeof post_failed == 'function' && post_failed(data);
                 },
                 complete: function(){
+                    $inputModal.removeClass('sending');
                 }
             });
 
             return false;
         });
 
-        resetInputModal(); //模态框重置
-
         // fucking html5 history api
         window.location.hash = "#pp_input"; //这里设置这个是为了增加空白历史记录，防止后面的 hash 直接返回到 /pp 引起的页面刷新
-
+        window.postMessage('ppModelOpenning','*');
         $inputModal.modal('show');
-    }
-
-    function resetInputModal(){
-        var $inputModal = $('#pp_input');
-        //表情归位
-        $('#pp_input').removeClass('chose-emoji');
-        $('#input_tool').find('.emojiboard').addClass('chose-emojis').removeClass('chose-monkeys');
     }
 
     function assetPath(path){
@@ -566,10 +563,18 @@ var PP_DETAIL_ROUTE  = (function(){
                     checkCouldSend();
                 });
 
-                function checkCouldSend(e){
-                    if($(this).val() !== ''){
+                $(window).on('message',function(event){
+                    event.data == 'checkModalCouldSend' && checkCouldSend();
+                });
+
+                function checkCouldSend(){
+                    if( $('#pp_content').val() !== ''){
                         $('#pp_submit').removeAttr('disabled');
                     }else{
+                        $('#pp_submit').attr('disabled', 'disabled');
+                    }
+                    //正在发送中，不能提交
+                    if( $('#pp_input').hasClass('sending') ){
                         $('#pp_submit').attr('disabled', 'disabled');
                     }
                 }
