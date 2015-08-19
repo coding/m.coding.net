@@ -16,7 +16,7 @@ Zepto(function(){
     //历史记录回滚监听，这里需要判断是 back 使然，还是浏览器操作使然
     // fucking html5 history api
     $(window).on('popstate', function(event){
-        if( window.location.hash=='#pp_input' ){
+        if( window.location.hash=='#ppinput' ){
             $('html').removeClass('chose-friend').removeClass('chose-location');
             $('#pp_input').removeClass('chose-friend').removeClass('chose-location');
         }
@@ -619,7 +619,7 @@ Zepto(function(){
         $('#pp_input').removeClass('chose-location').addClass('chose-friend');
 
         //历史记录管控，在 DOM 操作完成后再操作历史记录，防止意外刷新
-        addHistory('chose_friends');
+        addHistory('chosefriends');
 
         //回到顶部，保证主界面不受影响
         setTimeout(function(){
@@ -781,7 +781,7 @@ Zepto(function(){
             setTimeout(function(){
                 $('#pp_input').removeClass('chose-friend').addClass('chose-location');
                 $('html').removeClass('chose-friend').addClass('chose-location');
-                addHistory('chose_location');
+                addHistory('choselocation');
             },30);
         });
 
