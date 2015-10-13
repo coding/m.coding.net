@@ -104,7 +104,7 @@ var LOGIN_ROUTE = (function(){
                     success: function(data,status,xhr){
                         //if login success
                         if(data.code === 0){
-                            router.run.call(router, '/')
+                            router.run.call(router, '/user/projects')
                         } else if (data.code === 903) {
                             if (addCaptcha()){
                                 return;
