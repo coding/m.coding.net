@@ -77,11 +77,11 @@
         router.register('/u/:user/p/:project/topics/:topic', PROJECT_TOPIC_ROUTE);
 
         router.register('/pp', PP_ROUTE);
-       
+
         router.register('/pp/:type', PP_ROUTE);
-        
+
         router.register('/u/:user/pp/:tweet_id', PP_DETAIL_ROUTE);
-        
+
         router.register('/u/:user/pp/:tweet_id/likeusers', PP_LIKE_USERS_ROUTE);
 
         router.register('/u/:user', USER_ROUTE);
@@ -97,6 +97,8 @@
         router.register('/i/:user/p/:project/attachment/:id', MY_PROJECT_ATTACHMENT_ROUTE);
 
         router.register('/i/:user/p/:project/attachment', MY_PROJECT_ATTACHMENT_LIST_ROUTE);
+
+        router.register('/i/:user/p/:project/attachment/:id/preview/:type', MY_PROJECT_ATTACHMENT_PREVIEW_ROUTE);
 
         router.register('/i/:user/p/:project/topic/create', MY_PROJECT_TOPIC_CREATE_ROUTE);
 

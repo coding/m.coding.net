@@ -1,0 +1,17 @@
+<div class="bg-white  shadow-default">
+	<div id="tcontainer">
+	</div>
+</div>
+
+<script id="tPreview" type="text/template">
+<div class="b-b b-light  p-sm clear">
+{{#isText}}
+  <h4>{{file.name}}</h4>
+  <hr />
+  <div class="markdown content">{{{content}}}</div>
+{{/isText}}
+{{^isText}}
+<div>还不能预览该类型文件呢~</div>
+{{/isText}}
+</div>
+</script>
