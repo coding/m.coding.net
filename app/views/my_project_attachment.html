@@ -44,7 +44,7 @@
 {{/isImage}}
 {{^isImage}}
 <div class="b-b b-light p-sm clear">
-	<div class="clear pull-left" onclick="javascript:alert('还不能预览呢~');">
+    <a class="clear pull-left" href="{{preview}}">
 		<div class="text-white m-t-xs file-icon {{fileType}}">{{fileType}}</div>
 		<div class="clear" style="margin-left:60px;">
 			<div class="text-md text-dark">
@@ -53,7 +53,7 @@
 			<div class="text-sm text-light" style="margin-top:;">{{size_display}}</div>
 			<div class="text-sm text-light m-t-xs">{{display}}</div>
 		</div>
-	</div>
+	</a>
     <a class="clear pull-right btn btn-success" href="{{download_url}}" style="margin-top:15px">下载</a>
 </div>
 {{/isImage}}

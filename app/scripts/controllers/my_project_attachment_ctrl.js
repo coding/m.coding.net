@@ -21,7 +21,7 @@ var MY_PROJECT_ATTACHMENT_ROUTE = (function(){
         "Task": "任务"
     };
 
-        function loadProject(){
+    function loadProject(){
        var path = '/api/user/' + ownerName + '/project/' + projectName;
        var success = function(data){
           if(data.data){
@@ -139,6 +139,16 @@ var MY_PROJECT_ATTACHMENT_ROUTE = (function(){
             data.list[index].size_display = size;
             data.list[index].download_url = API_DOMAIN + '/api/user/' + ownerName + '/project/' +
                 projectName + '/files/' + data.list[index].file_id + '/download';
+
+            if (!data.list[index].isImage) {
+                var fileId = data.list[index].file_id;
+                var fileType = data.list[index].fileType;
+                if (fileType == 'txt' || fileType == 'md') {
+                    data.list[index].preview = data.projectHomeURL + "/attachment/" + fileId + "/preview/" + fileType;
+                } else {
+                    data.list[index].preview = "javascript:alert('还不能预览该类型文件呢~');"
+                }
+            }
         }
 
         var rendered = Mustache.render($('#tlistfile').html(), data);
