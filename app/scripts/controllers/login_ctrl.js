@@ -88,7 +88,7 @@ var LOGIN_ROUTE = (function(){
                     $password =  $('input[name="password"]'),
                     hash = CryptoJS.SHA1($password.val()),
                     post_data = 'email=' + $.trim($email.val()) + '&password=' + hash;
-                
+
                 if ($('input[name="j_captcha"]').length === 1){
                     post_data += '&j_captcha=' + $('input[name="j_captcha"]').val();
                 }
@@ -106,15 +106,40 @@ var LOGIN_ROUTE = (function(){
                         if(data.code === 0){
                             router.run.call(router, '/')
                         } else if (data.code === 903) {
-                            if (addCaptcha()){ 
+                            if (addCaptcha()){
                                 return;
                             }else{
                                 refreshCaptcha();
                             }
-                        }
-                        if(data.msg){
-                            for(var key in data.msg){
-                                alert(data.msg[key]);
+                            if(data.msg){
+                                for(var key in data.msg){
+                                    alert(data.msg[key]);
+                                }
+                            }
+                        }else if(data.code == 3205){
+                            var fa2_code = prompt("请输入您的两步验证码");
+                            if(fa2_code !=null){
+                                $.ajax({
+                                    url: API_DOMAIN + '/api/check_two_factor_auth_code',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {code: fa2_code},
+                                    xhrFields: {
+                                        withCredentials: true
+                                    },
+                                    success:function(data){
+                                        if(data.code !=0 ){
+                                            alert('登录失败，请确认设备时间准确');
+                                        }else{
+                                            router.run.call(router, '/');
+                                        }
+                                    },
+                                    error: function(){
+                                        alert('登录失败');
+                                    }
+                                });
+                            }else {
+
                             }
                         }
                     },
@@ -123,7 +148,7 @@ var LOGIN_ROUTE = (function(){
                     }
                 });
             });
-            
+
             $('input.input-email').on('input',changeStyle);
             $('input.input-password').on('input',changeStyle);
             bindClearInput('email');
@@ -143,6 +168,6 @@ var LOGIN_ROUTE = (function(){
             $('#navigator').find('li').removeClass('active');
         }
     }
-    
+
 
 })();
