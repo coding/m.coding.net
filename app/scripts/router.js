@@ -69,7 +69,7 @@
       this.context_selector.on(this.event, this.state_changers_selector, function(e) {
         var href;
         href = $(this).attr('href') || $(this).children('a').attr('href') || '';
-        if (href.indexOf('http://') === 0 || href.indexOf('https://') === 0 || href === '') {
+        if (href.indexOf('http://') === 0 || href.indexOf('https://') === 0 || href.toLowerCase().indexOf('javascript:') === 0 || href === '') {
 
         } else {
           e.preventDefault();

@@ -76,7 +76,7 @@ class Routy.Router
 
         @context_selector.on @event, @state_changers_selector, (e)->
             href = $(@).attr('href') || $(@).children('a').attr('href') || ''
-            if href.indexOf('http://') == 0 or href.indexOf('https://') == 0 or href == ''
+            if href.indexOf('http://') == 0 or href.indexOf('https://') == 0 or href.toLowerCase().indexOf('javascript:') == 0 or href == ''
                 return
             else
                 e.preventDefault()
