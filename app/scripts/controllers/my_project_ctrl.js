@@ -109,6 +109,11 @@ var MY_PROJECT_ROUTE = (function(){
             pageCount = 0;
         },
         on_enter: function(type){
+            if (location.pathname === '/' && !router.current_user) {
+                location.href = '/home.html';
+                return
+            }
+
 
             if(!router.current_user && currentType === 'mine'){
                 alert('You are not logged in');

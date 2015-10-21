@@ -86,8 +86,9 @@ var LOGIN_ROUTE = (function(){
                 e.preventDefault();
                 var $email = $('input[name="email"]'),
                     $password =  $('input[name="password"]'),
+                    $remember_me = $('input[name="remember_me"]').prop('checked'),
                     hash = CryptoJS.SHA1($password.val()),
-                    post_data = 'email=' + $.trim($email.val()) + '&password=' + hash;
+                    post_data = 'email=' + $.trim($email.val()) + '&password=' + hash + '&remember_me=' + $remember_me;
 
                 if ($('input[name="j_captcha"]').length === 1){
                     post_data += '&j_captcha=' + $('input[name="j_captcha"]').val();

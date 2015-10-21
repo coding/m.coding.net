@@ -265,11 +265,29 @@ form.login > button, form.register > button, form.activate > button, form.resetP
     display: inline-block;
 }
 
-.link-group {
-    width: 100%;
-    text-align: center;
-    margin: 138px 0 auto 0;
+.login-checkbox{
+    width: auto;
+    float: left;
     font-size: 15px;
+    margin-left: 20px;
+    margin-top: 15px;
+}
+
+.login-checkbox input{
+    vertical-align: top;
+}
+
+.login-checkbox label{
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.link-group {
+    width: auto;
+    text-align: right;
+    font-size: 15px;
+    float: right;
+    margin-top: 15px;
 
 }
 
@@ -282,9 +300,8 @@ form.login > button, form.register > button, form.activate > button, form.resetP
 .link-group ul li{
     list-style: none;
     float: left;
-    padding: 0 20px;
+    padding: 0 10px;
     height: 17px;
-    line-height: 17px;
 }
 
 .link-group ul li.right-line{
