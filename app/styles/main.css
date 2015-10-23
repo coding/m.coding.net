@@ -249,6 +249,10 @@ input#captcha{
     right: 105px;
 }
 
+html.path-login body{
+    background-color: #f6f6f6 !important;
+}
+
 form.login > button, form.register > button, form.activate > button, form.resetPassword > button{
     width: 92%;
     margin-left: 4%;
@@ -278,6 +282,7 @@ form.login > button, form.register > button, form.activate > button, form.resetP
 }
 
 .login-checkbox label{
+    margin-left: 4px;
     font-weight: normal;
     color: rgba(0, 0, 0, 0.5);
 }
@@ -306,6 +311,7 @@ form.login > button, form.register > button, form.activate > button, form.resetP
 
 .link-group ul li.right-line{
     border-right: 1px dotted #d1d1d1;
+    height: 19px
 }
 
 .login-cover {
