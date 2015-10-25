@@ -46,7 +46,7 @@
 
         window.router = new Routy.Router(null, 'a', '.main');
 
-        router.rootRegister(MY_PROJECT_ROUTE);
+        router.rootRegister(ROOT_ROUTE);
 
         router.register('/login', LOGIN_ROUTE);
 
