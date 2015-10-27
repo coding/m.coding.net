@@ -1,0 +1,27 @@
+<!-- 意见反馈页面 -->
+<div class="feedback-modal-wrap" id="feedback_modal_wrap">
+    <div class="modal-content">
+        <form id="feedback_form">
+            <div class="modal-header">
+                <a class="pull-left" id="feedback_cancel" href="/user/projects">取消</a>
+                <button type="button" class="btn btn-success pull-right" disabled
+                        id="feedback_submit">提交
+                </button>
+                <h4 class="modal-title text-center" id="myModalLabel">意见反馈</h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" id="feedback_title" rows="1" placeholder="标题"></textarea>
+                <textarea class="form-control" id="feedback_content" rows="5" placeholder="反馈内容"></textarea>
+            </div>
+
+            <div class="input-tool" id="input_tool">
+                <div class="image-board" id="image_board">
+                    <div class="image icon-plus" id="feedback_image" >
+                    </div>
+                    <p class="image-tip">最多可以上传6张图片~</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

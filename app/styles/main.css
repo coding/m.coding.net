@@ -1938,3 +1938,119 @@ text-13-7{
     max-width: 100%;
 }
 /* 我的项目相关 结束 */
+
+/* 反馈页面 */
+html.path-feedback .container-coding{
+    margin-top: 57px;
+    padding: 0;
+}
+
+#feedback_modal_wrap .modal-content{
+    border: none;
+    box-shadow: none;
+}
+
+#feedback_form .modal-header{
+    height: 51px;
+    line-height: 51px;
+    margin: 0;
+    padding: 0;
+    background: #2A3644;
+    border-bottom: 1px solid #e5e5e5;
+    color: #fff !important;
+}
+
+#feedback_form .modal-header h4{
+    font-size: 15px;
+    z-index: 1;
+    line-height: 51px;
+}
+
+#feedback_cancel{
+    display: inline-block;
+    height: 100%;
+    width: 4em;
+    text-align: center;
+    color: #fff !important;
+}
+
+#feedback_submit{
+    color: #3bbd79 !important;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    height: 100%;
+    position: relative;
+    width: 4em;
+    text-align: center;
+}
+
+#feedback_modal_wrap .modal-body {
+    padding : 0 0 0 13px;
+}
+
+#feedback_modal_wrap .modal-body .form-control{
+    width: 100%;
+    box-shadow: none !important;
+    border-radius: 0;
+    border: none;
+    padding: 12px 0;
+}
+
+#feedback_title{
+    padding-top: 14px !important;
+    resize: none;
+    font-size: 18px;
+    border-bottom: 1px solid #ccc !important;
+}
+
+#feedback_content{
+    resize: none;
+    border: none;
+}
+
+#feedback_form .input-tool{
+    background: #dddddd;
+}
+
+#feedback_form .image-board{
+    padding: 14px 12px 8px 12px;
+}
+
+#feedback_form .image-board .image{
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+    height: 65px;
+    width: 65px;
+    border-radius: 2px !important;
+    background-position: center;
+    background-size: cover;
+}
+
+#feedback_form .image-board .image i.icon-delete {
+    display: block;
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    width: 18px;
+    height: 18px;
+    background-image: url(/images/pp/deleteimg_x.png);
+    background-origin: content-box;
+    background-size: cover;
+}
+
+#feedback_form .image-board .icon-plus {
+    background-image: url(/images/pp/plus.png);
+}
+
+#feedback_form .image-board .image:nth-of-type(7) {
+    display: none;
+}
+
+#feedback_form .image-tip{
+    padding-top: 5px;
+    color: #999999;
+    font-size: 12px;
+}
