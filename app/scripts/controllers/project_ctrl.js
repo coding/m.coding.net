@@ -51,8 +51,8 @@ var PROJECT_ROUTE = (function(){
 
         ele.attr('href', pro['project_path']);
         ele.find('img.project_icon').attr('src', assetPath(pro['icon']));
-        ele.find('span.project_name').text(pro['name']);
-        ele.find('span.project_description').text(truncateText(pro['description'],15));
+        ele.find('span.project_name').text(truncateText(pro['name'],20));
+        ele.find('span.project_description').text(truncateText(pro['description'],14));
         ele.find('div.pub-info .star_count').text(pro['star_count']);
         ele.find('div.pub-info .fork_count').text(pro['fork_count']);
         ele.find('div.pub-info .watch_count').text(pro['watch_count']);
