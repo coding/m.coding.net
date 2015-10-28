@@ -2,54 +2,54 @@
     <div class="bg-white text-md w-full " style="width:100px;position:absolute;border:1px solid #ccc;padding:8px 8px 8px 8px;">
         <span id="status_text">未处理</span>
         <div class="pull-right text-light text-xs" style="margin-top:3px;">
-			<img src="/images/icons/dropdown.png" style="width:10px;height:16px;" />
-		</div>
+            <img src="/images/icons/dropdown.png" style="width:10px;height:16px;" />
+        </div>
     </div>	
-	<select class="form-control status" style="opacity:0;width:100px;" >
-	    <option value="open">未处理</option>
-	    <option value="closed">已处理</option>
-	    <option value="all">全部</option>
-	</select>
+    <select class="form-control status" style="opacity:0;width:100px;" >
+        <option value="open">未处理</option>
+        <option value="closed">已处理</option>
+        <option value="all">全部</option>
+    </select>
 
 </div>
 
 <div class="bg-white m-t-sm m-b-sm">
-	<div id="tcontainer">
-	</div>
+    <div id="tcontainer">
+    </div>
 </div>
 
 <script id="tlist" type="text/template">
 {{#list}}
-	<div class="p-sm {{^isFirst}} b-t b-light{{/isFirst}}">
-		<div>
-			<h6 class="text-primary text-md">{{iid}} {{title}}</h6>
-		</div>
-		<div class="p-t-xs p-b-xs">
-			{{source_owner_name}}:{{srcBranch}} -> {{ownerName}}:{{desBranch}}
-			{{#isAccepted}}
-			<span class="label label-warning">已合并</span>
-			{{/isAccepted}}
-			{{#isRefused}}
-			<span class="label label-warning">已拒绝</span>
-			{{/isRefused}}
-			{{#isCannotMerge}}
-			<span class="label label-info">不可合并</span>
-			{{/isCannotMerge}}
-			{{#isOpen}}
-			<span class="label label-success">未处理</span>
-			{{/isOpen}}
-		</div>
-		<div class="text-xs text-light">{{author.name}} 创建于 {{display}}</div>
-	</div>
+    <div class="p-sm {{^isFirst}} b-t b-light{{/isFirst}}">
+        <div>
+            <h6 class="text-primary text-md">{{iid}} {{title}}</h6>
+        </div>
+        <div class="p-t-xs p-b-xs">
+            {{source_owner_name}}:{{srcBranch}} -> {{ownerName}}:{{desBranch}}
+            {{#isAccepted}}
+            <span class="label label-warning">已合并</span>
+            {{/isAccepted}}
+            {{#isRefused}}
+            <span class="label label-warning">已拒绝</span>
+            {{/isRefused}}
+            {{#isCannotMerge}}
+            <span class="label label-info">不可合并</span>
+            {{/isCannotMerge}}
+            {{#isOpen}}
+            <span class="label label-success">未处理</span>
+            {{/isOpen}}
+        </div>
+        <div class="text-xs text-light">{{author.name}} 创建于 {{display}}</div>
+    </div>
 {{/list}}
 </script>
 
 <script id="theader" type="text/template">
 <div class="row project_header">
 {{#list}}
-	<div class="col-xs-4 {{#active}}active{{/active}}">
-		<a href="{{href}}">{{name}}</a>
-	</div>
+    <div class="col-xs-6 {{#active}}active{{/active}}">
+        <a href="{{href}}">{{name}}</a>
+    </div>
 {{/list}}
 </div>
 </script>

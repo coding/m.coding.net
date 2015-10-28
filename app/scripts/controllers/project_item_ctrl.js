@@ -27,7 +27,7 @@ var PROJECT_ITEM_ROUTE = (function(){
         });
     }
     function assembleDOM(){
-        data = readme;
+        data = readme || {};
         data.project = projectData;
         //data.project.short_description = coding.truncateText(projectData.description);
         data.stared = projectData.stared;

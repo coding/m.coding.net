@@ -7,7 +7,7 @@ var MY_PROJECT_GIT_MERGE_ROUTE = (function(){
         projectName,
         pageCount = 1,
         status = 'open';
-    var type_list = {'home':'项目介绍','code':'阅读代码', 'merge':'合并请求'};
+    var type_list = {'code':'阅读代码', 'merge':'合并请求'};
     
     function loadProject(){
        var path = '/api/user/' + ownerName + '/project/' + projectName;

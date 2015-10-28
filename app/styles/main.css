@@ -64,7 +64,7 @@ button{
 }
 
 .container-coding{
-    margin-top: 80px;
+    margin-top: 70px;
     margin-bottom: 20px;
 }
 
@@ -507,6 +507,7 @@ form.login > button, form.register > button, form.activate > button, form.resetP
     font-size: 25px;
 }
 
+
 .projects_title {
     color: #3bbd79 !important;
     font-size: 15px;
@@ -515,31 +516,42 @@ form.login > button, form.register > button, form.activate > button, form.resetP
 }
 
 .project_name {
-    color: #3bbd79 !important;
-    font-size: 14px;
+    color: rgba(34, 34, 34, 1) !important;
+    font-size: 16px;
+    line-height: 16px;
     vertical-align: top;
     margin-left: 10px;
 }
 
 .project_description {
-    color: #333333;
+    color:rgba(38, 38, 38, 1);
     font-size: 12px;
     position: relative;
-    top: 5px;
     margin-left: 10px;
 }
 
-.project_owner {
-    color: #979797;
-    font-size: 8px;
+
+.pub-info{
+    color: rgba(153, 153, 153, 1);
+    font-size: 12px;
     position: relative;
     left: 10px;
-    top: 25px;
+    top: 4px;
 }
 
-.project_owner > img {
-    vertical-align: middle;
-    border-radius: 50%;
+.pub-info .image{
+   rgb(141,141,141);
+    width: 1em;
+    height: 1em;
+}
+
+.pub-info  span{
+    margin-right: 20px;
+}
+
+.pub-info  .fork_icon  img{
+    width: 12px;
+    height: 12px;
 }
 
 .project_navbar {
