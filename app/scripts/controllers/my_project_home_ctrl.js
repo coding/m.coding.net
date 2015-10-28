@@ -44,6 +44,9 @@ var MY_PROJECT_HOME_ROUTE = (function(){
 
         var rendered = Mustache.render($('#tlist').html(), list);
         $('#activities').append(rendered);
+
+        var renderedDescription = Mustache.render($('#tlist-project-description').html(), projectData);
+        $('#project_description').append(renderedDescription);
     }
 
     function converActivities(){
@@ -131,7 +134,7 @@ var MY_PROJECT_HOME_ROUTE = (function(){
                router.run.call(router, path+'/topics/all'); 
             });
             $("#home_nav_code").on('click', function(){
-               router.run.call(router, path+'/git/home'); 
+               router.run.call(router, path+'/git/code');
             });
             $("#home_nav_member").on('click', function(){
                router.run.call(router, path+'/members'); 

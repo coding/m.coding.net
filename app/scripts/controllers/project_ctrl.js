@@ -33,16 +33,19 @@ var PROJECT_ROUTE = (function(){
     }
 
     function createTemplate(pro){
-        var template = '<a href="#" class="list-group-item needsclick" style="height: 105px">' +
-                            '<img class="pull-left project_icon" src="#" width="80" height="80">' +
+        var template = '<a href="#" class="list-group-item needsclick" style="height: 85px">' +
+                            '<img class="pull-left project_icon" src="#" width="60px" height="60px">' +
                             '<span class="project_name"></span>' +
                             '<br />' +
                             '<span class="project_description"></span>' +
                             '<br />' +
-                            '<div class="project_owner">' +
-                                '<img src="#" height="15" width="14" />' +
-                                '<span> 最后更新于 </span>' +
-                            '</div>' +
+                            '<div class="pub-info">'+
+                                '<i class="glyphicon glyphicon-star image"></i> <span class="star_count"></span>' +
+                                '<i class="glyphicon glyphicon-eye-open image" ></i> <span class="watch_count"></span>' +
+                                '<i class="fork_icon image" > <img src="/images/icons/fork.png"></i> <span class="fork_count"></span>' +
+
+
+                            ' </div>'+
                         '</a>',
             ele  = $(template);
 
@@ -50,8 +53,9 @@ var PROJECT_ROUTE = (function(){
         ele.find('img.project_icon').attr('src', assetPath(pro['icon']));
         ele.find('span.project_name').text(pro['name']);
         ele.find('span.project_description').text(truncateText(pro['description'],15));
-        ele.find('div.project_owner > img').attr('src', assetPath(pro['owner_user_picture']));
-        ele.find('div.project_owner > span').text(' 最后更新于' + moment(pro['updated_at']).fromNow());
+        ele.find('div.pub-info .star_count').text(pro['star_count']);
+        ele.find('div.pub-info .fork_count').text(pro['fork_count']);
+        ele.find('div.pub-info .watch_count').text(pro['watch_count']);
 
         //ele.on('touchstart', function(e){
         //    $("#projects_list").find('a').removeClass('active');
@@ -124,22 +128,6 @@ var PROJECT_ROUTE = (function(){
             $('#navigator').find('.li-square').addClass('active');
             $('#navigator').find(".li-square img").attr('src','/images/icons/square_active.png');
 
-            var project_nav = '<div class="row project_header">' +
-                    '<div class="col-xs-12">' +
-                    '<a href="#">精彩项目</a>' +
-                    '</div>',
-                nav_ele     = $(project_nav);
-
-            nav_ele.find('div').eq(0).children('a').attr('href', '/projects');
-            nav_ele.find('div').eq(1).children('a').attr('href', '/projects/mine');
-
-            $("nav.main-navbar").after(nav_ele);
-
-            if(type === 'mine'){
-                nav_ele.find('div').eq(1).addClass('active');
-            }else{
-                nav_ele.find('div').eq(0).addClass('active');
-            }
 
         },
         on_enter: function(type){

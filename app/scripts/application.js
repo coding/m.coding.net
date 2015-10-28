@@ -114,7 +114,7 @@
 
         router.register('/i/:user/p/:project/task/:id/description', MY_PROJECT_TASK_DESC_ROUTE);
 
-        router.register('/i/:user/p/:project/git, /i/:user/p/:project/git/home', MY_PROJECT_GIT_HOME_ROUTE);
+        router.register('/i/:user/p/:project/git, /i/:user/p/:project/git/code', MY_PROJECT_GIT_CODE_ROUTE);
 
         router.register('/i/:user/p/:project/git/code, /i/:user/p/:project/git/code/:commit/:path', MY_PROJECT_GIT_CODE_ROUTE);
 

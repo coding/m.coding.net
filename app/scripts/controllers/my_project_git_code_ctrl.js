@@ -11,9 +11,9 @@ var MY_PROJECT_GIT_CODE_ROUTE = (function(){
     var projectName = "";
     var commit = 'master';
     var treePath = '';
-    var lastType = "home";
+    var lastType = "code";
     
-    var type_list = {'home':'项目介绍','code':'阅读代码', 'merge':'合并请求'};
+    var type_list = {'code':'阅读代码', 'merge':'合并请求'};
 
     var type_desc = {
         "Project": "项目",

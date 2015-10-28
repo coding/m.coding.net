@@ -12,7 +12,7 @@ var MY_PROJECT_ACTIVITIES_ROUTE = (function(){
     var lastActivities = null;
     var lastType = "all";
 
-    var type_list = {'all':'全部','task':'任务','topic':'讨论','file':'文档','code':'代码','other':'其他'};
+    var type_list = {'all':'全部','task':'任务','topic':'讨论','file':'文件','code':'代码','other':'其他'};
     
     
     function loadProject(){
