@@ -162,23 +162,7 @@ class Routy.Router
             $('span.activate-tip-close').click (e)->
                                         $('.activate-tip').remove()
 
-        logoutTemplate = '<li>' + 
-                              '<a class="nav_logout"><img src="/images/icons/logout.png" class="nav-icon"><span>退出</span></a>' + 
-                           '</li>'
 
-        $("#navigator").append(logoutTemplate)
-
-        $('a.nav_logout').click (e)->
-                          $.ajax
-                            url: API_DOMAIN + '/api/logout',
-                            type: 'POST',
-                            dataType: 'json',
-                            xhrFields: 
-                                withCredentials: true  
-                          .done ->
-                            window.location = '/';
-                          .fail ->
-                            alert('Failed to logout');
           
 
     # Checks if the route matches with the current uri

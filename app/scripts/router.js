@@ -149,7 +149,7 @@
     };
 
     Router.prototype.updateDOM = function(current_user) {
-      var imageUrl, logoutTemplate, tipHtml;
+      var imageUrl, tipHtml;
       $("a.nav-login").attr('href', '/u/' + current_user['global_key']);
       imageUrl = current_user['avatar'];
       if (imageUrl.indexOf('/static') === 0) {
@@ -165,26 +165,10 @@
           $(".activate-tip").css('font-size', '12px');
           $('.activate-tip-close').css('width', '10px');
         }
-        $('span.activate-tip-close').click(function(e) {
+        return $('span.activate-tip-close').click(function(e) {
           return $('.activate-tip').remove();
         });
       }
-      logoutTemplate = '<li>' + '<a class="nav_logout"><img src="/images/icons/logout.png" class="nav-icon"><span>退出</span></a>' + '</li>';
-      $("#navigator").append(logoutTemplate);
-      return $('a.nav_logout').click(function(e) {
-        return $.ajax({
-          url: API_DOMAIN + '/api/logout',
-          type: 'POST',
-          dataType: 'json',
-          xhrFields: {
-            withCredentials: true
-          }
-        }).done(function() {
-          return window.location = '/';
-        }).fail(function() {
-          return alert('Failed to logout');
-        });
-      });
     };
 
     Router.prototype.pathRegExp = function(path, opts) {
