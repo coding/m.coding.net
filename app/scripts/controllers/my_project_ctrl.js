@@ -29,7 +29,6 @@ var MY_PROJECT_ROUTE = (function(){
             // 删除常用项目
             var exist = false;
             for(var j = 0; j < pinList.length;j++){
-                console.log(pinList[j].id,  data.list[i].id)
                 if(pinList[j].id == data.list[i].id){
                     exist = true;
                 }

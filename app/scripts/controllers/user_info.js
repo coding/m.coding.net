@@ -17,7 +17,6 @@ var USER_INFO_ROUTE = (function() {
             success: function(data) {
                 if (data.data) {
                     userData = data.data;
-                    console.log(userData);
                     updateUser(userData);
                 } else {
                     alert('Failed to load user' + user);

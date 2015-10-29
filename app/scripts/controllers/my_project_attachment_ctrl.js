@@ -85,7 +85,6 @@ var MY_PROJECT_ATTACHMENT_ROUTE = (function(){
             data.list[index].project_owner_name = ownerName;
             if(fileCounts){
                 $.each(fileCounts, function(i, v){
-                    console.log(v);
                     if(v.folder==element.file_id) data.list[index].file_count = v.count;
                 })
             }
