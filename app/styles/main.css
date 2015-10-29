@@ -1,5 +1,5 @@
 body {
-    background-color: #dddddd !important;
+    background-color: #EEE !important;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
 }
@@ -2023,7 +2023,7 @@ html.path-feedback .container-coding{
 }
 
 #feedback_form .input-tool{
-    background: #dddddd;
+    background: #EEE;
 }
 
 #feedback_form .image-board{
