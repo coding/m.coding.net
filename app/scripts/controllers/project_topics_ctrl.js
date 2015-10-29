@@ -44,7 +44,6 @@ var PROJECT_TOPICS_ROUTE = (function(){
         $topic.find('a.target').click(function(e){
             var $body = $topic.find('div.collapse > div.panel-body');
             if($body.hasClass('previewed')) return;
-            console.log('called');
             //this would only happen once unless user refresh the page
             $.ajax({
                 url: API_DOMAIN + "/api/markdown/previewNoAt",

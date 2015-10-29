@@ -82,7 +82,6 @@ var MY_PROJECT_TASK_CREATE_ROUTE = (function(){
         task[data.key] = data.value;
         if(data.key == 'owner_id'){
             $.each(members.list, function(i, v){
-                console.log(v)
                if(v.user.id == data.value){
                    task.owner = v.user;
                } 

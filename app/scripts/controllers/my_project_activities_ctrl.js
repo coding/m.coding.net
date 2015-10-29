@@ -131,7 +131,6 @@ var MY_PROJECT_ACTIVITIES_ROUTE = (function(){
             $.each(type_list, function(k,v){
                 data.list.push({href:path+k,name:v,active:k==lastType});
             });
-            console.log(data);
             var rendered = Mustache.render($('#theader').html(), data);
             $("nav.main-navbar").after(rendered);
                         
