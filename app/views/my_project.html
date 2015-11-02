@@ -1,13 +1,13 @@
 
 <div class="bg-white shadow-default">
-	<div id="project_pin_container">
-		<div class="bg-light p-sm text-11 text-light-dk">常用项目</div>
-		<div id="projects_pin"></div>
-	</div>
-	<div id="projects_list_container">
-		<div class="bg-light p-sm text-11 text-light-dk">一般项目</div>
-		<div id="projects_list"></div>
-	</div>
+    <div id="project_pin_container">
+        <div class="bg-light p-sm text-11 text-light-dk">常用项目</div>
+        <div id="projects_pin"></div>
+    </div>
+    <div id="projects_list_container">
+        <div class="bg-light p-sm text-11 text-light-dk">一般项目</div>
+        <div id="projects_list"></div>
+    </div>
 </div>
 <div class="row m-t">
    <div class="col-md-12">
@@ -17,19 +17,25 @@
 
 <script id="tlist" type="text/template">
 {{#list}}
-<div class="b-b b-light">
-	<a class="clear p-sm" href="{{projectHomeURL}}">
-		<img src="{{icon}}" alt="图片" class="pull-left b-a b-light r-2x" style="width:60px;height:60px;">
-	    <div class="clear m-t-xs" style="margin-left:70px;" >
-			<div class="text-md text-dark">{{name}}</div>
-			<div class="text-sm text-light m-t-xs">
-				{{^is_public}}
-				<span class="glyphicon glyphicon-lock text-xxs"></span>
-				{{/is_public}}
-				<span>{{owner_user_name}}</span>
-			</div>
-	    </div>
-	</a>
+<div class="b-b b-light project-item">
+    <a class="clear p-sm" href="{{projectHomeURL}}">
+        <img src="{{icon}}" alt="图片" class="pull-left b-a b-light r-2x" style="width:60px;height:60px;">
+        <div class="clear m-t-xs" style="margin-left:80px;" >
+            <div class="text-md text-dark">{{name}}</div>
+            <div class="text-sm text-light m-t-xs">
+                {{^is_public}}
+                <span class="glyphicon glyphicon-lock text-xxs"></span>
+                {{/is_public}}
+                <span>{{owner_user_name}}</span>
+            </div>
+        </div>
+        {{#un_read_activities_count}}
+        <div class="message-unread-tip">
+            <i>{{un_read_activities_count}}</i>
+        </div>
+        {{/un_read_activities_count}}
+
+    </a>
 </div>
 {{/list}}
 </script>

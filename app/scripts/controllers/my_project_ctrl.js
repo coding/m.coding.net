@@ -26,6 +26,10 @@ var MY_PROJECT_ROUTE = (function(){
         var newList = [];
         for(var i =0; i < data.list.length;i++){
             data.list[i].projectHomeURL = coding.projectHomePath(null, null, data.list[i]);
+            //加载完项目信息后，将未读动态数超过 100 的设为 99+
+            if (parseInt(data.list[i].un_read_activities_count) >= 100) {
+                data.list[i].un_read_activities_count = '99+';
+            }
             // 删除常用项目
             var exist = false;
             for(var j = 0; j < pinList.length;j++){
@@ -44,6 +48,7 @@ var MY_PROJECT_ROUTE = (function(){
         var rendered = Mustache.render(template, data);
         
         $container.append(rendered);
+
     }
      function assemblePinDOM(data){
         if(!data || !data.list || !data.list.length) {
@@ -54,6 +59,10 @@ var MY_PROJECT_ROUTE = (function(){
         data.list = fixRelativeURL(data.list, "icon");  
         for(var i =0; i < data.list.length;i++){
             data.list[i].projectHomeURL = coding.projectHomePath(null, null, data.list[i]);
+            //加载完项目信息后，将未读动态数超过 100 的设为 99+
+            if (parseInt(data.list[i].un_read_activities_count) >= 100) {
+                data.list[i].un_read_activities_count = '99+';
+            }
         }
         
         $container = $('#projects_pin');
@@ -98,6 +107,7 @@ var MY_PROJECT_ROUTE = (function(){
 		});
 
     }
+
 
     return {
         template_url: '/views/my_project.html',
