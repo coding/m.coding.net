@@ -194,8 +194,16 @@ var MY_PROJECT_TASKS_ROUTE = (function(){
             loadProcessingTasks();
             loadDoneTasks();
         });
-    }   
-     
+    }
+
+    function hideTaskHeader(event) {
+        var clickTarget = $(event.target);
+        var isOpened = $("#taskHeader").hasClass("in");
+        if (isOpened && (!clickTarget.hasClass("nav-content text-md"))) {
+            $("#taskHeader").collapse('hide');
+        }
+    }
+
     return {
         template_url: '/views/my_project_tasks.html',
         context: ".container",
@@ -223,8 +231,14 @@ var MY_PROJECT_TASKS_ROUTE = (function(){
             });
             
             $(document).on('change', '.task-status-checkbox', updateTaskStatus);
+
+
+
+            $(document).click(hideTaskHeader);
+
         },
         on_exit: function(){
+            $(document).off('click', hideTaskHeader);
             $(document).off('change', '.task-status-checkbox');
             $('#navigator').find('li').removeClass('active');
             $('#navigator').find(".li-project img").attr('src','/images/icons/project.png');
