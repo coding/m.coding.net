@@ -1222,6 +1222,31 @@ p.thumbnail .bubble-markdown-image{
 
 
 /* 我的项目相关 */
+html.path-user-projects .project-item{
+    position: relative;
+}
+
+html.path-user-projects .message-unread-tip{
+    background: #F75388;
+    min-width: 24px;
+    height: 24px;
+    width: auto;
+    font-size: 16px;
+    border: solid 2px #FFF;
+    position: absolute;
+    top: 0px;
+    left: 54px;
+    color: #FFF;
+    text-align: center;
+    border-radius: 18px;
+    padding: 0px 2px;
+
+}
+
+html.path-user-projects .message-unread-tip i{
+    font-style: normal;
+}
+
 #main_header {
     font-family: HelveticaNeue-Medium;
     display: inline-block;

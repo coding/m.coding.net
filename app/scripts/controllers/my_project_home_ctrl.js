@@ -107,6 +107,18 @@ var MY_PROJECT_HOME_ROUTE = (function(){
         return list;
     }
 
+    //进入项目后，将未读动态数设为 0
+    function updateVisit(){
+        var path = '/api/user/' + ownerName + '/project/' + projectName;
+        var success = function(data){
+            if((data.data) && (data.data.is_public == false) ){
+                var projectId = data.data.id;
+                coding.get('/api/project/'+projectId+'/update_visit',function(){})
+            }
+        };
+        coding.get(path, success);
+    }
+
     return {
         template_url: '/views/my_project_home.html',
         context: ".container",
@@ -141,6 +153,7 @@ var MY_PROJECT_HOME_ROUTE = (function(){
             });
             
             loadProject();
+            updateVisit();
             var element = $("#load_more");
             element.on('click', function(e){
                 e.preventDefault();
