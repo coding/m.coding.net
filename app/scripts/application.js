@@ -1,7 +1,7 @@
 /**
  * Created by simonykq on 21/12/2014.
  */
-(function(REGISTER_ROUTE, LOGIN_ROUTE, ACTIVATE_ROUTE, RESETPASSWORD_ROUTE, PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PROJECT_TOPIC_ROUTE, PP_ROUTE, USER_ROUTE, USER_INFO_ROUTE, USER_FANS_ROUTE, USER_PROJECT_ROUTE, USER_PP_ROUTE, FRIENDS_INFO_ROUTE, FEEDBACK_ROUTE) {
+(function(REGISTER_ROUTE, LOGIN_ROUTE, ACTIVATE_ROUTE, RESETPASSWORD_ROUTE, PROJECT_ROUTE,  PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PROJECT_TOPIC_ROUTE, PP_ROUTE, USER_ROUTE, USER_INFO_ROUTE, USER_FANS_ROUTE, USER_PROJECT_ROUTE, USER_PP_ROUTE, FRIENDS_INFO_ROUTE, FEEDBACK_ROUTE) {
     $(function() {
         FastClick.attach(document.body);
         moment.locale('zh');
@@ -64,7 +64,9 @@
 
         router.register('/projects/:type', PROJECT_ROUTE);
 
-        router.register('/u/:user/p/:project, /u/:user/p/:project/git', PROJECT_ITEM_ROUTE);
+        router.register('/u/:user/p/:project', DISPATCH_PROJECT_HOME_ROUTE);
+
+        router.register('/u/:user/p/:project/git', DISPATCH_PROJECT_GIT_CODE_ROUTE);
 
         router.register('/u/:user/p/:project/tree, /u/:user/p/:project/tree/:commit/:path', PROJECT_TREE_ROUTE);
 
@@ -72,9 +74,9 @@
 
         router.register('/u/:user/p/:project/pull', PROJECT_PULL_ROUTE);
 
-        router.register('/u/:user/p/:project/topics', PROJECT_TOPICS_ROUTE);
+        router.register('/u/:user/p/:project/topics', DISPATCH_PROJECT_TOPICS_ROUTE);
 
-        router.register('/u/:user/p/:project/topics/:topic', PROJECT_TOPIC_ROUTE);
+        router.register('/u/:user/p/:project/topic/:id', DISPATCH_PROJECT_TOPIC_ROUTE);
 
         router.register('/pp', PP_ROUTE);
 
@@ -90,39 +92,36 @@
         // 我的项目相关
         router.register('/user/projects', MY_PROJECT_ROUTE);
 
-        router.register('/i/:user/p/:project/members', MY_PROJECT_MEMBERS_ROUTE);
+        router.register('/u/:user/p/:project/members', MY_PROJECT_MEMBERS_ROUTE);
 
-        router.register('/i/:user/p/:project/activities, /i/:user/p/:project/activities/:type', MY_PROJECT_ACTIVITIES_ROUTE);
+        router.register('/u/:user/p/:project/activities, /u/:user/p/:project/activities/:type', MY_PROJECT_ACTIVITIES_ROUTE);
 
-        router.register('/i/:user/p/:project/attachment/:id', MY_PROJECT_ATTACHMENT_ROUTE);
+        router.register('/u/:user/p/:project/attachment/:id', MY_PROJECT_ATTACHMENT_ROUTE);
 
-        router.register('/i/:user/p/:project/attachment', MY_PROJECT_ATTACHMENT_LIST_ROUTE);
+        router.register('/u/:user/p/:project/attachment', MY_PROJECT_ATTACHMENT_LIST_ROUTE);
 
-        router.register('/i/:user/p/:project/attachment/:id/preview/:type', MY_PROJECT_ATTACHMENT_PREVIEW_ROUTE);
+        router.register('/u/:user/p/:project/attachment/:id/preview/:type', MY_PROJECT_ATTACHMENT_PREVIEW_ROUTE);
 
-        router.register('/i/:user/p/:project/topic/create', MY_PROJECT_TOPIC_CREATE_ROUTE);
+        router.register('/u/:user/p/:project/topic/create', MY_PROJECT_TOPIC_CREATE_ROUTE);
 
-        router.register('/i/:user/p/:project/topics/:type, /i/:user/p/:project/topics', MY_PROJECT_TOPICS_ROUTE);
+        router.register('/u/:user/p/:project/topics/:type', MY_PROJECT_TOPICS_ROUTE);
 
-        router.register('/i/:user/p/:project/topic/:id', MY_PROJECT_TOPIC_ROUTE);
+        router.register('/u/:user/p/:project/tasks, /u/:user/p/:project/tasks/:member', MY_PROJECT_TASKS_ROUTE);
 
-        router.register('/i/:user/p/:project/tasks, /i/:user/p/:project/tasks/:member', MY_PROJECT_TASKS_ROUTE);
+        router.register('/u/:user/p/:project/task/create', MY_PROJECT_TASK_CREATE_ROUTE);
 
-        router.register('/i/:user/p/:project/task/create', MY_PROJECT_TASK_CREATE_ROUTE);
+        router.register('/u/:user/p/:project/task/:id', MY_PROJECT_TASK_ROUTE);
 
-        router.register('/i/:user/p/:project/task/:id', MY_PROJECT_TASK_ROUTE);
+        router.register('/u/:user/p/:project/task/:id/description', MY_PROJECT_TASK_DESC_ROUTE);
 
-        router.register('/i/:user/p/:project/task/:id/description', MY_PROJECT_TASK_DESC_ROUTE);
+        router.register('/u/:user/p/:project/git/code', MY_PROJECT_GIT_CODE_ROUTE);
 
-        router.register('/i/:user/p/:project/git, /i/:user/p/:project/git/code', MY_PROJECT_GIT_CODE_ROUTE);
+        router.register('/u/:user/p/:project/git/code, /u/:user/p/:project/git/code/:commit/:path', MY_PROJECT_GIT_CODE_ROUTE);
 
-        router.register('/i/:user/p/:project/git/code, /i/:user/p/:project/git/code/:commit/:path', MY_PROJECT_GIT_CODE_ROUTE);
+        router.register('/u/:user/p/:project/git/merge', MY_PROJECT_GIT_MERGE_ROUTE);
 
-        router.register('/i/:user/p/:project/git/merge', MY_PROJECT_GIT_MERGE_ROUTE);
-
-        router.register('/i/:user/p/:project/git/blob/:commit/:path', MY_PROJECT_GIT_BLOB_ROUTE);
-
-        router.register('/i/:user/p/:project', MY_PROJECT_HOME_ROUTE);
+        router.register('/u/:user/p/:project/git/blob/:commit/:path', MY_PROJECT_GIT_BLOB_ROUTE);
+        
         router.register('/user/:user', USER_ROUTE);
         router.register('/info/:user', USER_INFO_ROUTE);
         router.register('/social/:user/:type', USER_FANS_ROUTE);
@@ -136,4 +135,4 @@
         router.register('/feedback', FEEDBACK_ROUTE);
 
     })
-})(REGISTER_ROUTE, LOGIN_ROUTE, ACTIVATE_ROUTE, RESETPASSWORD_ROUTE, PROJECT_ROUTE, PROJECT_ITEM_ROUTE, PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PROJECT_TOPIC_ROUTE, PP_ROUTE, USER_ROUTE, USER_INFO_ROUTE, USER_FANS_ROUTE, USER_PROJECT_ROUTE, USER_PP_ROUTE, FRIENDS_INFO_ROUTE, FEEDBACK_ROUTE);
+})(REGISTER_ROUTE, LOGIN_ROUTE, ACTIVATE_ROUTE, RESETPASSWORD_ROUTE, PROJECT_ROUTE,  PROJECT_TREE_ROUTE, PROJECT_BLOB_ROUTE, PROJECT_PULL_ROUTE, PROJECT_TOPICS_ROUTE, PROJECT_TOPIC_ROUTE, PP_ROUTE, USER_ROUTE, USER_INFO_ROUTE, USER_FANS_ROUTE, USER_PROJECT_ROUTE, USER_PP_ROUTE, FRIENDS_INFO_ROUTE, FEEDBACK_ROUTE);

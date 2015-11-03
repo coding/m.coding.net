@@ -39,7 +39,7 @@ var PROJECT_TOPICS_ROUTE = (function(){
         $topic.find('div.collapse').attr('id', 'topic_' + topic['id']);
         $topic.find('div.collapse > div.panel-body').html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
 
-        $topic.find('a.hidden').attr('href', '/u/' + ownerName + '/p/' + projectName + '/topics/' + topic['id']);
+        $topic.find('a.hidden').attr('href', '/u/' + ownerName + '/p/' + projectName + '/topic/' + topic['id']);
 
         $topic.find('a.target').click(function(e){
             var $body = $topic.find('div.collapse > div.panel-body');
