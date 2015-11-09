@@ -91,8 +91,9 @@
     };
 
     Router.prototype.register = function(uri, route) {
-      var after, before, context, enter, events, exit, new_route, resolve, template_url;
+      var after, before, context, enter, events, exit, new_route, resolve, template_url, dispatch;
       template_url = route.template_url;
+      dispatch = route.dispatch;
       events = route.events || this.event.split(' ');
       context = route.context;
       resolve = route.resolve;
@@ -100,7 +101,7 @@
       enter = route.on_enter;
       after = route.after_enter;
       exit = route.on_exit;
-      new_route = new Routy.Action(uri, template_url, events, $(context), this, resolve, before, enter, after, exit);
+      new_route = new Routy.Action(uri, template_url, dispatch,events, $(context), this, resolve, before, enter, after, exit);
       return this.actions.push(new_route);
     };
 
@@ -206,6 +207,8 @@
 
     Action.prototype.template_url = null;
 
+    Action.prototype.dispatch = null;
+
     Action.prototype.template = null;
 
     Action.prototype.callback = null;
@@ -222,9 +225,10 @@
 
     Action.prototype.events = [];
 
-    function Action(routes, template_url, events, context, router, resolve, before_callback, callback, after_callback, on_exit_callback) {
+    function Action(routes, template_url, dispatch ,events, context, router, resolve, before_callback, callback, after_callback, on_exit_callback) {
       var arr, route, _i, _len;
       this.template_url = template_url;
+      this.dispatch = dispatch;
       this.events = events;
       this.context = context;
       this.router = router;
@@ -258,6 +262,8 @@
         false;
       }
       if (this.resolve) {
+        //因为同个 url 会对应不同的模板
+        _this.template = null;
         return this.resolve.apply(this, args).then(function(data) {
           if (data.data) {
             args.push(data.data);
@@ -284,6 +290,15 @@
       if (this.template) {
         deferred.resolve(data);
       } else {
+        //根据项目类型分配对应的 controller
+        if (this.dispatch){
+          var distCallbacks = this.dispatch.apply(this,data);
+          _this.template_url = distCallbacks.template_url;
+          _this.before_callback = distCallbacks.before_enter;
+          _this.callback = distCallbacks.on_enter;
+          _this.on_exit_callback = distCallbacks.on_exit;
+        }
+
         $.get(this.template_url, function(template) {
           _this.template = template;
           return deferred.resolve(data);

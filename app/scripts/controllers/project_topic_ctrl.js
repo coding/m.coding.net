@@ -194,14 +194,14 @@ var PROJECT_TOPIC_ROUTE = (function(){
     return {
         template_url: '/views/project_topic.html',
         context: '.container',
-        resolve: function(user, project, topic){
+        resolve: function(user, project, id){
             var promise = $.ajax({
                 url: API_DOMAIN + '/api/user/' + user + '/project/' + project,
                 dataType: 'json'
             });
             return promise;
         },
-        before_enter: function(user, project, topic, data){
+        before_enter: function(user, project, id, data){
 
             var path =  '/u/' + user + '/p/' +  project;
             //active the project navbar item
@@ -238,11 +238,11 @@ var PROJECT_TOPIC_ROUTE = (function(){
             
 
         },
-        on_enter: function(user, project, topic, data){
+        on_enter: function(user, project, id, data){
             
             ownerName = user;
             projectName = project;
-            topicId     = topic;
+            topicId     = id;
             projectData = data;
             loadProject();
             
