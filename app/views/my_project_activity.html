@@ -1,7 +1,7 @@
 
 <div class="bg-white shadow-default">
-	<div id="tcontainer">
-	</div>
+    <div id="tcontainer">
+    </div>
 </div>
 <div class="row m-t">
    <div class="col-md-12">
@@ -11,34 +11,45 @@
 
 
 <script id="tlist" type="text/template">
-{{#list}}
-	{{#showHeader}}
-	<div class="bg-light p-sm text-11 text-light-dk">{{header}}</div>
-	{{/showHeader}}
-	<div class="bg-white p-l-sm p-r-sm p-r-none clear streamline {{#showHeader}}p-t-sm{{/showHeader}}">
-		<a href="/u/{{user.global_key}}" class="pull-left m-t-sm">
-			<img src="{{user.avatar}}" alt="图片" class=" b-a b-light rounded" style="width:32px;height:32px;">
-		</a>
+    {{#list}}
+    {{#showHeader}}
+    <div class="bg-light p-sm text-11 text-light-dk">{{header}}</div>
+    {{/showHeader}}
+    <div class="bg-white p-l-sm p-r-sm p-r-none clear streamline {{#showHeader}}p-t-sm{{/showHeader}}">
+        <a href="/u/{{user.global_key}}" class="pull-left m-t-sm">
+            <img src="{{user.avatar}}" alt="图片" class=" b-a b-light rounded" style="width:32px;height:32px;">
+        </a>
         <div class="sl-item {{#isUnread}} sl-primary {{/isUnread}} b-l p-b b-primary " style="margin-left:45px;" >
-            <div class="m-l p-sm {{^showHeader}} b-t b-light {{/showHeader}}">
-                <div style="word-break:break-all;">
-					<span class="text-primary"><a href="/u/{{user.global_key}}">{{user.name}}</a></span> {{action_msg}}{{target_type_desc}}
-				</div>
-				<div class=" m-t-xs" style="font-size:13px;color:#555555;word-break:break-all;">{{{content}}}</div>
-				<div class="text-sm text-light m-t">{{display}}</div>               
+            <div class="activity-detail m-l p-sm {{^showHeader}} b-t b-light {{/showHeader}}">
+                <div class="activity-title" style="word-break:break-all;">
+                    <span class="text-primary"><a href="/u/{{user.global_key}}">{{user.name}}</a></span> {{action_msg}}{{target_type_desc}}
+                </div>
+                {{#target_path}}
+                <a href="{{target_path}}">
+                    <div class="activity-content">
+                        <div class=" m-t-xs" style="font-size:13px;color:#555555;word-break:break-all;">{{{content}}}</div>
+                        <div class="text-sm text-light m-t">{{display}}</div>
+                    </div>
+                </a>
+                {{/target_path}}
+                {{^target_path}}
+                <div class="activity-content">
+                    <div class=" m-t-xs" style="font-size:13px;color:#555555;word-break:break-all;">{{{content}}}</div>
+                    <div class="text-sm text-light m-t">{{display}}</div>
+                </div>
+                {{/target_path}}
             </div>
         </div>
-	</div>
-	</div>
-{{/list}}
+    </div>
+    {{/list}}
 </script>
 
 <script id="theader" type="text/template">
 <div class="row project_header">
 {{#list}}
-	<div class="col-xs-2 {{#active}}active{{/active}}">
-		<a href="{{href}}">{{name}}</a>
-	</div>
+    <div class="col-xs-2 {{#active}}active{{/active}}">
+        <a href="{{href}}">{{name}}</a>
+    </div>
 {{/list}}
 </div>
 </script>

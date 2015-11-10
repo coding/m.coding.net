@@ -100,7 +100,7 @@
 
         router.register('/u/:user/p/:project/attachment', MY_PROJECT_ATTACHMENT_LIST_ROUTE);
 
-        router.register('/u/:user/p/:project/attachment/:id/preview/:type', MY_PROJECT_ATTACHMENT_PREVIEW_ROUTE);
+        router.register('/u/:user/p/:project/attachment/:parentId/preview/:fileId/:type', MY_PROJECT_ATTACHMENT_PREVIEW_ROUTE);
 
         router.register('/u/:user/p/:project/topic/create', MY_PROJECT_TOPIC_CREATE_ROUTE);
 

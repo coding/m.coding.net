@@ -154,6 +154,9 @@ var USER_ROUTE = (function() {
                     var mylogout = '<button  class="user-logout" id="mylogout">退出登录</button>';
                     template = $(mylogout);
                     $('#user-details > .user-mylogout').html(template);
+                } else {
+                    $('#navigator').find('.li-login').addClass('active');
+                    loadUser(user);
                 }
             }
             $('#mylogout').click(function(e) {

@@ -13,8 +13,8 @@ var MY_PROJECT_ACTIVITIES_ROUTE = (function(){
     var lastType = "all";
 
     var type_list = {'all':'全部','task':'任务','topic':'讨论','file':'文件','code':'代码','other':'其他'};
-    
-    
+
+
     function loadProject(){
        var path = '/api/user/' + ownerName + '/project/' + projectName;
        coding.get(path,function(data){
@@ -25,10 +25,10 @@ var MY_PROJECT_ACTIVITIES_ROUTE = (function(){
           }
 	  });
     }
-    
+
     function assembleDOM(){
-        if(!activities) return;      
-        var list = {list:converActivities()};     
+        if(!activities) return;
+        var list = {list:converActivities()};
 
         var rendered = Mustache.render($('#tlist').html(), list);
         $('#tcontainer').append(rendered);
@@ -42,7 +42,7 @@ var MY_PROJECT_ACTIVITIES_ROUTE = (function(){
                 m = moment(c.created_at),
                 d = m.format("YYYY-MM-DD");
                 wk = m.format("ddd");
-            
+
             var header = d + " "+wk;
             if(moment().add(-1, 'days').format("YYYY-MM-DD") == d){
                 header += " (昨天)";
@@ -50,12 +50,12 @@ var MY_PROJECT_ACTIVITIES_ROUTE = (function(){
             if(moment().format("YYYY-MM-DD") == d){
                 header += " (今天)";
             }
-            c.header = header;     
+            c.header = header;
             c.display = m.format("A hh:mm");
             c.date = d;
-            
+
             c = coding.addActivityData(c);
-            
+
             // 修正相对路径图片
             if(c.user.avatar.substr(0,1) === '/'){
                 c.user.avatar = API_DOMAIN + c.user.avatar;
@@ -68,19 +68,22 @@ var MY_PROJECT_ACTIVITIES_ROUTE = (function(){
                     c.content = c.target_user.name;
                 }
             }
-            
+
             // 文件夹和文件用相同的type?
             // 只能修复了....
             if(c.target_type=="ProjectFile" &&c.type=="dir"){
                 c.target_type_desc += "夹";
             }
-            
+
             c.showHeader = !lastActivities || lastActivities.date !== c.date;
-            
+
+            //动态跳转
+            c = coding.addActivityTargetPath(c);
+
             list.push(c);
             lastActivities = c;
         }
-        
+
         // 未读动态
         if(projectData.un_read_activities_count){
             for(var i = 0; i < list.length;i++){
@@ -89,15 +92,15 @@ var MY_PROJECT_ACTIVITIES_ROUTE = (function(){
                 }
             }
         }
-        
+
         return list;
     }
 
     function loadMore(){
         coding.loading();
-        
+
         pageCount++;
-        
+
         var path = '/api/project/' + projectData.id + '/activities?type='+lastType+'&user_id='+router.current_user.id;
         if(lastActivities){
             path += "&last_id=" + lastActivities.id;
@@ -118,13 +121,13 @@ var MY_PROJECT_ACTIVITIES_ROUTE = (function(){
             $('#navigator').find(".li-project img").attr('src','/images/icons/project_active.png');
             lastActivities = null;
             pageCount = 0;
-            
+
         },
         on_enter: function(user, project, type){
             ownerName = user;
             projectName = project;
             lastType = type || 'all';
-            
+
             var path = coding.projectHomePath(user, project);
             path += '/activities/';
             var data = {list:[]};
@@ -133,10 +136,10 @@ var MY_PROJECT_ACTIVITIES_ROUTE = (function(){
             });
             var rendered = Mustache.render($('#theader').html(), data);
             $("nav.main-navbar").after(rendered);
-                        
-            
+
+
             loadProject();
-            
+
             var element = $("#load_more");
             element.on('click', function(e){
                 e.preventDefault();

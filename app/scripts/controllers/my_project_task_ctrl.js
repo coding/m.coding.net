@@ -41,6 +41,9 @@ var MY_PROJECT_TASK_ROUTE = (function(){
                 } else {
                     $("#delete_task").hide();
                 }
+            } else {
+                alert('该任务不存在！');
+                router.run.call(router, '/u/'+ownerName+'/p/'+projectName+'/tasks');
             }
         };
         coding.get(path,successed);

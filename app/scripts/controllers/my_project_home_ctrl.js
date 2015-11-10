@@ -90,7 +90,10 @@ var MY_PROJECT_HOME_ROUTE = (function(){
             }
             
             c.showHeader = !lastActivities || lastActivities.date !== c.date;
-            
+
+            //动态跳转
+            c = coding.addActivityTargetPath(c);
+
             list.push(c);
             lastActivities = c;
         }
