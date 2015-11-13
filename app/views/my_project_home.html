@@ -87,15 +87,26 @@
             <img src="{{user.avatar}}" alt="图片" class=" b-a b-light rounded" style="width:32px;height:32px;">
         </a>
         <div class="sl-item {{#isUnread}} sl-primary {{/isUnread}} b-l p-b b-primary " style="margin-left:45px;" >
-            <div class="m-l p-sm {{^showHeader}} b-t b-light {{/showHeader}}">
-                <div style="word-break:break-all;">
+            <div class="activity-detail m-l p-sm {{^showHeader}} b-t b-light {{/showHeader}}">
+                <div class="activity-title" style="word-break:break-all;">
                     <span class="text-primary"><a href="/u/{{user.global_key}}">{{user.name}}</a></span> {{action_msg}}{{target_type_desc}}
                 </div>
-                <div class=" m-t-xs" style="font-size:13px;color:#555555;word-break:break-all;">{{{content}}}</div>
-                <div class="text-sm text-light m-t">{{display}}</div>
+                {{#target_path}}
+                <a href="{{target_path}}">
+                    <div class="activity-content">
+                        <div class=" m-t-xs" style="font-size:13px;color:#555555;word-break:break-all;">{{{content}}}</div>
+                        <div class="text-sm text-light m-t">{{display}}</div>
+                    </div>
+                </a>
+                {{/target_path}}
+                {{^target_path}}
+                <div class="activity-content">
+                    <div class=" m-t-xs" style="font-size:13px;color:#555555;word-break:break-all;">{{{content}}}</div>
+                    <div class="text-sm text-light m-t">{{display}}</div>
+                </div>
+                {{/target_path}}
             </div>
         </div>
-    </div>
     </div>
 {{/list}}
 </script>

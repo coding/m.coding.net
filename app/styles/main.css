@@ -2091,3 +2091,22 @@ html.path-feedback .container-coding{
     color: #999999;
     font-size: 12px;
 }
+/* 反馈页面结束 */
+
+/*动态部分*/
+.activity-detail{
+    position: relative;
+    z-index: 1;
+}
+
+.activity-title{
+    position: absolute;
+    z-index: 3;
+}
+
+.activity-content{
+    position: relative;
+    z-index: 2;
+    padding-top: 20px;
+}
+/*动态部分结束*/

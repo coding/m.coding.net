@@ -5,6 +5,8 @@ var MY_PROJECT_ATTACHMENT_PREVIEW_ROUTE = (function(){
     var fileUrl = "";
     var fileId = "";
     var fileType = "";
+    var ownerName = null;
+    var projectName = null;
 
     function requestServer(url, method, form, callback) {
         $.ajax({
@@ -39,6 +41,9 @@ var MY_PROJECT_ATTACHMENT_PREVIEW_ROUTE = (function(){
                     data.data.content = "<pre style='border:0px;background-color:white;padding:0;'>" + data.data.content + "</pre>";
                     assembleDOM(data.data);
                 }
+            } else {
+                alert('该文件不存在！');
+                router.run.call(router, '/u/'+ownerName+'/p/'+projectName+'/attachment');
             }
         });
     }
@@ -61,10 +66,12 @@ var MY_PROJECT_ATTACHMENT_PREVIEW_ROUTE = (function(){
             $('#navigator').find('.li-project').addClass('active');
             $('#navigator').find(".li-project img").attr('src','/images/icons/project_active.png');
         },
-        on_enter: function(user, project, id, type){
-            fileUrl = API_DOMAIN + '/api/user/' + user + '/project/' + project + '/files/' + id + '/view';
-            fileId = id;
+        on_enter: function(user, project, parentId, fileId, type){
+            fileUrl = API_DOMAIN + '/api/user/' + user + '/project/' + project + '/files/' + fileId + '/view';
+            fileId = fileId;
             fileType = type;
+            ownerName = user;
+            projectName = project;
 
             showPreview();
         },

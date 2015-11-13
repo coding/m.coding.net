@@ -108,6 +108,9 @@ var MY_PROJECT_ATTACHMENT_ROUTE = (function(){
         var success = function(data){
             if(data.data){
                 assembleFileDOM(data.data);
+            } else {
+                alert('该文件夹不存在！');
+                router.run.call(router, '/u/'+ownerName+'/p/'+projectName+'/attachment');
             }
         };
         coding.get(path, success, null, coding.loadingDone);
@@ -140,10 +143,11 @@ var MY_PROJECT_ATTACHMENT_ROUTE = (function(){
                 projectName + '/files/' + data.list[index].file_id + '/download';
 
             if (!data.list[index].isImage) {
+                var parentId = data.list[index].parent_id;
                 var fileId = data.list[index].file_id;
                 var fileType = data.list[index].fileType;
                 if (fileType == 'txt' || fileType == 'md') {
-                    data.list[index].preview = data.projectHomeURL + "/attachment/" + fileId + "/preview/" + fileType;
+                    data.list[index].preview = data.projectHomeURL + "/attachment/" + parentId + "/preview/" + fileId + "/" +fileType;
                 } else {
                     data.list[index].preview = "javascript:alert('还不能预览该类型文件呢~');"
                 }

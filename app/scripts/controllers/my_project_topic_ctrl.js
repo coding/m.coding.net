@@ -1,10 +1,9 @@
 var MY_PROJECT_TOPIC_ROUTE = (function(){
     var pageSize  = 20,
         pageCount = 0,
-        $container = null;
         ownerName = null,
         projectName = null,
-        topicId = 0;
+        topicId = 0,
         currentType = '';
     var lastType = "all";
     var topicData = null;
@@ -30,6 +29,9 @@ var MY_PROJECT_TOPIC_ROUTE = (function(){
               topicData = data.data;
               assembleDOM(data.data);
               loadComment();
+          } else {
+              alert('该讨论不存在！');
+              router.run.call(router, '/u/'+ownerName+'/p/'+projectName+'/topics/all');
           }
 	  });
     }
