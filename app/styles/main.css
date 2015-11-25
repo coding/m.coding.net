@@ -916,13 +916,13 @@ p.thumbnail .bubble-markdown-image{
 .dro-pro {
     width: 100%;
     display: block;
-    margin-left: 15px;
+    padding-left: 15px;
     height: 44px;
     line-height: 44px;
 }
 
 .dro-pro span {
-    width: 47px;
+    width: 31px;
     display: inline-block;
 }
 
@@ -995,11 +995,6 @@ p.thumbnail .bubble-markdown-image{
     height: 30px;
     line-height: 30px;
     margin-top: 3px;
-}
-
-.dro-right2 {
-    display: inline-block;
-    width: 47px;
 }
 
 .searchicon::before {
