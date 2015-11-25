@@ -12,6 +12,7 @@ $(function () {
     var coding_video = null;
 
     var playVideo = function(){
+        modal.css({'z-index': '9999'});
         setTimeout(function(){
             coding_video && coding_video.play();
         },300);
