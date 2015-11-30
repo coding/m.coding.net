@@ -43,7 +43,7 @@ var USER_ROUTE = (function() {
 
         '<span class="pull-right dro-right1"></span>' +
 
-        '</a>' + '<a href="/active/' + user.global_key + '" class="user-mypp"><div class="user-pp pull-left">我的冒泡</div>' + '<span class="pull-right dro-right2"></span>' +
+        '</a>' + '<a href="/active/' + user.global_key + '" class="dro-pro user-mypp"><div class="user-pp pull-left">我的冒泡</div>' + '<span class="pull-right dro-right2"></span>' +
 
         '</a>' + '</div>',
         heading_ele = $(heading),
